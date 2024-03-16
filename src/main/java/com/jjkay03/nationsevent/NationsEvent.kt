@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.commands.JoinvcCommand
 import com.jjkay03.nationsevent.utils.MilkTheGator
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
@@ -22,6 +23,9 @@ class NationsEvent : JavaPlugin() {
         // Config stuff
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
+
+        // Get commands
+        getCommand("joinvc")?.setExecutor(JoinvcCommand())
 
         // Register event handler
         server.pluginManager.registerEvents(MilkTheGator(), this)

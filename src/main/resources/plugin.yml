@@ -5,3 +5,8 @@ website: https://jjkay03.com/
 
 main: com.jjkay03.nationsevent.NationsEvent
 api-version: '1.20'
+
+commands:
+  joinvc:
+    permission: nationsevent.command.joinvc
+    permission-message: "You do not have permission to use this command"

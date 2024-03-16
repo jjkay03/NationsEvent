@@ -41,7 +41,6 @@ class MilkTheGator: Listener {
 
                 // Play the milking sound to players around
                 player.world.playSound(player.location, Sound.ENTITY_GOAT_SCREAMING_MILK, 1.0f, 1.0f)
-                player.world.playSound(player.location, Sound.ITEM_SHIELD_BLOCK, 0.3f, 1.0f)
             }
         }
     }

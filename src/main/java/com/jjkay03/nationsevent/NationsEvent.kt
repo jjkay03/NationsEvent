@@ -21,8 +21,8 @@ class NationsEvent : JavaPlugin() {
         logger.info("§aPlugin version: ${description.version}")
 
         // Config stuff
-        saveDefaultConfig() // Save the default configuration if it doesn't exist
-        reloadConfig() // Reload the configuration
+        //saveDefaultConfig() // Save the default configuration if it doesn't exist
+        //reloadConfig() // Reload the configuration
 
         // Get commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())

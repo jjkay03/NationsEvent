@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.commands.AnnounceSessionCommand
 import com.jjkay03.nationsevent.commands.JoinvcCommand
 import com.jjkay03.nationsevent.utils.MilkTheGator
 import org.bukkit.plugin.java.JavaPlugin
@@ -26,6 +27,7 @@ class NationsEvent : JavaPlugin() {
 
         // Get commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
+        getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
 
         // Register event handler
         server.pluginManager.registerEvents(MilkTheGator(), this)

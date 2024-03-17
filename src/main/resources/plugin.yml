@@ -10,3 +10,7 @@ commands:
   joinvc:
     permission: nationsevent.command.joinvc
     permission-message: "You do not have permission to use this command"
+
+  announcesession:
+    permission: nationsevent.command.announcesession
+    permission-message: "You do not have permission to use this command"

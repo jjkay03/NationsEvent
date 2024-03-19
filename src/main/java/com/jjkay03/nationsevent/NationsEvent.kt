@@ -1,9 +1,7 @@
 package com.jjkay03.nationsevent
 
-import com.jjkay03.nationsevent.commands.AnnounceSessionCommand
-import com.jjkay03.nationsevent.commands.JoinvcCommand
-import com.jjkay03.nationsevent.commands.TeamMessageCommand
-import com.jjkay03.nationsevent.utils.MilkTheGator
+import com.jjkay03.nationsevent.commands.*
+import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 

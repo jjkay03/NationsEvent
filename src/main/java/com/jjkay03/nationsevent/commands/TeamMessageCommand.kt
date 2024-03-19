@@ -4,13 +4,15 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 class TeamMessageCommand(private val plugin: JavaPlugin): CommandExecutor, TabCompleter {
 
-    private lateinit var config: FileConfiguration
+    // Initialize config
+    private val config = plugin.config
+    private val messageColor = "§x§c§9§f§f§e§3" // #C9FFE3
+    private val spyPermission = "nationsevent.teammessagespy"
 
     // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
@@ -28,10 +30,10 @@ class TeamMessageCommand(private val plugin: JavaPlugin): CommandExecutor, TabCo
 
         val teamName = getTeamName(teamKey) ?: "Unknown Team"
         val colorCode = getColorCode(teamKey) ?: "7"
-        val formattedMessage = "§$colorCode[$teamName] ${sender.name}§r: $teamMessage"
+        val formattedMessage = "$messageColor[$teamName] §$colorCode${sender.name}$messageColor: $teamMessage"
 
         plugin.server.onlinePlayers.forEach { player ->
-            if (getTeamPermission(teamKey)?.let { player.hasPermission(it) } == true) {
+            if (getTeamPermission(teamKey)?.let { player.hasPermission(it) } == true || player.hasPermission(spyPermission)) {
                 player.sendMessage(formattedMessage)
             }
         }
@@ -42,22 +44,22 @@ class TeamMessageCommand(private val plugin: JavaPlugin): CommandExecutor, TabCo
     // TAB COMPLETE
     override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<out String>): MutableList<String>? {
         if (args.size == 1 && sender is Player) {
-            val teamNames = mutableListOf<String>()
+            val teamKeys = mutableListOf<String>()
             val playerPermissions = sender.effectivePermissions
                 .map { it.permission }
                 .filter { it.startsWith("team.") }
 
             playerPermissions.forEach { permission ->
                 val teamKey = permission.substringAfter("team.")
-                val teamName = config.getString("teams.$teamKey.name")
-                if (teamName != null) {
-                    teamNames.add(teamName)
+                val teamPermission = config.getString("teams.$teamKey.permission")
+                if (teamPermission != null && sender.hasPermission(teamPermission)) {
+                    teamKeys.add(teamKey)
                 }
             }
 
-            return teamNames
+            return teamKeys
         }
-        return null
+        return mutableListOf()
     }
 
     // Config reading functions

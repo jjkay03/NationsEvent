@@ -1,0 +1,14 @@
+# ----------------------
+#  NATIONS EVENT CONFIG
+# ----------------------
+
+# Teams
+teams:
+  team1:
+    name: "Team One"
+    color-code: "a"
+    permission: "team.one"
+  team2:
+    name: "Team Two"
+    color-code: "b"
+    permission: "team.two"

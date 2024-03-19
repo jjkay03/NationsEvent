@@ -14,3 +14,8 @@ commands:
   announcesession:
     permission: nationsevent.command.announcesession
     permission-message: "You do not have permission to use this command"
+
+  teammessage:
+    aliases: ["teammsg", "tmessage", "tmsg"]
+    permission: nationsevent.command.teammessage
+    permission-message: "You do not have permission to use this command"

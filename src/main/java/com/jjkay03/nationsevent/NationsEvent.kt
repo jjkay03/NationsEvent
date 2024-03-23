@@ -32,6 +32,7 @@ class NationsEvent : JavaPlugin() {
 
         // Register event handler
         server.pluginManager.registerEvents(MilkTheGator(), this)
+        server.pluginManager.registerEvents(TeamCore(this), this)
     }
 
     // Plugin shutdown logic

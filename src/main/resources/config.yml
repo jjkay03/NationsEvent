@@ -21,9 +21,16 @@ team-core-world: "world"
 team-cores:
   core1:
     name: "Core One"
-    location: ""
     permission: "team.one"
+    location:
+      x: -597
+      y: 69
+      z: 2588
+
   core2:
     name: "Core Two"
-    location: ""
     permission: "team.two"
+    location:
+      x: -599
+      y: 69
+      z: 2588

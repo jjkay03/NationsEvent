@@ -2,6 +2,7 @@
 #  NATIONS EVENT CONFIG
 # ----------------------
 
+
 # Teams
 teams:
   team1:
@@ -11,4 +12,17 @@ teams:
   team2:
     name: "Team Two"
     color-code: "b"
+    permission: "team.two"
+
+
+# Team core feature (NG1)
+team-core-enable: true
+team-cores:
+  core1:
+    name: "Core One"
+    location: ""
+    permission: "team.one"
+  core2:
+    name: "Core Two"
+    location: ""
     permission: "team.two"

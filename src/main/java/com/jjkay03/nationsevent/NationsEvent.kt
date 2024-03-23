@@ -27,8 +27,8 @@ class NationsEvent : JavaPlugin() {
         // Get commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
         getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
-        getCommand("teammessage")?.setExecutor(TeamMessageCommand(this))
-        getCommand("teammessage")?.tabCompleter = TeamMessageCommand(this) // Tab completer
+        //getCommand("teammessage")?.setExecutor(TeamMessageCommand(this))
+        //getCommand("teammessage")?.tabCompleter = TeamMessageCommand(this) // Tab completer
 
         // Register event handler
         server.pluginManager.registerEvents(MilkTheGator(), this)

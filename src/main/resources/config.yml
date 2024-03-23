@@ -17,6 +17,7 @@ teams:
 
 # Team core feature (NG1)
 team-core-enable: true
+team-core-world: "world"
 team-cores:
   core1:
     name: "Core One"

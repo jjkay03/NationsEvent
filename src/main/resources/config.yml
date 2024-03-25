@@ -4,7 +4,7 @@
 
 
 # Settings
-pvp-toggle: true
+pvp-enabled: true
 
 
 # Teams

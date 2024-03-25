@@ -3,6 +3,10 @@
 # ----------------------
 
 
+# Settings
+pvp-toggle: true
+
+
 # Teams
 teams:
   team1:

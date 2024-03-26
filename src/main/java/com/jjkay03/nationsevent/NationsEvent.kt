@@ -8,13 +8,12 @@ import java.util.logging.Logger
 class NationsEvent : JavaPlugin() {
 
     companion object {
-        lateinit var instance: NationsEvent
-        lateinit var logger: Logger
+        lateinit var INSTANCE: NationsEvent
     }
 
     // Plugin startup logic
     override fun onEnable() {
-        instance = this
+        INSTANCE = this
 
         // Startup info
         logger.info("§aNationsEvent is running!")
@@ -34,7 +33,7 @@ class NationsEvent : JavaPlugin() {
         // Register event handler
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(MilkTheGator(), this)
-        server.pluginManager.registerEvents(TeamCore(this), this)
+        server.pluginManager.registerEvents(TeamCore(), this)
     }
 
     // Plugin shutdown logic

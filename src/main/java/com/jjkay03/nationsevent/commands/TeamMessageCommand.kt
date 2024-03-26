@@ -1,16 +1,16 @@
 package com.jjkay03.nationsevent.commands
 
+import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import org.bukkit.plugin.java.JavaPlugin
 
-class TeamMessageCommand(private val plugin: JavaPlugin): CommandExecutor, TabCompleter {
+class TeamMessageCommand(): CommandExecutor, TabCompleter {
 
     // Initialize config
-    private val config = plugin.config
+    private val config = NationsEvent.INSTANCE.config
     private val messageColor = "§x§c§9§f§f§e§3" // #C9FFE3
     private val spyPermission = "nationsevent.teammessagespy"
 
@@ -32,7 +32,7 @@ class TeamMessageCommand(private val plugin: JavaPlugin): CommandExecutor, TabCo
         val colorCode = getColorCode(teamKey) ?: "7"
         val formattedMessage = "$messageColor[$teamName] §$colorCode${sender.name}$messageColor: $teamMessage"
 
-        plugin.server.onlinePlayers.forEach { player ->
+        NationsEvent.INSTANCE.server.onlinePlayers.forEach { player ->
             if (getTeamPermission(teamKey)?.let { player.hasPermission(it) } == true || player.hasPermission(spyPermission)) {
                 player.sendMessage(formattedMessage)
             }

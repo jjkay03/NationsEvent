@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import org.bukkit.Bukkit
+import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -22,6 +23,7 @@ class PVPToggle : CommandExecutor, Listener {
 
         // Notify all players on the server
         Bukkit.getServer().onlinePlayers.forEach { player ->
+            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
             player.sendMessage(
                 if (PVP_ENABLED) "§a\uD83D\uDDE1 PVP has been enabled!"
                 else "§c\uD83D\uDDE1 PVP has been disabled!"

@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
+import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -26,6 +27,8 @@ class AnnounceSessionCommand: CommandExecutor {
             player.playSound(player.location, Sound.BLOCK_END_PORTAL_SPAWN, 1f, 1f)
         }
 
+        // Set session start time
+        NationsEvent.SESSION_START_TIME = System.currentTimeMillis()
 
         return true
     }

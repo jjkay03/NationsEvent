@@ -15,6 +15,10 @@ commands:
     permission: nationsevent.command.announcesession
     permission-message: "You do not have permission to use this command"
 
+  sessiontime:
+    permission: nationsevent.command.sessiontime
+    permission-message: "You do not have permission to use this command"
+
   pvptoggle:
     permission: nationsevent.command.pvptoggle
     permission-message: "You do not have permission to use this command"

@@ -9,6 +9,7 @@ class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
+        var SESSION_START_TIME: Long = 0
     }
 
     // Plugin startup logic
@@ -26,6 +27,7 @@ class NationsEvent : JavaPlugin() {
         // Get commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
         getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
+        getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
         getCommand("pvptoggle")?.setExecutor(PVPToggle())
         //getCommand("teammessage")?.setExecutor(TeamMessageCommand(this))
         //getCommand("teammessage")?.tabCompleter = TeamMessageCommand(this) // Tab completer

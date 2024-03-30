@@ -9,6 +9,8 @@ class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
+        val PERM_ADMIN: String = "nationsevent.admin"
+        val PERM_STAFF: String = "nationsevent.staff"
         var SESSION_START_TIME: Long = 0
     }
 

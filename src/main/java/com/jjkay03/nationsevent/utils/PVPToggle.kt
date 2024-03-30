@@ -19,14 +19,28 @@ class PVPToggle : CommandExecutor, Listener {
 
     // Command
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
+        var silent = false
         PVP_ENABLED = !PVP_ENABLED // Toggle PVP state
 
-        // Notify all players on the server
-        Bukkit.getServer().onlinePlayers.forEach { player ->
-            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
-            player.sendMessage(
-                if (PVP_ENABLED) "§a\uD83D\uDDE1 PVP has been enabled!"
-                else "§c\uD83D\uDDE1 PVP has been disabled!"
+        // Check if the first argument is "silent"
+        if (args.isNotEmpty() && args[0].toLowerCase() in setOf("silent", "s")) {
+            silent = true
+        }
+
+        // Notify all players on the server if not silent
+        if (!silent) {
+            Bukkit.getServer().onlinePlayers.forEach { player ->
+                player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
+                player.sendMessage(
+                    if (PVP_ENABLED) "§a\uD83D\uDDE1 PVP has been ENABLED!"
+                    else "§c\uD83D\uDDE1 PVP has been DISABLED!"
+                )
+            }
+        }
+        else {
+            sender.sendMessage(
+                if (PVP_ENABLED) "§7\uD83D\uDDE1 PVP has been ENABLED silently!"
+                else "§7\uD83D\uDDE1 PVP has been DISABLED silently!"
             )
         }
 

@@ -5,13 +5,14 @@ import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 
-class PVPToggle : CommandExecutor, Listener {
+class PVPToggle : CommandExecutor, TabCompleter, Listener {
 
     companion object {
         var PVP_ENABLED = false
@@ -45,6 +46,15 @@ class PVPToggle : CommandExecutor, Listener {
         }
 
         return true
+    }
+
+    // Tab complete
+    override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<out String>): List<String>? {
+        if (args.size == 1) {
+            val completions = mutableListOf("silent")
+            return completions.filter { it.startsWith(args[0], ignoreCase = true) }
+        }
+        return null
     }
 
     // Hits

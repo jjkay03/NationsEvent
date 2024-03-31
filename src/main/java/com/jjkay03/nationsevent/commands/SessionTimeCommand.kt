@@ -12,6 +12,9 @@ class SessionTimeCommand: CommandExecutor {
         // End command if sender is not a player
         if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }
 
+        // End if session did start yetS
+        if (!NationsEvent.SESSION_STARTED) { sender.sendMessage("§cSession did not start yet!"); return true }
+
         // Send player message
         sender.sendMessage("§a⌚ Time since session start: ${getTimeElapsed()}")
 

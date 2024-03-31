@@ -28,6 +28,7 @@ class AnnounceSessionCommand: CommandExecutor {
         }
 
         // Set session start time
+        NationsEvent.SESSION_STARTED = true
         NationsEvent.SESSION_START_TIME = System.currentTimeMillis()
 
         return true

@@ -11,6 +11,7 @@ class NationsEvent : JavaPlugin() {
         lateinit var INSTANCE: NationsEvent
         val PERM_ADMIN: String = "nationsevent.admin"
         val PERM_STAFF: String = "nationsevent.staff"
+        var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
     }
 

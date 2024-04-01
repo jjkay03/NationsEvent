@@ -3,7 +3,6 @@ package com.jjkay03.nationsevent
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.logging.Logger
 
 class NationsEvent : JavaPlugin() {
 
@@ -33,7 +32,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
         getCommand("pvptoggle")?.setExecutor(PVPToggleCommand())
         getCommand("pvptoggle")?.tabCompleter = PVPToggleCommand() // Tab completer
-        getCommand("pvpalerts")?.setExecutor(PvpAlertsCommand())
+        getCommand("pvpalerts")?.setExecutor(PVPAlertsCommand())
         //plugin.getCommand("teammessage")?.setExecutor(TeamMessageCommand(plugin))
         //plugin.getCommand("teammessage")?.tabCompleter = TeamMessageCommand(plugin) // Tab completer
 

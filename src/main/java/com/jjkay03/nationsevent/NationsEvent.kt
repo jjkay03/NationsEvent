@@ -27,6 +27,23 @@ class NationsEvent : JavaPlugin() {
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
 
+        // Register commands
+        getCommand("joinvc")?.setExecutor(JoinvcCommand())
+        getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
+        getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
+        getCommand("pvptoggle")?.setExecutor(PVPToggleCommand())
+        getCommand("pvptoggle")?.tabCompleter = PVPToggleCommand() // Tab completer
+        getCommand("pvpalerts")?.setExecutor(PvpAlertsCommand())
+        //plugin.getCommand("teammessage")?.setExecutor(TeamMessageCommand(plugin))
+        //plugin.getCommand("teammessage")?.tabCompleter = TeamMessageCommand(plugin) // Tab completer
+
+        // Register events
+        server.pluginManager.registerEvents(PVPToggle(), this)
+        server.pluginManager.registerEvents(MilkTheGator(), this)
+        server.pluginManager.registerEvents(TeamCore(), this)
+
+
+
     }
 
     // Plugin shutdown logic

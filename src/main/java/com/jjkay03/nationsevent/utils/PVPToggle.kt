@@ -40,8 +40,8 @@ class PVPToggle : CommandExecutor, TabCompleter, Listener {
         }
         else {
             sender.sendMessage(
-                if (PVP_ENABLED) "§7\uD83D\uDDE1 PVP has been ENABLED silently!"
-                else "§7\uD83D\uDDE1 PVP has been DISABLED silently!"
+                if (PVP_ENABLED) "§7\uD83D\uDDE1 PVP has been §aENABLED §7silently"
+                else "§7\uD83D\uDDE1 PVP has been §cDISABLED §7silently"
             )
         }
 

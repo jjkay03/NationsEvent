@@ -23,6 +23,10 @@ commands:
     permission: nationsevent.command.pvptoggle
     permission-message: "You do not have permission to use this command"
 
+  pvpalerts:
+    permission: nationsevent.command.pvpalerts
+    permission-message: "You do not have permission to use this command"
+
 #  teammessage:
 #    aliases: ["teammsg", "tmessage", "tmsg","tm"]
 #    permission: nationsevent.command.teammessage

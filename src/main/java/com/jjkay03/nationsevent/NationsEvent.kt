@@ -33,6 +33,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
         getCommand("pvptoggle")?.setExecutor(PVPToggle())
         getCommand("pvptoggle")?.tabCompleter = PVPToggle() // Tab completer
+        getCommand("pvpalerts")?.setExecutor(PvpAlertsCommand())
         //getCommand("teammessage")?.setExecutor(TeamMessageCommand(this))
         //getCommand("teammessage")?.tabCompleter = TeamMessageCommand(this) // Tab completer
 

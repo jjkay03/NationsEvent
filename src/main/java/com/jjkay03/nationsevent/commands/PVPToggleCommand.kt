@@ -16,9 +16,7 @@ class PVPToggleCommand: CommandExecutor, TabCompleter {
         PVPToggle.PVP_ENABLED = !PVPToggle.PVP_ENABLED // Toggle PVP state
 
         // Check if the first argument is "silent"
-        if (args.isNotEmpty() && args[0].toLowerCase() in setOf("silent", "s")) {
-            silent = true
-        }
+        if (args.isNotEmpty() && args[0].toLowerCase() in setOf("silent", "s")) { silent = true }
 
         // Notify all players on the server if not silent
         if (!silent) {
@@ -29,8 +27,7 @@ class PVPToggleCommand: CommandExecutor, TabCompleter {
                     else "§c\uD83D\uDDE1 PVP has been DISABLED!"
                 )
             }
-        }
-        else {
+        } else {
             sender.sendMessage(
                 if (PVPToggle.PVP_ENABLED) "§7\uD83D\uDDE1 PVP has been §aENABLED §7silently"
                 else "§7\uD83D\uDDE1 PVP has been §cDISABLED §7silently"

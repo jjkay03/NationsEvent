@@ -6,10 +6,7 @@ import com.jjkay03.nationsevent.utils.*
 class Register(private val plugin: NationsEvent) {
 
     // Run register functions when class initiate
-    init {
-        registerCommands()
-        registerEvents()
-    }
+    init { registerCommands(); registerEvents() }
 
     // Get commands
     private fun registerCommands() {

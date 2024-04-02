@@ -2,6 +2,9 @@ package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.commands.PVPAlertsCommand
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -17,7 +20,7 @@ class PVPAlerts : Listener {
     private val timeFrameMS = 2000L // Time (in milliseconds)
 
     // Event handler that tracks player getting damaged
-    @EventHandler
+    @EventHandler(ignoreCancelled=true)
     fun onPlayerDamage(event: EntityDamageByEntityEvent) {
         val victim = event.entity as? Player ?: return
         val attacker = event.damager as? Player ?: return
@@ -51,19 +54,17 @@ class PVPAlerts : Listener {
 
     // Function that alerts correct players
     private fun sendAlert(victim: Player) {
-        // DEBUG
-        Bukkit.getLogger().info("[PVPALERT] ${victim.name} is taking excessive damage from other players!")
-
         val playersToAlert: List<UUID> = PVPAlertsCommand.PVP_ALERTS_PLAYERS.map { UUID.fromString(it) }
 
         // Check if a player is in the list to alert and has the required permission
         Bukkit.getServer().onlinePlayers.forEach { player ->
             if (playersToAlert.any { it == player.uniqueId } && player.hasPermission(NationsEvent.PERM_STAFF)) {
-                player.sendMessage("§b${victim.name} is taking excessive damage from other players!")
+                val message = TextComponent("§6\uD83D\uDDE1 §lPVP ALERT§6: §e${victim.name} §6is being attacked!")
+                message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(TextComponent("§eTeleport to ${victim.name}")))
+                message.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${victim.name}")
+                player.spigot().sendMessage(message)
             }
         }
-
     }
-
 
 }

@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class DamageListener : Listener {
 
-    private val damageCooldown = mutableMapOf<Player, Long>()
+    private val damageCooldown = mutableMapOf<Player, MutableMap<Player, Double>>()
     private val DAMAGE_THRESHOLD = 8.0 // Health (1 heart = 2 hp)
     private val TIME_FRAME_MS = 5000L // Time (in milliseconds)
 
@@ -23,26 +23,31 @@ class DamageListener : Listener {
         if (attacker != victim) {
             val currentTime = System.currentTimeMillis()
 
-            // Update the last damage time for the victim
-            damageCooldown[victim] = currentTime
+            // Update the damage record for the victim and attacker
+            damageCooldown.getOrPut(victim) { mutableMapOf() }
+                .merge(attacker, event.damage) { oldDamage, newDamage -> oldDamage + newDamage }
 
             // Schedule a task to check if the victim took excessive damage within the time frame
             object : BukkitRunnable() {
                 override fun run() {
-                    val lastDamageTime = damageCooldown[victim] ?: return
+                    val damageMap = damageCooldown[victim] ?: return
+                    val lastDamageTime = damageMap[attacker] ?: return
                     if (currentTime - lastDamageTime <= TIME_FRAME_MS) {
                         // Calculate total damage taken within the time frame
-                        val totalDamageTaken = event.damage + (damageCooldown.size - 1) * event.damage
+                        val totalDamageTaken = damageMap.values.sum()
 
                         // Check if the total damage exceeds the threshold
                         if (totalDamageTaken >= DAMAGE_THRESHOLD) {
-                            Bukkit.broadcastMessage("${victim.name} is taking damage from other players!")
+                            Bukkit.broadcastMessage("${victim.name} is taking excessive damage from other players!")
                             // TODO: ADD LOGIC FOR DETECTION!
                         }
                     }
-                    damageCooldown.remove(victim)
+                    damageMap.remove(attacker)
+                    if (damageMap.isEmpty()) {
+                        damageCooldown.remove(victim)
+                    }
                 }
-            }.runTaskLater(NationsEvent.INSTANCE, 20L) // 20 ticks = 1 second
+            }.runTaskLater(NationsEvent.INSTANCE, 10L) // Delay in tick to check
         }
     }
 }

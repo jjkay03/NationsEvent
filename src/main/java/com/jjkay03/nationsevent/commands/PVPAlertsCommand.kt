@@ -7,7 +7,9 @@ import org.bukkit.entity.Player
 
 class PVPAlertsCommand: CommandExecutor {
 
-    private val alertedPlayers = mutableSetOf<String>()
+    companion object {
+        val PVP_ALERTS_PLAYERS = mutableSetOf<String>()
+    }
 
     // Command
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
@@ -17,11 +19,11 @@ class PVPAlertsCommand: CommandExecutor {
         val playerUUID = sender.uniqueId.toString()
 
         // Add or remove player from list
-        if (alertedPlayers.contains(playerUUID)) {
-            alertedPlayers.remove(playerUUID)
+        if (PVP_ALERTS_PLAYERS.contains(playerUUID)) {
+            PVP_ALERTS_PLAYERS.remove(playerUUID)
             sender.sendMessage("§7\uD83D\uDD14 You have §cDISABLED §7PVP alerts")
         } else {
-            alertedPlayers.add(playerUUID)
+            PVP_ALERTS_PLAYERS.add(playerUUID)
             sender.sendMessage("§7\uD83D\uDD14 You have §aENABLED §7PVP alerts")
         }
 

@@ -32,8 +32,6 @@ class PVPAlerts : Listener {
     }
 
     private fun scheduleExcessiveDamageCheck(victim: Player) {
-        val currentTime = System.currentTimeMillis()
-
         object : BukkitRunnable() {
             override fun run() {
                 val damageMap = damageCooldown[victim] ?: return

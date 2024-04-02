@@ -8,7 +8,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.scheduler.BukkitRunnable
 
-class DamageListener : Listener {
+class PVPAlerts : Listener {
 
     private val damageCooldown = mutableMapOf<Player, MutableMap<Player, Double>>()
     private val DAMAGE_THRESHOLD = 8.0 // Health (1 heart = 2 hp)

@@ -16,8 +16,8 @@ import java.util.*
 class PVPAlerts : Listener {
 
     private val damageCooldown = mutableMapOf<Player, MutableMap<Player, Double>>()
-    private val damageThreshold = 8.0 // Health (1 heart = 2 hp)
-    private val timeFrameMS = 2000L // Time (in milliseconds)
+    private val damageThreshold = 6.0 // Health (1 heart = 2 hp)
+    private val timeFrameMS = 3000L // Time (in milliseconds)
 
     // Event handler that tracks player getting damaged
     @EventHandler(ignoreCancelled=true)

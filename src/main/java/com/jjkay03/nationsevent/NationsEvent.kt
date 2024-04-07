@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
+import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -41,8 +42,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MilkTheGator(), this)
         server.pluginManager.registerEvents(TeamCore(), this)
-
-
+        server.pluginManager.registerEvents(MeatPlayerDeath(), this)
 
     }
 

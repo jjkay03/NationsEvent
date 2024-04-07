@@ -16,7 +16,7 @@ class MeatPlayerDeath : Listener {
     private val maxMeatAmount = 12
 
     // Create the suspicious meat item
-    private val suspiciousMeat: ItemStack = ItemStack(Material.COOKED_BEEF).apply {
+    private val suspiciousMeat: ItemStack = ItemStack(Material.BEEF).apply {
         amount = (minMeatAmount..maxMeatAmount).random() // Random amount between min and max
         itemMeta = itemMeta?.apply { setDisplayName("§fSuspicious Meat") }
     }

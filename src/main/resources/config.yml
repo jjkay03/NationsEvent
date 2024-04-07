@@ -3,6 +3,10 @@
 # ----------------------
 
 
+# Features toggle
+feature-meat-player-death: true
+
+
 # Teams
 teams:
   team1:

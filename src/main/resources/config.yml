@@ -27,14 +27,14 @@ team-cores:
     name: "§c§lRED CORE"
     permission: "nationsevent.team.red"
     location:
-      x: -597
-      y: 69
-      z: 2588
+      x: 1
+      y: 74
+      z: 0
 
   core-blue:
     name: "§9§lBLUE CORE"
     permission: "nationsevent.team.blue"
     location:
-      x: -599
-      y: 69
-      z: 2588
+      x: 3
+      y: 74
+      z: 0

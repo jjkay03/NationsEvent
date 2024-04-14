@@ -1,8 +1,10 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
@@ -34,8 +36,9 @@ class TeamCore() : Listener {
         // End if player is not in survival mode - Creative mode accidental break protection
         if (event.player.gameMode != GameMode.SURVIVAL) { event.player.sendMessage("§4⚠ Core destruction canceled because you are not in survival mode!"); return }
 
-        event.player.sendMessage("§aCORE BLOCK DESTROYED!")
+        // Deal with destroyed core
         coreBlockDestroyed(event)
+
     }
 
 
@@ -60,14 +63,41 @@ class TeamCore() : Listener {
 
         // Red core destroyed
         if (blockX == redCoreX && blockY == redCoreY && blockZ == redCoreZ) {
-            event.player.sendMessage("§cRED CORE DESTROYED!")
+            // Cancel if player is trying to break his own team core
+            if (event.player.hasPermission(coreRedPermission)) {
+                event.player.sendMessage("§cYou can not destroy your team's core!")
+                event.isCancelled = true
+                return
+            }
+
+            // Broken core actions
+            announceDestroyedCore(coreRedName)
         }
 
         // Blue core destroyed
         else if (blockX == blueCoreX && blockY == blueCoreY && blockZ == blueCoreZ) {
-            event.player.sendMessage("§9BLUE CORE DESTROYED!")
+            // Cancel if player is trying to break his own team core
+            if (event.player.hasPermission(coreBluePermission)) {
+                event.player.sendMessage("§cYou can not destroy your team's core!")
+                event.isCancelled = true
+                return
+            }
+
+            // Broken core actions
+            announceDestroyedCore(coreBlueName)
         }
-
-
     }
+
+    // Function that announce destroyed core to all players
+    private fun announceDestroyedCore(coreName: String) {
+        Bukkit.getServer().onlinePlayers.forEach { player ->
+            player.sendTitle("§e⚑", "$coreName §eHAS BEEN DESTROYED!", 10, 200, 10)
+            player.sendMessage("§7⚑ $coreName §7HAS BEEN DESTROYED!")
+            player.playSound(player.location, Sound.BLOCK_END_PORTAL_SPAWN, 1f, 1f)
+            player.playSound(player.location, Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 1f)
+        }
+    }
+
+    // Function that kills everyone on the destroyed core team
+    
 }

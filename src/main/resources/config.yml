@@ -12,28 +12,28 @@ teams:
   team1:
     name: "Team One"
     color-code: "a"
-    permission: "team.one"
+    permission: "nationsevent.team.one"
   team2:
     name: "Team Two"
     color-code: "b"
-    permission: "team.two"
+    permission: "nationsevent.team.two"
 
 
 # Team core feature (NG1)
 team-core-enable: true
 team-core-world: "world"
 team-cores:
-  core1:
-    name: "Core One"
-    permission: "team.one"
+  core-red:
+    name: "§c§lRED CORE"
+    permission: "nationsevent.team.red"
     location:
       x: -597
       y: 69
       z: 2588
 
-  core2:
-    name: "Core Two"
-    permission: "team.two"
+  core-blue:
+    name: "§9§lBLUE CORE"
+    permission: "nationsevent.team.blue"
     location:
       x: -599
       y: 69

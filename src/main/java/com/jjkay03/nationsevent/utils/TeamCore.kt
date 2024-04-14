@@ -5,9 +5,12 @@ import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.scheduler.BukkitRunnable
+import java.security.AllPermission
 
 class TeamCore() : Listener {
     private val config = NationsEvent.INSTANCE.config
@@ -71,7 +74,8 @@ class TeamCore() : Listener {
             }
 
             // Broken core actions
-            announceDestroyedCore(coreRedName)
+            announceDestroyedCore(coreRedName, event.player)
+            killPlayers(coreRedPermission)
         }
 
         // Blue core destroyed
@@ -84,20 +88,59 @@ class TeamCore() : Listener {
             }
 
             // Broken core actions
-            announceDestroyedCore(coreBlueName)
+            announceDestroyedCore(coreBlueName,  event.player)
+            killPlayers(coreBluePermission)
         }
     }
 
     // Function that announce destroyed core to all players
-    private fun announceDestroyedCore(coreName: String) {
+    private fun announceDestroyedCore(coreName: String, coreMinerPlayer: Player) {
         Bukkit.getServer().onlinePlayers.forEach { player ->
             player.sendTitle("§e⚑", "$coreName §eHAS BEEN DESTROYED!", 10, 200, 10)
-            player.sendMessage("§7⚑ $coreName §7HAS BEEN DESTROYED!")
+            player.sendMessage("§7⚑ $coreName §7has been destroyed by ${coreMinerPlayer.name}!")
             player.playSound(player.location, Sound.BLOCK_END_PORTAL_SPAWN, 1f, 1f)
             player.playSound(player.location, Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 1f)
         }
     }
 
-    // Function that kills everyone on the destroyed core team
-    
+    // Function that kills all players on the destroyed core team
+    private fun killPlayers(corePermission: String) {
+        // Countdown and final title
+        object : BukkitRunnable() {
+            var count = 20
+
+            override fun run() {
+                // 10s count down
+                if (count > 0) {
+                    if (count <= 10) {
+                        Bukkit.getServer().onlinePlayers.forEach { player ->
+                            player.sendTitle("§e$count", "", 0, 20, 0)
+                            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1f, 1f)
+                        }
+                    }
+                    count--
+                }
+                // Your fight is over
+                else {
+                    Bukkit.getServer().onlinePlayers.forEach { player ->
+                        player.sendTitle("§6Your fight is over.", "", 0, 100, 20)
+                        player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1f, 1f)
+                    }
+                    killPlayersLogic(corePermission) // Kill players
+                    this.cancel() // Stop the countdown
+                }
+            }
+
+        }.runTaskTimer(NationsEvent.INSTANCE, 0L, 20L)
+    }
+
+    // Function that kills the correct players
+    private fun killPlayersLogic(corePermission: String) {
+        Bukkit.getServer().onlinePlayers.forEach { player ->
+            if (!player.hasPermission(corePermission)) return // End if player not on broken core team
+            if (player.hasPermission(NationsEvent.PERM_STAFF)) return // End if staff
+            player.health = 0.0 // Kill player
+        }
+    }
+
 }

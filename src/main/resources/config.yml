@@ -5,18 +5,18 @@
 
 # Features toggle
 feature-meat-player-death: true
-
+#feature-item-team-color: true
 
 # Teams
 teams:
-  team1:
-    name: "Team One"
-    color-code: "a"
-    permission: "group.team1"
-  team2:
-    name: "Team Two"
-    color-code: "b"
-    permission: "group.team2"
+  red:
+    name: "Team Red"
+    color-code: "c"
+    permission: "group.team-red"
+  blue:
+    name: "Team Blue"
+    color-code: "9"
+    permission: "group.team-blue"
 
 
 # Team core feature (NG1)

@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.scheduler.BukkitRunnable
-import java.security.AllPermission
 
 class TeamCore() : Listener {
     private val config = NationsEvent.INSTANCE.config

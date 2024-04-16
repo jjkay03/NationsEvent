@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable
 class TeamCore() : Listener {
     private val config = NationsEvent.INSTANCE.config
 
-    private val coreBlockMaterial = Material.RED_WOOL
+    private val coreBlockMaterial = Material.REINFORCED_DEEPSLATE
     private val teamCoreEnabled: Boolean = config.getBoolean("team-core-enable")
     private val teamCoreWorld: String = config.getString("team-core-world") ?: "world"
 

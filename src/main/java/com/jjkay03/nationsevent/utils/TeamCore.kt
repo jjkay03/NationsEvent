@@ -103,7 +103,7 @@ class TeamCore() : Listener {
     }
 
     // Function that kills all players on the destroyed core team
-    private fun killPlayers(corePermission: String) {
+    private fun killPlayers(permission: String) {
         // Countdown and final title
         object : BukkitRunnable() {
             var count = 20
@@ -125,7 +125,7 @@ class TeamCore() : Listener {
                         player.sendTitle("§6Your fight is over.", "", 0, 100, 20)
                         player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1f, 1f)
                     }
-                    killPlayersLogic(corePermission) // Kill players
+                    killPlayersLogic(permission) // Kill players
                     this.cancel() // Stop the countdown
                 }
             }
@@ -134,11 +134,12 @@ class TeamCore() : Listener {
     }
 
     // Function that kills the correct players
-    private fun killPlayersLogic(corePermission: String) {
+    private fun killPlayersLogic(permission: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->
-            if (!player.hasPermission(corePermission)) return // End if player not on broken core team
-            if (player.hasPermission(NationsEvent.PERM_STAFF)) return // End if staff
-            player.health = 0.0 // Kill player
+            if (player.hasPermission(permission)) {
+                Bukkit.getServer().broadcastMessage("§4☠ §c${player.name} §4died due to core destruction")
+                player.health = 0.0
+            }
         }
     }
 

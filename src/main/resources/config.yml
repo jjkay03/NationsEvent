@@ -12,11 +12,11 @@ teams:
   red:
     name: "Team Red"
     color-code: "c"
-    permission: "group.red"
+    permission: "nationsevent.team.red"
   blue:
     name: "Team Blue"
     color-code: "9"
-    permission: "group.blue"
+    permission: "nationsevent.team.blue"
 
 
 # Team core feature (NG1)
@@ -25,7 +25,7 @@ team-core-world: "nations_ng1_world"
 team-cores:
   core-red:
     name: "§c§lRED CORE"
-    permission: "group.red"
+    permission: "nationsevent.team.red"
     location:
       x: 0
       y: 79
@@ -33,7 +33,7 @@ team-cores:
 
   core-blue:
     name: "§9§lBLUE CORE"
-    permission: "group.blue"
+    permission: "nationsevent.team.blue"
     location:
       x: 0
       y: 79

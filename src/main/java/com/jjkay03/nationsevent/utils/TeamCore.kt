@@ -137,7 +137,6 @@ class TeamCore() : Listener {
     private fun killPlayersLogic(permission: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->
             if (player.hasPermission(permission)) {
-                Bukkit.getServer().broadcastMessage("§4☠ §c${player.name} §4died due to core destruction")
                 player.health = 0.0
             }
         }

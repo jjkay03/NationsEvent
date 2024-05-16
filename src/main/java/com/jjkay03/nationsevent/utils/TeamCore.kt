@@ -28,6 +28,17 @@ class TeamCore() : Listener {
     private val coreBluePermission: String = config.getString("team-cores.core-blue.permission") ?: "nationsevent.team.blue"
     private val coreBlueLocation: Map<String, Any>? = config.getConfigurationSection("team-cores.core-blue.location")?.getValues(false)
 
+    // Core Green
+    private val coreGreenName: String = config.getString("team-cores.core-green.name") ?: "Green Core"
+    private val coreGreenPermission: String = config.getString("team-cores.core-green.permission") ?: "nationsevent.team.green"
+    private val coreGreenLocation: Map<String, Any>? = config.getConfigurationSection("team-cores.core-green.location")?.getValues(false)
+
+    // Core Yellow
+    private val coreYellowName: String = config.getString("team-cores.core-yellow.name") ?: "Yellow Core"
+    private val coreYellowPermission: String = config.getString("team-cores.core-yellow.permission") ?: "nationsevent.team.yellow"
+    private val coreYellowLocation: Map<String, Any>? = config.getConfigurationSection("team-cores.core-yellow.location")?.getValues(false)
+
+    private val messageCantBreakYourTeamsCore: String = "§cYou can not destroy your team's core!"
 
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
@@ -36,13 +47,14 @@ class TeamCore() : Listener {
         if (event.block.type != coreBlockMaterial) return // End if wrong block
 
         // End if player is not in survival mode - Creative mode accidental break protection
-        if (event.player.gameMode != GameMode.SURVIVAL) { event.player.sendMessage("§4⚠ Core destruction canceled because you are not in survival mode!"); return }
+        if (event.player.gameMode != GameMode.SURVIVAL) {
+            event.player.sendMessage("§4⚠ Core destruction canceled because you are not in survival mode!")
+            return
+        }
 
         // Deal with destroyed core
         coreBlockDestroyed(event)
-
     }
-
 
     // Function that handles core destruction
     private fun coreBlockDestroyed(event: BlockBreakEvent) {
@@ -63,11 +75,23 @@ class TeamCore() : Listener {
         val blueCoreY = blueCoreLocation["y"] as Int
         val blueCoreZ = blueCoreLocation["z"] as Int
 
+        // Core Green
+        val greenCoreLocation = coreGreenLocation ?: return
+        val greenCoreX = greenCoreLocation["x"] as Int
+        val greenCoreY = greenCoreLocation["y"] as Int
+        val greenCoreZ = greenCoreLocation["z"] as Int
+
+        // Core Yellow
+        val yellowCoreLocation = coreYellowLocation ?: return
+        val yellowCoreX = yellowCoreLocation["x"] as Int
+        val yellowCoreY = yellowCoreLocation["y"] as Int
+        val yellowCoreZ = yellowCoreLocation["z"] as Int
+
         // Red core destroyed
         if (blockX == redCoreX && blockY == redCoreY && blockZ == redCoreZ) {
             // Cancel if player is trying to break his own team core
             if (event.player.hasPermission(coreRedPermission)) {
-                event.player.sendMessage("§cYou can not destroy your team's core!")
+                event.player.sendMessage(messageCantBreakYourTeamsCore)
                 event.isCancelled = true
                 return
             }
@@ -81,14 +105,42 @@ class TeamCore() : Listener {
         else if (blockX == blueCoreX && blockY == blueCoreY && blockZ == blueCoreZ) {
             // Cancel if player is trying to break his own team core
             if (event.player.hasPermission(coreBluePermission)) {
-                event.player.sendMessage("§cYou can not destroy your team's core!")
+                event.player.sendMessage(messageCantBreakYourTeamsCore)
                 event.isCancelled = true
                 return
             }
 
             // Broken core actions
-            announceDestroyedCore(coreBlueName,  event.player)
+            announceDestroyedCore(coreBlueName, event.player)
             killPlayers(coreBluePermission)
+        }
+
+        // Green core destroyed
+        else if (blockX == greenCoreX && blockY == greenCoreY && blockZ == greenCoreZ) {
+            // Cancel if player is trying to break his own team core
+            if (event.player.hasPermission(coreGreenPermission)) {
+                event.player.sendMessage(messageCantBreakYourTeamsCore)
+                event.isCancelled = true
+                return
+            }
+
+            // Broken core actions
+            announceDestroyedCore(coreGreenName, event.player)
+            killPlayers(coreGreenPermission)
+        }
+
+        // Yellow core destroyed
+        else if (blockX == yellowCoreX && blockY == yellowCoreY && blockZ == yellowCoreZ) {
+            // Cancel if player is trying to break his own team core
+            if (event.player.hasPermission(coreYellowPermission)) {
+                event.player.sendMessage(messageCantBreakYourTeamsCore)
+                event.isCancelled = true
+                return
+            }
+
+            // Broken core actions
+            announceDestroyedCore(coreYellowName, event.player)
+            killPlayers(coreYellowPermission)
         }
     }
 

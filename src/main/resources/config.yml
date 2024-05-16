@@ -21,7 +21,8 @@ teams:
 
 # Team core feature (NG1)
 team-core-enable: true
-team-core-world: "nations_ng1_world"
+team-core-world: "nations_ng2_world"
+
 team-cores:
   core-red:
     name: "§c§lRED CORE"
@@ -34,6 +35,22 @@ team-cores:
   core-blue:
     name: "§9§lBLUE CORE"
     permission: "nationsevent.team.blue"
+    location:
+      x: 0
+      y: 79
+      z: -100
+
+  core-green:
+    name: "§a§lGREEN CORE"
+    permission: "nationsevent.team.green"
+    location:
+      x: 0
+      y: 79
+      z: -100
+
+  core-yellow:
+    name: "§e§lYELLOW CORE"
+    permission: "nationsevent.team.yellow"
     location:
       x: 0
       y: 79

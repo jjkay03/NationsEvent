@@ -28,30 +28,30 @@ team-cores:
     name: "§c§lRED CORE"
     permission: "nationsevent.team.red"
     location:
-      x: 0
+      x: -80
       y: 79
-      z: 100
+      z: -80
 
   core-blue:
     name: "§9§lBLUE CORE"
     permission: "nationsevent.team.blue"
     location:
-      x: 0
+      x: 80
       y: 79
-      z: -100
+      z: -80
 
   core-green:
     name: "§a§lGREEN CORE"
     permission: "nationsevent.team.green"
     location:
-      x: 0
+      x: -80
       y: 79
-      z: -100
+      z: 80
 
   core-yellow:
     name: "§e§lYELLOW CORE"
     permission: "nationsevent.team.yellow"
     location:
-      x: 0
+      x: 80
       y: 79
-      z: -100
+      z: 80

@@ -9,10 +9,12 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class TeamCore() : Listener {
     private val config = NationsEvent.INSTANCE.config
+    private val bannedTeamPerms = mutableListOf<String>()
 
     private val coreBlockMaterial = Material.REINFORCED_DEEPSLATE
     private val teamCoreEnabled: Boolean = config.getBoolean("team-core-enable")
@@ -39,6 +41,20 @@ class TeamCore() : Listener {
     private val coreYellowLocation: Map<String, Any>? = config.getConfigurationSection("team-cores.core-yellow.location")?.getValues(false)
 
     private val messageCantBreakYourTeamsCore: String = "§cYou can not destroy your team's core!"
+
+    // Deal with players that were not online when core got destroyed
+    @EventHandler
+    fun onPlayerJoin(event: PlayerJoinEvent) {
+        val player = event.player
+        for (perm in bannedTeamPerms) {
+            if (player.hasPermission(perm)) {
+                // Ban the player with the specified reason
+                player.banPlayer("Your team's core got destroyed")
+                player.kickPlayer("Your team's core got destroyed")
+                break
+            }
+        }
+    }
 
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
@@ -187,6 +203,9 @@ class TeamCore() : Listener {
 
     // Function that kills the correct players
     private fun killPlayersLogic(permission: String) {
+        // Add team perm to banned list
+        bannedTeamPerms.add(permission)
+        // Kill all players that have perm
         Bukkit.getServer().onlinePlayers.forEach { player ->
             if (player.hasPermission(permission)) {
                 player.health = 0.0

@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.specific.ng3
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Utils
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -29,8 +30,9 @@ class SeasonSpecificNG3 : Listener {
 
     // === EVENT HANDLES ==============================================================================================
 
-    @EventHandler
-    fun onPlayerAttack(event: EntityDamageByEntityEvent) {
+    // Event Handler - Cop catch robber
+    @EventHandler(ignoreCancelled = true)
+    fun onPlayerAttackCopAttackRobber(event: EntityDamageByEntityEvent) {
         // End if the attacker and damaged entity are not players
         if (!(event.entity is Player && event.damager is Player)) return
 
@@ -38,8 +40,10 @@ class SeasonSpecificNG3 : Listener {
         val attackerPlayer = event.damager as Player
         val healthAfterDamage = damagedPlayer.health - event.finalDamage
 
-        // TODO : Check if attackerPlayer is cop
-        // TODO: Check if DamagedPlayer is robber
+        // Check if correct players are performing the actions
+        if (!attackerPlayer.hasPermission(PERM_GROUP_COP)) return  // End if attackerPlayer is not cop
+        if (damagedPlayer.hasPermission(PERM_GROUP_PRISONER)) return // End if damagedPlayer already in prison
+        if (!damagedPlayer.hasPermission(PERM_GROUP_ROBBER)) return // End if damagedPlayer is not robber
 
         // End if the damaged player's health is above the catchPlayerHealth threshold
         if (healthAfterDamage > catchPlayerHealth) return
@@ -54,15 +58,36 @@ class SeasonSpecificNG3 : Listener {
         sendRobberToPrison(damagedPlayer)
     }
 
+    // Event Handler - Robber free prisoner
+    @EventHandler(ignoreCancelled = true)
+    fun onPlayerAttackRobberAttackPrisoner(event: EntityDamageByEntityEvent) {
+        // End if the attacker and damaged entity are not players
+        if (!(event.entity is Player && event.damager is Player)) return
+
+        val damagedPlayer = event.entity as Player
+        val attackerPlayer = event.damager as Player
+
+        // Check if correct players are performing the actions
+        if (attackerPlayer.hasPermission(PERM_GROUP_PRISONER)) return // End if attackerPlayer is prisoner
+        if (!attackerPlayer.hasPermission(PERM_GROUP_ROBBER)) return // End if attackerPlayer not robber
+        if (!damagedPlayer.hasPermission(PERM_GROUP_PRISONER)) return // End of damagedPlayer not prisoner
+
+        // Cancel the original damage to avoid death
+        event.isCancelled = true
+
+        // Send prisoner to robber (escape)
+        sendPrisonToRobber(attackerPlayer, damagedPlayer)
+    }
+
 
     // === FUNCTIONS ==================================================================================================
 
-    // Teleport player to prion
+    // Teleport robber to prion
     private fun sendRobberToPrison(player: Player) {
         var prisonLocation: Location? = null
 
         // Notify staff
-        Utils.messageStaff("§7⛓ Sending ${player.name} to prison")
+        Utils.messageStaff("§7⛓ Sending ${player.name} to prison [CAUGHT]")
 
         // Get location from config
         if (prisonLocationConfig != null) {
@@ -79,7 +104,24 @@ class SeasonSpecificNG3 : Listener {
             player.teleport(it) // TP player
             player.world.playSound(it, Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f) // Play sound
         }
+
+        // Give robber prisoner perms
+        val consoleCommand = "lp user ${player.name} permission set $PERM_GROUP_PRISONER true"
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), consoleCommand)
     }
 
+    // Teleport prisoner to robber (escape)
+    private fun sendPrisonToRobber(playerRobber: Player, playerPrisoner: Player) {
+        // Notify staff
+        Utils.messageStaff("§7✋ ${playerRobber.name} freed ${playerPrisoner.name} from prison [ESCAPE]")
+
+        // Teleport prisoner to robber
+        playerPrisoner.teleport(playerRobber.location) // TP player
+        playerPrisoner.world.playSound(playerPrisoner.location, Sound.ENTITY_PHANTOM_FLAP, 1.0f, 1.0f) // Play sound
+
+        // Remove robber's prisoner perms
+        val consoleCommand = "lp user ${playerPrisoner.name} permission unset $PERM_GROUP_PRISONER"
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), consoleCommand)
+    }
 
 }

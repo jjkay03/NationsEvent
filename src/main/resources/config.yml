@@ -17,3 +17,9 @@ teams:
     name: "Team Robber"
     color-code: "f"
     permission: "nationsevent.team.robber"
+
+# NG3
+ng3-prison-location:
+  x: 0
+  y: 100
+  z: 0

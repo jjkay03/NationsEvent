@@ -4,6 +4,7 @@ import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.specific.ng3.SeasonSpecificNG3
 import com.jjkay03.nationsevent.utils.*
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class NationsEvent : JavaPlugin() {
@@ -45,11 +46,8 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         // NG3
         server.pluginManager.registerEvents(SeasonSpecificNG3(), this)
-
     }
 
     // Plugin shutdown logic
-    override fun onDisable() {
-
-    }
+    override fun onDisable() { }
 }

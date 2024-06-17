@@ -1,6 +1,9 @@
 package com.jjkay03.nationsevent.specific.ng3
 
-import org.bukkit.Bukkit
+import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Utils
+import org.bukkit.Location
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -16,6 +19,9 @@ class SeasonSpecificNG3 : Listener {
 
 
     // === VARIABLES ==================================================================================================
+
+    private val config = NationsEvent.INSTANCE.config
+    private val prisonLocationConfig: Map<String, Any>? = config.getConfigurationSection("ng3-prison-location")?.getValues(false)
 
     private val catchPlayerHealth = 6.0 // 6.0 health points = 3 hearts
     private val minHealthAfterAttack = 2.0 // 2.0 health points = 1 heart
@@ -38,13 +44,8 @@ class SeasonSpecificNG3 : Listener {
         // End if the damaged player's health is above the catchPlayerHealth threshold
         if (healthAfterDamage > catchPlayerHealth) return
 
-        // Broadcast message if the damaged player's health is below the threshold
-        val message = "${damagedPlayer.name} is under 3 hearts of health! Attacker: ${attackerPlayer.name}"
-        Bukkit.broadcastMessage(message)
-
         // Prevent the player from dying if took too much damage
         if (healthAfterDamage <= 0) {
-            Bukkit.broadcastMessage("§7Healed ${damagedPlayer.name} to 1 heart to avoid death")
             damagedPlayer.health = minHealthAfterAttack
             event.isCancelled = true // Cancel the original damage to avoid death
         }
@@ -56,12 +57,28 @@ class SeasonSpecificNG3 : Listener {
 
     // === FUNCTIONS ==================================================================================================
 
-    // Function to send payer to robber to prison
+    // Teleport player to prion
     private fun sendRobberToPrison(player: Player) {
-        // TODO : Run function to send DamagedPlayer to prison
+        var prisonLocation: Location? = null
 
-        // DEBUG
-        Bukkit.broadcastMessage("§aSENDING §f${player.name} §aTO PRISON")
+        // Notify staff
+        Utils.messageStaff("§7⛓ Sending ${player.name} to prison")
+
+        // Get location from config
+        if (prisonLocationConfig != null) {
+            val x = prisonLocationConfig["x"] as? Double ?: 0.0
+            val y = prisonLocationConfig["y"] as? Double ?: 100.0
+            val z = prisonLocationConfig["z"] as? Double ?: 0.0
+            prisonLocation = Location(player.world, x, y, z)
+        } else {
+            NationsEvent.INSTANCE.logger.warning("Prison location is not set in the config!")
+        }
+
+        // TP player to prison
+        prisonLocation?.let {
+            player.teleport(it) // TP player
+            player.world.playSound(it, Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f) // Play sound
+        }
     }
 
 

@@ -36,6 +36,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("pvptoggle")?.setExecutor(PVPToggleCommand())
         getCommand("pvptoggle")?.tabCompleter = PVPToggleCommand() // Tab completer
         getCommand("pvpalerts")?.setExecutor(PVPAlertsCommand())
+        getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
+        getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
         //plugin.getCommand("teammessage")?.setExecutor(TeamMessageCommand(plugin))
         //plugin.getCommand("teammessage")?.tabCompleter = TeamMessageCommand(plugin) // Tab completer
 

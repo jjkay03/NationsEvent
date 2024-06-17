@@ -10,48 +10,10 @@ feature-meat-player-death: true
 # Teams
 teams:
   red:
-    name: "Team Red"
-    color-code: "c"
-    permission: "nationsevent.team.red"
-  blue:
-    name: "Team Blue"
+    name: "Team Cop"
     color-code: "9"
-    permission: "nationsevent.team.blue"
-
-
-# Team core feature (NG1)
-team-core-enable: true
-team-core-world: "nations_ng2_world"
-
-team-cores:
-  core-red:
-    name: "§c§lRED CORE"
-    permission: "nationsevent.team.red"
-    location:
-      x: -80
-      y: 79
-      z: -80
-
-  core-blue:
-    name: "§9§lBLUE CORE"
-    permission: "nationsevent.team.blue"
-    location:
-      x: 80
-      y: 79
-      z: -80
-
-  core-green:
-    name: "§a§lGREEN CORE"
-    permission: "nationsevent.team.green"
-    location:
-      x: -80
-      y: 79
-      z: 80
-
-  core-yellow:
-    name: "§e§lYELLOW CORE"
-    permission: "nationsevent.team.yellow"
-    location:
-      x: 80
-      y: 79
-      z: 80
+    permission: "nationsevent.team.cop"
+  blue:
+    name: "Team Robber"
+    color-code: "f"
+    permission: "nationsevent.team.robber"

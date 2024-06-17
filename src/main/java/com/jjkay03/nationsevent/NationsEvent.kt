@@ -41,7 +41,6 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MilkTheGator(), this)
-        server.pluginManager.registerEvents(TeamCore(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
 
     }

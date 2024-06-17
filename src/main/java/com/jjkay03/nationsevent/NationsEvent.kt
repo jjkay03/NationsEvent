@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.specific.ng3.SeasonSpecificNG3
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -9,8 +10,8 @@ class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
-        val PERM_ADMIN: String = "nationsevent.admin"
-        val PERM_STAFF: String = "nationsevent.staff"
+        const val PERM_ADMIN: String = "nationsevent.admin"
+        const val PERM_STAFF: String = "nationsevent.staff"
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
     }
@@ -42,6 +43,8 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MilkTheGator(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
+        // NG3
+        server.pluginManager.registerEvents(SeasonSpecificNG3(), this)
 
     }
 

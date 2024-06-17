@@ -21,6 +21,8 @@ class SeasonSpecificNG3 : Listener {
 
     // === VARIABLES ==================================================================================================
 
+    private val prisonPrefix = "§8[§6Prison§8] §7"
+
     private val config = NationsEvent.INSTANCE.config
     private val prisonLocationConfig: Map<String, Any>? = config.getConfigurationSection("ng3-prison-location")?.getValues(false)
 
@@ -87,7 +89,7 @@ class SeasonSpecificNG3 : Listener {
         var prisonLocation: Location? = null
 
         // Notify staff
-        Utils.messageStaff("§7⛓ Sending ${player.name} to prison [CAUGHT]")
+        Utils.messageStaff(prisonPrefix + "§c[⛓CAUGHT]§7 Sending §f${player.name} §7to prison")
 
         // Get location from config
         if (prisonLocationConfig != null) {
@@ -113,7 +115,7 @@ class SeasonSpecificNG3 : Listener {
     // Teleport prisoner to robber (escape)
     private fun sendPrisonToRobber(playerRobber: Player, playerPrisoner: Player) {
         // Notify staff
-        Utils.messageStaff("§7✋ ${playerRobber.name} freed ${playerPrisoner.name} from prison [ESCAPE]")
+        Utils.messageStaff(prisonPrefix + "§a[✋ESCAPE]§7 ${playerRobber.name} freed §f${playerPrisoner.name} §7from prison")
 
         // Teleport prisoner to robber
         playerPrisoner.teleport(playerRobber.location) // TP player

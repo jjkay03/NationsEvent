@@ -2,9 +2,9 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.features.*
-import com.jjkay03.nationsevent.specific.ng3.SeasonSpecificNG3
+import com.jjkay03.nationsevent.specific.ng3.*
+import com.jjkay03.nationsevent.specific.ng3.commands.*
 import com.jjkay03.nationsevent.utils.*
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class NationsEvent : JavaPlugin() {
@@ -29,6 +29,7 @@ class NationsEvent : JavaPlugin() {
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
 
+
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
         getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
@@ -38,8 +39,10 @@ class NationsEvent : JavaPlugin() {
         getCommand("pvpalerts")?.setExecutor(PVPAlertsCommand())
         getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
         getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
-        //plugin.getCommand("teammessage")?.setExecutor(TeamMessageCommand(plugin))
-        //plugin.getCommand("teammessage")?.tabCompleter = TeamMessageCommand(plugin) // Tab completer
+        // NG3
+        getCommand("voicechatpermsprisoners")?.setExecutor(NG3_VoicechatPermsPrisonersCommand())
+        getCommand("voicechatpermsprisoners")?.tabCompleter = NG3_VoicechatPermsPrisonersCommand() // Tab completer
+
 
         // Register events
         server.pluginManager.registerEvents(PVPToggle(), this)
@@ -47,7 +50,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(MilkTheGator(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         // NG3
-        server.pluginManager.registerEvents(SeasonSpecificNG3(), this)
+        server.pluginManager.registerEvents(NG3_SeasonSpecific(), this)
     }
 
     // Plugin shutdown logic

@@ -11,4 +11,11 @@ object Utils {
         }
     }
 
+    // Function that sends message to all player with a certain permission
+    fun messagePlayerWithPerm(message: String, permission: String) {
+        Bukkit.getServer().onlinePlayers.forEach { player ->
+            if (player.hasPermission(permission)) player.sendMessage(message)
+        }
+    }
+
 }

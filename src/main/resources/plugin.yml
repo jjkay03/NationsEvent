@@ -31,7 +31,8 @@ commands:
     permission: nationsevent.command.voicechatperms
     permission-message: "You do not have permission to use this command"
 
-#  teammessage:
-#    aliases: ["teammsg", "tmessage", "tmsg","tm"]
-#    permission: nationsevent.command.teammessage
-#    permission-message: "You do not have permission to use this command"
+  # NG3
+  voicechatpermsprisoners:
+    aliases: [voicechatprison]
+    permission: nationsevent.command.voicechatpermsprisoners
+    permission-message: "You do not have permission to use this command"

@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-class SeasonSpecificNG3 : Listener {
+class NG3_SeasonSpecific : Listener {
 
     companion object {
         const val PERM_GROUP_COP: String = "group.cop"
@@ -88,8 +88,10 @@ class SeasonSpecificNG3 : Listener {
     private fun sendRobberToPrison(player: Player) {
         var prisonLocation: Location? = null
 
-        // Notify staff
-        Utils.messageStaff(prisonPrefix + "§c[⛓CAUGHT]§7 Sending §f${player.name} §7to prison")
+        // Notify staff and cops
+        val notificationMessage = prisonPrefix + "§c[⛓CAUGHT]§7 Sending §f${player.name} §7to prison"
+        Utils.messageStaff(notificationMessage)
+        Utils.messagePlayerWithPerm(notificationMessage, PERM_GROUP_COP)
 
         // Get location from config
         if (prisonLocationConfig != null) {

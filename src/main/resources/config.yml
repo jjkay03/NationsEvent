@@ -20,6 +20,6 @@ teams:
 
 # NG3
 ng3-prison-location:
-  x: 0
-  y: 100
-  z: 0
+  x: -244
+  y: 74
+  z: -1253

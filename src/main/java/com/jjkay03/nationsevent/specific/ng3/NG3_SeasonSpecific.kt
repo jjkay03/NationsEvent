@@ -95,9 +95,9 @@ class NG3_SeasonSpecific : Listener {
 
         // Get location from config
         if (prisonLocationConfig != null) {
-            val x = prisonLocationConfig["x"] as? Double ?: 0.0
-            val y = prisonLocationConfig["y"] as? Double ?: 100.0
-            val z = prisonLocationConfig["z"] as? Double ?: 0.0
+            val x = prisonLocationConfig["x"] as? Double ?: -244.0
+            val y = prisonLocationConfig["y"] as? Double ?: 74.0
+            val z = prisonLocationConfig["z"] as? Double ?: -1253.0
             prisonLocation = Location(player.world, x, y, z)
         } else {
             NationsEvent.INSTANCE.logger.warning("Prison location is not set in the config!")

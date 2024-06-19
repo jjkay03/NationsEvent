@@ -6,7 +6,7 @@
 
   <groupId>com.jjkay03</groupId>
   <artifactId>NationsEvent</artifactId>
-  <version>1.2-NG3</version>
+  <version>NG3</version>
   <packaging>jar</packaging>
 
   <name>NationsEvent</name>

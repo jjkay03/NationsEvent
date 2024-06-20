@@ -3,11 +3,20 @@
 # ----------------------
 
 
-# Features toggle
-feature-meat-player-death: true
-#feature-item-team-color: true
+# == Features toggle ==================================================================================================
+# Make players drop meet on death
+feature-meat-player-death: false
 
-# Teams
+
+# == Patches ==========================================================================================================
+# Provent players from block glitching
+patch-anti-block-glitching: true
+
+# Provent players from using ender pearls
+patch-anti-ender-pearl: true
+
+
+# == Teams ============================================================================================================
 teams:
   red:
     name: "Team Cop"
@@ -18,7 +27,8 @@ teams:
     color-code: "f"
     permission: "nationsevent.team.robber"
 
-# NG3
+
+# == NG3 ==============================================================================================================
 ng3-prison-location:
   x: -244
   y: 74

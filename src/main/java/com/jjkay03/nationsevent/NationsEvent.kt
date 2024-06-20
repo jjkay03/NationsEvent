@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng3.*
 import com.jjkay03.nationsevent.specific.ng3.commands.*
 import com.jjkay03.nationsevent.utils.*
@@ -51,6 +52,11 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         // NG3
         server.pluginManager.registerEvents(NG3_SeasonSpecific(), this)
+
+
+        // Initialize patches
+        AntiBlockGlitching()
+        AntiEnderPearl()
     }
 
     // Plugin shutdown logic

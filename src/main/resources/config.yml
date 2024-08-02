@@ -6,7 +6,10 @@
 # == Features toggle ==================================================================================================
 # Make players drop meet on death
 feature-meat-player-death: false
+
+# Make it so player with right perm can open iron doors with hands
 iron-door: true
+
 
 # == Patches ==========================================================================================================
 # Provent players from block glitching

@@ -40,6 +40,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("pvpalerts")?.setExecutor(PVPAlertsCommand())
         getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
         getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
+        getCommand("bypassviewdistance")?.setExecutor(BypassViewDistanceCommand())
         // NG3
         getCommand("voicechatpermsprisoners")?.setExecutor(NG3_VoicechatPermsPrisonersCommand())
         getCommand("voicechatpermsprisoners")?.tabCompleter = NG3_VoicechatPermsPrisonersCommand() // Tab completer

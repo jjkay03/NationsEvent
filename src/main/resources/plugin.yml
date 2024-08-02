@@ -31,6 +31,10 @@ commands:
     permission: nationsevent.command.voicechatperms
     permission-message: "You do not have permission to use this command"
 
+  bypassviewdistance:
+    permission: nationsevent.command.bypassviewdistance
+    permission-message: "You do not have permission to use this command"
+
   # NG3
   voicechatpermsprisoners:
     aliases: [voicechatprison]

@@ -6,7 +6,7 @@
 # == Features toggle ==================================================================================================
 # Make players drop meet on death
 feature-meat-player-death: false
-
+iron-door: true
 
 # == Patches ==========================================================================================================
 # Provent players from block glitching

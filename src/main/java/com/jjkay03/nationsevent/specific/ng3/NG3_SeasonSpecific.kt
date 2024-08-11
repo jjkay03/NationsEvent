@@ -6,6 +6,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.entity.Player
+import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -35,15 +36,22 @@ class NG3_SeasonSpecific : Listener {
     // Event Handler - Cop catch robber
     @EventHandler(ignoreCancelled = true)
     fun onPlayerAttackCopAttackRobber(event: EntityDamageByEntityEvent) {
-        // End if the attacker and damaged entity are not players
-        if (!(event.entity is Player && event.damager is Player)) return
+
+        // Deal with damager - player or projectile
+        val damager = if (event.damager is Player) event.damager
+        else if (event.damager is Projectile) {
+            val projectile = event.damager as Projectile
+            if (projectile.shooter is Player) projectile.shooter as Player
+            else return
+        } else return
+
+        if (event.entity !is Player) return
 
         val damagedPlayer = event.entity as Player
-        val attackerPlayer = event.damager as Player
         val healthAfterDamage = damagedPlayer.health - event.finalDamage
 
         // Check if correct players are performing the actions
-        if (!attackerPlayer.hasPermission(PERM_GROUP_COP)) return  // End if attackerPlayer is not cop
+        if (!damager.hasPermission(PERM_GROUP_COP)) return  // End if attackerPlayer is not cop
         if (damagedPlayer.hasPermission(PERM_GROUP_PRISONER)) return // End if damagedPlayer already in prison
         if (!damagedPlayer.hasPermission(PERM_GROUP_ROBBER)) return // End if damagedPlayer is not robber
 

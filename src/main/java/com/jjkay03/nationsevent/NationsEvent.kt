@@ -41,19 +41,15 @@ class NationsEvent : JavaPlugin() {
         getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
         getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
         getCommand("bypassviewdistance")?.setExecutor(BypassViewDistanceCommand())
-        // NG3
-        getCommand("voicechatpermsprisoners")?.setExecutor(NG3_VoicechatPermsPrisonersCommand())
-        getCommand("voicechatpermsprisoners")?.tabCompleter = NG3_VoicechatPermsPrisonersCommand() // Tab completer
+        // NG4
+        // NG4 - Commands here
 
 
         // Register events
-        //server.pluginManager.registerEvents(MilkTheGator(), this)
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         server.pluginManager.registerEvents(IronDoor(), this)
-        // NG3
-        server.pluginManager.registerEvents(NG3_SeasonSpecific(), this)
 
 
         // Initialize patches

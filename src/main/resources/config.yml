@@ -13,7 +13,7 @@ iron-door: true
 
 # == Patches ==========================================================================================================
 # Provent players from block glitching
-patch-anti-block-glitching: true
+patch-anti-block-glitching: false
 
 # Provent players from using ender pearls
 patch-anti-ender-pearl: true
@@ -22,17 +22,10 @@ patch-anti-ender-pearl: true
 # == Teams ============================================================================================================
 teams:
   red:
-    name: "Team Cop"
-    color-code: "9"
-    permission: "nationsevent.team.cop"
+    name: "Team Red"
+    color-code: "c"
+    permission: "nationsevent.team.red"
   blue:
-    name: "Team Robber"
-    color-code: "f"
-    permission: "nationsevent.team.robber"
-
-
-# == NG3 ==============================================================================================================
-ng3-prison-location:
-  x: -244
-  y: 74
-  z: -1253
+    name: "Team Blue"
+    color-code: "b"
+    permission: "nationsevent.team.blue"

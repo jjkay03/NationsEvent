@@ -1,3 +1,17 @@
+/*
+
+THIS IS ALL DISABLED
+
+- To use it, you need to register the events
+- Add this to config:
+
+ng3-prison-location:
+  x: -244
+  y: 74
+  z: -1253
+
+ */
+
 package com.jjkay03.nationsevent.specific.ng3
 
 import com.jjkay03.nationsevent.NationsEvent

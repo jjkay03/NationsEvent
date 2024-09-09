@@ -1,10 +1,11 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
+import com.jjkay03.nationsevent.commands.voting.ClearVotesCommand
+import com.jjkay03.nationsevent.commands.voting.TopVotesCommand
+import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng3.*
-import com.jjkay03.nationsevent.specific.ng3.commands.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -41,6 +42,9 @@ class NationsEvent : JavaPlugin() {
         getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
         getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
         getCommand("bypassviewdistance")?.setExecutor(BypassViewDistanceCommand())
+        getCommand("vote")?.setExecutor(VoteCommand())
+        getCommand("topvotes")?.setExecutor(TopVotesCommand())
+        getCommand("clearvotes")?.setExecutor(ClearVotesCommand())
         // NG4
         // NG4 - Commands here
 

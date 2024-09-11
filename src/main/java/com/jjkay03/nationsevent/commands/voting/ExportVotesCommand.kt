@@ -34,22 +34,22 @@ class ExportVotesCommand : CommandExecutor {
                 pluginFolder.mkdirs()
             }
 
-            // Get the current date and time for the filename
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH:mm:ss")
+            // Get the current date and time for the filename (replace colons with hyphens)
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH-mm-ss")
             val currentTime = Date()
             val filename = "${dateFormat.format(currentTime)}--VOTES.txt"
 
             // Create the file in the "exported votes" folder
             val voteFile = File(pluginFolder, filename)
 
-            // File format date
+            // File format date (with proper time format for file content)
             val fileDateFormat = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss")
             val formattedDate = fileDateFormat.format(currentTime)
 
             // Use FileWriter to write the content to the file
             FileWriter(voteFile).use { writer ->
                 writer.write("EXPORTED VOTES - $formattedDate\n")
-                writer.write("\n== VOTES ======================\n")
+                writer.write("\n== VOTES ====================\n")
 
                 // Count how many votes each player has received
                 val voteCounts = mutableMapOf<UUID, Int>()
@@ -69,7 +69,7 @@ class ExportVotesCommand : CommandExecutor {
                 writer.write("=============================\n")
 
                 // Write the votes each player cast (Player_IGN -> Player IGN)
-                writer.write("\n== PLAYER VOTES ================\n")
+                writer.write("\n== PLAYER VOTES =============\n")
                 VoteCommand.PLAYERS_VOTES.forEach { (voterUUID, votedForUUID) ->
                     val voterName = Bukkit.getOfflinePlayer(voterUUID).name ?: "Unknown Player"
                     val votedForName = Bukkit.getOfflinePlayer(votedForUUID).name ?: "Unknown Player"

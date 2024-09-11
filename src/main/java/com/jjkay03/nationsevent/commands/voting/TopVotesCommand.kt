@@ -57,7 +57,7 @@ class TopVotesCommand : CommandExecutor {
         }
 
         // Send footer
-        sender.sendMessage("§e§l====================")
+        sender.sendMessage("§e§l=====================")
 
         return true
     }

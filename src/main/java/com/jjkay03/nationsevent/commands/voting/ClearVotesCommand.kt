@@ -25,7 +25,7 @@ class ClearVotesCommand : CommandExecutor {
         // Clear all votes
         VoteCommand.PLAYERS_VOTES.clear()
 
-        player.sendMessage("§aAll votes have been cleared successfully!")
+        player.sendMessage("§6ALL VOTES HAVE BEEN CLEARED!")
 
         return true
     }

@@ -29,12 +29,6 @@ class VoteCommand : CommandExecutor {
             return true
         }
 
-        // Check if the player has already voted
-        if (PLAYERS_VOTES.containsKey(voter.uniqueId)) {
-            voter.sendMessage("§cYou have already voted!")
-            return true
-        }
-
         // Find the player who is being voted for
         val votedFor = Bukkit.getPlayer(args[0])
 
@@ -50,9 +44,17 @@ class VoteCommand : CommandExecutor {
             return true
         }
 
-        // Record the vote
+        // Check if the player has already voted
+        if (PLAYERS_VOTES.containsKey(voter.uniqueId)) {
+            // Player is changing their vote
+            voter.sendMessage("§eYou have updated your vote to ${votedFor.name}.")
+        } else {
+            // First time voting
+            voter.sendMessage("§aYou have voted for ${votedFor.name}!")
+        }
+
+        // Record or update the vote
         PLAYERS_VOTES[voter.uniqueId] = votedFor.uniqueId
-        voter.sendMessage("§aYou have successfully voted for ${votedFor.name}!")
 
         return true
     }

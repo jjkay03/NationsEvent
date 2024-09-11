@@ -42,3 +42,11 @@ commands:
   topvotes:
     permission: nationsevent.command.topvotes
     permission-message: "You do not have permission to use this command"
+
+  clearvotes:
+    permission: nationsevent.command.clearvotes
+    permission-message: "You do not have permission to use this command"
+
+  exportvotes:
+    permission: nationsevent.command.exportvotes
+    permission-message: "You do not have permission to use this command"

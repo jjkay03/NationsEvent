@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.voting.ClearVotesCommand
+import com.jjkay03.nationsevent.commands.voting.ExportVotesCommand
 import com.jjkay03.nationsevent.commands.voting.TopVotesCommand
 import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.features.*
@@ -45,6 +46,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("vote")?.setExecutor(VoteCommand())
         getCommand("topvotes")?.setExecutor(TopVotesCommand())
         getCommand("clearvotes")?.setExecutor(ClearVotesCommand())
+        getCommand("exportvotes")?.setExecutor(ExportVotesCommand())
         // NG4
         // NG4 - Commands here
 

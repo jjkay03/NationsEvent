@@ -24,58 +24,67 @@ class ExportVotesCommand : CommandExecutor {
             return true
         }
 
-        // Get the plugin folder and create the "exported votes" folder if it doesn't exist
-        val pluginFolder = File("plugins/NationsEvent/exported votes")
-        if (!pluginFolder.exists()) {
-            pluginFolder.mkdirs()
+        // Notify the player that the export process has started
+        sender.sendMessage("§eStarted exporting votes...")
+
+        try {
+            // Get the plugin folder and create the "exported votes" folder if it doesn't exist
+            val pluginFolder = File("plugins/NationsEvent/exported votes")
+            if (!pluginFolder.exists()) {
+                pluginFolder.mkdirs()
+            }
+
+            // Get the current date and time for the filename
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH:mm:ss")
+            val currentTime = Date()
+            val filename = "${dateFormat.format(currentTime)}--VOTES.txt"
+
+            // Create the file in the "exported votes" folder
+            val voteFile = File(pluginFolder, filename)
+
+            // File format date
+            val fileDateFormat = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss")
+            val formattedDate = fileDateFormat.format(currentTime)
+
+            // Use FileWriter to write the content to the file
+            FileWriter(voteFile).use { writer ->
+                writer.write("EXPORTED VOTES - $formattedDate\n")
+                writer.write("\n== VOTES ======================\n")
+
+                // Count how many votes each player has received
+                val voteCounts = mutableMapOf<UUID, Int>()
+                VoteCommand.PLAYERS_VOTES.values.forEach { votedFor ->
+                    voteCounts[votedFor] = voteCounts.getOrDefault(votedFor, 0) + 1
+                }
+
+                // Sort players by number of votes, descending
+                val sortedVotes = voteCounts.entries
+                    .sortedByDescending { it.value }
+
+                // Write the sorted votes (number of votes - player)
+                sortedVotes.forEach { (uuid, count) ->
+                    val playerName = Bukkit.getOfflinePlayer(uuid).name ?: "Unknown Player"
+                    writer.write("$count - $playerName\n")
+                }
+                writer.write("=============================\n")
+
+                // Write the votes each player cast (Player_IGN -> Player IGN)
+                writer.write("\n== PLAYER VOTES ================\n")
+                VoteCommand.PLAYERS_VOTES.forEach { (voterUUID, votedForUUID) ->
+                    val voterName = Bukkit.getOfflinePlayer(voterUUID).name ?: "Unknown Player"
+                    val votedForName = Bukkit.getOfflinePlayer(votedForUUID).name ?: "Unknown Player"
+                    writer.write("$voterName -> $votedForName\n")
+                }
+                writer.write("=============================\n")
+            }
+
+            // Notify the player of successful export
+            sender.sendMessage("§2Votes have been exported successfully to ${voteFile.name}!")
+        } catch (e: Exception) {
+            // If something goes wrong, send an error message to the player
+            sender.sendMessage("§cFailed to export votes!")
+            e.printStackTrace()  // Print the stack trace to the server console for debugging
         }
-
-        // Get the current date and time for the filename
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH:mm:ss")
-        val currentTime = Date()
-        val filename = "${dateFormat.format(currentTime)}--VOTES.txt"
-
-        // Create the file in the "exported votes" folder
-        val voteFile = File(pluginFolder, filename)
-
-        // File format date
-        val fileDateFormat = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss")
-        val formattedDate = fileDateFormat.format(currentTime)
-
-        // Use FileWriter to write the content to the file
-        FileWriter(voteFile).use { writer ->
-            writer.write("EXPORTED VOTES - $formattedDate\n")
-            writer.write("\n== VOTES ======================\n")
-
-            // Count how many votes each player has received
-            val voteCounts = mutableMapOf<UUID, Int>()
-            VoteCommand.PLAYERS_VOTES.values.forEach { votedFor ->
-                voteCounts[votedFor] = voteCounts.getOrDefault(votedFor, 0) + 1
-            }
-
-            // Sort players by number of votes, descending
-            val sortedVotes = voteCounts.entries
-                .sortedByDescending { it.value }
-
-            // Write the sorted votes (number of votes - player)
-            sortedVotes.forEach { (uuid, count) ->
-                val playerName = Bukkit.getOfflinePlayer(uuid).name ?: "Unknown Player"
-                writer.write("$count - $playerName\n")
-            }
-            writer.write("=============================\n")
-
-            // Write the votes each player cast (Player_IGN -> Player IGN)
-            writer.write("\n== PLAYER VOTES ================\n")
-            VoteCommand.PLAYERS_VOTES.forEach { (voterUUID, votedForUUID) ->
-                val voterName = Bukkit.getOfflinePlayer(voterUUID).name ?: "Unknown Player"
-                val votedForName = Bukkit.getOfflinePlayer(votedForUUID).name ?: "Unknown Player"
-                writer.write("$voterName -> $votedForName\n")
-            }
-            writer.write("=============================\n")
-        }
-
-        // Notify the player
-        sender.sendMessage("§2Votes have been exported successfully to ${voteFile.name}!")
 
         return true
     }

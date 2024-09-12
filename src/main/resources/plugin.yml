@@ -50,3 +50,11 @@ commands:
   exportvotes:
     permission: nationsevent.command.exportvotes
     permission-message: "You do not have permission to use this command"
+
+  wolfrage:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
+  wolfrageall:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"

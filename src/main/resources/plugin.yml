@@ -51,6 +51,16 @@ commands:
     permission: nationsevent.command.exportvotes
     permission-message: "You do not have permission to use this command"
 
+  playerscale:
+    aliases: [pscale]
+    permission: nationsevent.command.playerscale
+    permission-message: "You do not have permission to use this command"
+
+  playerscalerestall:
+    aliases: [pscaleresetall]
+    permission: nationsevent.command.playerscalerestall
+    permission-message: "You do not have permission to use this command"
+
   wolfrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

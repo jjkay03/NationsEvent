@@ -1,6 +1,8 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.*
+import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleCommand
+import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleRestAllCommand
 import com.jjkay03.nationsevent.commands.voting.ClearVotesCommand
 import com.jjkay03.nationsevent.commands.voting.ExportVotesCommand
 import com.jjkay03.nationsevent.commands.voting.TopVotesCommand
@@ -50,6 +52,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("topvotes")?.setExecutor(TopVotesCommand())
         getCommand("clearvotes")?.setExecutor(ClearVotesCommand())
         getCommand("exportvotes")?.setExecutor(ExportVotesCommand())
+        getCommand("playerscale")?.setExecutor(PlayerScaleCommand())
+        getCommand("playerscalerestall")?.setExecutor(PlayerScaleRestAllCommand())
         // NG4
         getCommand("wolfrage")?.setExecutor(NG4_WolfRageCommand())
         getCommand("wolfrageall")?.setExecutor(NG4_WolfRageAllCommand())

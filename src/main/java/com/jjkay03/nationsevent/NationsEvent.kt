@@ -41,6 +41,7 @@ class NationsEvent : JavaPlugin() {
 
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
+        getCommand("joinstage")?.setExecutor(JoinStageCommand())
         getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
         getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
         getCommand("pvptoggle")?.setExecutor(PVPToggleCommand())

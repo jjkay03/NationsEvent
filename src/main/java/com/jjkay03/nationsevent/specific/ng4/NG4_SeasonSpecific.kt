@@ -1,10 +1,18 @@
 package com.jjkay03.nationsevent.specific.ng4
 
+import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.specific.ng4.commands.NG4_GlobalBlindnessCommand
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.player.PlayerItemConsumeEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
 class NG4_SeasonSpecific : Listener {
 
@@ -13,6 +21,7 @@ class NG4_SeasonSpecific : Listener {
         const val PERM_GROUP_VILLAGER: String = "group.robber"
     }
 
+    // EventHandler - Play wolf sound when wolf get a kill
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         val killer = event.entity.killer ?: return
@@ -25,4 +34,36 @@ class NG4_SeasonSpecific : Listener {
             }
         }
     }
+
+    // EventHandler - Deal with milk buckets if GLOBAL_BLINDNESS is true
+    @EventHandler
+    fun globalBlindnessOnPlayerConsume(event: PlayerItemConsumeEvent) {
+        val player = event.player
+        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (event.item.type != Material.MILK_BUCKET) return // End if not milk bucket
+        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        event.isCancelled = true
+        player.sendMessage("§cYou cannot drink milk during global blindness!")
+    }
+
+    // EventHandler - Deal with login when GLOBAL_BLINDNESS is true
+    @EventHandler
+    fun globalBlindnessOnPlayerLogin(event: PlayerJoinEvent) {
+        val player = event.player
+        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
+        player.sendMessage("§7You are affected by global blindness...")
+    }
+
+    // EventHandler - Deal with logout when GLOBAL_BLINDNESS is true
+    @EventHandler
+    fun globalBlindnessOnPlayerLogout(event: PlayerQuitEvent) {
+        val player = event.player
+        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+            player.removePotionEffect(PotionEffectType.BLINDNESS)
+        }
+    }
+
 }

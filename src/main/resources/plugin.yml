@@ -68,3 +68,9 @@ commands:
   wolfrageall:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"
+
+  globalblindness:
+    aliases: [gblindness]
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+

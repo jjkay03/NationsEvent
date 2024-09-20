@@ -68,6 +68,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         server.pluginManager.registerEvents(IronDoor(), this)
+        server.pluginManager.registerEvents(FarmProtection(), this)
         // NG4
         server.pluginManager.registerEvents(NG4_SeasonSpecific(), this)
 

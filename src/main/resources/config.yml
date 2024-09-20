@@ -10,6 +10,9 @@ feature-meat-player-death: false
 # Make it so player with right perm can open iron doors with hands
 iron-door: true
 
+# Make it so players and mobs can't trample crops
+farm-protection: true
+
 
 # == Patches ==========================================================================================================
 # Provent players from block glitching

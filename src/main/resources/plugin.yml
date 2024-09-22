@@ -78,3 +78,11 @@ commands:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"
 
+  rollroles:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
+  role:
+    permission: nationsevent.command.ng4.role
+    permission-message: "You do not have permission to use this command"
+

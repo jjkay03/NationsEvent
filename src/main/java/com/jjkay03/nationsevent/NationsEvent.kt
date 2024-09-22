@@ -10,9 +10,7 @@ import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng4.NG4_SeasonSpecific
-import com.jjkay03.nationsevent.specific.ng4.commands.NG4_GlobalBlindnessCommand
-import com.jjkay03.nationsevent.specific.ng4.commands.NG4_WolfRageAllCommand
-import com.jjkay03.nationsevent.specific.ng4.commands.NG4_WolfRageCommand
+import com.jjkay03.nationsevent.specific.ng4.commands.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -61,6 +59,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("wolfrageall")?.setExecutor(NG4_WolfRageAllCommand())
         getCommand("globalblindness")?.setExecutor(NG4_GlobalBlindnessCommand())
         getCommand("globalblindness")?.tabCompleter = NG4_GlobalBlindnessCommand() // Tab completer
+        getCommand("rollroles")?.setExecutor(NG4_RollRoles())
+        getCommand("role")?.setExecutor(NG4_Role())
 
 
         // Register events

@@ -17,8 +17,7 @@ import org.bukkit.potion.PotionEffectType
 class NG4_SeasonSpecific : Listener {
 
     companion object {
-        const val PERM_GROUP_WEREWOLF: String = "group.werewolf"
-        const val PERM_GROUP_VILLAGER: String = "group.robber"
+         val PERM_GROUP_WEREWOLF: String = NG4_RolesEnum.WEREWOLF.groupPerm
     }
 
     // EventHandler - Play wolf sound when wolf get a kill

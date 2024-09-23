@@ -33,6 +33,8 @@ class NG4_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
         if (GLOBAL_BLINDNESS) { sender.sendMessage("§cGlobal blindness is already enabled!"); return }
         GLOBAL_BLINDNESS = true
         for (player in Bukkit.getOnlinePlayers()) {
+            // Hide player nametag using TAB API
+            NationsEvent.TAB_NAMETAG_MANAGER?.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Skip player if player has bypass perm
             if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) continue
             player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
@@ -47,6 +49,9 @@ class NG4_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
         if (!GLOBAL_BLINDNESS) { sender.sendMessage("§cGlobal blindness is already disabled!"); return }
         GLOBAL_BLINDNESS = false
         for (player in Bukkit.getOnlinePlayers()) {
+            // Show player nametag using TAB API
+            NationsEvent.TAB_NAMETAG_MANAGER?.showNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
+            // Clear everyone bliness
             if (player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
                 player.removePotionEffect(PotionEffectType.BLINDNESS)
             }

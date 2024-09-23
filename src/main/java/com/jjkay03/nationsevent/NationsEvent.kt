@@ -12,6 +12,8 @@ import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng4.NG4_SeasonSpecific
 import com.jjkay03.nationsevent.specific.ng4.commands.*
 import com.jjkay03.nationsevent.utils.*
+import me.neznamy.tab.api.TabAPI
+import me.neznamy.tab.api.nametag.NameTagManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class NationsEvent : JavaPlugin() {
@@ -23,6 +25,9 @@ class NationsEvent : JavaPlugin() {
         const val PERM_STAFF: String = "nationsevent.staff"
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
+
+        lateinit var TAB_INSTANCE: TabAPI
+        lateinit var TAB_NAMETAG_MANAGER: NameTagManager
     }
 
     // Plugin startup logic
@@ -36,6 +41,10 @@ class NationsEvent : JavaPlugin() {
         // Config stuff
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
+
+        // TAB API
+        TAB_INSTANCE = TabAPI.getInstance()
+        TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
 
 
         // Register commands

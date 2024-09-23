@@ -33,11 +33,11 @@ class NG4_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
         if (GLOBAL_BLINDNESS) { sender.sendMessage("§cGlobal blindness is already enabled!"); return }
         GLOBAL_BLINDNESS = true
         for (player in Bukkit.getOnlinePlayers()) {
-            if (!player.hasPermission(NationsEvent.PERM_STAFF) || !player.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
-                player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
-                player.playSound(player.location, Sound.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, .5f)
-                player.sendMessage("§7You are affected by global blindness...")
-            }
+            // Skip player if player has bypass perm
+            if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) continue
+            player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
+            player.playSound(player.location, Sound.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, .5f)
+            player.sendMessage("§7You are affected by global blindness...")
         }
         sender.sendMessage("§6Global blindness has been §aenabled §6for all players")
     }

@@ -19,6 +19,7 @@ class NationsEvent : JavaPlugin() {
     companion object {
         lateinit var INSTANCE: NationsEvent
         const val PERM_ADMIN: String = "nationsevent.admin"
+        const val PERM_PROD: String = "nationsevent.production"
         const val PERM_STAFF: String = "nationsevent.staff"
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
@@ -54,6 +55,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("exportvotes")?.setExecutor(ExportVotesCommand())
         getCommand("playerscale")?.setExecutor(PlayerScaleCommand())
         getCommand("playerscalerestall")?.setExecutor(PlayerScaleRestAllCommand())
+        getCommand("needadmin")?.setExecutor(NeedAdminCommand())
+        getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
         // NG4
         getCommand("wolfrage")?.setExecutor(NG4_WolfRageCommand())
         getCommand("wolfrageall")?.setExecutor(NG4_WolfRageAllCommand())

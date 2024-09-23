@@ -65,6 +65,11 @@ commands:
     permission: nationsevent.command.playerscalerestall
     permission-message: "You do not have permission to use this command"
 
+  needadmin:
+    aliases: [nadmin]
+    permission: nationsevent.command.needadmin
+    permission-message: "You do not have permission to use this command"
+
   wolfrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

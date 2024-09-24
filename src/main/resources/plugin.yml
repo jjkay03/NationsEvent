@@ -77,6 +77,10 @@ commands:
     permission: nationsevent.command.needadmin
     permission-message: "You do not have permission to use this command"
 
+  freezeall:
+    permission: nationsevent.command.freezeall
+    permission-message: "You do not have permission to use this command"
+
   wolfrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

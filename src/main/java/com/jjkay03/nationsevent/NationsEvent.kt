@@ -23,6 +23,7 @@ class NationsEvent : JavaPlugin() {
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
 
+        // TAB API
         lateinit var TAB_INSTANCE: TabAPI
         lateinit var TAB_NAMETAG_MANAGER: NameTagManager
     }
@@ -64,6 +65,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("playerscalerestall")?.setExecutor(PlayerScaleRestAllCommand())
         getCommand("needadmin")?.setExecutor(NeedAdminCommand())
         getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
+        getCommand("freezeall")?.setExecutor(FreezeAllCommand())
         // NG4
         getCommand("wolfrage")?.setExecutor(NG4_WolfRageCommand())
         getCommand("wolfrageall")?.setExecutor(NG4_WolfRageAllCommand())
@@ -79,6 +81,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         server.pluginManager.registerEvents(IronDoor(), this)
         server.pluginManager.registerEvents(FarmProtection(), this)
+        server.pluginManager.registerEvents(FreezeAll(), this)
         // NG4
         server.pluginManager.registerEvents(NG4_SeasonSpecific(), this)
 

@@ -3,12 +3,14 @@
   <img src="https://github.com/user-attachments/assets/5fa7a23b-fabf-4649-88b3-648c0813f51d" width="80"/>
 </div>
 
-# NationsEvent
+# NATIONS EVENT PLUGIN
 This plugin is designed for Nations Events, offering a comprehensive suite of features to streamline event management. It provides moderation tools, event host utilities, and a variety of essential commands. Additionally, depending on the plugin version or branch, it introduces unique, game-altering mechanics tailored to specific events.
+
+In Nations Events most of the time death is permanent and all players only have one live, for this feature we use an other one of my plaugins [NationsDeathBan](https://github.com/jjkay03/NationsDeathBan) in combination with this one.
 
 <br>
 
-## Commands
+## COMMANDS
 - `/joinvc <player>` : Propt the player to join VC on Discord to be interviewed.
 - `/joinstage` : Prompt all players to join the stage channel on Discord.
 - `/announcesession <number>` : Announce the start of the session and its number to everyone.
@@ -28,6 +30,26 @@ This plugin is designed for Nations Events, offering a comprehensive suite of fe
 - `/freezeall` : Enable/Disable global freeze, not allowing players to move and interact.
 
 _+ Seasson specific commands_
+
+<br>
+
+## FEATURES
+_All features are toggleable in the plugin [config](https://github.com/jjkay03/NationsEvent/blob/NG4/src/main/resources/config.yml)._
+- `Meet player death` : Make players drop meet on death.
+- `Iron door` : Make it so player with right permission can open iron doors with hands. (Created for NG3)
+- `Farm protection` : Make it so players and mobs can't trample crops. (Created for NG4)
+
+<br>
+
+## PATCHES
+_All patches are toggleable in the plugin [config](https://github.com/jjkay03/NationsEvent/blob/NG4/src/main/resources/config.yml)._
+- `Anti block glitching` : Provent players from block glitching.
+- `Anti ender pearl` : Provent players from using ender pearls.
+
+<br>
+<br>
+
+---
 
 <br>
 

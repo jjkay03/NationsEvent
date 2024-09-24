@@ -9,17 +9,17 @@ import java.util.*
 
 class VoteCommand : CommandExecutor {
     companion object {
-        // Store the votes (who voted for whom)
-        val PLAYERS_VOTES = mutableMapOf<UUID, UUID>()
+        val PLAYERS_VOTES = mutableMapOf<UUID, UUID>() // Store the votes (who voted for whom)
+        var LOCKED_VOTES = false
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
 
         // Only players can use this command
-        if (sender !is Player) {
-            sender.sendMessage("§cOnly players can use this command!")
-            return true
-        }
+        if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
+
+        // End if votes are locked
+        if (!LOCKED_VOTES) { sender.sendMessage("§cVotes are locked, you can't vote now!"); return true }
 
         val voter = sender
 

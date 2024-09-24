@@ -58,6 +58,10 @@ commands:
     permission: nationsevent.command.exportvotes
     permission-message: "You do not have permission to use this command"
 
+  lockvotes:
+    permission: nationsevent.command.lockvotes
+    permission-message: "You do not have permission to use this command"
+
   playerscale:
     aliases: [pscale]
     permission: nationsevent.command.playerscale

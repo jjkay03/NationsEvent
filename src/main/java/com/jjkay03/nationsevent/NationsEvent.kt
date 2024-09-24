@@ -3,10 +3,7 @@ package com.jjkay03.nationsevent
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleCommand
 import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleRestAllCommand
-import com.jjkay03.nationsevent.commands.voting.ClearVotesCommand
-import com.jjkay03.nationsevent.commands.voting.ExportVotesCommand
-import com.jjkay03.nationsevent.commands.voting.TopVotesCommand
-import com.jjkay03.nationsevent.commands.voting.VoteCommand
+import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng4.NG4_SeasonSpecific
@@ -62,6 +59,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("topvotes")?.setExecutor(TopVotesCommand())
         getCommand("clearvotes")?.setExecutor(ClearVotesCommand())
         getCommand("exportvotes")?.setExecutor(ExportVotesCommand())
+        getCommand("lockvotes")?.setExecutor(LockVotesCommand())
         getCommand("playerscale")?.setExecutor(PlayerScaleCommand())
         getCommand("playerscalerestall")?.setExecutor(PlayerScaleRestAllCommand())
         getCommand("needadmin")?.setExecutor(NeedAdminCommand())

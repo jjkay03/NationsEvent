@@ -15,10 +15,10 @@ farm-protection: true
 
 
 # == Patches ==========================================================================================================
-# Provent players from block glitching
+# Prevent players from block glitching
 patch-anti-block-glitching: false
 
-# Provent players from using ender pearls
+# Prevent players from using ender pearls
 patch-anti-ender-pearl: true
 
 

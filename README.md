@@ -17,9 +17,9 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/sessiontime` : Shows for how long the session has been going.
 - `/pvptoggle` : Enable/Disable PVP on the server.
 - `/pvpalerts` : If toggled will alert staff when players are fighting.
-- `voicechatperms` : Enable/Disable simple voice chat permission on the server.
+- `/voicechatperms` : Enable/Disable simple voice chat permission on the server.
 - `/bypassviewdistance` : Allows to bypass the default server max viewdistance. [DOESNT WORK]
-- `/vote <player>` : Allow players to vote for an other player.
+- `/vote <player>` : Allow players to vote for another player.
 - `/topvotes` : Display top player votes.
 - `/clearvotes` : Clear all player votes.
 - `/exportvotes` : Creates a .txt file with all the player votes.
@@ -43,8 +43,8 @@ _All features are toggleable in the plugin [config](https://github.com/jjkay03/N
 
 ## PATCHES
 _All patches are toggleable in the plugin [config](https://github.com/jjkay03/NationsEvent/blob/NG4/src/main/resources/config.yml)._
-- `Anti block glitching` : Provent players from block glitching.
-- `Anti ender pearl` : Provent players from using ender pearls.
+- `Anti block glitching` : Prevent players from block glitching.
+- `Anti ender pearl` : Prevent players from using ender pearls.
 
 <br>
 <br>

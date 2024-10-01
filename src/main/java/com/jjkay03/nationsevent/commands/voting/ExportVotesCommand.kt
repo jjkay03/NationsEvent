@@ -24,6 +24,9 @@ class ExportVotesCommand : CommandExecutor {
             return true
         }
 
+        // Optional note handling
+        val note: String? = if (args.isNotEmpty()) args.joinToString(" ") else null
+
         // Notify the player that the export process has started
         sender.sendMessage("§eStarted exporting votes...")
 
@@ -37,7 +40,8 @@ class ExportVotesCommand : CommandExecutor {
             // Get the current date and time for the filename (replace colons with hyphens)
             val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH-mm-ss")
             val currentTime = Date()
-            val filename = "${dateFormat.format(currentTime)}--VOTES.txt"
+            val filename = if (note != null) { "VOTES - ${dateFormat.format(currentTime)} ($note)" }
+            else { "VOTES - ${dateFormat.format(currentTime)}" }
 
             // Create the file in the "exported votes" folder
             val voteFile = File(pluginFolder, filename)
@@ -49,6 +53,7 @@ class ExportVotesCommand : CommandExecutor {
             // Use FileWriter to write the content to the file
             FileWriter(voteFile).use { writer ->
                 writer.write("EXPORTED VOTES - $formattedDate\n")
+                writer.write("\nEXPORT NOTE: \"$note\"\n")
                 writer.write("\n== VOTES ====================\n")
 
                 // Count how many votes each player has received

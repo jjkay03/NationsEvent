@@ -8,10 +8,18 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
+
+    private val hideString = mutableListOf<String>().apply {
+        (0..100).forEach { _ ->
+            add("§c§lNO TAB FOR YOU\n")
+            add("§4§lTHE WOLVES ARE OUT TO GET YOU\n")
+            add("§6§lSUB TO jjkay03 !\n")
+        } }.joinToString("\n")
 
     companion object {
         var GLOBAL_BLINDNESS = false
@@ -33,6 +41,8 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
         if (GLOBAL_BLINDNESS) { sender.sendMessage("§cGlobal blindness is already enabled!"); return }
         GLOBAL_BLINDNESS = true
         for (player in Bukkit.getOnlinePlayers()) {
+            // Hide player list by filling TAB header
+            tabFillHeader(player)
             // Hide player nametag using TAB API
             NationsEvent.TAB_NAMETAG_MANAGER?.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Skip player if player has bypass perm
@@ -49,6 +59,8 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
         if (!GLOBAL_BLINDNESS) { sender.sendMessage("§cGlobal blindness is already disabled!"); return }
         GLOBAL_BLINDNESS = false
         for (player in Bukkit.getOnlinePlayers()) {
+            // Un-hide player list by un-filling TAB header
+            tabUnFillHeader(player)
             // Show player nametag using TAB API
             NationsEvent.TAB_NAMETAG_MANAGER?.showNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Clear everyone bliness
@@ -65,5 +77,17 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
             return listOf("on", "off").filter { it.startsWith(args[0], ignoreCase = true) }
         }
         return null
+    }
+
+    // Tab fill header
+    private fun tabFillHeader(player: Player) {
+        val tabPlayer = NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)?: return
+        NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(tabPlayer, hideString)
+    }
+
+    // Tab un-fill header
+    private fun tabUnFillHeader(player: Player) {
+        val tabPlayer = NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)?: return
+        NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(tabPlayer, null)
     }
 }

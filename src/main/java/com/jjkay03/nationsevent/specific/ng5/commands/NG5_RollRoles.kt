@@ -1,7 +1,7 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
 import com.jjkay03.nationsevent.NationsEvent
-import com.jjkay03.nationsevent.specific.ng4.NG5_RolesEnum
+import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command

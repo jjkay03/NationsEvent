@@ -11,6 +11,8 @@ import com.jjkay03.nationsevent.specific.ng5.commands.*
 import com.jjkay03.nationsevent.utils.*
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.nametag.NameTagManager
+import me.neznamy.tab.api.tablist.HeaderFooterManager
+import me.neznamy.tab.api.tablist.TabListFormatManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class NationsEvent : JavaPlugin() {
@@ -24,8 +26,10 @@ class NationsEvent : JavaPlugin() {
         var SESSION_START_TIME: Long = 0
 
         // TAB API
+        lateinit var TAB_DEAFAULT_HEADER: String
         lateinit var TAB_INSTANCE: TabAPI
         lateinit var TAB_NAMETAG_MANAGER: NameTagManager
+        lateinit var TAB_HEADER_FOOTER_MANAGER: HeaderFooterManager
     }
 
     // Plugin startup logic
@@ -43,7 +47,7 @@ class NationsEvent : JavaPlugin() {
         // TAB API
         TAB_INSTANCE = TabAPI.getInstance()
         TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
-
+        TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
 
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())

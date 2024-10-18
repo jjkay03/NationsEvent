@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
-import com.jjkay03.nationsevent.specific.ng4.NG5_RolesEnum
+import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

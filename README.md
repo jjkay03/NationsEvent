@@ -28,6 +28,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/playerscalerestall` : Reset the scale of all players online to default.
 - `/needadmin [list/remove]` : Allows players to notify admins that they need assistance.
 - `/freezeall` : Enable/Disable global freeze, not allowing players to move and interact.
+- `/hidestaff` : Make all staff invisible for the player that runs it (useful for recording)
 
 _+ Seasson specific commands_
 

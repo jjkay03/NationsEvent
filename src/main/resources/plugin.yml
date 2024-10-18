@@ -81,6 +81,10 @@ commands:
     permission: nationsevent.command.freezeall
     permission-message: "You do not have permission to use this command"
 
+  hidestaff:
+    permission: nationsevent.command.hidestaff
+    permission-message: "You do not have permission to use this command"
+
   wolfrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

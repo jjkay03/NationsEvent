@@ -47,6 +47,9 @@ class NationsEvent : JavaPlugin() {
         TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
         TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
 
+        // Class variable
+        val hideStaffCommand = HideStaffCommand()
+
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
         getCommand("joinstage")?.setExecutor(JoinStageCommand())
@@ -68,6 +71,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("needadmin")?.setExecutor(NeedAdminCommand())
         getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
         getCommand("freezeall")?.setExecutor(FreezeAllCommand())
+        getCommand("hidestaff")?.setExecutor(hideStaffCommand)
+        getCommand("hidestaff")?.tabCompleter = hideStaffCommand
         // NG5
         getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())
         getCommand("wolfrageall")?.setExecutor(NG5_WolfRageAllCommand())
@@ -78,6 +83,7 @@ class NationsEvent : JavaPlugin() {
 
 
         // Register events
+        server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)

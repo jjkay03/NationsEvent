@@ -6,7 +6,7 @@ import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleRestAllCommand
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng4.NG4_SeasonSpecific
+import com.jjkay03.nationsevent.specific.ng4.NG5_SeasonSpecific
 import com.jjkay03.nationsevent.specific.ng4.commands.*
 import com.jjkay03.nationsevent.utils.*
 import me.neznamy.tab.api.TabAPI
@@ -67,12 +67,12 @@ class NationsEvent : JavaPlugin() {
         getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
         getCommand("freezeall")?.setExecutor(FreezeAllCommand())
         // NG4
-        getCommand("wolfrage")?.setExecutor(NG4_WolfRageCommand())
-        getCommand("wolfrageall")?.setExecutor(NG4_WolfRageAllCommand())
-        getCommand("globalblindness")?.setExecutor(NG4_GlobalBlindnessCommand())
-        getCommand("globalblindness")?.tabCompleter = NG4_GlobalBlindnessCommand() // Tab completer
-        getCommand("rollroles")?.setExecutor(NG4_RollRoles())
-        getCommand("role")?.setExecutor(NG4_Role())
+        getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())
+        getCommand("wolfrageall")?.setExecutor(NG5_WolfRageAllCommand())
+        getCommand("globalblindness")?.setExecutor(NG5_GlobalBlindnessCommand())
+        getCommand("globalblindness")?.tabCompleter = NG5_GlobalBlindnessCommand() // Tab completer
+        getCommand("rollroles")?.setExecutor(NG5_RollRoles())
+        getCommand("role")?.setExecutor(NG5_Role())
 
 
         // Register events
@@ -83,7 +83,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FarmProtection(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
         // NG4
-        server.pluginManager.registerEvents(NG4_SeasonSpecific(), this)
+        server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
 
 
         // Initialize patches

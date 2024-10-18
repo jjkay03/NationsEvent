@@ -14,15 +14,15 @@ import org.bukkit.potion.PotionEffectType
 
 class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
 
-    private val hideString = mutableListOf<String>().apply {
-        (0..100).forEach { _ ->
-            add("§c§lNO TAB FOR YOU\n")
-            add("§4§lTHE WOLVES ARE OUT TO GET YOU\n")
-            add("§6§lSUB TO jjkay03 !\n")
-        } }.joinToString("\n")
-
     companion object {
         var GLOBAL_BLINDNESS = false
+        val HIDE_STRING = mutableListOf<String>().apply {
+            (0..100).forEach { _ ->
+                add("§c§lNO TAB FOR YOU\n")
+                add("§4§lTHE WOLVES ARE OUT TO GET YOU\n")
+                add("§6§lSUB TO jjkay03 !\n")
+            } }.joinToString("\n")
+
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -82,7 +82,7 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
     // Tab fill header
     private fun tabFillHeader(player: Player) {
         val tabPlayer = NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)?: return
-        NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(tabPlayer, hideString)
+        NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(tabPlayer, HIDE_STRING)
     }
 
     // Tab un-fill header

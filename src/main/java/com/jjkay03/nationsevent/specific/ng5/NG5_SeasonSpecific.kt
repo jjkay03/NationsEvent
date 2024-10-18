@@ -67,11 +67,15 @@ class NG5_SeasonSpecific : Listener {
         }
     }
 
-    // Hide player name tag (TAB API) if global blindness is on, when player login
+    // Hide player name tag and fill TAB header (TAB API) if global blindness is on, when player login
     init {
         NationsEvent.TAB_INSTANCE.eventBus?.register(PlayerLoadEvent::class.java) { event ->
             val player = event.player
-            if (NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(player)
+            if (NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) {
+                NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(player)
+                NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(player, NG5_GlobalBlindnessCommand.HIDE_STRING)
+            }
+
         }
     }
 

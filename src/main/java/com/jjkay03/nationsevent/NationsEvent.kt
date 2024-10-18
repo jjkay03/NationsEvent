@@ -6,8 +6,8 @@ import com.jjkay03.nationsevent.commands.playerscale.PlayerScaleRestAllCommand
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng4.NG5_SeasonSpecific
-import com.jjkay03.nationsevent.specific.ng4.commands.*
+import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
+import com.jjkay03.nationsevent.specific.ng5.commands.*
 import com.jjkay03.nationsevent.utils.*
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.nametag.NameTagManager
@@ -66,7 +66,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("needadmin")?.setExecutor(NeedAdminCommand())
         getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
         getCommand("freezeall")?.setExecutor(FreezeAllCommand())
-        // NG4
+        // NG5
         getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())
         getCommand("wolfrageall")?.setExecutor(NG5_WolfRageAllCommand())
         getCommand("globalblindness")?.setExecutor(NG5_GlobalBlindnessCommand())
@@ -82,7 +82,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(IronDoor(), this)
         server.pluginManager.registerEvents(FarmProtection(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
-        // NG4
+        // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
 
 

@@ -1,5 +1,6 @@
-package com.jjkay03.nationsevent.specific.ng4.commands
+package com.jjkay03.nationsevent.specific.ng5.commands
 
+import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -29,7 +30,7 @@ class NG5_WolfRageCommand : CommandExecutor {
         }
 
         // Check if the player has the Werewolf permission
-        if (!targetPlayer.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
+        if (!targetPlayer.hasPermission(NG5_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
             sender.sendMessage("§cPlayer ${targetPlayer.name} is not a Werewolf!")
             return true
         }

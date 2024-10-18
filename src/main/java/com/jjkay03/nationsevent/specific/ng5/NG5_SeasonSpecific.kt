@@ -1,6 +1,7 @@
-package com.jjkay03.nationsevent.specific.ng4
+package com.jjkay03.nationsevent.specific.ng5
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.specific.ng5.commands.NG5_GlobalBlindnessCommand
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -38,7 +39,7 @@ class NG5_SeasonSpecific : Listener {
     @EventHandler
     fun globalBlindnessOnPlayerConsume(event: PlayerItemConsumeEvent) {
         val player = event.player
-        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         if (event.item.type != Material.MILK_BUCKET) return // End if not milk bucket
         if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
         event.isCancelled = true
@@ -49,7 +50,7 @@ class NG5_SeasonSpecific : Listener {
     @EventHandler
     fun globalBlindnessOnPlayerLogin(event: PlayerJoinEvent) {
         val player = event.player
-        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         // Give player blindness
         if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
@@ -60,7 +61,7 @@ class NG5_SeasonSpecific : Listener {
     @EventHandler
     fun globalBlindnessOnPlayerLogout(event: PlayerQuitEvent) {
         val player = event.player
-        if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
+        if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         if (player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
             player.removePotionEffect(PotionEffectType.BLINDNESS)
         }
@@ -70,7 +71,7 @@ class NG5_SeasonSpecific : Listener {
     init {
         NationsEvent.TAB_INSTANCE.eventBus?.register(PlayerLoadEvent::class.java) { event ->
             val player = event.player
-            if (NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(player)
+            if (NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(player)
         }
     }
 

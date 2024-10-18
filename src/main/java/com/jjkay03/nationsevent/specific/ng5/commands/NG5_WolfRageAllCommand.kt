@@ -1,5 +1,6 @@
-package com.jjkay03.nationsevent.specific.ng4.commands
+package com.jjkay03.nationsevent.specific.ng5.commands
 
+import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -22,7 +23,7 @@ class NG5_WolfRageAllCommand : CommandExecutor {
         // Iterate through all online players
         for (player in Bukkit.getOnlinePlayers()) {
             // Check if the player has the werewolf permission
-            if (player.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
+            if (player.hasPermission(NG5_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
 
                 // Apply strength effect
                 player.addPotionEffect(PotionEffect(PotionEffectType.STRENGTH, 24000, 0, false, false))

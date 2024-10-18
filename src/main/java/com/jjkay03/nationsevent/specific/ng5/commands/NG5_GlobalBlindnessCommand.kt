@@ -1,6 +1,7 @@
-package com.jjkay03.nationsevent.specific.ng4.commands
+package com.jjkay03.nationsevent.specific.ng5.commands
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -35,7 +36,7 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
             // Hide player nametag using TAB API
             NationsEvent.TAB_NAMETAG_MANAGER?.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Skip player if player has bypass perm
-            if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(NG4_SeasonSpecific.PERM_GROUP_WEREWOLF)) continue
+            if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(NG5_SeasonSpecific.PERM_GROUP_WEREWOLF)) continue
             player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
             player.playSound(player.location, Sound.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, .5f)
             player.sendMessage("§7You are affected by global blindness...")

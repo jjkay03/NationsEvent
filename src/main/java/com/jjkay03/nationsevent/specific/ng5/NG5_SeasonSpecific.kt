@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific.ng5
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.specific.ng5.commands.NG5_GlobalBlindnessCommand
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
 import org.bukkit.Bukkit
@@ -25,14 +26,30 @@ class NG5_SeasonSpecific : Listener {
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         val killer = event.entity.killer ?: return
+        val dead = event.entity
 
-        // Check if the killer has the werewolf permission
-        if (killer.hasPermission(PERM_GROUP_WEREWOLF)) {
-            // Play the wolf howl sound to all online players
-            Bukkit.getOnlinePlayers().forEach { player ->
-                player.playSound(player.location, Sound.ENTITY_WOLF_HOWL, 0.3f, 1.0f)
-            }
+        // If killer is wolf
+        if (NG5_RolesEnum.getPlayerRole(killer).team == NG5_TeamsEnum.WOLVES_KILLERS) {
+            Utils.playSoundToAllPlayers(Sound.ENTITY_WOLF_HOWL, .3f, 1f)
         }
+        // If killer is bear
+        else if (NG5_RolesEnum.getPlayerRole(killer) == NG5_RolesEnum.BEAR) {
+            Utils.playSoundToAllPlayers(Sound.ENTITY_RAVAGER_CELEBRATE, .75f, 1f)
+        }
+        // If killer is assassin
+        else if (NG5_RolesEnum.getPlayerRole(killer) == NG5_RolesEnum.ASSASSIN) {
+            Utils.playSoundToAllPlayers(Sound.ENTITY_ARROW_HIT, .3f, .5f)
+        }
+
+        // If wolf dies
+        if (NG5_RolesEnum.getPlayerRole(dead).team == NG5_TeamsEnum.WOLVES_KILLERS || NG5_RolesEnum.getPlayerRole(dead).team == NG5_TeamsEnum.WOLVES) {
+            dead.world.playSound(dead.location, Sound.ENTITY_WOLF_DEATH, 1f, .5f)
+        }
+        // If bear dies
+        else if (NG5_RolesEnum.getPlayerRole(dead) == NG5_RolesEnum.BEAR) {
+            dead.world.playSound(dead.location, Sound.ENTITY_RAVAGER_DEATH, 1f, .5f)
+        }
+
     }
 
     // EventHandler - Deal with milk buckets if GLOBAL_BLINDNESS is true
@@ -41,7 +58,7 @@ class NG5_SeasonSpecific : Listener {
         val player = event.player
         if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         if (event.item.type != Material.MILK_BUCKET) return // End if not milk bucket
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        if (player.hasPermission(NationsEvent.PERM_STAFF) || NG5_RolesEnum.getPlayerRole(player).team == NG5_TeamsEnum.WOLVES_KILLERS) return // End if player has bypass perm
         event.isCancelled = true
         player.sendMessage("§cYou cannot drink milk during global blindness!")
     }

@@ -21,6 +21,7 @@ class NationsEvent : JavaPlugin() {
         const val PERM_ADMIN: String = "nationsevent.admin"
         const val PERM_PROD: String = "nationsevent.production"
         const val PERM_STAFF: String = "nationsevent.staff"
+        const val PERM_SPECTATOR: String = "nationsevent.spectator"
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
 

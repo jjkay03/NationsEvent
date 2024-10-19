@@ -50,6 +50,7 @@ class NationsEvent : JavaPlugin() {
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()
+        val ng5ClericImmunity = NG5_ClericImmunity()
 
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
@@ -81,6 +82,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("globalblindness")?.tabCompleter = NG5_GlobalBlindnessCommand() // Tab completer
         getCommand("rollroles")?.setExecutor(NG5_RollRoles())
         getCommand("role")?.setExecutor(NG5_Role())
+        getCommand("clericimmunity")?.setExecutor(ng5ClericImmunity)
 
 
         // Register events
@@ -93,6 +95,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FreezeAll(), this)
         // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
+        server.pluginManager.registerEvents(ng5ClericImmunity, this)
 
 
         // Initialize patches

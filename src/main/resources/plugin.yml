@@ -106,3 +106,7 @@ commands:
     permission: nationsevent.command.ng4.role
     permission-message: "You do not have permission to use this command"
 
+  clericimmunity:
+    aliases: [cleticimmun]
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"

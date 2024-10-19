@@ -1,6 +1,8 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
+import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
 import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
+import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -29,8 +31,8 @@ class NG5_WolfRageCommand : CommandExecutor {
             return true
         }
 
-        // Check if the player has the Werewolf permission
-        if (!targetPlayer.hasPermission(NG5_SeasonSpecific.PERM_GROUP_WEREWOLF)) {
+        // Check if the player is in wolf killers team
+        if (NG5_RolesEnum.getTeamRoles(NG5_TeamsEnum.WOLVES_KILLERS).none { targetPlayer.hasPermission(it.groupPerm) }) {
             sender.sendMessage("§cPlayer ${targetPlayer.name} is not a Werewolf!")
             return true
         }

@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific.ng5
 
 import org.bukkit.Sound
+import org.bukkit.entity.Player
 
 enum class NG5_RolesEnum(
     val displayName : String,
@@ -150,7 +151,13 @@ enum class NG5_RolesEnum(
 
     companion object {
         // Function to get the team of a role
-        fun getTeamRoles(team: NG5_TeamsEnum) = entries.filter { it.team == team }
+        fun getTeamRoles(team: NG5_TeamsEnum): List<NG5_RolesEnum> = entries.filter { it.team == team }
+
+        // Function to get role from perm (if non is found it will be VILLAGER)
+        fun getRoleFromPerm(perm: String): NG5_RolesEnum = entries.find { it.groupPerm == perm } ?: VILLAGER
+
+        // Function to get player role from perm (if non is found it will be VILLAGER)
+        fun getPlayerRole(player: Player): NG5_RolesEnum = entries.find { player.hasPermission(it.groupPerm) } ?: VILLAGER
     }
 
 }

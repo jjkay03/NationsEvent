@@ -14,15 +14,8 @@ class NG5_Role : CommandExecutor {
         // End if sender is not a player
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
 
-        when {
-            sender.hasPermission(NG5_RolesEnum.WEREWOLF.groupPerm) -> displayRole(sender, NG5_RolesEnum.WEREWOLF)
-            sender.hasPermission(NG5_RolesEnum.LONEWOLF.groupPerm) -> displayRole(sender, NG5_RolesEnum.LONEWOLF)
-            sender.hasPermission(NG5_RolesEnum.SEER.groupPerm) -> displayRole(sender, NG5_RolesEnum.SEER)
-            sender.hasPermission(NG5_RolesEnum.WITCH.groupPerm) -> displayRole(sender, NG5_RolesEnum.WITCH)
-            sender.hasPermission(NG5_RolesEnum.HUNTER.groupPerm) -> displayRole(sender, NG5_RolesEnum.HUNTER)
-            sender.hasPermission(NG5_RolesEnum.CUPID.groupPerm) -> displayRole(sender, NG5_RolesEnum.CUPID)
-            else -> displayRole(sender, NG5_RolesEnum.VILLAGER)
-        }
+        // Display role
+        displayRole(sender, NG5_RolesEnum.getPlayerRole(sender))
 
         return true
     }
@@ -33,7 +26,7 @@ class NG5_Role : CommandExecutor {
             player.sendTitle(role.displayName, "", 10, 100, 10)
             player.playSound(player.location, role.sound, 1f, 1f)
             player.sendMessage(""); player.sendMessage("")
-            player.sendMessage("§e\uD83D\uDC65 Your role: ${role.displayName}§7, ${NG5_RolesEnum.MAYOR.displayName} §7& ${NG5_RolesEnum.LOVER.displayName}")
+            player.sendMessage("§e\uD83D\uDC65 Your roles: ${role.displayName}§7, ${NG5_RolesEnum.MAYOR.displayName} §7& ${NG5_RolesEnum.LOVER.displayName}")
             player.sendMessage("")
             player.sendMessage("§eⓘ Role Info: §7${role.description}")
             player.sendMessage("")
@@ -47,7 +40,7 @@ class NG5_Role : CommandExecutor {
             player.sendTitle(role.displayName, "", 10, 100, 10)
             player.playSound(player.location, role.sound, 1f, 1f)
             player.sendMessage(""); player.sendMessage("")
-            player.sendMessage("§e\uD83D\uDC65 Your role: ${role.displayName} §7& ${NG5_RolesEnum.MAYOR.displayName}")
+            player.sendMessage("§e\uD83D\uDC65 Your roles: ${role.displayName} §7& ${NG5_RolesEnum.MAYOR.displayName}")
             player.sendMessage("")
             player.sendMessage("§eⓘ Role Info: §7${role.description}")
             player.sendMessage("")
@@ -59,7 +52,7 @@ class NG5_Role : CommandExecutor {
             player.sendTitle(role.displayName, "", 10, 100, 10)
             player.playSound(player.location, role.sound, 1f, 1f)
             player.sendMessage(""); player.sendMessage("")
-            player.sendMessage("§e\uD83D\uDC65 Your role: ${role.displayName} §7& ${NG5_RolesEnum.LOVER.displayName}")
+            player.sendMessage("§e\uD83D\uDC65 Your roles: ${role.displayName} §7& ${NG5_RolesEnum.LOVER.displayName}")
             player.sendMessage("")
             player.sendMessage("§eⓘ Role Info: §7${role.description}")
             player.sendMessage("")

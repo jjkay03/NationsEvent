@@ -52,7 +52,8 @@ class NG5_SeasonSpecific : Listener {
         val player = event.player
         if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         // Give player blindness
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        val playerTeam = NG5_RolesEnum.getPlayerRole(player).team
+        if (player.hasPermission(NationsEvent.PERM_STAFF) || playerTeam == NG5_TeamsEnum.WOLVES_KILLERS || playerTeam == NG5_TeamsEnum.SOLITARIES ) return // End if player has bypass perm
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
         player.sendMessage("§7You are affected by global blindness...")
     }

@@ -50,15 +50,7 @@ class NG5_RollRoles : CommandExecutor {
 
             // Role reveal
             scheduler.runTaskLater(NationsEvent.INSTANCE, Runnable {
-                when {
-                    player.hasPermission(NG5_RolesEnum.WEREWOLF.groupPerm) -> revealRole(player, NG5_RolesEnum.WEREWOLF)
-                    player.hasPermission(NG5_RolesEnum.LONEWOLF.groupPerm) -> revealRole(player, NG5_RolesEnum.LONEWOLF)
-                    player.hasPermission(NG5_RolesEnum.SEER.groupPerm) -> revealRole(player, NG5_RolesEnum.SEER)
-                    player.hasPermission(NG5_RolesEnum.WITCH.groupPerm) -> revealRole(player, NG5_RolesEnum.WITCH)
-                    player.hasPermission(NG5_RolesEnum.HUNTER.groupPerm) -> revealRole(player, NG5_RolesEnum.HUNTER)
-                    player.hasPermission(NG5_RolesEnum.CUPID.groupPerm) -> revealRole(player, NG5_RolesEnum.CUPID)
-                    else -> revealRole(player, NG5_RolesEnum.VILLAGER)
-                }
+                revealRole(player, NG5_RolesEnum.getPlayerRole(player))
             }, 200)
         }
 

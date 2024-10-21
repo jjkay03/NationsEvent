@@ -133,6 +133,14 @@ enum class NG5_RolesEnum(
         NG5_TeamsEnum.VILLAGERS
     ),
 
+    VICTIM(
+        "§7VICTIM \uD83D\uDE2A",
+        "§7You are cooked buddy",
+        "nationsevent.ng5.role.victim",
+        Sound.ENTITY_WITCH_CELEBRATE,
+        NG5_TeamsEnum.NEUTRAL
+    ),
+
     LOVER(
         "§dLOVER ❤",
         "§7You are bound to another player. If your lover dies, you will also die of heartbreak. Stay alive together!",

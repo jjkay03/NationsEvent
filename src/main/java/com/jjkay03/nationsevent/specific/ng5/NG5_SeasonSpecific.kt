@@ -4,7 +4,6 @@ import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.specific.ng5.commands.NG5_GlobalBlindnessCommand
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler

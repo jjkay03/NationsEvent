@@ -6,8 +6,8 @@ import org.bukkit.Material
 import org.bukkit.damage.DamageSource
 import org.bukkit.damage.DamageType
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.Pig
 import org.bukkit.entity.Player
+import org.bukkit.entity.Zombie
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -26,7 +26,7 @@ class NG5_HangMan : Listener {
         var TASKS: HashMap<Player, BukkitTask> = HashMap()
 
         // Registers a new 'Hanged' object
-        fun hang(player: Player, leashed: Player, stand: Pig) {
+        fun hang(player: Player, leashed: Player, stand: Zombie) {
             HANGED.add(NG5_Hanged(player, leashed, stand))
         }
 
@@ -93,24 +93,32 @@ class NG5_HangMan : Listener {
         // Must be holding a Lead as the event is called
         if (itemStack.type != Material.LEAD) return
 
-        // Creates ghost entity that will serve as a pseudo-leashed Player (should change to a Player Model entity)
-        val pig: Pig = player.world.spawnEntity(target.location, EntityType.PIG, CreatureSpawnEvent.SpawnReason.CUSTOM) as Pig
+        // If the target player is already Hanged, undo
+        if (isHanged(target)) {
+            target.allowFlight = false
+            unHang(target)
+            return
+        }
 
-        pig.isAware = false       // Remove mob AI
-        pig.isCollidable = false
-        pig.isInvisible = true
-        pig.isInvulnerable = true
-        pig.isSilent = true
+        // Creates ghost entity that will serve as a pseudo-leashed Player
+        val zombie: Zombie = player.world.spawnEntity(target.location, EntityType.ZOMBIE, CreatureSpawnEvent.SpawnReason.CUSTOM) as Zombie
 
-        pig.setAdult()
-        pig.setLeashHolder(player)
+        zombie.canPickupItems = false
+        zombie.isAware = false              // Remove mob AI
+        zombie.isCollidable = false
+        zombie.isInvisible = true
+        zombie.isInvulnerable = true
+        zombie.isSilent = true
 
-        target.allowFlight = true
+        zombie.setAdult()
+        zombie.setShouldBurnInDay(false)    // Prevent the Zombie from burning during the day
+        zombie.setLeashHolder(player)
+
+        target.allowFlight = true           // Prevent player from getting kicked while hanging
         itemStack.amount -= 1
 
-        // If the target player is already Hanged, undo
-        if (!isHanged(target)) { hang(player, target, pig) }
-        else { unHang(target) }
+        // Register a 'Hanged' object associated with 'player', 'target' and 'zombie'
+        hang(player, target, zombie)
     }
 
     @EventHandler

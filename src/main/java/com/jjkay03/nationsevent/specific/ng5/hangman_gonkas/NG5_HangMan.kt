@@ -27,43 +27,38 @@ class NG5_HangMan : Listener {
 
         var HANGED: ArrayList<NG5_Hanged> = ArrayList()
         private var TASK: BukkitTask? = null
-
         val GHOSTNAME: Component = Component.text("nationsevent_ng5hangman_roberto")
 
-        // Registers a new 'Hanged' object
+        // Function to registers a new 'Hanged' object
         fun hang(player: Player, leashed: Player, stand: Zombie): NG5_Hanged {
             val hanged = NG5_Hanged(player, leashed, stand)
-
             HANGED.add(hanged)
             updateTask()
-
             return hanged
         }
 
-        // Removes and DELETES the 'Hanged' object associated with this player
+        // Function to removes and DELETES the 'Hanged' object associated with this player
         fun unHang(player: Player) {
             HANGED.forEach { if (it.getOwner() == player || it.getLeashed() == player) { HANGED.remove(it); it.delete(); return; } }
             updateTask()
         }
 
-        // Returns the Hanged object associated with the player. null if none found.
+        // Function that returns the Hanged object associated with the player. null if none found.
         fun getHanged(player: Player): NG5_Hanged? {
             HANGED.forEach { if (it.getOwner() == player || it.getLeashed() == player) { return it } }
             return null
         }
 
-        // Returns whether or not this players has a leash attached to them by another player
-        fun isHanged(player: Player): Boolean {
-            return getHanged(player) != null
-        }
+        // Function that returns whether these players have a leash attached to them by another player
+        fun isHanged(player: Player): Boolean { return getHanged(player) != null }
 
-        // Returns whether or not the given entity can and is leashed
-        fun isLeashed(entity: Entity): Boolean {
+        // Function that returns whether the given entity can and is leashed
+        private fun isLeashed(entity: Entity): Boolean {
             if (entity is LivingEntity) return entity.isLeashed
             return false
         }
 
-        // Deletes Ghost Entities once the server starts.
+        // Function that deletes Ghost Entities once the server starts.
         private fun deleteExpiredGhostEntites() {
             Bukkit.getWorlds().forEach { world ->
                 var entityCount = 0
@@ -72,10 +67,12 @@ class NG5_HangMan : Listener {
             }
         }
 
+        // Function to create task
         private fun createTask(): BukkitTask {
             return Bukkit.getScheduler().runTaskTimer(NationsEvent.INSTANCE, Runnable { HANGED.forEach { it.tick() } }, 0, 1)
         }
 
+        // Function to update task
         private fun updateTask() {
             if (TASK == null) {TASK = createTask()}
             else if (HANGED.size == 0) { TASK!!.cancel(); TASK = null }
@@ -143,30 +140,24 @@ class NG5_HangMan : Listener {
 
     @EventHandler
     fun onPlayerHangedDeath(event: PlayerDeathEvent) {
-
         if (!isHanged(event.player)) return                       // Make sure the player is hanged
-
         event.deathMessage = event.player.name + " was hung"      // Alter death message to '<player> was hung.'
-
-        // Unhangs the player
-        unHang(event.player)
+        unHang(event.player)                                      // Unhangs the player
     }
 
     @EventHandler
     fun onPlayerLogOut(event: PlayerQuitEvent) {
-
         if (!isHanged(event.player)) return
         event.player.damage(1000.toDouble())
     }
 
     @EventHandler
     fun onEntityRemoval(event: EntityRemoveFromWorldEvent) {
-
         if (event.entity.type != EntityType.LEASH_KNOT) return
         HANGED.forEach { if (it.getGhost().leashHolder == event.entity) {it.delete()} }
     }
 
-    // Returns entity if it is a player or if 'player' is the owner of 'hanged' and 'entity' its leashed
+    // Function that returns entity if it is a player or if 'player' is the owner of 'hanged' and 'entity' its leashed
     private fun getLeashTarget(entity: Entity, player: Player, hanged: NG5_Hanged?): Player? {
         if (entity.type == EntityType.PLAYER) { return entity as Player }
         if (hanged != null && hanged.getOwner() == player) { return hanged.getLeashed() }

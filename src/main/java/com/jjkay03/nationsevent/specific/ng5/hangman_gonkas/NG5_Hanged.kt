@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ng5.hangman
+package com.jjkay03.nationsevent.specific.ng5.hangman_gonkas
 
 import org.bukkit.GameMode
 import org.bukkit.entity.Player

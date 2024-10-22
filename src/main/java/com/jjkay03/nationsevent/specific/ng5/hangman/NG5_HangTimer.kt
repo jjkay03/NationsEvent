@@ -10,7 +10,9 @@ class NG5_HangTimer {
 
     fun incrementTimer() { time++ }
     fun calculateDamage(): Double {
-        if (time > 5) { return time.toDouble().pow(1.3) }
+        if (time >= 100 && time % 20 == 0) { return (time / 100).toDouble().pow(1.4) }
         return 0.0
     }
+
+    fun resetTimer() { time = 0 }
 }

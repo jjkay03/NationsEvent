@@ -6,37 +6,39 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scoreboard.Scoreboard
 import org.bukkit.scoreboard.Team
 
 class NG5_Hanged(private val owner: Player, private val leashed: Player, private val ghost: Zombie) {
 
-    private var timer: NG5_HangTimer = NG5_HangTimer()
+    private var time: Int = 0
 
     init { getOrCreateGhostsTeam()?.addEntities(ghost) }
 
     fun getOwner(): Player {return owner}
     fun getLeashed(): Player {return leashed}
     fun getGhost(): Zombie {return ghost}
-    fun getTimer(): NG5_HangTimer {return timer}
 
-    fun isHanging(): Boolean { return getBlockUnderPlayer(leashed).type == Material.AIR }
-
-    fun damageHanged() { leashed.damage(timer.calculateDamage(), NG5_HangMan.getHangedDamageSource()) }
+    fun isHanging(): Boolean {return getBlockUnderPlayer(leashed).type == Material.AIR}
 
     // Teleports leashed to ghost's location while still allowing head movement
-    fun teleport() { leashed.teleport(ghost.location.toVector().toLocation(ghost.world, leashed.yaw, leashed.pitch)) }
+    fun teleport() { leashed.teleport(Location(ghost.world, ghost.x, ghost.y, ghost.z, leashed.yaw, leashed.pitch)) }
 
     fun tick() {
         if (isHanging()) {
-            timer.incrementTimer()
-            damageHanged()
-        } else { timer.resetTimer() }
-        teleport()
+            if (time >= 100 && time % 20 == 0) { leashed.addPotionEffect(withering) }
+            time++
+        } else {
+            leashed.removePotionEffect(PotionEffectType.WITHER)
+            time = 0
+        }
+        if (!ghost.isDead) { teleport() }
     }
 
     fun delete() {
-        ghosts?.removeEntities(ghost)
+        ghosts!!.removeEntities(ghost)
         ghost.remove()
     }
 
@@ -44,6 +46,8 @@ class NG5_Hanged(private val owner: Player, private val leashed: Player, private
 
         var scoreboard: Scoreboard = Bukkit.getScoreboardManager().mainScoreboard
         var ghosts: Team? = scoreboard.getTeam("HangManGhosts")
+
+        val withering: PotionEffect = PotionEffect(PotionEffectType.WITHER, 40, 2, false, false, false)
 
         fun getOrCreateGhostsTeam(): Team? {
             if (ghosts != null) return ghosts

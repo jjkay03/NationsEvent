@@ -1,12 +1,13 @@
 package com.jjkay03.nationsevent.specific.ng5.hangman_gonkas
 
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent
 import com.jjkay03.nationsevent.NationsEvent
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.damage.DamageSource
-import org.bukkit.damage.DamageType
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
 import org.bukkit.event.EventHandler
@@ -17,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.scheduler.BukkitTask
 
 class NG5_HangMan : Listener {
@@ -24,14 +26,16 @@ class NG5_HangMan : Listener {
     companion object {
 
         var HANGED: ArrayList<NG5_Hanged> = ArrayList()
-        var TASKS: HashMap<Player, BukkitTask> = HashMap()
+        private var TASK: BukkitTask? = null
+
+        val GHOSTNAME: Component = Component.text("nationsevent_ng5hangman_roberto")
 
         // Registers a new 'Hanged' object
         fun hang(player: Player, leashed: Player, stand: Zombie): NG5_Hanged {
             val hanged = NG5_Hanged(player, leashed, stand)
 
             HANGED.add(hanged)
-            registerTask(player)
+            updateTask()
 
             return hanged
         }
@@ -39,7 +43,7 @@ class NG5_HangMan : Listener {
         // Removes and DELETES the 'Hanged' object associated with this player
         fun unHang(player: Player) {
             HANGED.forEach { if (it.getOwner() == player || it.getLeashed() == player) { HANGED.remove(it); it.delete(); return; } }
-            cancelTask(player)
+            updateTask()
         }
 
         // Returns the Hanged object associated with the player. null if none found.
@@ -53,25 +57,28 @@ class NG5_HangMan : Listener {
             return getHanged(player) != null
         }
 
-        // Registers a BukkitTask responsible for handling a 'Hanged' object's lifetime associated with 'player'
-        fun registerTask(player: Player) {
-            TASKS[player] = Bukkit.getScheduler().runTaskTimer(NationsEvent.INSTANCE, Runnable { getHanged(player)?.tick() }, 0, 1)
+        // Returns whether or not the given entity can and is leashed
+        fun isLeashed(entity: Entity): Boolean {
+            if (entity is LivingEntity) return entity.isLeashed
+            return false
         }
 
-        // Cancels the BukkitTask responsible for handling a 'Hanged' object's lifetime associated with 'player'
-        fun cancelTask(player: Player) {
-            TASKS[player]!!.cancel()
-            TASKS.remove(player)
+        // Deletes Ghost Entities once the server starts.
+        private fun deleteExpiredGhostEntites() {
+            Bukkit.getWorlds().forEach { world ->
+                var entityCount = 0
+                world.loadedChunks.forEach { chunk -> chunk.entities.filter{it.name() == GHOSTNAME && !isLeashed(it)}.forEach { it.remove(); entityCount++; } }
+                if (entityCount > 0) {Bukkit.getLogger().info("NG5 Hangman: removed " + entityCount + " expired Ghost entities in " + world.name + ".")}
+            }
         }
 
-        // Custom damage source used to damage hanged players
-        fun getHangedDamageSource(): DamageSource {
-            return DamageSource.builder(DamageType.OUT_OF_WORLD).build()
+        private fun createTask(): BukkitTask {
+            return Bukkit.getScheduler().runTaskTimer(NationsEvent.INSTANCE, Runnable { HANGED.forEach { it.tick() } }, 0, 1)
         }
 
-        // Checker for custom damage source
-        fun isHangedDamageSource(damageSource: DamageSource): Boolean {
-            return damageSource.damageType == DamageType.OUT_OF_WORLD
+        private fun updateTask() {
+            if (TASK == null) {TASK = createTask()}
+            else if (HANGED.size == 0) { TASK!!.cancel(); TASK = null }
         }
     }
 
@@ -99,6 +106,8 @@ class NG5_HangMan : Listener {
 
         if (itemStack.type != Material.LEAD) return      // Must be holding a Lead to hang someone
 
+        deleteExpiredGhostEntites()
+
         // Creates ghost entity that will serve as a pseudo-leashed Player
         val zombie: Zombie = player.world.spawnEntity(target.location, EntityType.ZOMBIE, CreatureSpawnEvent.SpawnReason.CUSTOM) {
             it as Zombie
@@ -117,6 +126,8 @@ class NG5_HangMan : Listener {
             it.isInvulnerable = true
             it.isSilent = true
 
+            it.customName(GHOSTNAME)
+
             it.setAdult()
             it.setShouldBurnInDay(false)    // Prevent the Zombie from burning during the day
             it.setLeashHolder(player)
@@ -134,7 +145,6 @@ class NG5_HangMan : Listener {
     fun onPlayerHangedDeath(event: PlayerDeathEvent) {
 
         if (!isHanged(event.player)) return                       // Make sure the player is hanged
-        if (!isHangedDamageSource(event.damageSource)) return     // Make sure the death reason is the hanged custom death reason
 
         event.deathMessage = event.player.name + " was hung"      // Alter death message to '<player> was hung.'
 
@@ -146,7 +156,14 @@ class NG5_HangMan : Listener {
     fun onPlayerLogOut(event: PlayerQuitEvent) {
 
         if (!isHanged(event.player)) return
-        event.player.damage(1000.toDouble(), getHangedDamageSource())
+        event.player.damage(1000.toDouble())
+    }
+
+    @EventHandler
+    fun onEntityRemoval(event: EntityRemoveFromWorldEvent) {
+
+        if (event.entity.type != EntityType.LEASH_KNOT) return
+        HANGED.forEach { if (it.getGhost().leashHolder == event.entity) {it.delete()} }
     }
 
     // Returns entity if it is a player or if 'player' is the owner of 'hanged' and 'entity' its leashed

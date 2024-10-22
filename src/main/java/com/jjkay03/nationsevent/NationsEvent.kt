@@ -7,6 +7,7 @@ import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng5.*
 import com.jjkay03.nationsevent.specific.ng5.commands.*
+import com.jjkay03.nationsevent.specific.ng5.hangman_gonkas.NG5_HangMan
 import com.jjkay03.nationsevent.utils.*
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.nametag.NameTagManager
@@ -94,6 +95,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FreezeAll(), this)
         // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
+        server.pluginManager.registerEvents(NG5_HangMan(), this)
         server.pluginManager.registerEvents(ng5ClericImmunity, this)
 
 

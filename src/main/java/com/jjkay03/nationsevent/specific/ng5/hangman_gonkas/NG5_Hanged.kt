@@ -6,32 +6,27 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scoreboard.Scoreboard
 import org.bukkit.scoreboard.Team
 
 class NG5_Hanged(private val owner: Player, private val leashed: Player, private val ghost: Zombie) {
-
-    private var timer: NG5_HangTimer = NG5_HangTimer()
 
     init { getOrCreateGhostsTeam()?.addEntities(ghost) }
 
     fun getOwner(): Player {return owner}
     fun getLeashed(): Player {return leashed}
     fun getGhost(): Zombie {return ghost}
-    fun getTimer(): NG5_HangTimer {return timer}
 
     fun isHanging(): Boolean { return getBlockUnderPlayer(leashed).type == Material.AIR }
-
-    fun damageHanged() { leashed.damage(timer.calculateDamage(), NG5_HangMan.getHangedDamageSource()) }
 
     // Teleports leashed to ghost's location while still allowing head movement
     fun teleport() { leashed.teleport(ghost.location.toVector().toLocation(ghost.world, leashed.yaw, leashed.pitch)) }
 
     fun tick() {
-        if (isHanging()) {
-            timer.incrementTimer()
-            damageHanged()
-        } else { timer.resetTimer() }
+        if (isHanging()) { leashed.activePotionEffects.add(withering) }
+        else { leashed.activePotionEffects.remove(withering) }
         teleport()
     }
 
@@ -44,6 +39,8 @@ class NG5_Hanged(private val owner: Player, private val leashed: Player, private
 
         var scoreboard: Scoreboard = Bukkit.getScoreboardManager().mainScoreboard
         var ghosts: Team? = scoreboard.getTeam("HangManGhosts")
+
+        val withering: PotionEffect = PotionEffect(PotionEffectType.WITHER, 1, 1, true, false, false)
 
         fun getOrCreateGhostsTeam(): Team? {
             if (ghosts != null) return ghosts

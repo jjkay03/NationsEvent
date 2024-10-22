@@ -63,16 +63,6 @@ class NG5_HangMan : Listener {
             TASKS[player]!!.cancel()
             TASKS.remove(player)
         }
-
-        // Custom damage source used to damage hanged players
-        fun getHangedDamageSource(): DamageSource {
-            return DamageSource.builder(DamageType.OUT_OF_WORLD).build()
-        }
-
-        // Checker for custom damage source
-        fun isHangedDamageSource(damageSource: DamageSource): Boolean {
-            return damageSource.damageType == DamageType.OUT_OF_WORLD
-        }
     }
 
     @EventHandler
@@ -134,7 +124,6 @@ class NG5_HangMan : Listener {
     fun onPlayerHangedDeath(event: PlayerDeathEvent) {
 
         if (!isHanged(event.player)) return                       // Make sure the player is hanged
-        if (!isHangedDamageSource(event.damageSource)) return     // Make sure the death reason is the hanged custom death reason
 
         event.deathMessage = event.player.name + " was hung"      // Alter death message to '<player> was hung.'
 
@@ -146,7 +135,7 @@ class NG5_HangMan : Listener {
     fun onPlayerLogOut(event: PlayerQuitEvent) {
 
         if (!isHanged(event.player)) return
-        event.player.damage(1000.toDouble(), getHangedDamageSource())
+        event.player.damage(1000.toDouble())
     }
 
     // Returns entity if it is a player or if 'player' is the owner of 'hanged' and 'entity' its leashed

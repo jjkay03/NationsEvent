@@ -29,6 +29,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/needadmin [list/remove]` : Allows players to notify admins that they need assistance.
 - `/freezeall` : Enable/Disable global freeze, not allowing players to move and interact.
 - `/hidestaff` : Make all staff and spectators invisible for the player that runs it (useful for recording)
+- `/fullmoon` : Sets the time in the wolf to night and a full moon (210000).
 
 _+ Seasson specific commands_
 
@@ -39,6 +40,7 @@ _All features are toggleable in the plugin [config](https://github.com/jjkay03/N
 - `Meet player death` : Make players drop meet on death.
 - `Iron door` : Make it so player with right permission can open iron doors with hands. (Created for NG3)
 - `Farm protection` : Make it so players and mobs can't trample crops. (Created for NG4)
+- `Speedy Blocks` : Make players faster when they are standing on certain blocks. (Created for NG5)
 
 <br>
 

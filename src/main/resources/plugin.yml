@@ -85,6 +85,10 @@ commands:
     permission: nationsevent.command.hidestaff
     permission-message: "You do not have permission to use this command"
 
+  fullmoon:
+    permission: nationsevent.command.fullmoon
+    permission-message: "You do not have permission to use this command"
+
   wolfrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

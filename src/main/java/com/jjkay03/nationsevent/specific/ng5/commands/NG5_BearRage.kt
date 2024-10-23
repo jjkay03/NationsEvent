@@ -1,23 +1,22 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
 import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
-import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
 import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import net.kyori.adventure.text.Component
-import org.bukkit.Sound
 
-class NG5_WolfRageCommand : CommandExecutor {
+class NG5_BearRage: CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         // Check if the command is being used correctly
-        if (args.size != 1) { sender.sendMessage("§cUsage: /wolfrage <player>"); return true }
+        if (args.size != 1) { sender.sendMessage("§cUsage: /bearrage <player>"); return true }
 
         // Get the player by their name
         val targetPlayer: Player? = Bukkit.getPlayer(args[0])
@@ -25,9 +24,9 @@ class NG5_WolfRageCommand : CommandExecutor {
         // Check if the player is online
         if (targetPlayer == null) { sender.sendMessage("§cPlayer ${args[0]} is not online!"); return true }
 
-        // Check if the player is in wolf killers team
-        if (NG5_RolesEnum.getTeamRoles(NG5_TeamsEnum.WOLVES_KILLERS).none { targetPlayer.hasPermission(it.groupPerm) }) {
-            sender.sendMessage("§cPlayer ${targetPlayer.name} is not a Werewolf!")
+        // Check if the player has bear perm
+        if (targetPlayer.hasPermission(NG5_RolesEnum.BEAR.groupPerm)) {
+            sender.sendMessage("§cPlayer ${targetPlayer.name} is not a Bear!")
             return true
         }
 
@@ -36,10 +35,10 @@ class NG5_WolfRageCommand : CommandExecutor {
         targetPlayer.addPotionEffect(strengthEffect)
 
         // Send an action bar message and sound to the player
-        targetPlayer.sendActionBar(Component.text("§c\uD83D\uDC3A WOLF RAGE ACTIVATED"))
+        targetPlayer.sendActionBar(Component.text("§5\uD83D\uDC3B BEAR RAGE ACTIVATED"))
         targetPlayer.playSound(targetPlayer.location, Sound.BLOCK_TRIAL_SPAWNER_DETECT_PLAYER, 1f, 1f)
 
-        sender.sendMessage("§aWolf rage activated for ${targetPlayer.name}")
+        sender.sendMessage("§aBear rage activated for ${targetPlayer.name}")
         return true
     }
 }

@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class FarmProtection: Listener {
     private val config = NationsEvent.INSTANCE.config
-    private val featureEnabled: Boolean = config.getBoolean("farm-protection")
+    private val featureEnabled: Boolean = config.getBoolean("feature-farm-protection")
 
     // Protect from mobs
     @EventHandler

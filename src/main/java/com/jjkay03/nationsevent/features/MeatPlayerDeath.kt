@@ -23,12 +23,9 @@ class MeatPlayerDeath : Listener {
 
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
-        if (featureEnabled) {
-            val player = event.entity as? Player ?: return
-            val dropLocation = player.location
-
-            // Drop suspicious meat at the player's death location
-            dropLocation.world.dropItem(dropLocation, suspiciousMeat)
-        }
+        if (!featureEnabled) return // Stop if feature disabled
+        val player = event.entity as? Player ?: return
+        val dropLocation = player.location
+        dropLocation.world.dropItem(dropLocation, suspiciousMeat) // Drop item
     }
 }

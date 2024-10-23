@@ -8,10 +8,13 @@
 feature-meat-player-death: false
 
 # Make it so player with right perm can open iron doors with hands
-iron-door: true
+feature-iron-door: true
 
 # Make it so players and mobs can't trample crops
-farm-protection: true
+feature-farm-protection: true
+
+# Make players faster when they are standing on certain blocks
+feature-speedy-blocks: true
 
 
 # == Patches ==========================================================================================================

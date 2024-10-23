@@ -15,17 +15,17 @@ import org.bukkit.inventory.EquipmentSlot
 
 class IronDoor: Listener {
     private val config = NationsEvent.INSTANCE.config
-    private val featureEnabled: Boolean = config.getBoolean("iron-door")
+    private val featureEnabled: Boolean = config.getBoolean("feature-iron-door")
 
     private val openIronDoorsPermission = "nationsevent.openirondoor"
 
     @EventHandler(ignoreCancelled = false)
     fun onPlayerInteract(event: PlayerInteractEvent)  {
-        val player = event.player
-        val block = event.clickedBlock
-
         // Stop if feature disabled
         if (!featureEnabled) return
+
+        val player = event.player
+        val block = event.clickedBlock
 
         // Check all condition to open door
         if (

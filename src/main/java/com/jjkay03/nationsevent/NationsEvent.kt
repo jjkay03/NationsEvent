@@ -84,7 +84,6 @@ class NationsEvent : JavaPlugin() {
         getCommand("role")?.setExecutor(NG5_Role())
         getCommand("clericimmunity")?.setExecutor(ng5ClericImmunity)
 
-
         // Register events
         server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)
@@ -93,11 +92,11 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(IronDoor(), this)
         server.pluginManager.registerEvents(FarmProtection(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
+        server.pluginManager.registerEvents(SpeedyBlocks(), this)
         // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
         server.pluginManager.registerEvents(NG5_HangMan(), this)
         server.pluginManager.registerEvents(ng5ClericImmunity, this)
-
 
         // Initialize patches
         AntiBlockGlitching()

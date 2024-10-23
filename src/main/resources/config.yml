@@ -3,6 +3,12 @@
 # ----------------------
 
 
+# == Server settings =================================================================================================
+
+# Default players max render distance
+default-players-render-distance: 8
+
+
 # == Features toggle ==================================================================================================
 # Make players drop meet on death
 feature-meat-player-death: false

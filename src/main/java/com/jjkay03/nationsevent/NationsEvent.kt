@@ -87,6 +87,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("clericimmunity")?.setExecutor(ng5ClericImmunity)
 
         // Register events
+        server.pluginManager.registerEvents(RenderDistance(), this)
         server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)

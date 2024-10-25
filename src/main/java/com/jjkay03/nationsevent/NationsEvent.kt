@@ -76,6 +76,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("hidestaff")?.setExecutor(hideStaffCommand)
         getCommand("hidestaff")?.tabCompleter = hideStaffCommand
         getCommand("fullmoon")?.setExecutor(FullMoonCommand())
+        getCommand("permanentmessage")?.setExecutor(PermanentMessageCommand())
         // NG5
         getCommand("bearrage")?.setExecutor(NG5_BearRage())
         getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())

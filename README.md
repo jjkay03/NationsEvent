@@ -30,6 +30,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/freezeall` : Enable/Disable global freeze, not allowing players to move and interact.
 - `/hidestaff` : Make all staff and spectators invisible for the player that runs it (useful for recording)
 - `/fullmoon` : Sets the time in the wolf to night and a full moon (210000).
+- `/permanentmessage <message>` : Displays a message to all players until cleared.
 
 _+ Seasson specific commands_
 

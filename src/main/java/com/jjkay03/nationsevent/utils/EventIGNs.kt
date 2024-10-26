@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 class EventIGNs : Listener {
     private val eventIGNsFolderName = "event igns"
-    private val fileName = "${NationsEvent.EVENT_CODENAME}.txt"
+    private val fileName = "${NationsEvent.EVENT_CODENAME} IGNs.txt"
     private val playerQueue = ConcurrentLinkedQueue<String>()  // Concurrent queue for thread-safety
     private var task: BukkitTask? = null // To store the running task reference
 

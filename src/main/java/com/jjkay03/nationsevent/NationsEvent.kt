@@ -18,6 +18,7 @@ class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
+        lateinit var EVENT_CODENAME: String
         const val PERM_ADMIN: String = "nationsevent.admin"
         const val PERM_PROD: String = "nationsevent.production"
         const val PERM_STAFF: String = "nationsevent.staff"
@@ -42,6 +43,8 @@ class NationsEvent : JavaPlugin() {
         // Config stuff
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
+        // Variables from config
+        EVENT_CODENAME = INSTANCE.config.getString("event-codename").toString()
 
         // TAB API
         TAB_INSTANCE = TabAPI.getInstance()
@@ -97,6 +100,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FarmProtection(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
+        server.pluginManager.registerEvents(EventIGNs(), this)
         // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
         server.pluginManager.registerEvents(NG5_HangMan(), this)

@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import org.bukkit.Bukkit
 import org.bukkit.Sound
+import java.io.File
 
 object Utils {
 
@@ -25,5 +26,19 @@ object Utils {
             player.playSound(player.location, sound, volume, pitch)
         }
     }
+
+    // Create folder if it doesn't already exist
+    fun createFolder(folderName: String): Boolean {
+        return try {
+            val saveFolder = File("plugins/NationsEvent/$folderName")
+            if (!saveFolder.exists()) saveFolder.mkdirs()
+            true
+        } catch (e: Exception) {
+            Bukkit.getLogger().severe("Failed to create '$folderName' folder!")
+            e.printStackTrace()
+            false
+        }
+    }
+
 
 }

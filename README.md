@@ -55,6 +55,7 @@ _All patches are toggleable in the plugin [config](https://github.com/jjkay03/Na
 ## UTILS
 _Utility features of plugin._
 - Allows admins to bypass max view distance.
+- Save all IGNs of the players that participate in the event.
 - Milk The Gator 👀
 
 <br>

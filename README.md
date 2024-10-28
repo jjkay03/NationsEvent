@@ -37,7 +37,7 @@ _+ Seasson specific commands_
 <br>
 
 ## FEATURES
-_All features are toggleable in the plugin [config](https://github.com/jjkay03/NationsEvent/blob/NG4/src/main/resources/config.yml)._
+_All features are toggleable in the plugin config._
 - `Meet player death` : Make players drop meet on death.
 - `Iron door` : Make it so player with right permission can open iron doors with hands. (Created for NG3)
 - `Farm protection` : Make it so players and mobs can't trample crops. (Created for NG4)
@@ -46,7 +46,7 @@ _All features are toggleable in the plugin [config](https://github.com/jjkay03/N
 <br>
 
 ## PATCHES
-_All patches are toggleable in the plugin [config](https://github.com/jjkay03/NationsEvent/blob/NG4/src/main/resources/config.yml)._
+_All patches are toggleable in the plugin config._
 - `Anti block glitching` : Prevent players from block glitching.
 - `Anti ender pearl` : Prevent players from using ender pearls.
 

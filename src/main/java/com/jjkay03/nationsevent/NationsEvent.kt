@@ -9,10 +9,12 @@ import com.jjkay03.nationsevent.specific.ng5.*
 import com.jjkay03.nationsevent.specific.ng5.commands.*
 import com.jjkay03.nationsevent.specific.ng5.hangman_gonkas.NG5_HangMan
 import com.jjkay03.nationsevent.utils.*
+import org.bukkit.Bukkit
+import org.bukkit.plugin.java.JavaPlugin
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.nametag.NameTagManager
 import me.neznamy.tab.api.tablist.HeaderFooterManager
-import org.bukkit.plugin.java.JavaPlugin
+import org.ipvp.canvas.MenuFunctionListener
 
 class NationsEvent : JavaPlugin() {
 
@@ -91,6 +93,7 @@ class NationsEvent : JavaPlugin() {
         getCommand("clericimmunity")?.setExecutor(ng5ClericImmunity)
 
         // Register events
+        Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener
         //server.pluginManager.registerEvents(RenderDistance(), this)
         server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)

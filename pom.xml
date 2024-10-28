@@ -132,11 +132,19 @@
           <version>${kotlin.version}</version>
           <scope>test</scope>
       </dependency>
+      <!-- TAB API -->
       <dependency>
           <groupId>com.github.NEZNAMY</groupId>
           <artifactId>TAB-API</artifactId>
           <version>4.1.8</version>
           <scope>provided</scope>
+      </dependency>
+      <!-- IPVP Canvas -->
+      <dependency>
+          <groupId>org.ipvp</groupId>
+          <artifactId>canvas</artifactId>
+          <version>1.7.0-SNAPSHOT</version>
+          <scope>compile</scope>
       </dependency>
   </dependencies>
 </project>

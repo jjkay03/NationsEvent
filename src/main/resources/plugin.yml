@@ -94,6 +94,11 @@ commands:
     permission: nationsevent.command.permanentmessage
     permission-message: "You do not have permission to use this command"
 
+  admingui:
+    aliases: [ ag, agui ]
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
   bearrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

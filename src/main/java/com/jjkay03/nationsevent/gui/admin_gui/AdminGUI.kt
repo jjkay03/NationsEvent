@@ -55,14 +55,14 @@ class AdminGUI {
         val hideStaffSlot = adminGUI.getSlot(15).apply { item = AdminGUI_Items.hideStaffItems() }
 
         // Click Handlers
-        announceSessionSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "announcesession") } // TODO: Change to promote
+        announceSessionSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "announcesession") } // TODO: Change to promote
         sessionTimeSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "sessiontime") }
         voicechatSlot.setClickHandler { clickPlayer, info -> buttonToggleVoicechatPerms(clickPlayer) }
         freezePlayersSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "freezeall") }
         pvpSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "pvptoggle") }
         lockVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "lockvotes") }
-        clearVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "clearvotes CONFIRM") } // TODO: Change to promote
-        permMessageSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "permanentmessage") } // TODO: Change to promote
+        clearVotesSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "clearvotes CONFIRM") } // TODO: Change to promote
+        permMessageSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "permanentmessage") } // TODO: Change to promote
         permMessageClearSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "permanentmessage") }
         hideStaffSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "hidestaff") }
     }
@@ -71,6 +71,13 @@ class AdminGUI {
     private fun buttonRunCommand(player: Player, command: String) {
         player.performCommand(command)
         player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+        updateGUI(player)
+    }
+
+    // Function to prompt command after button press
+    private fun buttonPromptCommand(player: Player, command: String) {
+        player.sendMessage("§cPrompt command feature not available yet!")
+        //player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
         updateGUI(player)
     }
 

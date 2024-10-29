@@ -144,7 +144,7 @@ object AdminGUI_Items {
                 "§r",
                 "§c⚠ Don't forget to export votes: /exportvotes",
                 "§r",
-                "§7Click to run:",
+                "§7Click to prompt:",
                 "§e/clearvotes",
                 "§r"
             )

@@ -14,46 +14,43 @@ import org.bukkit.event.player.PlayerJoinEvent
 
 class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
 
+    companion object {
+        // Save what players have hidden staff
+        val HIDE_STAFF_PLAYERS = mutableSetOf<String>()
+    }
+
     // List of permissions that will cause a player to be hidden if they have any of them
     private val hidePermissions = listOf(NationsEvent.PERM_STAFF, NationsEvent.PERM_SPECTATOR)
 
-    // Save what players have hidden staff
-    private val hideStaffPlayers = mutableSetOf<String>()
-
-
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        // End if sender not a player
-        if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }
-
-        // Check for correct arguments on or off
-        if (args.isEmpty() || (args[0] != "on" && args[0] != "off")) { sender.sendMessage("§cUsage: /hidestaff <on|off>"); return true }
-
-        // Toggle global blindness on or off based on the argument
-        if (args[0].equals("on", ignoreCase = true)) {
-            hideStaff(sender)
-            hideStaffPlayers.add(sender.uniqueId.toString())
-            Utils.messageStaff("§7\uD83D\uDC41 ${sender.name} enabled hide staff (they can't see you)")
+        // End if sender is not a player
+        if (sender !is Player) {
+            sender.sendMessage("§cOnly players can run this command!")
+            return true
         }
-        else if (args[0].equals("off", ignoreCase = true)) {
+
+        // Toggle hide state based on whether the player is already in the list
+        if (HIDE_STAFF_PLAYERS.contains(sender.uniqueId.toString())) {
+            // If player is already hiding staff, remove them from the set and show staff
             showStaff(sender)
-            hideStaffPlayers.remove(sender.uniqueId.toString())
-            Utils.messageStaff("§7\uD83D\uDC41 ${sender.name} disabled hide staff (they can see you)")
+            HIDE_STAFF_PLAYERS.remove(sender.uniqueId.toString())
+            Utils.messageStaff("§7\uD83D\uDC41 ${sender.name} §cDISABLED §7hide staff (they can see you)")
+        } else {
+            // If player is not hiding staff, add them to the set and hide staff
+            hideStaff(sender)
+            HIDE_STAFF_PLAYERS.add(sender.uniqueId.toString())
+            Utils.messageStaff("§7\uD83D\uDC41 ${sender.name} §aENABLED §7hide staff (they can't see you)")
         }
 
         return true
     }
 
-
-    // Tab Completer - provide "on" and "off" as options for tab completion
+    // Tab Completer - no arguments needed
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
-        if (args.size == 1) {
-            return listOf("on", "off").filter { it.startsWith(args[0], ignoreCase = true) }
-        }
-        return null
+        return emptyList()
     }
 
-
-    // Deal with staff login when someone has hide staff on
+    // Handle staff login when someone has hide staff on
     @EventHandler
     fun onStaffJoin(event: PlayerJoinEvent) {
         // End if the joining player doesn't have any of the hide permissions
@@ -61,12 +58,11 @@ class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
 
         // Hide the joining player for all players who have hideStaff enabled
         Bukkit.getOnlinePlayers().forEach { onlinePlayer ->
-            if (hideStaffPlayers.contains(onlinePlayer.uniqueId.toString())) {
+            if (HIDE_STAFF_PLAYERS.contains(onlinePlayer.uniqueId.toString())) {
                 onlinePlayer.hidePlayer(NationsEvent.INSTANCE, event.player)
             }
         }
     }
-
 
     // Hide players with certain permissions
     private fun hideStaff(player: Player) {

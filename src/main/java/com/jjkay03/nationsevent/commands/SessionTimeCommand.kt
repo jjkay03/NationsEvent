@@ -21,15 +21,17 @@ class SessionTimeCommand: CommandExecutor {
         return true
     }
 
-    // Get elapsed time since session start
-    private fun getTimeElapsed(): String {
-        val currentTime = System.currentTimeMillis()
-        val elapsedTimeMillis = currentTime - NationsEvent.SESSION_START_TIME
+    companion object {
+        // Get elapsed time since session start
+        fun getTimeElapsed(): String {
+            val currentTime = System.currentTimeMillis()
+            val elapsedTimeMillis = currentTime - NationsEvent.SESSION_START_TIME
 
-        // Convert milliseconds to hours and minutes
-        val hours = (elapsedTimeMillis / (1000 * 60 * 60)) % 24
-        val minutes = (elapsedTimeMillis / (1000 * 60)) % 60
+            // Convert milliseconds to hours and minutes
+            val hours = (elapsedTimeMillis / (1000 * 60 * 60)) % 24
+            val minutes = (elapsedTimeMillis / (1000 * 60)) % 60
 
-        return String.format("%02d:%02d", hours, minutes)
+            return String.format("%02d:%02d", hours, minutes)
+        }
     }
 }

@@ -15,7 +15,7 @@ class AdminGUICommand: CommandExecutor {
         if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }
 
         val adminGUIInstance = AdminGUI()
-        adminGUIInstance.updateGUI()
+        adminGUIInstance.updateGUI(sender)
         adminGUIInstance.adminGUI.open(sender)
 
         return true

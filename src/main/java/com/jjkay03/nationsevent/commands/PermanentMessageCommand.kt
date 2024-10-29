@@ -10,7 +10,10 @@ import net.kyori.adventure.text.Component
 
 class PermanentMessageCommand() : CommandExecutor {
 
-    private var permanentMessage: String? = null
+    companion object {
+        var PERMANENT_MESSAGE: String? = null
+    }
+
     private var messageTask: BukkitRunnable? = null
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -20,6 +23,7 @@ class PermanentMessageCommand() : CommandExecutor {
                 sender.sendMessage("§aPermanent message cleared")
                 messageTask!!.cancel()
                 messageTask = null
+                PERMANENT_MESSAGE = null
             }
             // Error if no task already running
             else {
@@ -29,8 +33,8 @@ class PermanentMessageCommand() : CommandExecutor {
         }
 
         // Set the new message
-        permanentMessage = args.joinToString(" ")
-        sender.sendMessage("§aPermanent message set to: §f$permanentMessage")
+        PERMANENT_MESSAGE = args.joinToString(" ")
+        sender.sendMessage("§aPermanent message set to: §f$PERMANENT_MESSAGE")
 
         // If a task is already running, update the message only
         if (messageTask != null) { return true }
@@ -39,9 +43,9 @@ class PermanentMessageCommand() : CommandExecutor {
         messageTask = object : BukkitRunnable() {
             override fun run() {
                 // Send the message to all players
-                if (permanentMessage != null) {
+                if (PERMANENT_MESSAGE != null) {
                     Bukkit.getOnlinePlayers().forEach { player ->
-                        player.sendActionBar(Component.text("§c$permanentMessage"))
+                        player.sendActionBar(Component.text("§c$PERMANENT_MESSAGE"))
                     }
                 }
             }

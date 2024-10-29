@@ -1,5 +1,7 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
+import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.Utils
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -55,7 +57,7 @@ class AdminGUI {
         // Click Handlers
         announceSessionSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "announcesession") } // TODO: Change to promote
         sessionTimeSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "sessiontime") }
-        voicechatSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "voicechatperms") }
+        voicechatSlot.setClickHandler { clickPlayer, info -> buttonToggleVoicechatPerms(clickPlayer) }
         freezePlayersSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "freezeall") }
         pvpSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "pvptoggle") }
         lockVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "lockvotes") }
@@ -70,6 +72,20 @@ class AdminGUI {
         player.performCommand(command)
         player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
         updateGUI(player)
+    }
+
+    // Function to toggle voicechat perms
+    private fun buttonToggleVoicechatPerms(player: Player) {
+        if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) {
+            player.performCommand("voicechatperms off")
+            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+            adminGUI.getSlot(1).item = AdminGUI_Items.DISABLED_ITEM // Flip status item
+        }
+        else {
+            player.performCommand("voicechatperms on")
+            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+            adminGUI.getSlot(1).item = AdminGUI_Items.ENABLED_ITEM // Flip status item
+        }
     }
 
 }

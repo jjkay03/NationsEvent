@@ -56,7 +56,8 @@ object Utils {
     }
 
     // Function that checks if a luckperms group has a permission
-    fun luckPermsGroupHasPermission(group: Group, permission: String): Boolean {
+    fun luckPermsGroupHasPermission(group: Group?, permission: String): Boolean {
+        if (group == null) return false // Return false if the group is null
         return group.nodes.any { it.key == permission && it.value }
     }
 

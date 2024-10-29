@@ -1,7 +1,7 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
-import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.commands.HideStaffCommand
 import com.jjkay03.nationsevent.commands.PermanentMessageCommand
 import com.jjkay03.nationsevent.commands.SessionTimeCommand
@@ -13,6 +13,10 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 object AdminGUI_Items {
+
+    // Items (Enabled/Disabled)
+    val ENABLED_ITEM = ItemStack(Material.LIME_STAINED_GLASS_PANE).apply { itemMeta = itemMeta?.apply { setDisplayName("§a✔ §lENABLED") } }
+    val DISABLED_ITEM = ItemStack(Material.RED_STAINED_GLASS_PANE).apply { itemMeta = itemMeta?.apply { setDisplayName("§c❌ §lDISABLED") } }
 
     // ITEM: filler item
     fun fillerItem(itemMaterial: Material): ItemStack {
@@ -206,38 +210,34 @@ object AdminGUI_Items {
 
     // ITEM: status item
     fun statusItem(entry: String, player: Player): ItemStack {
-        // Items (Enabled/Disabled)
-        val enabledItem = ItemStack(Material.LIME_STAINED_GLASS_PANE).apply { itemMeta = itemMeta?.apply { setDisplayName("§a✔ §lENABLED") } }
-        val disabledItem = ItemStack(Material.RED_STAINED_GLASS_PANE).apply { itemMeta = itemMeta?.apply { setDisplayName("§c❌ §lDISABLED") } }
-
-        // Entries
         return when (entry) {
             "announce_session" -> {
-                if (Saves.SESSION_STARTED) enabledItem
-                else disabledItem
+                if (Saves.SESSION_STARTED) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "voicechat_perms" -> {
-                ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+                if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "frozen_players" -> {
-                if (FreezeAll.FREEZE_ALL_ENABLED) enabledItem
-                else disabledItem
+                if (FreezeAll.FREEZE_ALL_ENABLED) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "pvp" -> {
-                if (PVPToggle.PVP_ENABLED) enabledItem
-                else disabledItem
+                if (PVPToggle.PVP_ENABLED) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "locked_votes" -> {
-                if (VoteCommand.LOCKED_VOTES) enabledItem
-                else disabledItem
+                if (VoteCommand.LOCKED_VOTES) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "permanent_message" -> {
-                if (PermanentMessageCommand.PERMANENT_MESSAGE != null) enabledItem
-                else disabledItem
+                if (PermanentMessageCommand.PERMANENT_MESSAGE != null) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             "hide_staff" -> {
-                if (HideStaffCommand.HIDE_STAFF_PLAYERS.contains(player.uniqueId.toString())) enabledItem
-                else disabledItem
+                if (HideStaffCommand.HIDE_STAFF_PLAYERS.contains(player.uniqueId.toString())) ENABLED_ITEM
+                else DISABLED_ITEM
             }
             else -> ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
         }

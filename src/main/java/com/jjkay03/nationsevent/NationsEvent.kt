@@ -45,8 +45,8 @@ class NationsEvent : JavaPlugin() {
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
 
-        Saves() // Load all variables in saves class
         getAPIs() // Get all APIs instances and info
+        Saves() // Load all variables in saves class
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()

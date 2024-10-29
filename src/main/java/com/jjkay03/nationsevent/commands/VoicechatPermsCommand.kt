@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -9,7 +10,6 @@ import org.bukkit.command.TabCompleter
 
 class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
-    private val voicechatSpeakPerm = "voicechat.speak"
     private val defaultGroupName = "default"
 
     // Command
@@ -32,10 +32,10 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
         // Deal with perms
         if (voicechatPermsState) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set $voicechatSpeakPerm true"
+            "lp group $defaultGroupName permission set ${Saves.PERM_SIMPLE_VOICECHAT_SPEAK} true"
         )
         else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set $voicechatSpeakPerm false"
+            "lp group $defaultGroupName permission set ${Saves.PERM_SIMPLE_VOICECHAT_SPEAK} false"
         )
 
         return true

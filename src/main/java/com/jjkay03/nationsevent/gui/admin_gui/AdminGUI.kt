@@ -7,6 +7,9 @@ import org.ipvp.canvas.type.ChestMenu
 
 class AdminGUI {
 
+    // TODO: - Make buttons work
+    // TODO: - Make voice chat perm detectable with LP API
+
     // Creating adminGUI as an instance variable
     val adminGUI: ChestMenu = ChestMenu.builder(3).title("\uD83D\uDD25 ADMIN GUI").redraw(true).build()
 
@@ -42,6 +45,14 @@ class AdminGUI {
         // GUI Items Buttons
         adminGUI.getSlot(9).item = AdminGUI_Items.announceSessionItem()
         adminGUI.getSlot(18).item = AdminGUI_Items.sessionTimeItem()
+        adminGUI.getSlot(10).item = AdminGUI_Items.voicechatItem()
+        adminGUI.getSlot(11).item = AdminGUI_Items.freezePlayersItems()
+        adminGUI.getSlot(12).item = AdminGUI_Items.pvpItems()
+        adminGUI.getSlot(13).item = AdminGUI_Items.lockVotesItems()
+        adminGUI.getSlot(22).item = AdminGUI_Items.clearVotesItem()
+        adminGUI.getSlot(14).item = AdminGUI_Items.permMessageItems()
+        adminGUI.getSlot(23).item = AdminGUI_Items.permMessageClearItems()
+        adminGUI.getSlot(15).item = AdminGUI_Items.hideStaffItems()
     }
 }
 

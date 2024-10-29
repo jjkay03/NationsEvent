@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.utils.PVPToggle
+import com.jjkay03.nationsevent.NationsEvent
+import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -11,7 +12,7 @@ import org.bukkit.command.TabCompleter
 class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
     private val voicechatSpeakPerm = "voicechat.speak"
-    private val defaultLPGroup = "default"
+    private val defaultGroupName = "default"
 
     // Command
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
@@ -33,10 +34,10 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
         // Deal with perms
         if (voicechatPermsState) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultLPGroup permission set $voicechatSpeakPerm true"
+            "lp group $defaultGroupName permission set $voicechatSpeakPerm true"
         )
         else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultLPGroup permission set $voicechatSpeakPerm false"
+            "lp group $defaultGroupName permission set $voicechatSpeakPerm false"
         )
 
         return true
@@ -50,6 +51,4 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
         }
         return null
     }
-
-
 }

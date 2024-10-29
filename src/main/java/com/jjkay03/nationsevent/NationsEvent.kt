@@ -16,6 +16,7 @@ import me.neznamy.tab.api.nametag.NameTagManager
 import me.neznamy.tab.api.tablist.HeaderFooterManager
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
+import net.luckperms.api.model.group.GroupManager
 import org.ipvp.canvas.MenuFunctionListener
 
 class NationsEvent : JavaPlugin() {
@@ -37,6 +38,7 @@ class NationsEvent : JavaPlugin() {
 
         // LUCKPERMS API
         lateinit var LP_INSTANCE: LuckPerms
+        lateinit var LP_GROUP_MANAGER: GroupManager
     }
 
     // Plugin startup logic
@@ -132,6 +134,7 @@ class NationsEvent : JavaPlugin() {
 
         // LUCKPERMS API
         LP_INSTANCE = LuckPermsProvider.get()
+        LP_GROUP_MANAGER = LP_INSTANCE.groupManager
         if (TAB_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.warning("Can't connect to LuckPerms API")
     }
 }

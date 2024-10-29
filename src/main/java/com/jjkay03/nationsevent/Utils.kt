@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import java.io.File
@@ -54,5 +55,9 @@ object Utils {
         }
     }
 
+    // Function that checks if a luckperms group has a permission
+    fun luckPermsGroupHasPermission(group: Group, permission: String): Boolean {
+        return group.nodes.any { it.key == permission && it.value }
+    }
 
 }

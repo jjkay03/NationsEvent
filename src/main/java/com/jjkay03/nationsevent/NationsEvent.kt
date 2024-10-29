@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin
 import me.neznamy.tab.api.TabAPI
 import me.neznamy.tab.api.nametag.NameTagManager
 import me.neznamy.tab.api.tablist.HeaderFooterManager
+import net.luckperms.api.LuckPerms
+import net.luckperms.api.LuckPermsProvider
 import org.ipvp.canvas.MenuFunctionListener
 
 class NationsEvent : JavaPlugin() {
@@ -32,6 +34,9 @@ class NationsEvent : JavaPlugin() {
         lateinit var TAB_INSTANCE: TabAPI
         lateinit var TAB_NAMETAG_MANAGER: NameTagManager
         lateinit var TAB_HEADER_FOOTER_MANAGER: HeaderFooterManager
+
+        // LUCKPERMS API
+        lateinit var LP_INSTANCE: LuckPerms
     }
 
     // Plugin startup logic
@@ -39,8 +44,9 @@ class NationsEvent : JavaPlugin() {
         INSTANCE = this
 
         // Startup info
-        logger.info("§aNationsEvent is running!")
-        logger.info("§aPlugin version: ${description.version}")
+        Utils.displayPluginWelcomeMessage("§e")
+        logger.info("NationsEvent is running!")
+        logger.info("Plugin version: ${description.version}")
 
         // Config stuff
         saveDefaultConfig() // Save the default configuration if it doesn't exist
@@ -48,10 +54,8 @@ class NationsEvent : JavaPlugin() {
         // Variables from config
         EVENT_CODENAME = INSTANCE.config.getString("event-codename").toString()
 
-        // TAB API
-        TAB_INSTANCE = TabAPI.getInstance()
-        TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
-        TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
+        // Get all APIs instances and info
+        getAPIs()
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()
@@ -117,4 +121,17 @@ class NationsEvent : JavaPlugin() {
 
     // Plugin shutdown logic
     override fun onDisable() { }
+
+    // Function to get APIs
+    private fun getAPIs() {
+        // TAB API
+        TAB_INSTANCE = TabAPI.getInstance()
+        TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
+        TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
+        if (TAB_INSTANCE != null) logger.info("Connected to TAB API") else logger.warning("Can't connect to TAB API")
+
+        // LUCKPERMS API
+        LP_INSTANCE = LuckPermsProvider.get()
+        if (TAB_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.warning("Can't connect to LuckPerms API")
+    }
 }

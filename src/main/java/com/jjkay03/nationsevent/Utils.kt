@@ -6,6 +6,20 @@ import java.io.File
 
 object Utils {
 
+    // Function to display plugin welcome message
+    fun displayPluginWelcomeMessage(color: String) {
+        val welcomeMessage = listOf(
+            "${color}  _   _       _   _                 ______               _   ",
+            "${color} | \\ | |     | | (_)               |  ____|             | |  ",
+            "${color} |  \\| | __ _| |_ _  ___  _ __  ___| |____   _____ _ __ | |_ ",
+            "${color} | . ` |/ _` | __| |/ _ \\| '_ \\/ __|  __\\ \\ / / _ \\ '_ \\| __|",
+            "${color} | |\\  | (_| | |_| | (_) | | | \\__ \\ |___\\ V /  __/ | | | |_ ",
+            "${color} |_| \\_|\\__,_|\\__|_|\\___/|_| |_|___/______\\_/ \\___|_| |_|\\__|",
+            ""
+        )
+        welcomeMessage.forEach { line -> Bukkit.getConsoleSender().sendMessage(line) }
+    }
+
     // Function that sends message to all staff
     fun messageStaff(message: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->

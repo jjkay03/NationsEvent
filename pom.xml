@@ -146,5 +146,12 @@
           <version>1.7.0-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
+      <!-- LuckPerms API -->
+      <dependency>
+          <groupId>net.luckperms</groupId>
+          <artifactId>api</artifactId>
+          <version>5.4</version>
+          <scope>provided</scope>
+      </dependency>
   </dependencies>
 </project>

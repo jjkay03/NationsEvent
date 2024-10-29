@@ -8,9 +8,6 @@ import org.ipvp.canvas.type.ChestMenu
 
 class AdminGUI {
 
-    // TODO: - Make buttons work
-    // TODO: - Make voice chat perm detectable with LP API
-
     // Creating adminGUI as an instance variable
     val adminGUI: ChestMenu = ChestMenu.builder(3).title("\uD83D\uDD25 ADMIN GUI").redraw(true).build()
 

@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.specific.ng5.hangman_gonkas
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -86,7 +87,7 @@ class NG5_HangMan : Listener {
         val player: Player = event.player
 
         if (event.hand == EquipmentSlot.OFF_HAND) return               // Must use main hand
-        if (!player.hasPermission(NationsEvent.PERM_ADMIN)) return     // Must have op
+        if (!player.hasPermission(Saves.PERM_ADMIN)) return     // Must have op
 
         // The Player or Ghost Entity that was right-clicked
         val target: Player = getLeashTarget(event.rightClicked, player, getHanged(player)) ?: return    // Returns if invalid leash target

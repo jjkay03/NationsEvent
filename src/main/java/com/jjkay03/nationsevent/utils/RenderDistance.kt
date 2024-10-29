@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -11,7 +12,7 @@ class RenderDistance: Listener {
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        if (event.player.hasPermission(NationsEvent.PERM_ADMIN)) return
+        if (event.player.hasPermission(Saves.PERM_ADMIN)) return
         event.player.sendViewDistance = defaultPlayersRenderDistance
 
     }

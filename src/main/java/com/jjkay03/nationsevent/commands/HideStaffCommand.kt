@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.commands
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -20,7 +21,7 @@ class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
     }
 
     // List of permissions that will cause a player to be hidden if they have any of them
-    private val hidePermissions = listOf(NationsEvent.PERM_STAFF, NationsEvent.PERM_SPECTATOR)
+    private val hidePermissions = listOf(Saves.PERM_STAFF, Saves.PERM_SPECTATOR)
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // End if sender is not a player

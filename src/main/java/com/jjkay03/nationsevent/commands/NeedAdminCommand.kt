@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player
 class NeedAdminCommand : CommandExecutor, TabCompleter {
 
     private val playersNeedingAdmin = mutableListOf<Player>()
-    private val controlCommandPerm = NationsEvent.PERM_PROD
+    private val controlCommandPerm = Saves.PERM_PROD
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }

@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.commands.voting
 
-import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -48,7 +48,7 @@ class ExportVotesCommand : CommandExecutor {
         try {
             FileWriter(voteFile).use { writer ->
                 writer.write("EXPORTED VOTES - ${SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(currentTime)}\n")
-                writer.write("\nEVENT CODENAME: ${NationsEvent.EVENT_CODENAME}\n")
+                writer.write("\nEVENT CODENAME: ${Saves.EVENT_CODENAME}\n")
                 writer.write("\nEXPORT NOTE: $note\n")
                 writer.write("\n== VOTES ====================\n")
 

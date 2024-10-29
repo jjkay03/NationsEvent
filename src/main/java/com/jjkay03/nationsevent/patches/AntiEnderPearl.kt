@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.patches
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -23,7 +24,7 @@ class AntiEnderPearl: Listener {
     @EventHandler
     fun onPlayerUseEnderPearl(event: PlayerInteractEvent) {
         // End if player has bypass perm (staff)
-        if (event.player.hasPermission(NationsEvent.PERM_STAFF)) return
+        if (event.player.hasPermission(Saves.PERM_STAFF)) return
 
         // Check if the action is a right-click (use) action
         if (!event.action.isRightClick) return
@@ -42,7 +43,7 @@ class AntiEnderPearl: Listener {
         if (event.cause != PlayerTeleportEvent.TeleportCause.ENDER_PEARL) return
 
         // End if player has bypass perm (staff)
-        if (event.player.hasPermission(NationsEvent.PERM_STAFF)) return
+        if (event.player.hasPermission(Saves.PERM_STAFF)) return
 
         // Delete ender pearl
         event.isCancelled = true
@@ -53,7 +54,7 @@ class AntiEnderPearl: Listener {
     @EventHandler
     fun onPlayerHoldEnderPearl(event: PlayerItemHeldEvent) {
         // End if player has bypass perm (staff)
-        if (event.player.hasPermission(NationsEvent.PERM_STAFF)) return
+        if (event.player.hasPermission(Saves.PERM_STAFF)) return
 
         // End if item in hand is not ender peal
         if (event.player.inventory.getItem(event.newSlot)?.type != Material.ENDER_PEARL) return

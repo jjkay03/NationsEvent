@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -13,7 +13,7 @@ class SessionTimeCommand: CommandExecutor {
         if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }
 
         // End if session did start yetS
-        if (!NationsEvent.SESSION_STARTED) { sender.sendMessage("§cSession did not start yet!"); return true }
+        if (!Saves.SESSION_STARTED) { sender.sendMessage("§cSession did not start yet!"); return true }
 
         // Send player message
         sender.sendMessage("§a⌚ Time since session start: ${getTimeElapsed()}")
@@ -25,7 +25,7 @@ class SessionTimeCommand: CommandExecutor {
         // Get elapsed time since session start
         fun getTimeElapsed(): String {
             val currentTime = System.currentTimeMillis()
-            val elapsedTimeMillis = currentTime - NationsEvent.SESSION_START_TIME
+            val elapsedTimeMillis = currentTime - Saves.SESSION_START_TIME
 
             // Convert milliseconds to hours and minutes
             val hours = (elapsedTimeMillis / (1000 * 60 * 60)) % 24

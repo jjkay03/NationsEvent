@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific.ng4
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.specific.ng4.commands.NG4_GlobalBlindnessCommand
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
 import org.bukkit.Bukkit
@@ -41,7 +42,7 @@ class NG4_SeasonSpecific : Listener {
         val player = event.player
         if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         if (event.item.type != Material.MILK_BUCKET) return // End if not milk bucket
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        if (player.hasPermission(Saves.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
         event.isCancelled = true
         player.sendMessage("§cYou cannot drink milk during global blindness!")
     }
@@ -52,7 +53,7 @@ class NG4_SeasonSpecific : Listener {
         val player = event.player
         if (!NG4_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         // Give player blindness
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
+        if (player.hasPermission(Saves.PERM_STAFF) || player.hasPermission(PERM_GROUP_WEREWOLF)) return // End if player has bypass perm
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
         player.sendMessage("§7You are affected by global blindness...")
     }

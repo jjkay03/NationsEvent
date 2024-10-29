@@ -23,19 +23,10 @@ class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
-        lateinit var EVENT_CODENAME: String
-        const val PERM_ADMIN: String = "nationsevent.admin"
-        const val PERM_PROD: String = "nationsevent.production"
-        const val PERM_STAFF: String = "nationsevent.staff"
-        const val PERM_SPECTATOR: String = "nationsevent.spectator"
-        var SESSION_STARTED: Boolean = false
-        var SESSION_START_TIME: Long = 0
-
         // TAB API
         lateinit var TAB_INSTANCE: TabAPI
         lateinit var TAB_NAMETAG_MANAGER: NameTagManager
         lateinit var TAB_HEADER_FOOTER_MANAGER: HeaderFooterManager
-
         // LUCKPERMS API
         lateinit var LP_INSTANCE: LuckPerms
         lateinit var LP_GROUP_MANAGER: GroupManager
@@ -53,11 +44,9 @@ class NationsEvent : JavaPlugin() {
         // Config stuff
         saveDefaultConfig() // Save the default configuration if it doesn't exist
         reloadConfig() // Reload the configuration
-        // Variables from config
-        EVENT_CODENAME = INSTANCE.config.getString("event-codename").toString()
 
-        // Get all APIs instances and info
-        getAPIs()
+        Saves() // Load all variables in saves class
+        getAPIs() // Get all APIs instances and info
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()

@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.commands.HideStaffCommand
 import com.jjkay03.nationsevent.commands.PermanentMessageCommand
 import com.jjkay03.nationsevent.commands.SessionTimeCommand
@@ -49,7 +50,7 @@ object AdminGUI_Items {
             setDisplayName("§6Session Time")
             lore = listOf(
                 "§r",
-                if (NationsEvent.SESSION_STARTED) "§a⌚ ${SessionTimeCommand.getTimeElapsed()}"
+                if (Saves.SESSION_STARTED) "§a⌚ ${SessionTimeCommand.getTimeElapsed()}"
                 else "§cSession did not start yet!",
                 "§r",
                 "§7Click to run:",
@@ -212,7 +213,7 @@ object AdminGUI_Items {
         // Entries
         return when (entry) {
             "announce_session" -> {
-                if (NationsEvent.SESSION_STARTED) enabledItem
+                if (Saves.SESSION_STARTED) enabledItem
                 else disabledItem
             }
             "voicechat_perms" -> {

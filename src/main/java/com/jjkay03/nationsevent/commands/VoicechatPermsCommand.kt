@@ -1,7 +1,5 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.NationsEvent
-import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command

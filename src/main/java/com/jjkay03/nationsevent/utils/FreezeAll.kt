@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
@@ -15,7 +16,7 @@ class FreezeAll : Listener {
         var FREEZE_ALL_ENABLED = false
     }
 
-    private val bypassPermission = NationsEvent.PERM_STAFF
+    private val bypassPermission = Saves.PERM_STAFF
     private val frozenMessage = "§cAll players are frozen"
 
     // Event to handle player movement

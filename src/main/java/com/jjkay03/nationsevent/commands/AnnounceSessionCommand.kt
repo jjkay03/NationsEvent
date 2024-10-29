@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -28,8 +28,8 @@ class AnnounceSessionCommand: CommandExecutor {
         }
 
         // Set session start time
-        NationsEvent.SESSION_STARTED = true
-        NationsEvent.SESSION_START_TIME = System.currentTimeMillis()
+        Saves.SESSION_STARTED = true
+        Saves.SESSION_START_TIME = System.currentTimeMillis()
 
         return true
     }

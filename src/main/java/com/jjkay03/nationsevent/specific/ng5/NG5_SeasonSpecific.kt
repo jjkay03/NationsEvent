@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific.ng5
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.specific.ng5.commands.NG5_GlobalBlindnessCommand
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
@@ -57,7 +58,7 @@ class NG5_SeasonSpecific : Listener {
         val player = event.player
         if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         if (event.item.type != Material.MILK_BUCKET) return // End if not milk bucket
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || NG5_RolesEnum.getPlayerRole(player).team == NG5_TeamsEnum.WOLVES_KILLERS) return // End if player has bypass perm
+        if (player.hasPermission(Saves.PERM_STAFF) || NG5_RolesEnum.getPlayerRole(player).team == NG5_TeamsEnum.WOLVES_KILLERS) return // End if player has bypass perm
         event.isCancelled = true
         player.sendMessage("§cYou cannot drink milk during global blindness!")
     }
@@ -69,7 +70,7 @@ class NG5_SeasonSpecific : Listener {
         if (!NG5_GlobalBlindnessCommand.GLOBAL_BLINDNESS) return // End of GLOBAL_BLINDNESS false
         // Give player blindness
         val playerTeam = NG5_RolesEnum.getPlayerRole(player).team
-        if (player.hasPermission(NationsEvent.PERM_STAFF) || playerTeam == NG5_TeamsEnum.WOLVES_KILLERS || playerTeam == NG5_TeamsEnum.SOLITARIES ) return // End if player has bypass perm
+        if (player.hasPermission(Saves.PERM_STAFF) || playerTeam == NG5_TeamsEnum.WOLVES_KILLERS || playerTeam == NG5_TeamsEnum.SOLITARIES ) return // End if player has bypass perm
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
         player.sendMessage("§7You are affected by global blindness...")
     }

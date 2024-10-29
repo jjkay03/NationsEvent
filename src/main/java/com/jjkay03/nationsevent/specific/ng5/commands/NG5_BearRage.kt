@@ -1,7 +1,6 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
 import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
-import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Sound

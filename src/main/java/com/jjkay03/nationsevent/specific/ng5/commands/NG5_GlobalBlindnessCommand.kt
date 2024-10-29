@@ -1,8 +1,8 @@
 package com.jjkay03.nationsevent.specific.ng5.commands
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.specific.ng5.NG5_RolesEnum
-import com.jjkay03.nationsevent.specific.ng5.NG5_SeasonSpecific
 import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -49,7 +49,7 @@ class NG5_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
             NationsEvent.TAB_NAMETAG_MANAGER?.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Skip player if player has bypass perm
             val playerTeam = NG5_RolesEnum.getPlayerRole(player).team
-            if (player.hasPermission(NationsEvent.PERM_STAFF) || playerTeam == NG5_TeamsEnum.WOLVES_KILLERS || playerTeam == NG5_TeamsEnum.SOLITARIES ) continue
+            if (player.hasPermission(Saves.PERM_STAFF) || playerTeam == NG5_TeamsEnum.WOLVES_KILLERS || playerTeam == NG5_TeamsEnum.SOLITARIES ) continue
             player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0, false, false))
             player.playSound(player.location, Sound.BLOCK_SCULK_SHRIEKER_SHRIEK, 1f, .5f)
             player.sendMessage("§7You are affected by global blindness...")

@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.commands.PVPAlertsCommand
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -58,7 +59,7 @@ class PVPAlerts : Listener {
 
         // Check if a player is in the list to alert and has the required permission
         Bukkit.getServer().onlinePlayers.forEach { player ->
-            if (playersToAlert.any { it == player.uniqueId } && player.hasPermission(NationsEvent.PERM_STAFF)) {
+            if (playersToAlert.any { it == player.uniqueId } && player.hasPermission(Saves.PERM_STAFF)) {
                 val message = TextComponent("§6\uD83D\uDDE1 §lPVP ALERT§6: §e${victim.name} §6is being attacked!")
                 message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(TextComponent("§eTeleport to ${victim.name}")))
                 message.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${victim.name}")

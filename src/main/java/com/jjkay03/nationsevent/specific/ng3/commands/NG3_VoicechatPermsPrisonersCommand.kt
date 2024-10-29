@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.specific.ng3.commands
 
-import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.specific.ng3.NG3_SeasonSpecific
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -24,7 +24,7 @@ class NG3_VoicechatPermsPrisonersCommand: CommandExecutor, TabCompleter {
 
         // Notify staff, guard, prisoner and sender of command
         Bukkit.getServer().onlinePlayers.forEach { player ->
-            if (player.hasPermission(NationsEvent.PERM_STAFF) ||
+            if (player.hasPermission(Saves.PERM_STAFF) ||
                 player.hasPermission(NG3_SeasonSpecific.PERM_GROUP_COP) ||
                 player.hasPermission(NG3_SeasonSpecific.PERM_GROUP_PRISONER) ||
                 player == sender) {

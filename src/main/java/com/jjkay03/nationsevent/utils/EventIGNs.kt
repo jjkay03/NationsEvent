@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 class EventIGNs : Listener {
     private val eventIGNsFolderName = "event igns"
-    private val fileName = "${NationsEvent.EVENT_CODENAME} IGNs.txt"
+    private val fileName = "${Saves.EVENT_CODENAME} IGNs.txt"
     private val playerQueue = ConcurrentLinkedQueue<String>()  // Concurrent queue for thread-safety
     private var task: BukkitTask? = null // To store the running task reference
 
@@ -54,7 +55,7 @@ class EventIGNs : Listener {
         // Check if the file exists; if not, create it with header and first IGN
         if (!file.exists()) {
             FileWriter(file).use { writer ->
-                writer.write("IGNs of all players that joined the server during ${NationsEvent.EVENT_CODENAME} :\n\n")
+                writer.write("IGNs of all players that joined the server during ${Saves.EVENT_CODENAME} :\n\n")
                 writer.write(playerName)  // Add the first IGN
             }
             return
@@ -66,6 +67,6 @@ class EventIGNs : Listener {
 
         // Append new IGN to the file
         FileWriter(file, true).use { writer -> writer.write(", $playerName") }
-        Bukkit.getLogger().info("Added $playerName to ${NationsEvent.EVENT_CODENAME} IGNs save file")
+        Bukkit.getLogger().info("Added $playerName to ${Saves.EVENT_CODENAME} IGNs save file")
     }
 }

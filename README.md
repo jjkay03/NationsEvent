@@ -31,6 +31,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/hidestaff` : Make all staff and spectators invisible for the player that runs it (useful for recording)
 - `/fullmoon` : Sets the time in the wolf to night and a full moon (210000).
 - `/permanentmessage <message>` : Displays a message to all players until cleared.
+- `/admingui` : Open admin GUI - toggle on or off main plugin features.
 
 _+ Seasson specific commands_
 
@@ -59,6 +60,13 @@ _Utility features of plugin._
 - Milk The Gator 👀
 
 <br>
+
+## ADMIN GUI
+Open using `/admingui` to toggle on or off main features of the plugin easily.
+
+https://github.com/user-attachments/assets/e0b785fa-b1c3-444c-8634-699b73d88535
+
+
 <br>
 
 ---

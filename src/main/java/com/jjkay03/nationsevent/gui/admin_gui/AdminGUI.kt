@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.ipvp.canvas.mask.BinaryMask
 import org.ipvp.canvas.type.ChestMenu
@@ -43,16 +44,36 @@ class AdminGUI {
         adminGUI.getSlot(6).item = AdminGUI_Items.statusItem("hide_staff", player)
 
         // GUI Items Buttons
-        adminGUI.getSlot(9).item = AdminGUI_Items.announceSessionItem()
-        adminGUI.getSlot(18).item = AdminGUI_Items.sessionTimeItem()
-        adminGUI.getSlot(10).item = AdminGUI_Items.voicechatItem()
-        adminGUI.getSlot(11).item = AdminGUI_Items.freezePlayersItems()
-        adminGUI.getSlot(12).item = AdminGUI_Items.pvpItems()
-        adminGUI.getSlot(13).item = AdminGUI_Items.lockVotesItems()
-        adminGUI.getSlot(22).item = AdminGUI_Items.clearVotesItem()
-        adminGUI.getSlot(14).item = AdminGUI_Items.permMessageItems()
-        adminGUI.getSlot(23).item = AdminGUI_Items.permMessageClearItems()
-        adminGUI.getSlot(15).item = AdminGUI_Items.hideStaffItems()
+        val announceSessionSlot = adminGUI.getSlot(9).apply { item = AdminGUI_Items.announceSessionItem() }
+        val sessionTimeSlot = adminGUI.getSlot(18).apply { item = AdminGUI_Items.sessionTimeItem() }
+        val voicechatSlot = adminGUI.getSlot(10).apply { item = AdminGUI_Items.voicechatItem() }
+        val freezePlayersSlot = adminGUI.getSlot(11).apply { item = AdminGUI_Items.freezePlayersItems() }
+        val pvpSlot = adminGUI.getSlot(12).apply { item = AdminGUI_Items.pvpItems() }
+        val lockVotesSlot = adminGUI.getSlot(13).apply { item = AdminGUI_Items.lockVotesItems() }
+        val clearVotesSlot = adminGUI.getSlot(22).apply { item = AdminGUI_Items.clearVotesItem() }
+        val permMessageSlot = adminGUI.getSlot(14).apply { item = AdminGUI_Items.permMessageItems() }
+        val permMessageClearSlot = adminGUI.getSlot(23).apply { item = AdminGUI_Items.permMessageClearItems() }
+        val hideStaffSlot = adminGUI.getSlot(15).apply { item = AdminGUI_Items.hideStaffItems() }
+
+        // Click Handlers
+        announceSessionSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "announcesession") } // TODO: Change to promote
+        sessionTimeSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "sessiontime") }
+        voicechatSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "voicechatperms") }
+        freezePlayersSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "freezeall") }
+        pvpSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "pvptoggle") }
+        lockVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "lockvotes") }
+        clearVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "clearvotes CONFIRM") } // TODO: Change to promote
+        permMessageSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "permanentmessage") } // TODO: Change to promote
+        permMessageClearSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "permanentmessage") }
+        hideStaffSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "hidestaff") }
     }
+
+    // Function to run command after button press
+    private fun buttonRunCommand(player: Player, command: String) {
+        player.performCommand(command)
+        player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+        updateGUI(player)
+    }
+
 }
 

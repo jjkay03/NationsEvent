@@ -49,9 +49,10 @@ object AdminGUI_Items {
             setDisplayName("§6Session Time")
             lore = listOf(
                 "§r",
-                if (NationsEvent.SESSION_STARTED) "§a⌚ ${SessionTimeCommand.getTimeElapsed()}" else "§cSession did not start yet!",
+                if (NationsEvent.SESSION_STARTED) "§a⌚ ${SessionTimeCommand.getTimeElapsed()}"
+                else "§cSession did not start yet!",
                 "§r",
-                "§7Click to prompt:",
+                "§7Click to run:",
                 "§e/sessiontime",
                 "§r"
             )
@@ -154,6 +155,10 @@ object AdminGUI_Items {
         itemMeta?.apply {
             setDisplayName("§6Permanent Message")
             lore = listOf(
+                "§r",
+                if (PermanentMessageCommand.PERMANENT_MESSAGE == null) "§7Perm Message: §8X"
+                else "§7Perm Message:",
+                if (PermanentMessageCommand.PERMANENT_MESSAGE != null) "§c${PermanentMessageCommand.PERMANENT_MESSAGE}" else null,
                 "§r",
                 "§7Click to prompt:",
                 "§e/permanentmessage <message>",

@@ -11,6 +11,7 @@ class Saves() {
         const val PERM_SPECTATOR: String = "nationsevent.spectator"
 
         // Permissions
+        const val PERM_USE_CHAT: String = "nationsevent.usechat"
         const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
 
         // Luckperms groups

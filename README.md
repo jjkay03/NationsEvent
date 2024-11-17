@@ -32,6 +32,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/fullmoon` : Sets the time in the wolf to night and a full moon (210000).
 - `/permanentmessage <message>` : Displays a message to all players until cleared.
 - `/admingui` : Open admin GUI - toggle on or off main plugin features.
+- `/globalchat` : Enable/Disable the ability for players to use the chat.
 
 _+ Seasson specific commands_
 

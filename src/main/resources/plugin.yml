@@ -96,8 +96,13 @@ commands:
     permission-message: "You do not have permission to use this command"
 
   admingui:
-    aliases: [ ag, agui ]
+    aliases: [ag, agui]
     permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
+  globalchat:
+    aliases: [chat]
+    permission: nationsevent.command.globalchat
     permission-message: "You do not have permission to use this command"
 
   bearrage:

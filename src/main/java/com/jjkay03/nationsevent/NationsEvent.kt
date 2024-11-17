@@ -78,6 +78,8 @@ class NationsEvent : JavaPlugin() {
         getCommand("fullmoon")?.setExecutor(FullMoonCommand())
         getCommand("permanentmessage")?.setExecutor(PermanentMessageCommand())
         getCommand("admingui")?.setExecutor(AdminGUICommand())
+        getCommand("globalchat")?.setExecutor(GlobalChatCommand())
+        getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
         // NG5
         getCommand("bearrage")?.setExecutor(NG5_BearRage())
         getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())
@@ -100,6 +102,7 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FreezeAll(), this)
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
+        server.pluginManager.registerEvents(UseChat(), this)
         // NG5
         server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
         server.pluginManager.registerEvents(NG5_HangMan(), this)

@@ -18,9 +18,9 @@ class AdminGUI {
         // Filler item - for future settings
         val fillerItemsFutureSettings = BinaryMask.builder(adminGUI.dimensions)
             .item(AdminGUI_Items.fillerItem(Material.BLACK_STAINED_GLASS_PANE))
-            .pattern("000000011")
-            .pattern("000000011")
-            .pattern("000000011")
+            .pattern("000000001")
+            .pattern("000000001")
+            .pattern("000000001")
             .build()
         fillerItemsFutureSettings.apply(adminGUI)
 
@@ -29,7 +29,7 @@ class AdminGUI {
             .item(AdminGUI_Items.fillerItem(Material.GRAY_STAINED_GLASS_PANE))
             .pattern("000000000")
             .pattern("000000000")
-            .pattern("011100100")
+            .pattern("011110010")
             .build()
         fillerItemsNone.apply(adminGUI)
 

@@ -83,6 +83,23 @@ object AdminGUI_Items {
         return item
     }
 
+    // ITEM: global chat
+    fun globalChatItem(): ItemStack {
+        val item = ItemStack(Material.PAPER)
+        val itemMeta = item.itemMeta
+        itemMeta?.apply {
+            setDisplayName("§6Global Chat")
+            lore = listOf(
+                "§r",
+                "§7Click to run:",
+                "§e/globalchat",
+                "§r"
+            )
+            item.itemMeta = this
+        }
+        return item
+    }
+
     // ITEM: freeze players
     fun freezePlayersItems(): ItemStack {
         val item = ItemStack(Material.ARMOR_STAND)
@@ -119,7 +136,7 @@ object AdminGUI_Items {
 
     // ITEM: lock votes
     fun lockVotesItems(): ItemStack {
-        val item = ItemStack(Material.MAP)
+        val item = ItemStack(Material.NAME_TAG)
         val itemMeta = item.itemMeta
         itemMeta?.apply {
             setDisplayName("§6Lock Votes")
@@ -217,6 +234,10 @@ object AdminGUI_Items {
             }
             "voicechat_perms" -> {
                 if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) ENABLED_ITEM
+                else DISABLED_ITEM
+            }
+            "global_chat" -> {
+                if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) ENABLED_ITEM
                 else DISABLED_ITEM
             }
             "frozen_players" -> {

@@ -36,28 +36,31 @@ class AdminGUI {
         // GUI Items Status
         adminGUI.getSlot(0).item = AdminGUI_Items.statusItem("announce_session", player)
         adminGUI.getSlot(1).item = AdminGUI_Items.statusItem("voicechat_perms", player)
-        adminGUI.getSlot(2).item = AdminGUI_Items.statusItem("frozen_players", player)
-        adminGUI.getSlot(3).item = AdminGUI_Items.statusItem("pvp", player)
-        adminGUI.getSlot(4).item = AdminGUI_Items.statusItem("locked_votes", player)
-        adminGUI.getSlot(5).item = AdminGUI_Items.statusItem("permanent_message", player)
-        adminGUI.getSlot(6).item = AdminGUI_Items.statusItem("hide_staff", player)
+        adminGUI.getSlot(2).item = AdminGUI_Items.statusItem("global_chat", player)
+        adminGUI.getSlot(3).item = AdminGUI_Items.statusItem("frozen_players", player)
+        adminGUI.getSlot(4).item = AdminGUI_Items.statusItem("pvp", player)
+        adminGUI.getSlot(5).item = AdminGUI_Items.statusItem("locked_votes", player)
+        adminGUI.getSlot(6).item = AdminGUI_Items.statusItem("permanent_message", player)
+        adminGUI.getSlot(7).item = AdminGUI_Items.statusItem("hide_staff", player)
 
         // GUI Items Buttons
         val announceSessionSlot = adminGUI.getSlot(9).apply { item = AdminGUI_Items.announceSessionItem() }
         val sessionTimeSlot = adminGUI.getSlot(18).apply { item = AdminGUI_Items.sessionTimeItem() }
         val voicechatSlot = adminGUI.getSlot(10).apply { item = AdminGUI_Items.voicechatItem() }
-        val freezePlayersSlot = adminGUI.getSlot(11).apply { item = AdminGUI_Items.freezePlayersItems() }
-        val pvpSlot = adminGUI.getSlot(12).apply { item = AdminGUI_Items.pvpItems() }
-        val lockVotesSlot = adminGUI.getSlot(13).apply { item = AdminGUI_Items.lockVotesItems() }
-        val clearVotesSlot = adminGUI.getSlot(22).apply { item = AdminGUI_Items.clearVotesItem() }
-        val permMessageSlot = adminGUI.getSlot(14).apply { item = AdminGUI_Items.permMessageItems() }
-        val permMessageClearSlot = adminGUI.getSlot(23).apply { item = AdminGUI_Items.permMessageClearItems() }
-        val hideStaffSlot = adminGUI.getSlot(15).apply { item = AdminGUI_Items.hideStaffItems() }
+        val globalChatSlot = adminGUI.getSlot(11).apply { item = AdminGUI_Items.globalChatItem() }
+        val freezePlayersSlot = adminGUI.getSlot(12).apply { item = AdminGUI_Items.freezePlayersItems() }
+        val pvpSlot = adminGUI.getSlot(13).apply { item = AdminGUI_Items.pvpItems() }
+        val lockVotesSlot = adminGUI.getSlot(14).apply { item = AdminGUI_Items.lockVotesItems() }
+        val clearVotesSlot = adminGUI.getSlot(23).apply { item = AdminGUI_Items.clearVotesItem() }
+        val permMessageSlot = adminGUI.getSlot(15).apply { item = AdminGUI_Items.permMessageItems() }
+        val permMessageClearSlot = adminGUI.getSlot(24).apply { item = AdminGUI_Items.permMessageClearItems() }
+        val hideStaffSlot = adminGUI.getSlot(16).apply { item = AdminGUI_Items.hideStaffItems() }
 
         // Click Handlers
         announceSessionSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "announcesession") } // TODO: Change to promote
         sessionTimeSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "sessiontime") }
         voicechatSlot.setClickHandler { clickPlayer, info -> buttonToggleVoicechatPerms(clickPlayer) }
+        globalChatSlot.setClickHandler { clickPlayer, info -> buttonToggleGlobalChat(clickPlayer) }
         freezePlayersSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "freezeall") }
         pvpSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "pvptoggle") }
         lockVotesSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "lockvotes") }
@@ -92,6 +95,20 @@ class AdminGUI {
             player.performCommand("voicechatperms on")
             player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
             adminGUI.getSlot(1).item = AdminGUI_Items.ENABLED_ITEM // Flip status item
+        }
+    }
+
+    // Function to toggle voicechat perms
+    private fun buttonToggleGlobalChat(player: Player) {
+        if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) {
+            player.performCommand("globalchat off")
+            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+            adminGUI.getSlot(2).item = AdminGUI_Items.DISABLED_ITEM // Flip status item
+        }
+        else {
+            player.performCommand("globalchat on")
+            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
+            adminGUI.getSlot(2).item = AdminGUI_Items.ENABLED_ITEM // Flip status item
         }
     }
 

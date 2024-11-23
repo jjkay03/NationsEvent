@@ -8,6 +8,8 @@ This plugin is designed for Nations Events, offering a comprehensive suite of fe
 
 In Nations Events most of the time death is permanent and all players only have one live, for this feature we use an other one of my plaugins [NationsDeathBan](https://github.com/jjkay03/NationsDeathBan) in combination with this one.
 
+🔨 Before using/interacting with this project, please ensure you have read and agree to the terms outlined in the [TERMS.md](TERMS.md) file.
+
 <br>
 
 ## COMMANDS

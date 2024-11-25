@@ -5,7 +5,7 @@ import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng5.NG5_Load
+import com.jjkay03.nationsevent.specific.ng6.NG6_Load
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -97,7 +97,7 @@ open class NationsEvent : JavaPlugin() {
         AntiEnderPearl()
 
         // Season specific load
-        NG5_Load(this)
+        NG6_Load(this)
     }
 
     // Plugin shutdown logic

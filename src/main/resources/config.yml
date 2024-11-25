@@ -6,7 +6,7 @@
 # == Server settings =================================================================================================
 
 # Event code name (Example: NG1)
-event-codename: "NG5"
+event-codename: "NG6"
 
 # Default players max render distance
 default-players-render-distance: 8

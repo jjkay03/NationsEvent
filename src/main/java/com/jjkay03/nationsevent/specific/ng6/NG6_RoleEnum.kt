@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.specific.ng6
 
+import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
@@ -25,6 +26,23 @@ enum class NG6_RolesEnum(
         "nationsevent.ng6.role.mafia",
         Sound.ENTITY_RAVAGER_CELEBRATE,
         NG6_TeamsEnum.MAFIA
+    ),
+
+    LOVER(
+        "§dLOVER ❤",
+        "§7You are bound to another player. If your lover dies, you will also die of heartbreak. Stay alive together!",
+        "nationsevent.ng6.role.lover",
+        Sound.ENTITY_ALLAY_ITEM_GIVEN,
+        NG6_TeamsEnum.NEUTRAL
+    ),
+
+    // NOT BEING USED!
+    MAYOR(
+    "§6MAYOR \uD83D\uDD14",
+    "§7The elected leader of the town. You lead the town and have the final say if two players have the same amount of votes during a voting session.",
+    "nationsevent.ng6.role.mayor",
+    Sound.BLOCK_BELL_RESONATE,
+    NG6_TeamsEnum.NEUTRAL
     );
 
     companion object {

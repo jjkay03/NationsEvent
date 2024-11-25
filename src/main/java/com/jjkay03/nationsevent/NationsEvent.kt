@@ -5,9 +5,7 @@ import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng5.*
-import com.jjkay03.nationsevent.specific.ng5.commands.*
-import com.jjkay03.nationsevent.specific.ng5.hangman_gonkas.NG5_HangMan
+import com.jjkay03.nationsevent.specific.ng5.NG5_Load
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -19,7 +17,7 @@ import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.model.group.GroupManager
 import org.ipvp.canvas.MenuFunctionListener
 
-class NationsEvent : JavaPlugin() {
+open class NationsEvent : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: NationsEvent
@@ -50,7 +48,6 @@ class NationsEvent : JavaPlugin() {
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()
-        val ng5ClericImmunity = NG5_ClericImmunity()
 
         // Register commands
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
@@ -80,15 +77,6 @@ class NationsEvent : JavaPlugin() {
         getCommand("admingui")?.setExecutor(AdminGUICommand())
         getCommand("globalchat")?.setExecutor(GlobalChatCommand())
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
-        // NG5
-        getCommand("bearrage")?.setExecutor(NG5_BearRage())
-        getCommand("wolfrage")?.setExecutor(NG5_WolfRageCommand())
-        getCommand("wolfrageall")?.setExecutor(NG5_WolfRageAllCommand())
-        getCommand("globalblindness")?.setExecutor(NG5_GlobalBlindnessCommand())
-        getCommand("globalblindness")?.tabCompleter = NG5_GlobalBlindnessCommand() // Tab completer
-        getCommand("rollroles")?.setExecutor(NG5_RollRoles())
-        getCommand("role")?.setExecutor(NG5_Role())
-        getCommand("clericimmunity")?.setExecutor(ng5ClericImmunity)
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener
@@ -103,14 +91,13 @@ class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
         server.pluginManager.registerEvents(UseChat(), this)
-        // NG5
-        server.pluginManager.registerEvents(NG5_SeasonSpecific(), this)
-        server.pluginManager.registerEvents(NG5_HangMan(), this)
-        server.pluginManager.registerEvents(ng5ClericImmunity, this)
 
         // Initialize patches
         AntiBlockGlitching()
         AntiEnderPearl()
+
+        // Season specific load
+        NG5_Load(this)
     }
 
     // Plugin shutdown logic

@@ -1,0 +1,29 @@
+bearrage:
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"
+
+wolfrage:
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"
+
+wolfrageall:
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"
+
+globalblindness:
+  aliases: [gblindness]
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"
+
+rollroles:
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"
+
+role:
+  permission: nationsevent.command.ng4.role
+  permission-message: "You do not have permission to use this command"
+
+clericimmunity:
+  aliases: [cleticimmun]
+  permission: nationsevent.admin
+  permission-message: "You do not have permission to use this command"

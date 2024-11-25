@@ -105,6 +105,11 @@ commands:
     permission: nationsevent.command.globalchat
     permission-message: "You do not have permission to use this command"
 
+
+  season_specific_seperator:
+    description: "====================================================================================================="
+
+
   bearrage:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

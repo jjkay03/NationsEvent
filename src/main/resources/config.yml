@@ -23,7 +23,7 @@ feature-iron-door: true
 feature-farm-protection: true
 
 # Make players faster when they are standing on certain blocks
-feature-speedy-blocks: true
+feature-speedy-blocks: false
 
 
 # == Patches ==========================================================================================================

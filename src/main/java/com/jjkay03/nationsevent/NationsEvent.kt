@@ -91,6 +91,7 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
         server.pluginManager.registerEvents(UseChat(), this)
+        server.pluginManager.registerEvents(NoCraft(), this)
 
         // Initialize patches
         AntiBlockGlitching()

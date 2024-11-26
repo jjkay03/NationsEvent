@@ -58,6 +58,8 @@ _All patches are toggleable in the plugin config._
 
 ## UTILS
 _Utility features of plugin._
+- Disabled specific items craft.
+- Disable or limit enchantments. [PLANED]
 - Allows admins to bypass max view distance.
 - Save all IGNs of the players that participate in the event.
 - Milk The Gator 👀

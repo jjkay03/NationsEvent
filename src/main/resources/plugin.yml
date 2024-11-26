@@ -122,3 +122,11 @@ commands:
   rollroles:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"
+
+  mafiarage:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
+  mafiarageall:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"

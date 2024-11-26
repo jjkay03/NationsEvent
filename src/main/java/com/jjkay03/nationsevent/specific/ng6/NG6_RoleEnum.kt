@@ -1,6 +1,5 @@
 package com.jjkay03.nationsevent.specific.ng6
 
-import com.jjkay03.nationsevent.specific.ng5.NG5_TeamsEnum
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
@@ -26,6 +25,46 @@ enum class NG6_RolesEnum(
         "nationsevent.ng6.role.mafia",
         Sound.ENTITY_RAVAGER_CELEBRATE,
         NG6_TeamsEnum.MAFIA
+    ),
+
+    HITMAN (
+        "§5HITMAN \uD83D\uDDE1",
+        "§7Description",
+        "nationsevent.ng6.role.hitman",
+        Sound.ITEM_CROSSBOW_SHOOT,
+        NG6_TeamsEnum.SOLITARIES
+    ),
+
+    DOCTOR (
+        "§eDOCTOR ⚗",
+        "§7Description",
+        "nationsevent.ng6.role.doctor",
+        Sound.BLOCK_BEACON_ACTIVATE,
+        NG6_TeamsEnum.CIVILIANS
+    ),
+
+    DETECTIVE (
+        "§bDETECTIVE \uD83D\uDD0E",
+        "§7Description",
+        "nationsevent.ng6.role.detective",
+        Sound.BLOCK_END_PORTAL_FRAME_FILL,
+        NG6_TeamsEnum.CIVILIANS
+    ),
+
+    AGENT (
+        "§9AGENT ✎",
+        "§7Description",
+        "nationsevent.ng6.role.agent",
+        Sound.ENTITY_WITCH_CELEBRATE,
+        NG6_TeamsEnum.CIVILIANS
+    ),
+
+    MATCHMAKER (
+        "§dMATCHMAKER \uD83C\uDFF9",
+        "§7Description",
+        "nationsevent.ng6.role.matchmaker",
+        Sound.ENTITY_ALLAY_ITEM_GIVEN,
+        NG6_TeamsEnum.CIVILIANS
     ),
 
     LOVER(

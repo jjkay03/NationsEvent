@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class NG6_Role : CommandExecutor {
+class NG6_RoleCommand : CommandExecutor {
 
     // Command
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {

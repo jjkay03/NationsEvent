@@ -16,8 +16,10 @@ class NG6_Load (private val plugin: JavaPlugin) {
         // Register commands
         plugin.getCommand("globalblindness")?.setExecutor(NG6_GlobalBlindnessCommand())
         plugin.getCommand("globalblindness")?.tabCompleter = NG6_GlobalBlindnessCommand() // Tab completer
-        plugin.getCommand("role")?.setExecutor(NG6_Role())
-        plugin.getCommand("rollroles")?.setExecutor(NG6_RollRoles())
+        plugin.getCommand("role")?.setExecutor(NG6_RoleCommand())
+        plugin.getCommand("rollroles")?.setExecutor(NG6_RollRolesCommand())
+        plugin.getCommand("mafiarage")?.setExecutor(NG6_MafiaRageCommand())
+        plugin.getCommand("mafiarageall")?.setExecutor(NG6_MafiaRageAllCommand())
 
         // Register events
         plugin.server.pluginManager.registerEvents(NG6_SeasonSpecific(), plugin)

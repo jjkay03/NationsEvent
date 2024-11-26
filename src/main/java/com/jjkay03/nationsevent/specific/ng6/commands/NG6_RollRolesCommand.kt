@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitScheduler
 
-class NG6_RollRoles : CommandExecutor {
+class NG6_RollRolesCommand : CommandExecutor {
 
     // Command
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {

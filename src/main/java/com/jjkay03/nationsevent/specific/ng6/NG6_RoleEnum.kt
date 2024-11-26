@@ -13,7 +13,7 @@ enum class NG6_RolesEnum(
 
     CIVILIAN (
         "§aCIVILIAN \uD83D\uDDE1",
-        "§7Description",
+        "§7An ordinary citizen with no special abilities. Your goal is to uncover and eliminate the mafia while surviving their nightly attacks.",
         "",
         Sound.ENTITY_VILLAGER_CELEBRATE,
         NG6_TeamsEnum.CIVILIANS
@@ -21,7 +21,7 @@ enum class NG6_RolesEnum(
 
     MAFIA (
         "§cMAFIA \uD83D\uDDE1",
-        "§7Description",
+        "§7A member of the mafia, working in secret to eliminate the civilians. Collaborate with your team to manipulate the game and eliminate anyone in your way. §cDO NOT DO ANYTHING BEFORE CONSULTING THE ADMINS!",
         "nationsevent.ng6.role.mafia",
         Sound.ENTITY_RAVAGER_CELEBRATE,
         NG6_TeamsEnum.MAFIA
@@ -29,7 +29,7 @@ enum class NG6_RolesEnum(
 
     HITMAN (
         "§5HITMAN \uD83D\uDDE1",
-        "§7Description",
+        "§7A professional killer, your mission is to eliminate your assigned target (admins will let you know). Fail, and you pay the price with your life. You’re not aligned with civilians but can indirectly aid the mafia. §cDO NOT DO ANYTHING BEFORE CONSULTING THE ADMINS!",
         "nationsevent.ng6.role.hitman",
         Sound.ITEM_CROSSBOW_SHOOT,
         NG6_TeamsEnum.SOLITARIES
@@ -37,7 +37,7 @@ enum class NG6_RolesEnum(
 
     DOCTOR (
         "§eDOCTOR ⚗",
-        "§7Description",
+        "§7A skilled healer who can save one player from death each night. Strategically protect key allies to help the civilians survive and defeat the mafia.",
         "nationsevent.ng6.role.doctor",
         Sound.BLOCK_BEACON_ACTIVATE,
         NG6_TeamsEnum.CIVILIANS
@@ -45,7 +45,7 @@ enum class NG6_RolesEnum(
 
     DETECTIVE (
         "§bDETECTIVE \uD83D\uDD0E",
-        "§7Description",
+        "§7A sharp investigator who can discover the true identity of one player each night (admins will provide this information in private). Use your insights to guide the civilians.",
         "nationsevent.ng6.role.detective",
         Sound.BLOCK_END_PORTAL_FRAME_FILL,
         NG6_TeamsEnum.CIVILIANS
@@ -53,7 +53,7 @@ enum class NG6_RolesEnum(
 
     AGENT (
         "§9AGENT ✎",
-        "§7Description",
+        "§7A covert operative who can send one anonymous message to any role each night. Use this power to sow confusion, deliver warnings, or share insights without revealing your identity.",
         "nationsevent.ng6.role.agent",
         Sound.ENTITY_WITCH_CELEBRATE,
         NG6_TeamsEnum.CIVILIANS
@@ -61,7 +61,7 @@ enum class NG6_RolesEnum(
 
     MATCHMAKER (
         "§dMATCHMAKER \uD83C\uDFF9",
-        "§7Description",
+        "§7You choose two players to fall in love. If one dies, the other will follow. The lovers win together, regardless of their allegiance.",
         "nationsevent.ng6.role.matchmaker",
         Sound.ENTITY_ALLAY_ITEM_GIVEN,
         NG6_TeamsEnum.CIVILIANS

@@ -130,3 +130,7 @@ commands:
   mafiarageall:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"
+
+  doctorimmunity:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"

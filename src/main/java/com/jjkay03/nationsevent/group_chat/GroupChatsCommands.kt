@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.group_chat
 
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -27,8 +28,10 @@ class GroupChatsCommands(private val groupChats: GroupChats) : CommandExecutor {
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command"); return true }
         val player = sender
 
-        // End if player doesn't have permission
-        if (!player.hasPermission(groupChats.permissionSend)) { player.sendMessage("§cYou do not have permission to use this command"); return true }
+        // End if player doesn't have send pem or staff perm
+        if (!player.hasPermission(groupChats.permissionSend) || !player.hasPermission(Saves.PERM_STAFF)) {
+            player.sendMessage("§cYou do not have permission to use this command"); return true
+        }
 
         // End if no arguments (message) is provided
         if (args.isEmpty()) { sender.sendMessage("§cUsage: /$label <message>"); return true }
@@ -39,8 +42,8 @@ class GroupChatsCommands(private val groupChats: GroupChats) : CommandExecutor {
             .replace("%player%", player.name)
             .replace("%message%", rawMessage)
 
-        // Send the message to players with permission
-        Utils.messagePlayerWithPerm(message, groupChats.permissionView)
+        // Send the message to players with view pem or staff pem
+        Utils.messagePlayerWithPerm(message, groupChats.permissionView, Saves.PERM_STAFF)
 
         return true
     }

@@ -67,7 +67,9 @@ _Utility features of plugin._
 <br>
 
 ## GROUP CHATS
-Custom group chats creation based on permissions. The group chat are edited and created in the `GroupChats.kt` enum class.
+Custom group chats creation based on permissions.
+
+The group chat are edited and created in the `GroupChats.kt` enum class:
 
 ```kotlin
 // Exemple group chat (Staff chat)
@@ -80,9 +82,9 @@ STAFF_CHAT (
 ```
 ![image](https://github.com/user-attachments/assets/21299d5a-3586-4197-a08a-427dba5cc04f)
 
-- **Formatting:** Use %player% for were the player name show and %message% for were the message should show.
+- **Formatting:** Use `%player%` for were the player name show and `%message%` for were the message should show.
 - **Permission Send:** This is the perm needed to send a message in that GC.
-- **Permission View:** This is the perm needed to view messages in that GC. _(Anyone with send or staff perm can also view)_
+- **Permission View:** This is the perm needed to view messages in that GC. _(Send/Staff perm can also view)_
 - **Commands:** This is a list of commands that can be used to message in the GC. _(Exemple: `/staffchat <message>`)_
 
 <br>

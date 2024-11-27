@@ -4,6 +4,8 @@ import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.group_chat.GroupChats
+import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.specific.ng6.NG6_Load
 import com.jjkay03.nationsevent.utils.*
@@ -77,6 +79,9 @@ open class NationsEvent : JavaPlugin() {
         getCommand("admingui")?.setExecutor(AdminGUICommand())
         getCommand("globalchat")?.setExecutor(GlobalChatCommand())
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
+
+        // Test
+        GroupChatsCommands.registerGroupChatCommands(this)
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener

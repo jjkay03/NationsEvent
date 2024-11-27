@@ -3,9 +3,17 @@ package com.jjkay03.nationsevent
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandMap
+import org.bukkit.command.CommandSender
+import org.bukkit.command.defaults.BukkitCommand
+import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.lang.reflect.Field
 
 object Utils {
+
+    private var commandMap: CommandMap? = null
 
     // Function to display plugin welcome message
     fun displayPluginWelcomeMessage(color: String) {
@@ -59,6 +67,26 @@ object Utils {
     fun luckPermsGroupHasPermission(group: Group?, permission: String): Boolean {
         if (group == null) return false // Return false if the group is null
         return group.nodes.any { it.key == permission && it.value }
+    }
+
+    // Function to initialize commandMap using reflection
+    private fun getCommandMap(): CommandMap {
+        if (commandMap == null) {
+            val commandMapField: Field = Bukkit.getServer().javaClass.getDeclaredField("commandMap")
+            commandMapField.isAccessible = true
+            commandMap = commandMapField.get(Bukkit.getServer()) as CommandMap
+        }
+        return commandMap!!
+    }
+
+    // Function to register command
+    fun registerCommand(plugin: JavaPlugin, commandName: String, executor: CommandExecutor) {
+        val command = object : BukkitCommand(commandName) {
+            override fun execute(sender: CommandSender, label: String, args: Array<out String>): Boolean {
+                return executor.onCommand(sender, this, label, args)
+            }
+        }
+        getCommandMap().register(plugin.name, command)
     }
 
 }

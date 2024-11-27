@@ -34,12 +34,12 @@ class LimitEnchant : Listener {
                 if (allowedLevel == 0) {
                     // Remove the enchantment if the allowed level is 0
                     item.removeEnchantment(enchantment)
-                    player.sendMessage("§8Remove disabled enchant ${enchantment.key.key.uppercase()} from ${item.type.name}")
+                    player.sendMessage("§8✖ Remove disabled enchant ${enchantment.key.key.uppercase()} from ${item.type.name}")
                 } else {
                     // Set the enchantment to the allowed level
                     item.removeEnchantment(enchantment)
                     item.addEnchantment(enchantment, allowedLevel)
-                    player.sendMessage("§8Adjusted limited enchant ${enchantment.key.key.uppercase()} (max level ${allowedLevel}) on ${item.type.name}")
+                    player.sendMessage("§8✖ Adjusted limited enchant ${enchantment.key.key.uppercase()} (max level ${allowedLevel}) on ${item.type.name}")
                 }
             }
         }

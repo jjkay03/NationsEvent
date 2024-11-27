@@ -25,7 +25,7 @@ class NoCraft : Listener {
         if (result.type !in Saves.DISABLED_CRAFT_ITEMS) return
         event.isCancelled = true
         val player = event.whoClicked
-        player.sendMessage("§8Item ${result.type.name} craft is disabled!")
+        player.sendMessage("§8✖ Item ${result.type.name} craft is disabled!")
     }
 
     // Cancel craft from crafter
@@ -37,7 +37,7 @@ class NoCraft : Listener {
 
         // Notify nearby players
         event.block.world.getNearbyEntities(event.block.location, 4.0, 4.0, 4.0).forEach {
-            entity ->  if (entity is Player) entity.sendMessage("§8Item ${result.type.name} craft is disabled (crafter)!")
+            entity ->  if (entity is Player) entity.sendMessage("§8✖ Item ${result.type.name} craft is disabled (crafter)!")
         }
     }
 }

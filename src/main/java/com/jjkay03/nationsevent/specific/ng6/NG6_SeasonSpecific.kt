@@ -5,8 +5,11 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.specific.ng6.commands.*
 import me.neznamy.tab.api.event.player.PlayerLoadEvent
 import org.bukkit.Material
+import org.bukkit.entity.Arrow
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -49,6 +52,15 @@ class NG6_SeasonSpecific : Listener {
         }
     }
 
+    // EventHandler - Shot arrows deal extra damage (gun)
+    @EventHandler
+    fun onArrowHit(event: EntityDamageByEntityEvent) {
+        if (event.damager !is Arrow) return // End if damage not caused by arrow
+        val shooter = (event.damager as Arrow).shooter // Get shooter
+        if (shooter !is Player) return // End if shooter not a player
+        event.damage *= 3
+    }
+
     // Hide player name tag and fill TAB header (TAB API) if global blindness is on, when player login
     init {
         NationsEvent.TAB_INSTANCE.eventBus?.register(PlayerLoadEvent::class.java) { event ->
@@ -57,7 +69,6 @@ class NG6_SeasonSpecific : Listener {
                 NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(player)
                 NationsEvent.TAB_HEADER_FOOTER_MANAGER.setHeader(player, NG6_GlobalBlindnessCommand.HIDE_STRING)
             }
-
         }
     }
 }

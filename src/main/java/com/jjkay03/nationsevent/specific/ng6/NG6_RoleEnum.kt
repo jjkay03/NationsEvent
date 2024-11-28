@@ -35,6 +35,14 @@ enum class NG6_RolesEnum(
         NG6_TeamsEnum.SOLITARIES
     ),
 
+    SHERIFF (
+        "§6SHERIFF ⭐",
+        "§7Armed with a gun, you can shoot players. If they’re not mafia, you’ll die as well. Use your power wisely.",
+        "nationsevent.ng6.role.sheriff",
+        Sound.ITEM_CROSSBOW_SHOOT,
+        NG6_TeamsEnum.CIVILIANS
+    ),
+
     DOCTOR (
         "§eDOCTOR ⚗",
         "§7A skilled healer who can save one player from death each night. Strategically protect key allies to help the civilians survive and defeat the mafia.",

@@ -66,17 +66,31 @@ _Utility features of plugin._
 
 <br>
 
+## GROUP CHATS
+Custom group chats creation based on permissions.
+
+The group chat are edited and created in the `GroupChats.kt` enum class:
+
+```kotlin
+// Exemple group chat (Staff chat)
+STAFF_CHAT (
+        "§4[SC] §c%player%: %message%",
+        "nationsevent.staffchat.send",
+        "nationsevent.staffchat.view",
+        setOf("staffchat", "sc")
+    )
+```
+![image](https://github.com/user-attachments/assets/21299d5a-3586-4197-a08a-427dba5cc04f)
+
+- **Formatting:** Use `%player%` for were the player name show and `%message%` for were the message should show.
+- **Permission Send:** This is the perm needed to send a message in that GC.
+- **Permission View:** This is the perm needed to view messages in that GC. _(Send/Staff perm can also view)_
+- **Commands:** This is a list of commands that can be used to message in the GC. _(Exemple: `/staffchat <message>`)_
+
+<br>
+
 ## ADMIN GUI
 Open using `/admingui` to toggle on or off main features of the plugin easily.
 
 https://github.com/user-attachments/assets/e0b785fa-b1c3-444c-8634-699b73d88535
-
-
-<br>
-
----
-
-<br>
-
-![nations_season_2_map](https://github.com/user-attachments/assets/f8ea31f6-a3a5-45de-8c9b-4345bf6e6423)
 

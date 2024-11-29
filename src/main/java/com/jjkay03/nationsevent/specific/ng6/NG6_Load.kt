@@ -24,6 +24,7 @@ class NG6_Load (private val plugin: JavaPlugin) {
 
         // Register events
         plugin.server.pluginManager.registerEvents(NG6_SeasonSpecific(), plugin)
+        plugin.server.pluginManager.registerEvents(NG6_GunBullet(), plugin)
         plugin.server.pluginManager.registerEvents(ng6DoctorImmunity, plugin)
     }
 }

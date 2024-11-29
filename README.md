@@ -58,6 +58,7 @@ _All patches are toggleable in the plugin config._
 
 ## UTILS
 _Utility features of plugin._
+- Server resourcepack with specific player bypass.
 - Disabled specific items craft.
 - Disable or limit enchantments.
 - Allows admins to bypass max view distance.

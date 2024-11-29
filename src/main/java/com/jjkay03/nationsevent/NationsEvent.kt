@@ -98,6 +98,7 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(UseChat(), this)
         server.pluginManager.registerEvents(NoCraft(), this)
         server.pluginManager.registerEvents(LimitEnchant(), this)
+        server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize patches
         AntiBlockGlitching()

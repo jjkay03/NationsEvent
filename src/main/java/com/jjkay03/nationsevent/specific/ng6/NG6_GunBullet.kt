@@ -11,6 +11,7 @@ class NG6_GunBullet : Listener {
     // TODO: Make arrows dispawn on ground touch
     // TODO: Make arrows have bullet trails
     // TODO: Make bow and crossbow not take durability damage
+    // TODO: Attempt to make arrows not lose velocity and go strait
 
     // Shot arrows deal extra damage (gun)
     @EventHandler

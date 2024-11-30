@@ -1,17 +1,22 @@
 package com.jjkay03.nationsevent.specific.ng6
 
+import org.bukkit.Material
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.player.PlayerItemDamageEvent
 
 class NG6_GunBullet : Listener {
 
-    // TODO: Make arrows dispawn on ground touch
     // TODO: Make arrows have bullet trails
-    // TODO: Make bow and crossbow not take durability damage
     // TODO: Attempt to make arrows not lose velocity and go strait
+    // DONE: Make arrows dispawn on ground touch
+    // DONE: Make bow and crossbow not take durability damage
+
+    private val gunItems = setOf(Material.BOW, Material.CROSSBOW)
 
     // Shot arrows deal extra damage (gun)
     @EventHandler
@@ -22,4 +27,15 @@ class NG6_GunBullet : Listener {
         event.damage *= 3
     }
 
+    // Delete arrows when they touch the ground
+    @EventHandler
+    fun onProjectileHit(event: ProjectileHitEvent) {
+        if (event.entity is Arrow) event.entity.remove()
+    }
+
+    // Disable durability loss on gun items
+    @EventHandler
+    fun onItemDamage(event: PlayerItemDamageEvent) {
+        if (event.item.type in gunItems) event.isCancelled = true
+    }
 }

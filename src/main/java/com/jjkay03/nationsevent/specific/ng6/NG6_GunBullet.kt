@@ -1,20 +1,21 @@
 package com.jjkay03.nationsevent.specific.ng6
 
+import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.Material
+import org.bukkit.Particle
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.entity.ProjectileLaunchEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
+import org.bukkit.scheduler.BukkitRunnable
 
 class NG6_GunBullet : Listener {
 
-    // TODO: Make arrows have bullet trails
     // TODO: Attempt to make arrows not lose velocity and go strait
-    // DONE: Make arrows dispawn on ground touch
-    // DONE: Make bow and crossbow not take durability damage
 
     private val gunItems = setOf(Material.BOW, Material.CROSSBOW)
 
@@ -37,5 +38,30 @@ class NG6_GunBullet : Listener {
     @EventHandler
     fun onItemDamage(event: PlayerItemDamageEvent) {
         if (event.item.type in gunItems) event.isCancelled = true
+    }
+
+    // Arrow particle trail
+    //   - Start with 1s delay
+    //   - Arrows will be tracked for 10s
+    @EventHandler
+    fun onArrowLaunch(event: ProjectileLaunchEvent) {
+        val projectile = event.entity
+        if (projectile !is Arrow) return // End if not arrow
+
+        // Run task
+        object : BukkitRunnable() {
+            private var timer = 0 // Timer to track elapsed time
+            override fun run() {
+                // If the arrow is dead or has landed, stop the task
+                if (projectile.isDead || projectile.isInBlock || timer >= 200) {cancel(); return }
+
+                // Create particle effects at the arrow's current location
+                val location = projectile.location
+                location.world?.spawnParticle(Particle.CRIT, location, 1, 0.0, 0.0, 0.0, 0.05)
+
+                // Increase timer
+                timer++
+            }
+        }.runTaskTimer(NationsEvent.INSTANCE, 20L, 1L)
     }
 }

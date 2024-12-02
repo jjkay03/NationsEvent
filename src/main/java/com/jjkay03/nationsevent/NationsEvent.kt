@@ -79,6 +79,7 @@ open class NationsEvent : JavaPlugin() {
         getCommand("admingui")?.setExecutor(AdminGUICommand())
         getCommand("globalchat")?.setExecutor(GlobalChatCommand())
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
+        getCommand("applyserverpack")?.setExecutor(ApplyServerPackCommand())
 
         // Test
         GroupChatsCommands.registerGroupChatCommands(this)

@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerJoinEvent
@@ -11,62 +12,65 @@ import java.security.MessageDigest
 import java.net.URL
 
 class ApplyResourcepack : Listener {
-    private val plugin = NationsEvent.INSTANCE
-    private val config = plugin.config
-    private val resourcepackEnabled: Boolean = config.getBoolean("resourcepack-enable")
-    private val resourcepackUrl: String? = config.getString("resourcepack-url")
-    private var resourcepackHash: String? = config.getString("resourcepack-hash")
-    private val exemptPlayers: List<String> = config.getStringList("resourcepack-players-exempt")
+    companion object {
+        // variables
+        val PLUGIN = NationsEvent.INSTANCE
+        val CONFIG = PLUGIN.config
+        val RESOURCEPACK_ENABLED: Boolean = CONFIG.getBoolean("resourcepack-enable")
+        val RESOURCEPACK_URL: String? = CONFIG.getString("resourcepack-url")
+        var RESOURCEPACK_HASH: String? = CONFIG.getString("resourcepack-hash")
+        private val EXEMPT_PLAYERS: List<String> = CONFIG.getStringList("resourcepack-players-exempt")
+
+        // Apply server pack
+        fun applyPack(player: Player) {
+            if (!RESOURCEPACK_URL.isNullOrBlank() && !RESOURCEPACK_HASH.isNullOrBlank()) {
+                player.setResourcePack(RESOURCEPACK_URL, RESOURCEPACK_HASH!!, true)
+            } else {
+                PLUGIN.logger.warning("Error sending resourcepack: URL or hash is missing in the configuration!")
+            }
+        }
+    }
 
     init {
         // Download the resource pack if it's enabled
-        if (resourcepackEnabled) downloadResourcePack()
+        if (RESOURCEPACK_ENABLED) downloadResourcePack()
     }
 
+    // apply resourcepack on join
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        // Cancel if resource pack is disabled
-        if (!resourcepackEnabled) return
-
+        if (!RESOURCEPACK_ENABLED) return  // Cancel if resource pack is disabled
         val player = event.player
-
-        // Skip if player is in the exempt list
-        if (exemptPlayers.contains(player.name)) return
-
-        // Send the resource pack
-        if (!resourcepackUrl.isNullOrBlank() && !resourcepackHash.isNullOrBlank()) {
-            player.setResourcePack(resourcepackUrl, resourcepackHash!!, true)
-        } else {
-            plugin.logger.warning("Error sending resourcepack: URL or hash is missing in the configuration!")
-        }
+        if (EXEMPT_PLAYERS.contains(player.name)) return  // Skip if player is in the exempt list
+        applyPack(player)  // Apply pack to player
     }
 
     // Function to download resourcepack to generate hash
     private fun downloadResourcePack() {
         // Path to save the downloaded resource pack
-        val resourcepackFile = plugin.dataFolder.resolve("downloads/resourcepack.zip")
+        val resourcepackFile = PLUGIN.dataFolder.resolve("downloads/resourcepack.zip")
 
         // Check if the URL is valid
-        if (resourcepackUrl.isNullOrBlank()) { plugin.logger.severe("Resource pack URL is missing in the configuration!"); return }
+        if (RESOURCEPACK_URL.isNullOrBlank()) { PLUGIN.logger.severe("Resource pack URL is missing in the configuration!"); return }
 
         try {
             // Download the resource pack from the URL
-            val url = URL(resourcepackUrl)
+            val url = URL(RESOURCEPACK_URL)
             url.openStream().use { inputStream ->
                 Files.createDirectories(resourcepackFile.parentFile.toPath())  // Create directories if they don't exist
                 Files.copy(inputStream, resourcepackFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
             }
-            plugin.logger.info("Resource pack downloaded successfully.")
+            PLUGIN.logger.info("Resource pack downloaded successfully.")
             generateHash(resourcepackFile)  // Generate hash after downloading the resource pack
         } catch (e: Exception) {
-            plugin.logger.severe("Error downloading resource pack: ${e.message}")
+            PLUGIN.logger.severe("Error downloading resource pack: ${e.message}")
         }
     }
 
     // Function that generates hash from pack
     private fun generateHash(resourcepackFile: File) {
         // Check if the resource pack file exists
-        if (!resourcepackFile.exists()) { plugin.logger.severe("Resource pack file not found at: ${resourcepackFile.absolutePath}"); return }
+        if (!resourcepackFile.exists()) { PLUGIN.logger.severe("Resource pack file not found at: ${resourcepackFile.absolutePath}"); return }
 
         try {
             // Generate the SHA-1 hash
@@ -75,13 +79,13 @@ class ApplyResourcepack : Listener {
             val hashBytes = digest.digest(fileBytes)
 
             // Save the generated hash back to the configuration
-            resourcepackHash = hashBytes.joinToString("") { "%02x".format(it) }
-            config.set("resourcepack-hash", resourcepackHash)
-            plugin.saveConfig()
+            RESOURCEPACK_HASH = hashBytes.joinToString("") { "%02x".format(it) }
+            CONFIG.set("resourcepack-hash", RESOURCEPACK_HASH)
+            PLUGIN.saveConfig()
 
-            plugin.logger.info("Generated resource pack hash: $resourcepackHash")
+            PLUGIN.logger.info("Generated resource pack hash: $RESOURCEPACK_HASH")
         } catch (e: Exception) {
-            plugin.logger.severe("Error generating resource pack hash: ${e.message}")
+            PLUGIN.logger.severe("Error generating resource pack hash: ${e.message}")
         }
     }
 }

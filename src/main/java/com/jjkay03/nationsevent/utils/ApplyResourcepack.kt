@@ -102,6 +102,9 @@ class ApplyResourcepack : Listener {
                 return@forEachIndexed
             }
 
+            // Clear hash list before creating new hashes
+            CONFIG.set("resourcepacks-hashes", emptyList<String>()); PLUGIN.saveConfig()
+
             try {
                 // Generate the SHA-1 hash
                 val digest = MessageDigest.getInstance("SHA-1")
@@ -111,8 +114,7 @@ class ApplyResourcepack : Listener {
 
                 // Add the hash to the configuration
                 RESOURCEPACKS_HASHES = RESOURCEPACKS_HASHES.toMutableList().apply { add(hashString) }
-                CONFIG.set("resourcepacks-hashes", RESOURCEPACKS_HASHES)
-                PLUGIN.saveConfig()
+                CONFIG.set("resourcepacks-hashes", RESOURCEPACKS_HASHES); PLUGIN.saveConfig()
 
                 PLUGIN.logger.info("Generated resource pack hash for pack ${index + 1}: $hashString")
             } catch (e: Exception) {

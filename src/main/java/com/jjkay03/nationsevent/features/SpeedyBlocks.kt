@@ -13,7 +13,7 @@ class SpeedyBlocks : Listener {
     private val featureEnabled: Boolean = config.getBoolean("feature-speedy-blocks")
 
     // Configuration
-    private val listOfSpeedyBlocks: Array<Material> = arrayOf(Material.PACKED_MUD, Material.MUD_BRICKS)
+    private val listOfSpeedyBlocks: Array<Material> = arrayOf(Material.GRAVEL)
     private val speedyEffect: PotionEffect = PotionEffect(PotionEffectType.SPEED, 40, 0, false, false, false)
     private val speedyTimeRange: Pair<Long, Long> = Pair(3000, 11000)
 

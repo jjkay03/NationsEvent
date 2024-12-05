@@ -123,6 +123,6 @@ open class NationsEvent : JavaPlugin() {
         // LUCKPERMS API
         LP_INSTANCE = LuckPermsProvider.get()
         LP_GROUP_MANAGER = LP_INSTANCE.groupManager
-        if (TAB_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.warning("Can't connect to LuckPerms API")
+        if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.warning("Can't connect to LuckPerms API")
     }
 }

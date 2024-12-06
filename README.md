@@ -75,10 +75,10 @@ The group chat are edited and created in the `GroupChats.kt` enum class:
 ```kotlin
 // Exemple group chat (Staff chat)
 STAFF_CHAT (
-        "§4[SC] §c%player%: %message%",
-        "nationsevent.staffchat.send",
-        "nationsevent.staffchat.view",
-        setOf("staffchat", "sc")
+        "§4[SC] §c%player%: %message%",  // Formating
+        "nationsevent.staffchat.send",  // Permission send
+        "nationsevent.staffchat.view",  // Permission view
+        setOf("staffchat", "sc")  // Commands
     )
 ```
 ![image](https://github.com/user-attachments/assets/21299d5a-3586-4197-a08a-427dba5cc04f)

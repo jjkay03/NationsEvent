@@ -14,7 +14,7 @@ render-distance-default-players: 8
 
 # Resourcepack
 # Enable/Disable resourcepack being sent to players
-resourcepacks-enable: true
+resourcepacks-enable: false
 # URL to resourcepack (Packs will be ordered in the opposite order in-game)
 resourcepacks-urls:
   - https://github.com/SantoriaNetwork/SantoriaPack-Download/releases/download/Nations-NG6/Resourcepack.Nations.NG6-Fall-U1.zip

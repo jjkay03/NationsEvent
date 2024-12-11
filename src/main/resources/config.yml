@@ -9,12 +9,13 @@
 event-codename: NG6
 
 # Default players max render distance
-default-players-render-distance: 8
+render-distance-manager: true
+render-distance-default-players: 8
 
 # Resourcepack
 # Enable/Disable resourcepack being sent to players
 resourcepacks-enable: true
-# URL to resourcepack
+# URL to resourcepack (Packs will be ordered in the opposite order in-game)
 resourcepacks-urls:
   - https://github.com/SantoriaNetwork/SantoriaPack-Download/releases/download/Nations-NG6/Resourcepack.Nations.NG6-Fall-U1.zip
   - https://github.com/SantoriaNetwork/SantoriaPack-Download/releases/download/Nations-NG6/Resourcepack.Nations.NG6-U4.zip

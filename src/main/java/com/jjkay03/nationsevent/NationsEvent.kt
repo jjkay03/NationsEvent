@@ -86,7 +86,6 @@ open class NationsEvent : JavaPlugin() {
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener
-        //server.pluginManager.registerEvents(RenderDistance(), this)
         server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)

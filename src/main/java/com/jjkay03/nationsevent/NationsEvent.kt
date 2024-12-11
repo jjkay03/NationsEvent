@@ -100,9 +100,10 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(LimitEnchant(), this)
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
-        // Initialize patches
-        AntiBlockGlitching()
-        AntiEnderPearl()
+        // Initialize classes
+        AntiBlockGlitching() // Patch
+        AntiEnderPearl() // Patch
+        RenderDistance()
 
         // Season specific load
         NG6_Load(this)

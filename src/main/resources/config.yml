@@ -9,7 +9,7 @@
 event-codename: NG6
 
 # Default players max render distance
-render-distance-manager: true
+render-distance-manager: false
 render-distance-default-players: 8
 
 # Resourcepack

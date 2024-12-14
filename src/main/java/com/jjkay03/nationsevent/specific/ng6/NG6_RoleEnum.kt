@@ -24,7 +24,7 @@ enum class NG6_RolesEnum(
         "§7A member of the mafia, working in secret to eliminate the civilians. Collaborate with your team to manipulate the game and eliminate anyone in your way. §cDO NOT DO ANYTHING BEFORE CONSULTING THE ADMINS!",
         "nationsevent.ng6.role.mafia",
         Sound.ENTITY_RAVAGER_CELEBRATE,
-        NG6_TeamsEnum.MAFIA
+        NG6_TeamsEnum.MAFIA_KILLERS
     ),
 
     HITMAN (

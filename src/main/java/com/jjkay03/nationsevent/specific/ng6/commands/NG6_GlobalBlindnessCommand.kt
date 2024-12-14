@@ -46,7 +46,7 @@ class NG6_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
             // Hide player list by filling TAB header
             tabFillHeader(player)
             // Hide player nametag using TAB API
-            NationsEvent.TAB_NAMETAG_MANAGER?.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
+            NationsEvent.TAB_NAMETAG_MANAGER.hideNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Skip player if player has bypass perm
             val playerTeam = NG6_RolesEnum.getPlayerRole(player).team
             if (player.hasPermission(Saves.PERM_STAFF) || playerTeam == NG6_TeamsEnum.MAFIA_KILLERS || playerTeam == NG6_TeamsEnum.SOLITARIES ) continue
@@ -65,7 +65,7 @@ class NG6_GlobalBlindnessCommand : CommandExecutor, TabCompleter {
             // Un-hide player list by un-filling TAB header
             tabUnFillHeader(player)
             // Show player nametag using TAB API
-            NationsEvent.TAB_NAMETAG_MANAGER?.showNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
+            NationsEvent.TAB_NAMETAG_MANAGER.showNameTag(NationsEvent.TAB_INSTANCE.getPlayer(player.uniqueId)!!)
             // Clear everyone bliness
             if (player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
                 player.removePotionEffect(PotionEffectType.BLINDNESS)

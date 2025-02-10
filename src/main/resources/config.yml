@@ -25,6 +25,14 @@ resourcepacks-players-exempt:
   - jjkay02
 
 
+# == Gameplay settings ================================================================================================
+# Disabled crafts (managed from Saves class)
+setting-no-craft: true
+
+# Limited enchants (managed from Saves class)
+setting-limit-enchant: false
+
+
 # == Features toggle ==================================================================================================
 # Make players drop meet on death
 feature-meat-player-death: false

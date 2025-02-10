@@ -4,10 +4,9 @@ import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
-import com.jjkay03.nationsevent.group_chat.GroupChats
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific.ng6.NG6_Load
+import com.jjkay03.nationsevent.specific.ne1.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -96,8 +95,6 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
         server.pluginManager.registerEvents(UseChat(), this)
-        server.pluginManager.registerEvents(NoCraft(), this)
-        server.pluginManager.registerEvents(LimitEnchant(), this)
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize classes
@@ -106,7 +103,7 @@ open class NationsEvent : JavaPlugin() {
         RenderDistance()
 
         // Season specific load
-        NG6_Load(this)
+        NE1_Load(this)
     }
 
     // Plugin shutdown logic

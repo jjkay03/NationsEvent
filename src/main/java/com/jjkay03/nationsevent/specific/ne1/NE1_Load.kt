@@ -13,7 +13,7 @@ class NE1_Load (private val plugin: JavaPlugin) {
         // ...
 
         // Register events
-        // ...
+        plugin.server.pluginManager.registerEvents(NE1_PlayersNoNetherite(), plugin)
 
     }
 

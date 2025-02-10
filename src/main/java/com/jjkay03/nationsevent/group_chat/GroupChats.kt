@@ -25,12 +25,5 @@ enum class GroupChats (
         Saves.PERM_STAFF,
         Saves.PERM_STAFF,
         setOf("staffchat", "sc")
-    ),
-
-    MAFIA_CHAT (
-        "§7[MC] %player%: %message%",
-        NG6_RolesEnum.MAFIA.groupPerm,
-        NG6_RolesEnum.MAFIA.groupPerm,
-        setOf("mafiachat", "mc")
     )
 }

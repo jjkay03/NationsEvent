@@ -51,6 +51,7 @@ open class NationsEvent : JavaPlugin() {
         val hideStaffCommand = HideStaffCommand()
 
         // Register commands
+        GroupChatsCommands.registerGroupChatCommands(this)
         getCommand("joinvc")?.setExecutor(JoinvcCommand())
         getCommand("joinstage")?.setExecutor(JoinStageCommand())
         getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
@@ -80,9 +81,6 @@ open class NationsEvent : JavaPlugin() {
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
         getCommand("applyserverpack")?.setExecutor(ApplyServerPackCommand())
 
-        // Test
-        GroupChatsCommands.registerGroupChatCommands(this)
-
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener
         server.pluginManager.registerEvents(hideStaffCommand, this)
@@ -98,6 +96,8 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize classes
+        NoCraft() // Gameplay setting
+        LimitEnchant() // Gameplay setting
         AntiBlockGlitching() // Patch
         AntiEnderPearl() // Patch
         RenderDistance()

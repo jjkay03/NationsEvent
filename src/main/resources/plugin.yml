@@ -113,28 +113,6 @@ commands:
   season_specific_seperator:
     description: "====================================================================================================="
 
-
-  globalblindness:
-    aliases: [ gblindness ]
-    permission: nationsevent.admin
-    permission-message: "You do not have permission to use this command"
-
-  role:
-    permission: nationsevent.command.ng6.role
-    permission-message: "You do not have permission to use this command"
-
-  rollroles:
-    permission: nationsevent.admin
-    permission-message: "You do not have permission to use this command"
-
-  mafiarage:
-    permission: nationsevent.admin
-    permission-message: "You do not have permission to use this command"
-
-  mafiarageall:
-    permission: nationsevent.admin
-    permission-message: "You do not have permission to use this command"
-
-  doctorimmunity:
+  giveplayerscanner:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

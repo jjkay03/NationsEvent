@@ -7,11 +7,13 @@ import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.scheduler.BukkitRunnable
@@ -28,12 +30,6 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
     // Listener
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
-        // End if no perm
-        if (!event.player.hasPermission(useScannerPerm)) {
-            event.player.sendMessage("§cYou don't have permission to use the player scanner (PLEASE RETURN IT AN ADMIN)!")
-            return
-        }
-
         if (!event.action.toString().contains("RIGHT_CLICK")) return // End if not right-click
 
         // Get the item based on the interaction hand
@@ -45,7 +41,14 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
 
         if (!isScannerItem(item)) return // End if item not scanner
         event.isCancelled = true // Cancel to prevent Ender Eye from floating
-        scan(event.player, 25) // Run scan
+
+        // End if no perm
+        if (!event.player.hasPermission(useScannerPerm)) {
+            event.player.sendMessage("§cYou don't have permission to use the player scanner (PLEASE RETURN IT AN ADMIN)!")
+            return
+        }
+
+        scan(event.player, 100) // Run scan
     }
 
 
@@ -63,19 +66,21 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
 
 
     // Function to create scanner item
-    fun scannerItem(): ItemStack {
+    private fun scannerItem(): ItemStack {
         val item = ItemStack(scannerMaterial)
         val meta: ItemMeta = item.itemMeta
         meta.setCustomModelData(scannerCMD)
         meta.displayName(Component.text("§2Player Scanner"))
         meta.lore(listOf(Component.text("§7Right-click to scan for nearby players")))
+        meta.addEnchant(Enchantment.VANISHING_CURSE, 1, true)
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         item.itemMeta = meta
         return item
     }
 
 
     // Function to check if an ItemStack is the scanner item
-    fun isScannerItem(item: ItemStack?): Boolean {
+    private fun isScannerItem(item: ItemStack?): Boolean {
         if (item == null || item.type != scannerMaterial) return false
         val meta: ItemMeta = item.itemMeta ?: return false
         return meta.hasCustomModelData() && meta.customModelData == scannerCMD
@@ -83,7 +88,7 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
 
 
     // Function to perform nearby player scan ignoring staff players
-    fun scan(usingPlayer: Player, blockRadius: Int) {
+    private fun scan(usingPlayer: Player, blockRadius: Int) {
         if (usingPlayer in activeScans) return // Check if the player is already being scanned
         activeScans.add(usingPlayer) // Add the player to the active scans list
 
@@ -108,12 +113,12 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
             var step = 0
             override fun run() {
                 when (step) {
-                    0 -> usingPlayer.sendActionBar(Component.text("§2Scanning"))
-                    1 -> usingPlayer.sendActionBar(Component.text("§2Scanning ."))
-                    2 -> usingPlayer.sendActionBar(Component.text("§2Scanning . ."))
-                    3 -> usingPlayer.sendActionBar(Component.text("§2Scanning . . ."))
+                    0 -> usingPlayer.sendActionBar(Component.text("§7Scanning"))
+                    1 -> usingPlayer.sendActionBar(Component.text("§7Scanning ."))
+                    2 -> usingPlayer.sendActionBar(Component.text("§7Scanning . ."))
+                    3 -> usingPlayer.sendActionBar(Component.text("§7Scanning . . ."))
                     else -> {
-                        usingPlayer.sendActionBar(Component.text(if (playerCount > 0) "§aNEARBY PLAYERS: $playerCount" else "§cNO NEARBY PLAYERS"))
+                        usingPlayer.sendActionBar(Component.text(if (playerCount > 0) "§a$playerCount" else "§c$playerCount"))
                         activeScans.remove(usingPlayer) // Remove the player from the active scans list
                         cancel()
                         return

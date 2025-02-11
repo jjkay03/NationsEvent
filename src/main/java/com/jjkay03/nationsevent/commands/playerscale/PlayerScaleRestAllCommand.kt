@@ -18,7 +18,7 @@ class PlayerScaleRestAllCommand : CommandExecutor {
         // Iterate through all online players
         for (player in Bukkit.getOnlinePlayers()) {
             // Get the player's scale attribute
-            val scaleAttribute = player.getAttribute(Attribute.GENERIC_SCALE)
+            val scaleAttribute = player.getAttribute(Attribute.SCALE)
 
             // Reset the player's scale to 1 if the attribute is available
             if (scaleAttribute != null) scaleAttribute.baseValue = 1.0

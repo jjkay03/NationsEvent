@@ -41,7 +41,7 @@ class PlayerScaleCommand : CommandExecutor {
         }
 
         // Set the player's scale using the generic scale attribute
-        val scaleAttribute = targetPlayer.getAttribute(Attribute.GENERIC_SCALE)
+        val scaleAttribute = targetPlayer.getAttribute(Attribute.SCALE)
         if (scaleAttribute != null) {
             scaleAttribute.baseValue = scale.toDouble()
             sender.sendMessage("§6Set scale of ${targetPlayer.name} to $scale")

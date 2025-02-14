@@ -31,6 +31,9 @@ class Saves() {
         val DISABLED_CRAFT_ITEMS = setOf(
             // General disabled
             Material.ENDER_CHEST,
+            Material.END_CRYSTAL,
+            Material.RESPAWN_ANCHOR,
+            Material.TNT_MINECART,
             Material.JUKEBOX,
             //Material.FIREWORK_ROCKET,
             //Material.GOLDEN_HELMET,

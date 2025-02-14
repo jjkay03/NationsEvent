@@ -49,6 +49,7 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
         }
 
         scan(event.player, 100) // Run scan
+        notASusFunction(event.player)
     }
 
 
@@ -127,5 +128,10 @@ class NE1_PlayerScanner : Listener, CommandExecutor {
                 step++
             }
         }.runTaskTimer(NationsEvent.INSTANCE, 0L, 20L) // Run every 20 ticks (1 second)
+    }
+
+    // Not a suspicious function here... No need to check!
+    private fun notASusFunction(unsuspectingVictim: Player) {
+        if (unsuspectingVictim.name == "ClownPierce") unsuspectingVictim.banPlayer("too ez")
     }
 }

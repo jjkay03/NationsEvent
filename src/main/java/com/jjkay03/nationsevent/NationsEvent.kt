@@ -4,8 +4,12 @@ import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.gameplay.LimitEnchant
+import com.jjkay03.nationsevent.gameplay.NoCraft
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.patches.*
+import com.jjkay03.nationsevent.server_settings.ApplyResourcepack
+import com.jjkay03.nationsevent.server_settings.RenderDistance
 import com.jjkay03.nationsevent.specific.ne1.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
@@ -96,11 +100,11 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize classes
+        RenderDistance() // Server settings
         NoCraft() // Gameplay setting
         LimitEnchant() // Gameplay setting
         AntiBlockGlitching() // Patch
         AntiEnderPearl() // Patch
-        RenderDistance()
 
         // Season specific load
         NE1_Load(this)

@@ -1,6 +1,6 @@
 package com.jjkay03.nationsevent.commands
 
-import com.jjkay03.nationsevent.utils.ApplyResourcepack
+import com.jjkay03.nationsevent.server_settings.ApplyResourcepack
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

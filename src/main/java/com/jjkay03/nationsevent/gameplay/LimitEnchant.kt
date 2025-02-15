@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.utils
+package com.jjkay03.nationsevent.gameplay
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves

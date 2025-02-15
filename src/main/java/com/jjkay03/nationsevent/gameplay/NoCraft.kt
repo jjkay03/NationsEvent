@@ -1,9 +1,8 @@
-package com.jjkay03.nationsevent.utils
+package com.jjkay03.nationsevent.gameplay
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.utils
+package com.jjkay03.nationsevent.server_settings
 
 import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.entity.Player

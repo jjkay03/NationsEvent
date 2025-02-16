@@ -47,18 +47,19 @@ class Saves() {
 
         // Limited and disabled enchant (0 to disable enchant)
         val LIMITED_ENCHANTMENTS = mapOf(
-            Enchantment.PROTECTION to 2,
-            Enchantment.FIRE_PROTECTION to 0,
-            Enchantment.BLAST_PROTECTION to 0,
-            Enchantment.PROJECTILE_PROTECTION to 0,
-            Enchantment.THORNS to 0,
-            Enchantment.SHARPNESS to 0,
-            Enchantment.FIRE_ASPECT to 0,
-            Enchantment.POWER to 0,
-            Enchantment.PUNCH to 0,
-            Enchantment.FLAME to 0,
-            Enchantment.PIERCING to 1,
-            Enchantment.QUICK_CHARGE to 0
+            //Enchantment.PROTECTION to 2,
+            //Enchantment.FIRE_PROTECTION to 0,
+            //Enchantment.BLAST_PROTECTION to 0,
+            //Enchantment.PROJECTILE_PROTECTION to 0,
+            //Enchantment.THORNS to 0,
+            //Enchantment.SHARPNESS to 0,
+            //Enchantment.FIRE_ASPECT to 0,
+            //Enchantment.POWER to 0,
+            //Enchantment.PUNCH to 0,
+            //Enchantment.FLAME to 0,
+            //Enchantment.PIERCING to 1,
+            //Enchantment.QUICK_CHARGE to 0,
+            Enchantment.RIPTIDE to 0
         )
     }
 

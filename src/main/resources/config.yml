@@ -30,7 +30,7 @@ resourcepacks-players-exempt:
 setting-no-craft: true
 
 # Limited enchants (managed from Saves class)
-setting-limit-enchant: false
+setting-limit-enchant: true
 
 
 # == Features toggle ==================================================================================================

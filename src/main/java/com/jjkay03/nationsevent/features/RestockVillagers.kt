@@ -14,8 +14,8 @@ class RestockVillagers : CommandExecutor {
 
     init {
         if (featureEnabled) {
-            // Restock villagers automatically if feature is enabled (5 minutes)
-            object : BukkitRunnable() { override fun run() { restockVillagers() } }.runTaskTimer(NationsEvent.INSTANCE, 0L, 6000L)
+            // Restock villagers automatically if feature is enabled (8 minutes)
+            object : BukkitRunnable() { override fun run() { restockVillagers() } }.runTaskTimer(NationsEvent.INSTANCE, 0L, 9600L)
         }
     }
 

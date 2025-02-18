@@ -17,11 +17,12 @@ import java.util.*
 class PVPAlerts : Listener {
 
     private val damageCooldown = mutableMapOf<Player, MutableMap<Player, Double>>()
-    private val damageThreshold = 6.0 // Health (1 heart = 2 hp)
+    private val alertCooldown = mutableMapOf<Player, Long>()
+    private val damagePercentageThreshold = 0.4 // 40% of the player's max health (equivalent to 4 hearts)
     private val timeFrameMS = 3000L // Time (in milliseconds)
+    private val alertCooldownMS = 30000L // Cooldown time for alerts (in milliseconds)
 
-    // Event handler that tracks player getting damaged
-    @EventHandler(ignoreCancelled=true)
+    @EventHandler(ignoreCancelled = true)
     fun onPlayerDamage(event: EntityDamageByEntityEvent) {
         val victim = event.entity as? Player ?: return
         val attacker = event.damager as? Player ?: return
@@ -33,39 +34,43 @@ class PVPAlerts : Listener {
         scheduleExcessiveDamageCheck(victim) { sendAlert(victim) }
     }
 
-    // Function that updates how much a player is getting damaged
     private fun updateDamageRecord(victim: Player, attacker: Player, damage: Double) {
         damageCooldown.getOrPut(victim) { mutableMapOf() }
             .merge(attacker, damage) { oldDamage, newDamage -> oldDamage + newDamage }
     }
 
-    // Function that schedules a task to check for excessive damage and returns true if excessive damage is detected
     private fun scheduleExcessiveDamageCheck(victim: Player, callback: () -> Unit) {
         object : BukkitRunnable() {
             override fun run() {
                 val damageMap = damageCooldown[victim] ?: return
                 val totalDamageTaken = damageMap.values.sum()
-                if (totalDamageTaken >= damageThreshold) {
-                    callback() // Execute the callback when excessive damage is detected
+                val maxHealth = victim.maxHealth
+                val threshold = maxHealth * damagePercentageThreshold
+
+                if (totalDamageTaken >= threshold) {
+                    val lastAlertTime = alertCooldown[victim]
+                    val currentTime = System.currentTimeMillis()
+
+                    if (lastAlertTime == null || currentTime - lastAlertTime >= alertCooldownMS) {
+                        callback() // Execute the callback when excessive damage is detected
+                        alertCooldown[victim] = currentTime
+                    }
                 }
                 damageCooldown.remove(victim)
             }
         }.runTaskLater(NationsEvent.INSTANCE, timeFrameMS / 50) // Convert ms to ticks
     }
 
-    // Function that alerts correct players
     private fun sendAlert(victim: Player) {
         val playersToAlert: List<UUID> = PVPAlertsCommand.PVP_ALERTS_PLAYERS.map { UUID.fromString(it) }
 
-        // Check if a player is in the list to alert and has the required permission
         Bukkit.getServer().onlinePlayers.forEach { player ->
             if (playersToAlert.any { it == player.uniqueId } && player.hasPermission(Saves.PERM_STAFF)) {
-                val message = TextComponent("§6\uD83D\uDDE1 §lPVP ALERT§6: §e${victim.name} §6is being attacked!")
+                val message = TextComponent("§6\uD83D\uDDE1 PVP ALERT§6: §e${victim.name} §6is being attacked!")
                 message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(TextComponent("§eTeleport to ${victim.name}")))
                 message.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${victim.name}")
                 player.spigot().sendMessage(message)
             }
         }
     }
-
 }

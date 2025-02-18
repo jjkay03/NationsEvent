@@ -109,6 +109,10 @@ commands:
     permission: nationsevent.command.applyserverpack
     permission-message: "You do not have permission to use this command"
 
+  restockvillagers:
+    permission: nationsevent.command.restockvillagers
+    permission-message: "You do not have permission to use this command"
+
 
   season_specific_seperator:
     description: "====================================================================================================="

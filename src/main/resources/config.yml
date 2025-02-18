@@ -46,6 +46,9 @@ feature-farm-protection: true
 # Make players faster when they are standing on certain blocks
 feature-speedy-blocks: false
 
+# Make villagers automatically restock their trades at intervals without the need of daylight cycle
+feature-auto-restock-villagers: true
+
 
 # == Patches ==========================================================================================================
 # Prevent players from block glitching

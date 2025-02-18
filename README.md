@@ -46,6 +46,7 @@ _All features are toggleable in the plugin config._
 - `Iron door` : Make it so player with right permission can open iron doors with hands. (Created for NG3)
 - `Farm protection` : Make it so players and mobs can't trample crops. (Created for NG4)
 - `Speedy Blocks` : Make players faster when they are standing on certain blocks. (Created for NG5)
+- `Auto Restock Villagers` : Automatically restock villagers trades without day cycle. (Created for NE1)
 
 <br>
 

@@ -4,12 +4,10 @@ import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.features.*
-import com.jjkay03.nationsevent.gameplay.LimitEnchant
-import com.jjkay03.nationsevent.gameplay.NoCraft
+import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.server_settings.ApplyResourcepack
-import com.jjkay03.nationsevent.server_settings.RenderDistance
+import com.jjkay03.nationsevent.server_settings.*
 import com.jjkay03.nationsevent.specific.ne1.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
@@ -84,6 +82,7 @@ open class NationsEvent : JavaPlugin() {
         getCommand("globalchat")?.setExecutor(GlobalChatCommand())
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
         getCommand("applyserverpack")?.setExecutor(ApplyServerPackCommand())
+        getCommand("restockvillagers")?.setExecutor(RestockVillagers())
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener

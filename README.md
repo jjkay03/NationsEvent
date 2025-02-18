@@ -35,6 +35,7 @@ In Nations Events most of the time death is permanent and all players only have 
 - `/permanentmessage <message>` : Displays a message to all players until cleared.
 - `/admingui` : Open admin GUI - toggle on or off main plugin features.
 - `/globalchat` : Enable/Disable the ability for players to use the chat.
+- `/restockvillagers` : Restock trades of all villagers on the server.
 
 _+ Seasson specific commands_
 

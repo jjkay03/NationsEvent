@@ -113,9 +113,15 @@ commands:
     permission: nationsevent.command.restockvillagers
     permission-message: "You do not have permission to use this command"
 
+  randomplayertp:
+    aliases: [rplayertp, rptp, tprandomplayer]
+    permission: nationsevent.command.randomplayertp
+    permission-message: "You do not have permission to use this command"
+
 
   season_specific_seperator:
     description: "====================================================================================================="
+
 
   giveplayerscanner:
     permission: nationsevent.admin

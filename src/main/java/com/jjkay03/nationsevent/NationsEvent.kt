@@ -83,6 +83,7 @@ open class NationsEvent : JavaPlugin() {
         getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
         getCommand("applyserverpack")?.setExecutor(ApplyServerPackCommand())
         getCommand("restockvillagers")?.setExecutor(RestockVillagers())
+        getCommand("randomplayertp")?.setExecutor(RandomPlayerTPCommand())
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener

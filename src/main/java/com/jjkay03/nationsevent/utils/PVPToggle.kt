@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.utils
 
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -15,24 +16,18 @@ class PVPToggle : Listener {
     // Hits
     @EventHandler(ignoreCancelled = true)
     fun onEntityDamageByEntity(event: EntityDamageByEntityEvent) {
-        // End if PVP is enabled
-        if (PVP_ENABLED) {return}
-
-        // Check if the damage was caused by a player to another player
-        if (event.damager is Player && event.entity is Player) {
-            event.isCancelled = true
-        }
+        if (PVP_ENABLED) return // End if PVP is off
+        if (event.damager is Player && event.entity is Player) event.isCancelled = true
     }
 
     // Arrows
     @EventHandler(ignoreCancelled = true)
-    fun onEntityDamage(event: EntityDamageEvent) {
-        // End if PVP is enabled
-        if (PVP_ENABLED) {return}
-
-        // Check if the damage was caused by an arrow from a player to another player
-        if (event.cause == EntityDamageEvent.DamageCause.PROJECTILE && event.entity is Player && event.entity is Player) {
-            event.isCancelled = true
-        }
+    fun onEntityDamage(event: EntityDamageByEntityEvent) {
+        if (PVP_ENABLED) return // End if PVP is off
+        val damaged = event.entity as? Player ?: return // End if damaged entity isn't player
+        val projectile = event.damager as? Arrow ?: return // End if damage not caused by arrow
+        val shooter = projectile.shooter as? Player ?: return // End if arrow not shot by player
+        event.isCancelled = true
     }
+
 }

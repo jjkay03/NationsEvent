@@ -127,6 +127,10 @@ commands:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"
 
+  giveplayertracker:
+    permission: nationsevent.admin
+    permission-message: "You do not have permission to use this command"
+
   togglereducedhealth:
     permission: nationsevent.admin
     permission-message: "You do not have permission to use this command"

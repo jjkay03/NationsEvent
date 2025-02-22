@@ -111,7 +111,9 @@ open class NationsEvent : JavaPlugin() {
     }
 
     // Plugin shutdown logic
-    override fun onDisable() { }
+    override fun onDisable() {
+        logger.info("Bye bye!")
+    }
 
     // Function to get APIs
     private fun getAPIs() {

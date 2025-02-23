@@ -1,6 +1,5 @@
 package com.jjkay03.nationsevent.specific.ne1
 
-import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -17,13 +16,12 @@ import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
-import org.bukkit.scheduler.BukkitRunnable
 
 class NE1_PlayerTracker : Listener, CommandExecutor {
 
     private val useTrackerPerm = "nationsevent.ne1.playertracker"
     private val ignoredTrackPlayersPerms = listOf(Saves.PERM_STAFF, Saves.PERM_SPECTATOR)
-    private val trackerMaterial = Material.COMPASS
+    private val trackerMaterial = Material.RECOVERY_COMPASS
     private val trackerCMD = 100
 
     // Listener
@@ -85,10 +83,14 @@ class NE1_PlayerTracker : Listener, CommandExecutor {
     private fun track(usingPlayer: Player, item: ItemStack) {
         val trackingPlayer = selectClosestPlayer(usingPlayer)
         if (trackingPlayer != null) {
-            // Display a message in the action bar
-            usingPlayer.sendActionBar(Component.text("§cPointing ➡ ${trackingPlayer.name}"))
+            // Get the tracked player's coordinates
+            val x = trackingPlayer.location.blockX
+            val z = trackingPlayer.location.blockZ
 
-            // Point compass to trackingPlayer
+            // Display a message in the action bar with the tracked player's name and coordinates
+            usingPlayer.sendActionBar(Component.text("§cPointing ➡ ${trackingPlayer.name} §7($x / $z)"))
+
+            // Update the compass target to the tracked player's location
             usingPlayer.compassTarget = trackingPlayer.location
         } else {
             usingPlayer.sendActionBar(Component.text("§7No player to track"))
@@ -100,11 +102,11 @@ class NE1_PlayerTracker : Listener, CommandExecutor {
         // Get all online players
         val onlinePlayers = Bukkit.getOnlinePlayers().toList()
 
-        // Filter out the usingPlayer, players with ignored permissions, and players in different worlds
+        // Filter out the usingPlayer and players with ignored permissions
         val eligiblePlayers = onlinePlayers.filter {
             it != usingPlayer &&
                     !ignoredTrackPlayersPerms.any { perm -> it.hasPermission(perm) } &&
-                    it.world == usingPlayer.world
+                    it.world == usingPlayer.world // Ensure players are in the same world
         }
 
         // Return null if no eligible players are found

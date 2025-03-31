@@ -8,7 +8,7 @@ import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.server_settings.*
-import com.jjkay03.nationsevent.specific.ne1.*
+import com.jjkay03.nationsevent.specific.ne2.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -107,7 +107,7 @@ open class NationsEvent : JavaPlugin() {
         AntiEnderPearl() // Patch
 
         // Season specific load
-        NE1_Load(this)
+        NE2_Load(this)
     }
 
     // Plugin shutdown logic

@@ -6,7 +6,7 @@
 # == Server settings =================================================================================================
 
 # Event code name (Example: NG1)
-event-codename: NE1
+event-codename: NE2
 
 # Default players max render distance
 render-distance-manager: false
@@ -47,7 +47,7 @@ feature-farm-protection: true
 feature-speedy-blocks: false
 
 # Make villagers automatically restock their trades at intervals without the need of daylight cycle
-feature-auto-restock-villagers: true
+feature-auto-restock-villagers: false
 
 
 # == Patches ==========================================================================================================

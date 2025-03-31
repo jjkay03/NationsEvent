@@ -6,7 +6,7 @@
 
   <groupId>com.jjkay03</groupId>
   <artifactId>NationsEvent</artifactId>
-  <version>NE1</version>
+  <version>NE2</version>
   <packaging>jar</packaging>
 
   <name>NationsEvent</name>

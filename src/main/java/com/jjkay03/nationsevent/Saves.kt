@@ -2,6 +2,8 @@ package com.jjkay03.nationsevent
 
 import net.luckperms.api.model.group.Group
 import org.bukkit.Material
+import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import java.io.File
 
@@ -29,12 +31,18 @@ class Saves() {
         val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
 
         // Files
-        // ...
+        const val FILE_NAME_CONFIG = "config.yml"; val FILE_CONFIG = File(DIR_MAIN_PLUGIN, FILE_NAME_CONFIG)
+        const val FILE_NAME_WEBHOOKS = "webhooks.yml"; val FILE_WEBHOOKS = File(DIR_MAIN_PLUGIN, FILE_NAME_WEBHOOKS)
 
         // Event variables
         lateinit var EVENT_CODENAME: String
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
+
+        // Webhooks links
+        lateinit var CONFIG_WEBHOOK: FileConfiguration
+        lateinit var WEBHOOK_ADMIN: String
+        lateinit var WEBHOOK_PLAYER: String
 
         // Items with disabled crafts
         val DISABLED_CRAFT_ITEMS = setOf(
@@ -71,7 +79,13 @@ class Saves() {
     }
 
     init {
-        // Variables from config
+        // Get variables from config
         EVENT_CODENAME = NationsEvent.INSTANCE.config.getString("event-codename").toString()
+
+        // Get webhooks links from webhooks.yml
+        CONFIG_WEBHOOK = YamlConfiguration.loadConfiguration(FILE_WEBHOOKS)
+        WEBHOOK_ADMIN = CONFIG_WEBHOOK.getString("webhook-admin", "") ?: ""
+        WEBHOOK_PLAYER = CONFIG_WEBHOOK.getString("webhook-player", "") ?: ""
+
     }
 }

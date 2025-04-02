@@ -1,0 +1,9 @@
+# ------------------------
+#  NATIONS EVENT WEBHOOKS
+# ------------------------
+
+# Webhook used in admin channel
+webhook-admin: ""
+
+# Webhook used in player channel
+webhook-player: ""

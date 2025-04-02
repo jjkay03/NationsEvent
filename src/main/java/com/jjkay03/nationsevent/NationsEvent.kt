@@ -48,7 +48,8 @@ open class NationsEvent : JavaPlugin() {
 
         getAPIs() // Get all APIs instances and info
         Saves() // Load all variables in saves class
-        Utils.createDefaultDirectories() // Create default directories
+        FilesManager.createDefaultDirectories() // Create default directories
+        FilesManager.createDefaultFiles() // Create default files
 
         // Class variable
         val hideStaffCommand = HideStaffCommand()

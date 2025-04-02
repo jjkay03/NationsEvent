@@ -29,13 +29,6 @@ object Utils {
         welcomeMessage.forEach { line -> Bukkit.getConsoleSender().sendMessage(line) }
     }
 
-    // Function to create default directories if they don't exist
-    fun createDefaultDirectories() {
-        NationsEvent.INSTANCE.logger.info("Generating default plugin directories...")
-        if (!Saves.DIR_EVENT_IGNS.exists()) Saves.DIR_EVENT_IGNS.mkdirs()
-        if (!Saves.DIR_EXPORTED_VOTES.exists()) Saves.DIR_EXPORTED_VOTES.mkdirs()
-    }
-
     // Function that sends message to all staff
     fun messageStaff(message: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->

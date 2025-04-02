@@ -27,23 +27,16 @@ class ExportVotesCommand : CommandExecutor {
             return true
         }
 
-        val note: String? = if (args.isNotEmpty()) args.joinToString(" ") else null
         sender.sendMessage("§eStarted exporting votes...")
 
-        // Ensure folder creation and stop execution if it fails
-        if (!Utils.createFolder(votesFolderName)) {
-            sender.sendMessage("§cFailed to create the necessary folder for exporting votes.")
-            return true
-        }
-
-        // Export code continues here...
-        val votesFolder = File("plugins/NationsEvent/$votesFolderName")
+        val note: String? = if (args.isNotEmpty()) args.joinToString(" ") else null
         val dateFormat = SimpleDateFormat("dd-MM-yyyy--HH-mm-ss")
         val currentTime = Date()
+
         val filename = if (note != null) { "VOTES - ${dateFormat.format(currentTime)} ($note).txt" }
         else { "VOTES - ${dateFormat.format(currentTime)}.txt" }
 
-        val voteFile = File(votesFolder, filename)
+        val voteFile = File(Saves.DIR_EXPORTED_VOTES, filename)
 
         try {
             FileWriter(voteFile).use { writer ->

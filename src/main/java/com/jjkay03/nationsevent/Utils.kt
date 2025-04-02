@@ -29,6 +29,13 @@ object Utils {
         welcomeMessage.forEach { line -> Bukkit.getConsoleSender().sendMessage(line) }
     }
 
+    // Function to create default directories if they don't exist
+    fun createDefaultDirectories() {
+        NationsEvent.INSTANCE.logger.info("Generating default plugin directories...")
+        if (!Saves.DIR_EVENT_IGNS.exists()) Saves.DIR_EVENT_IGNS.mkdirs()
+        if (!Saves.DIR_EXPORTED_VOTES.exists()) Saves.DIR_EXPORTED_VOTES.mkdirs()
+    }
+
     // Function that sends message to all staff
     fun messageStaff(message: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->
@@ -47,19 +54,6 @@ object Utils {
     fun playSoundToAllPlayers(sound: Sound, volume: Float, pitch: Float) {
         Bukkit.getOnlinePlayers().forEach { player ->
             player.playSound(player.location, sound, volume, pitch)
-        }
-    }
-
-    // Create folder if it doesn't already exist
-    fun createFolder(folderName: String): Boolean {
-        return try {
-            val saveFolder = File("plugins/NationsEvent/$folderName")
-            if (!saveFolder.exists()) saveFolder.mkdirs()
-            true
-        } catch (e: Exception) {
-            Bukkit.getLogger().severe("Failed to create '$folderName' folder!")
-            e.printStackTrace()
-            false
         }
     }
 

@@ -14,14 +14,9 @@ import java.io.FileWriter
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class EventIGNs : Listener {
-    private val eventIGNsFolderName = "event igns"
     private val fileName = "${Saves.EVENT_CODENAME} IGNs.txt"
     private val playerQueue = ConcurrentLinkedQueue<String>()  // Concurrent queue for thread-safety
     private var task: BukkitTask? = null // To store the running task reference
-
-    init {
-        Utils.createFolder(eventIGNsFolderName) // Create save folder
-    }
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
@@ -50,7 +45,7 @@ class EventIGNs : Listener {
 
     // Saves the player's IGN to a text file
     private fun saveIGN(playerName: String) {
-        val file = File("plugins/NationsEvent/$eventIGNsFolderName/$fileName")
+        val file = File(Saves.DIR_EVENT_IGNS, fileName)
 
         // Check if the file exists; if not, create it with header and first IGN
         if (!file.exists()) {

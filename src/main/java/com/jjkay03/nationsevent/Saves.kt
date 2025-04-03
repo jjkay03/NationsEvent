@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.utils.LogsManager
 import net.luckperms.api.model.group.Group
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
@@ -29,12 +30,15 @@ class Saves() {
         val DIR_MAIN_PLUGIN = File("plugins/NationsEvent")
         val DIR_ECONOMY = File(DIR_MAIN_PLUGIN, "economy")
         val DIR_ECONOMY_BALANCES = File(DIR_ECONOMY, "balances")
+        val DIR_ECONOMY_LOGS = File(DIR_ECONOMY, "economy_logs")
         val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")
         val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
 
         // Files
         const val FILE_NAME_CONFIG = "config.yml"; val FILE_CONFIG = File(DIR_MAIN_PLUGIN, FILE_NAME_CONFIG)
         const val FILE_NAME_WEBHOOKS = "webhooks.yml"; val FILE_WEBHOOKS = File(DIR_MAIN_PLUGIN, FILE_NAME_WEBHOOKS)
+        // Log files
+        val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY)
 
         // Event variables
         lateinit var EVENT_CODENAME: String

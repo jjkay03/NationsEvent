@@ -32,9 +32,11 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         // Log message
         NationsEvent.INSTANCE.logger.info("Loading economy $ $ $")
 
-        // Create default economy directories
+        // Create default economy directories & files
         FilesManager.createDirectory(Saves.DIR_ECONOMY)
         FilesManager.createDirectory(Saves.DIR_ECONOMY_BALANCES)
+        FilesManager.createDirectory(Saves.DIR_ECONOMY_LOGS)
+        FilesManager.createFile(Saves.LOG_FILE_ECONOMY)
 
         // Register commands
         // ...

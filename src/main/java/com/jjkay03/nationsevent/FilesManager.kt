@@ -15,7 +15,7 @@ object FilesManager {
     // Function to create default files
     fun createDefaultFiles() {
         NationsEvent.INSTANCE.logger.info("Generating default plugin files...")
-        createFile(NationsEvent.INSTANCE, Saves.FILE_WEBHOOKS, Saves.FILE_NAME_WEBHOOKS)
+        createPluginEmbeddedFile(NationsEvent.INSTANCE, Saves.FILE_WEBHOOKS, Saves.FILE_NAME_WEBHOOKS)
     }
 
     // Function to create a directory when it doesn't already exist
@@ -24,7 +24,14 @@ object FilesManager {
     }
 
     // Function to create a file when it doesn't already exist
-    fun createFile(plugin: JavaPlugin, file: File, resourcePath: String? = null) {
+    fun createFile(file: File) {
+        if (file.exists()) return
+        file.parentFile.mkdirs()
+        file.createNewFile()
+    }
+
+    // Function to create plugin embedded file (file that in "resources" dir of plugin)
+    fun createPluginEmbeddedFile(plugin: JavaPlugin, file: File, resourcePath: String? = null) {
         if (file.exists()) return
         file.parentFile.mkdirs()
         if (resourcePath != null) plugin.saveResource(resourcePath, false)

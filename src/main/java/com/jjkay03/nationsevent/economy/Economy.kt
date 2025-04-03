@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.economy.commands.BalanceCommand
 import com.jjkay03.nationsevent.economy.commands.EconomyCommand
+import com.jjkay03.nationsevent.economy.commands.PayCommand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -22,6 +23,8 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         // Keys used in player balance file yml
         const val PLAYER_BALANCE_FILE_KEY_IGN = "ign"
         const val PLAYER_BALANCE_FILE_KEY_BALANCE = "balance"
+
+        const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
     }
 
     init {
@@ -43,10 +46,12 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         // Class variables
         val economyCommand = EconomyCommand()
         val balanceCommand = BalanceCommand()
+        val payCommand = PayCommand()
 
         // Register commands
         plugin.getCommand("economy")?.apply { setExecutor(economyCommand); tabCompleter = economyCommand }
         plugin.getCommand("balance")?.apply { setExecutor(balanceCommand); tabCompleter = balanceCommand }
+        plugin.getCommand("pay")?.apply { setExecutor(payCommand); tabCompleter = payCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

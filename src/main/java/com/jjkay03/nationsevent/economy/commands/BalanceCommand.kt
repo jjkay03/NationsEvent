@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.economy.commands
 
+import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.economy.EconomyUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -17,7 +18,7 @@ class BalanceCommand : CommandExecutor, TabCompleter {
         // If no player is specified show the sender's balance
         if (args.isEmpty()) {
             val balance = EconomyUtils.getPlayerBalance(sender)
-            sender.sendMessage("§7Your balance is ${EconomyUtils.formatMoney(balance)}")
+            sender.sendMessage("§7Your balance is ${EconomyUtils.formatMoney(balance)}${if (balance < 0) " ${Economy.TXT_IN_DEBT}" else ""}")
             return true
         }
 

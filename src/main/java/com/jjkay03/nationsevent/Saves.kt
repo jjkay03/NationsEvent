@@ -27,6 +27,8 @@ class Saves() {
 
         // Directories
         val DIR_MAIN_PLUGIN = File("plugins/NationsEvent")
+        val DIR_ECONOMY = File(DIR_MAIN_PLUGIN, "economy")
+        val DIR_ECONOMY_BALANCES = File(DIR_ECONOMY, "balances")
         val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")
         val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
 

@@ -25,6 +25,19 @@ resourcepacks-players-exempt:
   - jjkay02
 
 
+# == Economy ==========================================================================================================
+
+# Economy feature toggle
+economy-enable: true
+
+# Money symbol $
+economy-money-symbol: "⛂"
+# Money color
+economy-money-color: "§e"
+# Allow negative balances
+economy-allow-negative-balance: true
+
+
 # == Gameplay settings ================================================================================================
 # Disabled crafts (managed from Saves class)
 setting-no-craft: true

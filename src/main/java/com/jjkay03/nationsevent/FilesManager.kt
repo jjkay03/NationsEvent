@@ -19,12 +19,12 @@ object FilesManager {
     }
 
     // Function to create a directory when it doesn't already exist
-    private fun createDirectory(directory: File) {
+    fun createDirectory(directory: File) {
         if (!directory.exists()) directory.mkdirs()
     }
 
     // Function to create a file when it doesn't already exist
-    private fun createFile(plugin: JavaPlugin, file: File, resourcePath: String? = null) {
+    fun createFile(plugin: JavaPlugin, file: File, resourcePath: String? = null) {
         if (file.exists()) return
         file.parentFile.mkdirs()
         if (resourcePath != null) plugin.saveResource(resourcePath, false)

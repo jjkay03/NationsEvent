@@ -3,6 +3,7 @@ package com.jjkay03.nationsevent
 import com.jjkay03.nationsevent.commands.*
 import com.jjkay03.nationsevent.commands.playerscale.*
 import com.jjkay03.nationsevent.commands.voting.*
+import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
@@ -102,6 +103,7 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize classes
+        Economy(this) // Economy
         RenderDistance() // Server settings
         NoCraft() // Gameplay setting
         LimitEnchant() // Gameplay setting

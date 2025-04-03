@@ -3,6 +3,8 @@ package com.jjkay03.nationsevent.economy
 import com.jjkay03.nationsevent.FilesManager
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.economy.commands.BalanceCommand
+import com.jjkay03.nationsevent.economy.commands.EconomyCommand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -38,8 +40,13 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         FilesManager.createDirectory(Saves.DIR_ECONOMY_LOGS)
         FilesManager.createFile(Saves.LOG_FILE_ECONOMY)
 
+        // Class variables
+        val economyCommand = EconomyCommand()
+        val balanceCommand = BalanceCommand()
+
         // Register commands
-        // ...
+        plugin.getCommand("economy")?.apply { setExecutor(economyCommand); tabCompleter = economyCommand }
+        plugin.getCommand("balance")?.apply { setExecutor(balanceCommand); tabCompleter = balanceCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

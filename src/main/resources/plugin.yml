@@ -118,7 +118,15 @@ commands:
     permission: nationsevent.command.randomplayertp
     permission-message: "You do not have permission to use this command"
 
+  economy:
+    aliases: [ eco, neco, nationseconomy ]
+    permission: nationsevent.command.economy
+    permission-message: "You do not have permission to use this command"
+
+  balance:
+    aliases: [ bal, nbal, nationsbalance ]
+    permission: nationsevent.command.balance
+    permission-message: "You do not have permission to use this command"
 
   season_specific_seperator:
     description: "====================================================================================================="
-

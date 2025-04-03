@@ -12,9 +12,12 @@ object EconomyUtils {
     // Function that returns the player balance file of a given player
     private fun getPlayerBalanceFile(player: Player): File { return File(Saves.DIR_ECONOMY_BALANCES,"${player.uniqueId}.yml") }
 
+    // Function that formats money for messages
+    fun formatMoney(amount: Int) : String {return  (Economy.MONEY_COLOR + amount + Economy.MONEY_SYMBOL) }
+
     // Function to create player yml containing player balance
     fun createPlayerBalanceFile(player: Player, startingBalance: Int) {
-        NationsEvent.INSTANCE.logger.info("Creating player balance file for ${player.name} with starting balance $startingBalance")
+        NationsEvent.INSTANCE.logger.info("Creating player ${player.name} balance file with starting balance $startingBalance")
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Creating player ${player.name} balance file with starting balance $startingBalance")
         val file = getPlayerBalanceFile(player)
         if (file.exists()) return // End if file exist
@@ -32,13 +35,14 @@ object EconomyUtils {
     }
 
     // Function to set a player's balance
-    fun setPlayerBalance(player: Player, newBalance: Int) {
+    fun setPlayerBalance(player: Player, newBalance: Int): Int {
         val file = getPlayerBalanceFile(player)
         val config = YamlConfiguration.loadConfiguration(file)
         val updatedBalance = if (!Economy.ALLOW_NEGATIVE_BALANCE && newBalance < 0) 0 else newBalance
         config.set(Economy.PLAYER_BALANCE_FILE_KEY_BALANCE, updatedBalance)
         config.save(file)
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Updated player ${player.name} balance to $updatedBalance")
+        return updatedBalance
     }
 
 }

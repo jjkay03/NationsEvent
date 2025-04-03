@@ -13,7 +13,7 @@ In Nations Events most of the time death is permanent and all players only have 
 <br>
 
 ## COMMANDS
-- `/joinvc <player>` : Propt the player to join VC on Discord to be interviewed.
+- `/joinvc <player>` : Prompt the player to join VC on Discord to be interviewed.
 - `/joinstage` : Prompt all players to join the stage channel on Discord.
 - `/announcesession <number>` : Announce the start of the session and its number to everyone.
 - `/sessiontime` : Shows for how long the session has been going.
@@ -67,6 +67,19 @@ _Utility features of plugin._
 - Allows admins to bypass max view distance.
 - Save all IGNs of the players that participate in the event.
 - Milk The Gator 👀
+
+<br>
+
+## ECONOMY
+Economy system can be toggled in the plugin config. This allows each player to have their own balance with wish they can do trades, pay each others, buy/sell items ect.
+
+ECONOMY FEATURES:
+- Custom money color and symbol.
+- Dept system - players can have negative balance.
+
+ECONOMY COMMANDS:
+- `/economy [set/reset/give/take] <player> <amount>` : For admins to manage a player's balance.
+- `/balance <player>` : Check your own or other player's balance.
 
 <br>
 

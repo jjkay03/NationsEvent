@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.LogsManager
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import java.awt.Color
 import java.io.File
 
 object EconomyUtils {
@@ -13,14 +14,17 @@ object EconomyUtils {
     private fun getPlayerBalanceFile(player: Player): File { return File(Saves.DIR_ECONOMY_BALANCES,"${player.uniqueId}.yml") }
 
     // Function that formats money for messages
-    fun formatMoney(amount: Int) : String {return  (Economy.MONEY_COLOR + amount + Economy.MONEY_SYMBOL) }
+    fun formatMoney(amount: Int) : String {
+        return if (amount < 0) ("§c" + amount + Economy.MONEY_SYMBOL)
+        else (Economy.MONEY_COLOR + amount + Economy.MONEY_SYMBOL)
+    }
 
     // Function to create player yml containing player balance
     fun createPlayerBalanceFile(player: Player, startingBalance: Int) {
-        NationsEvent.INSTANCE.logger.info("Creating player ${player.name} balance file with starting balance $startingBalance")
-        LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Creating player ${player.name} balance file with starting balance $startingBalance")
         val file = getPlayerBalanceFile(player)
         if (file.exists()) return // End if file exist
+        NationsEvent.INSTANCE.logger.info("Creating player ${player.name} balance file with starting balance $startingBalance")
+        LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Creating player ${player.name} balance file with starting balance $startingBalance")
         val config = YamlConfiguration()
         config.set(Economy.PLAYER_BALANCE_FILE_KEY_IGN, player.name)
         config.set(Economy.PLAYER_BALANCE_FILE_KEY_BALANCE, startingBalance)

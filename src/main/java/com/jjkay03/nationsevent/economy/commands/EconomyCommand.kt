@@ -24,7 +24,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 if (args.size < 3 || args[2].toIntOrNull() == null) { sender.sendMessage("§cInvalid amount! Usage: /economy set <player> <amount>"); return true }
                 val amount = args[2].toInt()
                 val newBalance = EconomyUtils.setPlayerBalance(player, amount)
-                if (amount < 0) sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)} §7(Negative balance disabled in config)")
+                if (!Economy.ALLOW_NEGATIVE_BALANCE && amount < 0) sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)} §7(Negative balance disabled in config)")
                 else sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)}")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Set ${player.name} balance to $newBalance")
             }

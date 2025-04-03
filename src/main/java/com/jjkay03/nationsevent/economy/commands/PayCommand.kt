@@ -43,8 +43,8 @@ class PayCommand : CommandExecutor, TabCompleter {
         EconomyUtils.setPlayerBalance(target, targetUpdatedBalance)
 
         // Alert players
-        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}-] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amount)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
-        target.sendMessage("§a[${Economy.MONEY_SYMBOL}+] §7You received ${EconomyUtils.formatMoney(amount)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
+        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amount)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
+        target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amount)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
 
         // Log
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Pay Command - ${sender.name}] ${sender.name} ([-] $senderBalance -> $senderUpdatedBalance) paid ${target.name} ([+] $targetBalance -> $targetUpdatedBalance) an amount of $amount")

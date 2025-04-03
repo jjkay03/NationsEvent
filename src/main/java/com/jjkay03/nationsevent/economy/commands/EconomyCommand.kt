@@ -9,6 +9,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import org.bukkit.entity.Player
 
 class EconomyCommand : CommandExecutor, TabCompleter {
 
@@ -27,6 +28,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 if (!Economy.ALLOW_NEGATIVE_BALANCE && amount < 0) sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)} §7(Negative balance disabled in config)")
                 else sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)}")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Set ${player.name} balance to $newBalance")
+                alertTargetPlayer(player)
             }
 
             // RESET
@@ -34,6 +36,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 val newBalance = EconomyUtils.setPlayerBalance(player, 0)
                 sender.sendMessage("§aReset §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)}")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Reset ${player.name} balance to $newBalance")
+                alertTargetPlayer(player)
             }
 
             // GIVE
@@ -43,6 +46,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) + amount)
                 sender.sendMessage("§aGave ${EconomyUtils.formatMoney(amount)} §ato §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Gave $amount to ${player.name} (new balance: $newBalance)")
+                alertTargetPlayer(player)
             }
 
             // TAKE
@@ -52,6 +56,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) - amount)
                 sender.sendMessage("§aTook ${EconomyUtils.formatMoney(amount)} §afrom §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Took $amount from ${player.name} (new balance: $newBalance)")
+                alertTargetPlayer(player)
             }
 
             else -> sender.sendMessage("§cInvalid subcommand! Use: give, reset, set, take")
@@ -68,5 +73,10 @@ class EconomyCommand : CommandExecutor, TabCompleter {
             3 -> if (args[0] in listOf("set", "give", "take")) listOf("<amount>") else emptyList()
             else -> emptyList()
         }
+    }
+
+    // Function to send a message to the player whose balance was updated
+    private fun alertTargetPlayer(player: Player) {
+        player.sendMessage("§a[${Economy.MONEY_SYMBOL}✖] Your balance was updated by an admin, your new balance is ${EconomyUtils.getPlayerBalance(player)}${Economy.MONEY_SYMBOL}")
     }
 }

@@ -36,9 +36,12 @@ object EconomyUtils {
             setOf(
                 Economy.KEY_PAYMENT_SENT,
                 Economy.KEY_PAYMENT_RECEIVED,
+                Economy.KEY_SOLD_ITEMS,
                 Economy.KEY_PAYMENT_SENT_SLT,
                 Economy.KEY_PAYMENT_RECEIVED_SLT,
-                Economy.KEY_PROFIT_SLT
+                Economy.KEY_PROFIT_SLT,
+                Economy.KEY_SOLD_ITEMS_SLT,
+                Economy.KEY_SOLD_ITEMS_PROFIT_SLT
             ).forEach { set(it, 0) }
             save(file)
         }

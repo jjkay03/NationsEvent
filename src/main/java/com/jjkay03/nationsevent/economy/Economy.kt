@@ -26,9 +26,12 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val KEY_BALANCE = "balance"
         const val KEY_PAYMENT_SENT = "payment-sent"
         const val KEY_PAYMENT_RECEIVED = "payment-received"
+        const val KEY_SOLD_ITEMS = "sold-items"
         const val KEY_PAYMENT_SENT_SLT = "payment-sent-slt"
         const val KEY_PAYMENT_RECEIVED_SLT = "payment-received-slt"
         const val KEY_PROFIT_SLT = "profit-slt"
+        const val KEY_SOLD_ITEMS_SLT = "sold-items-slt"
+        const val KEY_SOLD_ITEMS_PROFIT_SLT = "sold-items-profit-slt"
 
         // Variables
         const val MAX_MONEY = 999_999_999_999_999_999L

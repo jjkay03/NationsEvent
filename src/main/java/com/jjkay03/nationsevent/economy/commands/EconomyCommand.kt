@@ -22,8 +22,8 @@ class EconomyCommand : CommandExecutor, TabCompleter {
         when (args[0].lowercase()) {
             // SET
             "set" -> {
-                if (args.size < 3 || args[2].toIntOrNull() == null) { sender.sendMessage("§cInvalid amount! Usage: /economy set <player> <amount>"); return true }
-                val amount = args[2].toInt()
+                if (args.size < 3 || args[2].toLongOrNull() == null) { sender.sendMessage("§cInvalid amount!"); return true }
+                val amount = args[2].toLong()
                 val newBalance = EconomyUtils.setPlayerBalance(player, amount)
                 if (!Economy.ALLOW_NEGATIVE_BALANCE && amount < 0) sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)} §7(Negative balance disabled in config)")
                 else sender.sendMessage("§aSet §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)}")
@@ -33,7 +33,7 @@ class EconomyCommand : CommandExecutor, TabCompleter {
 
             // RESET
             "reset" -> {
-                val newBalance = EconomyUtils.setPlayerBalance(player, 0)
+                val newBalance = EconomyUtils.setPlayerBalance(player, 0L)
                 sender.sendMessage("§aReset §f${player.name} §abalance to ${EconomyUtils.formatMoney(newBalance)}")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Reset ${player.name} balance to $newBalance")
                 alertTargetPlayer(player)
@@ -41,8 +41,8 @@ class EconomyCommand : CommandExecutor, TabCompleter {
 
             // GIVE
             "give" -> {
-                if (args.size < 3 || !args[2].toIntOrNull().let { it != null && it > 0 }) { sender.sendMessage("§cInvalid amount! Usage: /economy give <player> <amount>"); return true }
-                val amount = args[2].toInt()
+                if (args.size < 3 || args[2].toLongOrNull() == null) { sender.sendMessage("§cInvalid amount!"); return true }
+                val amount = args[2].toLong()
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) + amount)
                 sender.sendMessage("§aGave ${EconomyUtils.formatMoney(amount)} §ato §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Gave $amount to ${player.name} (new balance: $newBalance)")
@@ -51,8 +51,8 @@ class EconomyCommand : CommandExecutor, TabCompleter {
 
             // TAKE
             "take" -> {
-                if (args.size < 3 || !args[2].toIntOrNull().let { it != null && it > 0 }) { sender.sendMessage("§cInvalid amount! Usage: /economy take <player> <amount>"); return true }
-                val amount = args[2].toInt()
+                if (args.size < 3 || args[2].toLongOrNull() == null) { sender.sendMessage("§cInvalid amount!"); return true }
+                val amount = args[2].toLong()
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) - amount)
                 sender.sendMessage("§aTook ${EconomyUtils.formatMoney(amount)} §afrom §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
                 LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Took $amount from ${player.name} (new balance: $newBalance)")

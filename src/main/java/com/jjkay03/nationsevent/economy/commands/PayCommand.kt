@@ -27,27 +27,27 @@ class PayCommand : CommandExecutor, TabCompleter {
         // End if target is self
         if (target == sender) { sender.sendMessage("§cYou cannot pay yourself!"); return true }
 
-        // End if amount is negative
-        val amount = args[1].toIntOrNull()
-        if (amount == null || amount <= 0) { sender.sendMessage("§cInvalid amount!"); return true }
+        // End if amount is invalid
+        val amountLong = args[1].toLongOrNull()
+        if (amountLong == null || amountLong <= 0) { sender.sendMessage("§cInvalid amount! You must enter a positive whole number."); return true }
 
         // End if balance is under paid amount
         val senderBalance = EconomyUtils.getPlayerBalance(sender)
-        if (amount > senderBalance) { sender.sendMessage("§cYou do not have enough money to pay $amount${Economy.MONEY_SYMBOL}${if (senderBalance < 0) " ${Economy.TXT_IN_DEBT}" else ""}"); return true }
+        if (amountLong > senderBalance) { sender.sendMessage("§cYou do not have enough money to pay $amountLong${Economy.MONEY_SYMBOL}${if (senderBalance < 0) " ${Economy.TXT_IN_DEBT}" else ""}"); return true }
 
         // Perform the transaction
-        val senderUpdatedBalance = senderBalance - amount
+        val senderUpdatedBalance = senderBalance - amountLong
         val targetBalance = EconomyUtils.getPlayerBalance(target)
-        val targetUpdatedBalance = targetBalance + amount
+        val targetUpdatedBalance = targetBalance + amountLong
         EconomyUtils.setPlayerBalance(sender, senderUpdatedBalance)
         EconomyUtils.setPlayerBalance(target, targetUpdatedBalance)
 
         // Alert players
-        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amount)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
-        target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amount)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
+        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amountLong)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
+        target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amountLong)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
 
         // Log
-        LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Pay Command - ${sender.name}] ${sender.name} ([-] $senderBalance -> $senderUpdatedBalance) paid ${target.name} ([+] $targetBalance -> $targetUpdatedBalance) an amount of $amount")
+        LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Pay Command - ${sender.name}] ${sender.name} ([-] $senderBalance -> $senderUpdatedBalance) paid ${target.name} ([+] $targetBalance -> $targetUpdatedBalance) an amount of $amountLong")
 
         return true
     }

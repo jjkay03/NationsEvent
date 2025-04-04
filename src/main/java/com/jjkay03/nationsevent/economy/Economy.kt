@@ -24,6 +24,9 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val PLAYER_BALANCE_FILE_KEY_IGN = "ign"
         const val PLAYER_BALANCE_FILE_KEY_BALANCE = "balance"
 
+        // Variables
+        const val MAX_MONEY = 999_999_999_999_999_999L
+        const val MIN_MONEY = -999_999_999_999_999_999L
         const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
     }
 

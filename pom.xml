@@ -136,7 +136,7 @@
       <dependency>
           <groupId>com.github.NEZNAMY</groupId>
           <artifactId>TAB-API</artifactId>
-          <version>5.0.6</version>
+          <version>5.2.0</version>
           <scope>provided</scope>
       </dependency>
       <!-- IPVP Canvas -->

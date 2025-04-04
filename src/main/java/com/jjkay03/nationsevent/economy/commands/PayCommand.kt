@@ -10,8 +10,13 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 
 class PayCommand : CommandExecutor, TabCompleter {
+
+    // Cooldown tracking map
+    private val cooldownMap = mutableMapOf<String, Long>()
+    private val cooldownTime = TimeUnit.SECONDS.toMillis(5)
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // End if sender not player
@@ -19,6 +24,9 @@ class PayCommand : CommandExecutor, TabCompleter {
 
         // End if invalid args
         if (args.size < 2) { sender.sendMessage("§cUsage: /pay <player> <amount>"); return true }
+
+        // End if player is on cooldown and doesn't have bypass perm
+        if (!sender.hasPermission(Saves.PERM_STAFF) && (System.currentTimeMillis() - (cooldownMap[sender.name] ?: 0L)) < cooldownTime) { sender.sendMessage("§cYou have to wait before using this command again!"); return true }
 
         // End if player not found
         val target = Bukkit.getPlayer(args[0])
@@ -46,8 +54,16 @@ class PayCommand : CommandExecutor, TabCompleter {
         sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amountLong)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
         target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amountLong)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
 
+        // Update players balances files stats
+        EconomyUtils.updatePlayerBalanceFileKeyLong(sender, 1, setOf(Economy.KEY_PAYMENT_SENT, Economy.KEY_PAYMENT_SENT_SLT))
+        EconomyUtils.updatePlayerBalanceFileKeyLong(target, 1, setOf(Economy.KEY_PAYMENT_RECEIVED, Economy.KEY_PAYMENT_RECEIVED_SLT))
+        EconomyUtils.updatePlayerBalanceFileKeyLong(target, amountLong, setOf(Economy.KEY_PROFIT_SLT))
+
         // Log
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Pay Command - ${sender.name}] ${sender.name} ([-] $senderBalance -> $senderUpdatedBalance) paid ${target.name} ([+] $targetBalance -> $targetUpdatedBalance) an amount of $amountLong")
+
+        // Update cooldown map
+        cooldownMap[sender.name] = System.currentTimeMillis()
 
         return true
     }

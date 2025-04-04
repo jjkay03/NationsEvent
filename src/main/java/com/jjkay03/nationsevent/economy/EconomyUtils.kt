@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.Objective
 import org.bukkit.scoreboard.Scoreboard
 import java.awt.Color
 import java.io.File
+import kotlin.enums.enumEntries
 import kotlin.math.abs
 
 object EconomyUtils {
@@ -32,11 +33,31 @@ object EconomyUtils {
     fun createPlayerBalanceFile(player: Player, startingBalance: Long) {
         val file = getPlayerBalanceFile(player)
         if (file.exists()) return // End if file exist
+
+        // Logs
         NationsEvent.INSTANCE.logger.info("Creating player ${player.name} balance file with starting balance $startingBalance")
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Creating player ${player.name} balance file with starting balance $startingBalance")
-        val config = YamlConfiguration()
-        config.set(Economy.PLAYER_BALANCE_FILE_KEY_IGN, player.name)
-        config.set(Economy.PLAYER_BALANCE_FILE_KEY_BALANCE, startingBalance)
+
+        // Create file
+        val config = YamlConfiguration().apply {
+            set(Economy.KEY_IGN, player.name)
+            set(Economy.KEY_BALANCE, startingBalance)
+            setOf(
+                Economy.KEY_PAYMENT_SENT,
+                Economy.KEY_PAYMENT_RECEIVED,
+                Economy.KEY_PAYMENT_SENT_SLT,
+                Economy.KEY_PAYMENT_RECEIVED_SLT,
+                Economy.KEY_PROFIT_SLT
+            ).forEach { set(it, 0) }
+            save(file)
+        }
+    }
+
+    // Function that updates a set of long values in a player balance file by adding a specified amount to each key
+    fun updatePlayerBalanceFileKeyLong(player: Player, amount: Long, keys: Set<String>) {
+        val file = getPlayerBalanceFile(player)
+        val config = YamlConfiguration.loadConfiguration(file)
+        keys.forEach { key -> config.set(key, config.getLong(key) + amount) }
         config.save(file)
     }
 
@@ -44,7 +65,7 @@ object EconomyUtils {
     fun getPlayerBalance(player: Player): Long {
         val file = getPlayerBalanceFile(player)
         val config = YamlConfiguration.loadConfiguration(file)
-        return config.getLong(Economy.PLAYER_BALANCE_FILE_KEY_BALANCE)
+        return config.getLong(Economy.KEY_BALANCE)
     }
 
     // Function to set a player's balance
@@ -57,7 +78,7 @@ object EconomyUtils {
         if (!Economy.ALLOW_NEGATIVE_BALANCE && updatedBalance < 0) updatedBalance = 0
 
         // Set new balance
-        config.set(Economy.PLAYER_BALANCE_FILE_KEY_BALANCE, updatedBalance)
+        config.set(Economy.KEY_BALANCE, updatedBalance)
         config.save(file)
         LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "Updated player ${player.name} balance to $updatedBalance")
         return updatedBalance

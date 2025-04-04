@@ -21,8 +21,13 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         val ALLOW_NEGATIVE_BALANCE: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-allow-negative-balance")
 
         // Keys used in player balance file yml
-        const val PLAYER_BALANCE_FILE_KEY_IGN = "ign"
-        const val PLAYER_BALANCE_FILE_KEY_BALANCE = "balance"
+        const val KEY_IGN = "ign"
+        const val KEY_BALANCE = "balance"
+        const val KEY_PAYMENT_SENT = "payment-sent"
+        const val KEY_PAYMENT_RECEIVED = "payment-received"
+        const val KEY_PAYMENT_SENT_SLT = "payment-sent-slt"
+        const val KEY_PAYMENT_RECEIVED_SLT = "payment-received-slt"
+        const val KEY_PROFIT_SLT = "profit-slt"
 
         // Variables
         const val MAX_MONEY = 999_999_999_999_999_999L

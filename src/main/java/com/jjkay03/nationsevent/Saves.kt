@@ -2,31 +2,34 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.utils.LogsManager
 import net.luckperms.api.model.group.Group
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.scoreboard.Scoreboard
+import org.bukkit.scoreboard.ScoreboardManager
 import java.io.File
 
 class Saves() {
     companion object {
-        // Rank perms nations event
+        // RANK PERMS NATIONS EVENT
         const val PERM_ADMIN: String = "nationsevent.admin"
         const val PERM_PROD: String = "nationsevent.production"
         const val PERM_STAFF: String = "nationsevent.staff"
         const val PERM_SPECTATOR: String = "nationsevent.spectator"
 
-        // Permissions
+        // PERMISSIONS
         const val PERM_USE_CHAT: String = "nationsevent.usechat"
         const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
 
-        // Luckperms groups
+        // LUCKPERMS GROUPS
         val LP_GROUP_ADMIN: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("admin")
         val LP_GROUP_PROD: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("prod")
         val LP_GROUP_STAFF: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("staff")
         val LP_GROUP_DEFAULT: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("default")
 
-        // Directories
+        // DIRECTORIES
         val DIR_MAIN_PLUGIN = File("plugins/NationsEvent")
         val DIR_ECONOMY = File(DIR_MAIN_PLUGIN, "economy")
         val DIR_ECONOMY_BALANCES = File(DIR_ECONOMY, "balances")
@@ -34,23 +37,27 @@ class Saves() {
         val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")
         val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
 
-        // Files
+        // FILES
         const val FILE_NAME_CONFIG = "config.yml"; val FILE_CONFIG = File(DIR_MAIN_PLUGIN, FILE_NAME_CONFIG)
         const val FILE_NAME_WEBHOOKS = "webhooks.yml"; val FILE_WEBHOOKS = File(DIR_MAIN_PLUGIN, FILE_NAME_WEBHOOKS)
-        // Log files
+        // LOG FILES
         val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY)
 
-        // Event variables
+        // SCOREBOARDS
+        val SCOREBOARD_MANAGER: ScoreboardManager = Bukkit.getScoreboardManager()
+        val SCOREBOARD: Scoreboard = SCOREBOARD_MANAGER.mainScoreboard
+
+        // EVENT VARIABLES
         lateinit var EVENT_CODENAME: String
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
 
-        // Webhooks links
+        // WEBHOOKS LINKS
         lateinit var CONFIG_WEBHOOK: FileConfiguration
         lateinit var WEBHOOK_ADMIN: String
         lateinit var WEBHOOK_PLAYER: String
 
-        // Items with disabled crafts
+        // ITEMS WITH DISABLED CRAFTS
         val DISABLED_CRAFT_ITEMS = setOf(
             // General disabled
             Material.ENDER_CHEST,
@@ -66,7 +73,7 @@ class Saves() {
             Material.OAK_CHEST_BOAT, Material.SPRUCE_CHEST_BOAT, Material.BIRCH_CHEST_BOAT, Material.JUNGLE_CHEST_BOAT, Material.ACACIA_CHEST_BOAT, Material.DARK_OAK_CHEST_BOAT, Material.MANGROVE_CHEST_BOAT, Material.CHERRY_CHEST_BOAT, Material.BAMBOO_CHEST_RAFT, Material.PALE_OAK_CHEST_BOAT,
         )
 
-        // Limited and disabled enchant (0 to disable enchant)
+        // LIMITED AND DISABLED ENCHANTS (0 to disable enchant)
         val LIMITED_ENCHANTMENTS = mapOf(
             Enchantment.PROTECTION to 2,
             Enchantment.FIRE_PROTECTION to 0,

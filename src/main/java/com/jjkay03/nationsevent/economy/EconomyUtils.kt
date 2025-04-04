@@ -3,35 +3,30 @@ package com.jjkay03.nationsevent.economy
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.LogsManager
+import net.kyori.adventure.text.Component
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Display
 import org.bukkit.entity.Player
+import org.bukkit.scoreboard.Criteria
+import org.bukkit.scoreboard.DisplaySlot
+import org.bukkit.scoreboard.Objective
+import org.bukkit.scoreboard.Scoreboard
 import java.awt.Color
 import java.io.File
 import kotlin.math.abs
 
 object EconomyUtils {
 
+    // Enum for different money format types
+    enum class MoneyFormat {
+        FULL,                // 5000$
+        SHORTEN,             // 5K$
+        SHORTEN_NUMBER_ONLY, // 5
+        SHORTEN_LETTER_ONLY  // K
+    }
+
     // Function that returns the player balance file of a given player
     private fun getPlayerBalanceFile(player: Player): File { return File(Saves.DIR_ECONOMY_BALANCES,"${player.uniqueId}.yml") }
-
-    // Function that formats money for messages
-    fun formatMoney(amount: Long, shorten: Boolean = false): String {
-        val absAmount = kotlin.math.abs(amount)
-        val formatted = if (shorten) {
-            when {
-                absAmount >= 1_000_000_000_000_000 -> "${absAmount / 1_000_000_000_000_000}Q" // Quadrillion
-                absAmount >= 1_000_000_000_000 -> "${absAmount / 1_000_000_000_000}T" // Trillion
-                absAmount >= 1_000_000_000 -> "${absAmount / 1_000_000_000}B" // Billion
-                absAmount >= 1_000_000 -> "${absAmount / 1_000_000}M" // Million
-                absAmount >= 1_000 -> "${absAmount / 1_000}K" // Thousand
-                else -> absAmount.toString() // No abbreviation needed
-            }
-        } else absAmount.toString()
-
-        // Return formatted string with color and symbol
-        return if (amount < 0) "§c$formatted${Economy.MONEY_SYMBOL}"
-        else "${Economy.MONEY_COLOR}$formatted${Economy.MONEY_SYMBOL}"
-    }
 
     // Function to create player yml containing player balance
     fun createPlayerBalanceFile(player: Player, startingBalance: Long) {
@@ -68,5 +63,53 @@ object EconomyUtils {
         return updatedBalance
     }
 
+    // Function that formats money for messages
+    fun formatMoney(amount: Long, format: MoneyFormat = MoneyFormat.FULL): String {
+        val absAmount = kotlin.math.abs(amount)
+
+        // Determine suffix and divisor based on amount
+        val (suffix, divisor) = when {
+            absAmount >= 1_000_000_000_000_000L -> "Q" to 1_000_000_000_000_000L
+            absAmount >= 1_000_000_000_000L -> "T" to 1_000_000_000_000L
+            absAmount >= 1_000_000_000L -> "B" to 1_000_000_000L
+            absAmount >= 1_000_000L -> "M" to 1_000_000L
+            absAmount >= 1_000L -> "K" to 1_000L
+            else -> "" to 1L
+        }
+
+        // Format based on the selected format type
+        val formatted = when (format) {
+            MoneyFormat.FULL -> absAmount.toString() + Economy.MONEY_SYMBOL
+            MoneyFormat.SHORTEN -> {
+                if (suffix.isEmpty()) absAmount.toString() + Economy.MONEY_SYMBOL
+                else "${(absAmount / divisor)}$suffix${Economy.MONEY_SYMBOL}"
+            }
+            MoneyFormat.SHORTEN_LETTER_ONLY -> {
+                if (suffix.isEmpty()) "" else suffix
+            }
+            MoneyFormat.SHORTEN_NUMBER_ONLY -> {
+                if (suffix.isEmpty()) absAmount.toString()
+                else (absAmount / divisor).toString()
+            }
+        }
+
+        // Add color except for LETTER_ONLY which has no color
+        return when {
+            format == MoneyFormat.SHORTEN_LETTER_ONLY -> formatted
+            format == MoneyFormat.SHORTEN_NUMBER_ONLY -> formatted
+            amount < 0 -> "§c$formatted"
+            else -> "${Economy.MONEY_COLOR}$formatted"
+        }
+    }
+
+    // TODO
+    fun getScoreboardObjectiveMoney(): Objective {
+        var objective = Saves.SCOREBOARD.getObjective("nationsevent_money")
+        if (objective == null) {
+            objective = Saves.SCOREBOARD.registerNewObjective("nationsevent_money", Criteria.DUMMY, Component.text(Economy.MONEY_SYMBOL))
+            objective.displaySlot = DisplaySlot.BELOW_NAME
+        }
+        return objective
+    }
 
 }

@@ -6,6 +6,7 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.economy.commands.BalanceCommand
 import com.jjkay03.nationsevent.economy.commands.EconomyCommand
 import com.jjkay03.nationsevent.economy.commands.PayCommand
+import com.jjkay03.nationsevent.economy.commands.RollMoneyCommand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -55,11 +56,13 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         val economyCommand = EconomyCommand()
         val balanceCommand = BalanceCommand()
         val payCommand = PayCommand()
+        val rollMoneyCommand = RollMoneyCommand()
 
         // Register commands
         plugin.getCommand("economy")?.apply { setExecutor(economyCommand); tabCompleter = economyCommand }
         plugin.getCommand("balance")?.apply { setExecutor(balanceCommand); tabCompleter = balanceCommand }
         plugin.getCommand("pay")?.apply { setExecutor(payCommand); tabCompleter = payCommand }
+        plugin.getCommand("rollmoney")?.apply { setExecutor(rollMoneyCommand); tabCompleter = rollMoneyCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

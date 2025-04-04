@@ -3,18 +3,9 @@ package com.jjkay03.nationsevent.economy
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.LogsManager
-import net.kyori.adventure.text.Component
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Display
 import org.bukkit.entity.Player
-import org.bukkit.scoreboard.Criteria
-import org.bukkit.scoreboard.DisplaySlot
-import org.bukkit.scoreboard.Objective
-import org.bukkit.scoreboard.Scoreboard
-import java.awt.Color
 import java.io.File
-import kotlin.enums.enumEntries
-import kotlin.math.abs
 
 object EconomyUtils {
 
@@ -110,7 +101,7 @@ object EconomyUtils {
         return when {
             format == MoneyFormat.SHORTEN_LETTER_ONLY -> formatted
             format == MoneyFormat.SHORTEN_NUMBER_ONLY -> formatted
-            amount < 0 -> "§c$formatted"
+            amount < 0 -> "§c-$formatted"
             else -> "${Economy.MONEY_COLOR}$formatted"
         }
     }

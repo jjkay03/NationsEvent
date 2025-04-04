@@ -69,28 +69,20 @@ object EconomyUtils {
 
         // Determine suffix and divisor based on amount
         val (suffix, divisor) = when {
-            absAmount >= 1_000_000_000_000_000L -> "Q" to 1_000_000_000_000_000L
-            absAmount >= 1_000_000_000_000L -> "T" to 1_000_000_000_000L
-            absAmount >= 1_000_000_000L -> "B" to 1_000_000_000L
-            absAmount >= 1_000_000L -> "M" to 1_000_000L
-            absAmount >= 1_000L -> "K" to 1_000L
+            absAmount >= 1_000_000_000_000_000L -> "Q" to 1_000_000_000_000_000L  // Quintillions
+            absAmount >= 1_000_000_000_000L -> "T" to 1_000_000_000_000L          // Trillions
+            absAmount >= 1_000_000_000L -> "B" to 1_000_000_000L                  // Billions
+            absAmount >= 1_000_000L -> "M" to 1_000_000L                          // Millions
+            absAmount >= 1_000L -> "K" to 1_000L                                  // Thousands
             else -> "" to 1L
         }
 
         // Format based on the selected format type
         val formatted = when (format) {
             MoneyFormat.FULL -> absAmount.toString() + Economy.MONEY_SYMBOL
-            MoneyFormat.SHORTEN -> {
-                if (suffix.isEmpty()) absAmount.toString() + Economy.MONEY_SYMBOL
-                else "${(absAmount / divisor)}$suffix${Economy.MONEY_SYMBOL}"
-            }
-            MoneyFormat.SHORTEN_LETTER_ONLY -> {
-                if (suffix.isEmpty()) "" else suffix
-            }
-            MoneyFormat.SHORTEN_NUMBER_ONLY -> {
-                if (suffix.isEmpty()) absAmount.toString()
-                else (absAmount / divisor).toString()
-            }
+            MoneyFormat.SHORTEN -> if (suffix.isEmpty()) absAmount.toString() + Economy.MONEY_SYMBOL else "${(absAmount / divisor)}$suffix${Economy.MONEY_SYMBOL}"
+            MoneyFormat.SHORTEN_LETTER_ONLY -> if (suffix.isEmpty()) "" else suffix
+            MoneyFormat.SHORTEN_NUMBER_ONLY -> if (suffix.isEmpty()) absAmount.toString() else (absAmount / divisor).toString()
         }
 
         // Add color except for LETTER_ONLY which has no color
@@ -101,15 +93,4 @@ object EconomyUtils {
             else -> "${Economy.MONEY_COLOR}$formatted"
         }
     }
-
-    // TODO
-    fun getScoreboardObjectiveMoney(): Objective {
-        var objective = Saves.SCOREBOARD.getObjective("nationsevent_money")
-        if (objective == null) {
-            objective = Saves.SCOREBOARD.registerNewObjective("nationsevent_money", Criteria.DUMMY, Component.text(Economy.MONEY_SYMBOL))
-            objective.displaySlot = DisplaySlot.BELOW_NAME
-        }
-        return objective
-    }
-
 }

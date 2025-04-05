@@ -8,7 +8,7 @@ This plugin is designed for Nations Events, offering a comprehensive suite of fe
 
 <br>
 
-🔨 Before using/interacting with this project, please ensure you have read and agree to the terms outlined in the [TERMS.md](TERMS.md) file.
+🔨 Before interacting with this project, ensure you have read and agree to the terms outlined in the [TERMS.md](TERMS.md) file.
 
 <br>
 

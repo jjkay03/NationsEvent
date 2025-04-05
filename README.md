@@ -20,4 +20,5 @@ This plugin is designed for Nations Events, offering a comprehensive suite of fe
 - [`Group Chats`](https://github.com/jjkay03/NationsEvent/wiki/Group-Chats)
 - [`Patches`](https://github.com/jjkay03/NationsEvent/wiki/Patches)
 - [`Utils`](https://github.com/jjkay03/NationsEvent/wiki/Utils)
+- [`Voting`](https://github.com/jjkay03/NationsEvent/wiki/Voting)
   

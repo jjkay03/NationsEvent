@@ -75,11 +75,15 @@ Economy system can be toggled in the plugin config. This allows each player to h
 
 ECONOMY FEATURES:
 - Custom money color and symbol.
-- Dept system - players can have negative balance.
+- Debt system - Players can have negative balance.
+- Log system - Keeps track of all transactions in log files.
+- Item values - Give different items different values.
 
 ECONOMY COMMANDS:
 - `/economy [set/reset/give/take] <player> <amount>` : For admins to manage a player's balance.
 - `/balance <player>` : Check your own or other player's balance.
+- `/pay <player> <amount>` : Send money to other players.
+- `/rollmoney ...` : For admins to roll random amount of money to all players. 
 
 <br>
 

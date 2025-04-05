@@ -69,6 +69,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)
+        plugin.server.pluginManager.registerEvents(EconomyItems(), plugin)
     }
 
     // Create balance file for player when joining the server if it doesn't exist

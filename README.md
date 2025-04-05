@@ -70,23 +70,6 @@ _Utility features of plugin._
 
 <br>
 
-## ECONOMY
-Economy system can be toggled in the plugin config. This allows each player to have their own balance with wish they can do trades, pay each others, buy/sell items ect.
-
-ECONOMY FEATURES:
-- Custom money color and symbol.
-- Debt system - Players can have negative balance.
-- Log system - Keeps track of all transactions in log files.
-- Item values - Give different items different values.
-
-ECONOMY COMMANDS:
-- `/economy [set/reset/give/take] <player> <amount>` : For admins to manage a player's balance.
-- `/balance <player>` : Check your own or other player's balance.
-- `/pay <player> <amount>` : Send money to other players.
-- `/rollmoney ...` : For admins to roll random amount of money to all players. 
-
-<br>
-
 ## GROUP CHATS
 Custom group chats creation based on permissions.
 
@@ -107,6 +90,23 @@ STAFF_CHAT (
 - **Permission Send:** This is the perm needed to send a message in that GC.
 - **Permission View:** This is the perm needed to view messages in that GC. _(Send/Staff perm can also view)_
 - **Commands:** This is a list of commands that can be used to message in the GC. _(Exemple: `/staffchat <message>`)_
+
+<br>
+
+## ECONOMY
+Economy system can be toggled in the plugin config. This allows each player to have their own balance with wish they can do trades, pay each others, buy/sell items ect.
+
+ECONOMY FEATURES:
+- Custom money color and symbol.
+- Debt system - Players can have negative balance.
+- Log system - Keeps track of all transactions in log files.
+- Item values - Give different items different values.
+
+ECONOMY COMMANDS:
+- `/economy [set/reset/give/take] <player> <amount>` : For admins to manage a player's balance.
+- `/balance <player>` : Check your own or other player's balance.
+- `/pay <player> <amount>` : Send money to other players.
+- `/rollmoney ...` : For admins to roll random amount of money to all players. 
 
 <br>
 

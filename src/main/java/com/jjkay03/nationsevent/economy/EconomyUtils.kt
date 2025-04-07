@@ -55,6 +55,13 @@ object EconomyUtils {
         config.save(file)
     }
 
+    // Function that gets a long value from a player balance file assigned to a key
+    fun getPlayerBalanceFileKeyLong(player: Player, key: String) : Long {
+        val file = getPlayerBalanceFile(player)
+        val config = YamlConfiguration.loadConfiguration(file)
+        return config.getLong(key)
+    }
+
     // Function that returns the balance of a given player
     fun getPlayerBalance(player: Player): Long {
         val file = getPlayerBalanceFile(player)
@@ -108,4 +115,5 @@ object EconomyUtils {
             else -> "${Economy.MONEY_COLOR}$formatted"
         }
     }
+
 }

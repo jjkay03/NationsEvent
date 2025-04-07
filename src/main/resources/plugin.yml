@@ -138,6 +138,11 @@ commands:
     permission: nationsevent.command.rollmoney
     permission-message: "You do not have permission to use this command"
 
+  tax:
+    aliases: [ economytax, ecotax ]
+    permission: nationsevent.command.tax
+    permission-message: "You do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

@@ -91,7 +91,7 @@ object EconomyUtils {
 
         // Determine suffix and divisor based on amount
         val (suffix, divisor) = when {
-            absAmount >= 1_000_000_000_000_000L -> "Q" to 1_000_000_000_000_000L  // Quintillions
+            absAmount >= 1_000_000_000_000_000L -> "Q" to 1_000_000_000_000_000L  // Quadrillion
             absAmount >= 1_000_000_000_000L -> "T" to 1_000_000_000_000L          // Trillions
             absAmount >= 1_000_000_000L -> "B" to 1_000_000_000L                  // Billions
             absAmount >= 1_000_000L -> "M" to 1_000_000L                          // Millions

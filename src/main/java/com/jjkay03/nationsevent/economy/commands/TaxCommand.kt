@@ -22,14 +22,14 @@ class TaxCommand : CommandExecutor, TabCompleter {
             "calculate" -> {
                 sender.sendMessage("§7Calculating tax data for all players online...")
                 EconomyTax.calculateTaxes()
-                sender.sendMessage("§6Calculated tax data for all players online - ${EconomyTax.PLAYER_TAX_DATA_MAP.size} players due total of ${EconomyUtils.formatMoney(EconomyTax.TOTAL_DUE_TAX)}")
+                sender.sendMessage("§6CALCULATED TAXES - ${EconomyTax.PLAYER_TAX_DATA_MAP.size} players due total of ${EconomyUtils.formatMoney(EconomyTax.TOTAL_DUE_TAX)}")
             }
 
             // Collect tax
             "collect" -> {
                 if (EconomyTax.PLAYER_TAX_DATA_MAP.isEmpty()) { sender.sendMessage("§cNo tax data available! Use: /tax calculate first"); return false }
-                if (args.getOrNull(1)?.equals("confirm", ignoreCase = true) == true) // TODO Handle confirmation logic
-                else sender.sendMessage("Usage: /tax collect CONFIRM")
+                if (args.getOrNull(1)?.equals("confirm", ignoreCase = true) == true) EconomyTax.collectTaxes()
+                else sender.sendMessage("§cUsage: /tax collect CONFIRM")
             }
         }
         return true

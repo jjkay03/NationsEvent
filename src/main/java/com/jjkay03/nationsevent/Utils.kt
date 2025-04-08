@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import net.kyori.adventure.title.Title
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -31,23 +32,27 @@ object Utils {
 
     // Function that sends message to all staff
     fun messageStaff(message: String) {
-        Bukkit.getServer().onlinePlayers.forEach { player ->
-            if (player.hasPermission(Saves.PERM_STAFF)) player.sendMessage(message)
-        }
+        Bukkit.getServer().onlinePlayers.forEach { player -> if (player.hasPermission(Saves.PERM_STAFF)) player.sendMessage(message) }
     }
 
     // Function that sends message to all player with a certain permission
     fun messagePlayerWithPerm(message: String, vararg permissions: String) {
-        Bukkit.getServer().onlinePlayers.forEach { player ->
-            if (permissions.any { player.hasPermission(it) }) player.sendMessage(message)
-        }
+        Bukkit.getServer().onlinePlayers.forEach { player -> if (permissions.any { player.hasPermission(it) }) player.sendMessage(message) }
+    }
+
+    // Function to send a message to all players online
+    fun messageAllPlayers(message: String) {
+        Bukkit.getOnlinePlayers().forEach { player -> player.sendMessage(message) }
+    }
+
+    // Function to send title to all players online
+    fun sendTitleToAllPlayers(title: String = "", subtitle: String = "", fadeIn: Int = 10, stay: Int = 20, fadeOut: Int = 10) {
+        Bukkit.getOnlinePlayers().forEach { player -> player.sendTitle(title, subtitle, fadeIn, stay, fadeOut) }
     }
 
     // Function that plays a sound to all player on the server
     fun playSoundToAllPlayers(sound: Sound, volume: Float, pitch: Float) {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            player.playSound(player.location, sound, volume, pitch)
-        }
+        Bukkit.getOnlinePlayers().forEach { player -> player.playSound(player.location, sound, volume, pitch) }
     }
 
     // Function that checks if a luckperms group has a permission

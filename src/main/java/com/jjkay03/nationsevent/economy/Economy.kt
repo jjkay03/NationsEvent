@@ -58,6 +58,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         val payCommand = PayCommand()
         val rollMoneyCommand = RollMoneyCommand()
         val taxCommand = TaxCommand()
+        val taxPayCommand = TaxPayCommand()
 
         // Register commands
         plugin.getCommand("economy")?.apply { setExecutor(economyCommand); tabCompleter = economyCommand }
@@ -65,6 +66,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         plugin.getCommand("pay")?.apply { setExecutor(payCommand); tabCompleter = payCommand }
         plugin.getCommand("rollmoney")?.apply { setExecutor(rollMoneyCommand); tabCompleter = rollMoneyCommand }
         plugin.getCommand("tax")?.apply { setExecutor(taxCommand); tabCompleter = taxCommand }
+        plugin.getCommand("taxpay")?.apply { setExecutor(taxPayCommand); tabCompleter = taxPayCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

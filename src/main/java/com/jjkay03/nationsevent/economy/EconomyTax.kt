@@ -63,7 +63,7 @@ object EconomyTax {
         val taxAlertMessage = setOf(
             "\n§e⚠ §7Tax collection has started, you have received a \"§fTax Records§7\" book in your inventory.",
             "§7Read the book and calculate how much tax you are due. You have §e$TAX_COLLECTION_DURATION_MINUTES minutes §7to pay.",
-            "§7You can pay your due tax using §e/paytax <amount>§7.\n§r " )
+            "§7You can pay your due tax using §e/taxpay <amount>§7.\n§r " )
         for (line in taxAlertMessage) Utils.messageAllPlayers(line)
         giveTaxRecordsToAllPlayers() // Give all players tax records
         TAX_PAYMENTS_OPEN = true // Open tax payment
@@ -211,14 +211,14 @@ object EconomyTax {
         val page3 = buildString {
             append("§l§nFORMALITIES§r\n")
             append("\n")
-            append("Your due taxes are calculated based on your revenue, transactions and item sold.\n")
+            append("Your due taxes are calculated based on your revenue, transactions and items sold.\n")
             append("\n")
-            append("In the previous page you can find all of those listed along side your tax rate percentage.\n")
+            append("On the previous page, you can find all of those listed along side your tax rate percentage.\n")
         }
         val page4 = buildString {
             append("§l§nDUE TAXES§r\n")
             append("\n")
-            append("You are due your tax rate percentage of your profit:\n")
+            append("You are due to pay your tax rate percentage of your profit:\n")
             append("\n")
             append("→ §4${playerTaxData.dueTaxPercentage}%§r of §4${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL}§r\n")
             append("\n")
@@ -227,7 +227,7 @@ object EconomyTax {
         val page5 = buildString {
             append("⚠ §l§nCONSEQUENCES§r ⚠\n")
             append("\n")
-            append("Failing to pay your due taxes will be considered §4tax fraud§r, and will be met with important consequences by the NRS.")
+            append("Failing to pay your due taxes will be considered §4tax fraud§r, and will be met with consequences by the NRS.")
         }
         meta.pages = listOf(page1, page2, page3, page4, page5)
         book.itemMeta = meta
@@ -246,6 +246,12 @@ object EconomyTax {
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
         return localDateTime.format(formatter)
+    }
+
+    // Function to save how much a player set aside to pay due tax
+    fun setPlayerPaidTaxAmount(player: Player, amount: Long) {
+        val playerTaxData = PLAYER_TAX_DATA_MAP[player] ?: return
+        playerTaxData.paidTaxAmount = amount
     }
 
 }

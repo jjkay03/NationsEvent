@@ -18,6 +18,7 @@ class PayCommand : CommandExecutor, TabCompleter {
     private val cooldownMap = mutableMapOf<String, Long>()
     private val cooldownTime = TimeUnit.SECONDS.toMillis(5)
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // End if sender not player
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
@@ -68,9 +69,8 @@ class PayCommand : CommandExecutor, TabCompleter {
         return true
     }
 
-    override fun onTabComplete(
-        sender: CommandSender, command: Command, alias: String, args: Array<out String>
-    ): List<String> {
+    // TAB COMPLETE
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
         return when (args.size) {
             1 -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(args[0], true) }
             2 -> listOf("<amount>")

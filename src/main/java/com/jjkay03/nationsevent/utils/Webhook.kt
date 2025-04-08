@@ -12,6 +12,7 @@ object Webhook {
 
     // Function to send webhook message to discord
     fun send(webhookUrl: String, message: String) {
+        if (webhookUrl == "") return // End if url is empty
         Bukkit.getScheduler().runTaskAsynchronously(NationsEvent.INSTANCE, Runnable {
             try {
                 val url = URL(webhookUrl)

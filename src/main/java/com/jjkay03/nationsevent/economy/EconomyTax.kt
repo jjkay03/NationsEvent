@@ -282,6 +282,9 @@ object EconomyTax {
                 else -> EconomyTaxValidity.UNKNOWN
             }
 
+            // Update tax fraud in map if needed
+            if (validity == EconomyTaxValidity.UNDERPAID) playerTaxData.taxFraud = true
+
             // Alert player + log
             player.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid a total of ${EconomyUtils.formatMoney(playerTaxData.paidTaxAmount)}§7 to cover your taxes (new balance ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
             LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[TAX] ${player.name} ([-] $playerBalance -> $playerUpdatedBalance) paid ${playerTaxData.paidTaxAmount} to cover taxes ($validity - due taxes were ${playerTaxData.dueTaxAmount} missing $missingAmount).")
@@ -298,7 +301,14 @@ object EconomyTax {
             """.trimIndent()
             webhookMessagesLog.add(playerWebhookMessage)
 
-            // TODO - reset all SLT stats in player balance file
+            // Reset all SLT stats in player balance file
+            EconomyUtils.setPlayerBalanceFileKeyLong(player, 0, setOf(
+                Economy.KEY_PAYMENT_SENT_SLT,
+                Economy.KEY_PAYMENT_RECEIVED_SLT,
+                Economy.KEY_PROFIT_SLT,
+                Economy.KEY_SOLD_ITEMS_SLT,
+                Economy.KEY_SOLD_ITEMS_PROFIT_SLT
+            ))
         }
 
         // Send all tax log webhook messages to discord gradually

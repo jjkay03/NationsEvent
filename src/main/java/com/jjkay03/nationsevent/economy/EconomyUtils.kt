@@ -55,6 +55,14 @@ object EconomyUtils {
         config.save(file)
     }
 
+    // Function that sets a set of long values in a player balance file by setting each key to a specific amount
+    fun setPlayerBalanceFileKeyLong(player: Player, amount: Long, keys: Set<String>) {
+        val file = getPlayerBalanceFile(player)
+        val config = YamlConfiguration.loadConfiguration(file)
+        keys.forEach { key -> config.set(key, amount) }
+        config.save(file)
+    }
+
     // Function that gets a long value from a player balance file assigned to a key
     fun getPlayerBalanceFileKeyLong(player: Player, key: String) : Long {
         val file = getPlayerBalanceFile(player)

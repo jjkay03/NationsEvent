@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BookMeta
 import org.bukkit.scheduler.BukkitRunnable
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class EconomyPlayerTaxData(
     var updateTime: Instant = Instant.now(),
@@ -39,10 +42,10 @@ object EconomyTax {
     private var AVERAGE_PAYMENT_RECEIVED: Long  = 0
     private var AVERAGE_SOLD_ITEMS: Long  = 0
 
+    var TAX_PAYMENTS_OPEN: Boolean = false
     var TOTAL_DUE_TAX: Long = 0
     private var TOTAL_COLLECTED_TAX: Long = 0
     private var TAX_COLLECTION_DURATION_MINUTES: Int = 2
-    var TAX_PAYMENTS_OPEN: Boolean = false
 
 
     // Function to update the player tax data map
@@ -178,23 +181,71 @@ object EconomyTax {
         val playerTaxData = PLAYER_TAX_DATA_MAP.getOrPut(player) { EconomyPlayerTaxData() }
         val book = ItemStack(Material.WRITTEN_BOOK)
         val meta = book.itemMeta as BookMeta
-        meta.title = "Tax Records - ${player.name}"
+        meta.title = "✉ Tax Records - ${player.name}"
         meta.author = "Nations Revenue Services (NRS)"
+        meta.generation = BookMeta.Generation.COPY_OF_COPY
         val page1 = buildString {
-            append("§lTax Summary\n")
-            append(". . .\n")
-            append(". . .\n")
-            append(". . .\n")
+            append("§l§nTAX RECORDS§r\n")
+            append("\n")
+            append("Player: ${player.name}\n")
+            append("\n")
+            append("Date: ${formatTimeDate(playerTaxData.updateTime)}\n")
+            append("Time: ${formatTimeHoursMinutes(playerTaxData.updateTime)}\n")
+            append("\n")
+            append("§8✉ Official tax records document certified by the NRS.")
         }
         val page2 = buildString {
-            append("§lTEST\n")
-            append(". . .\n")
-            append(". . .\n")
-            append(". . .\n")
+            append("§l§nRECORDS§r\n")
+            append("\n")
+            append("• Pay sent: ${playerTaxData.paymentSentSLT}\n")
+            append("• Pay received: ${playerTaxData.paymentReceivedSLT}\n")
+            append("• Sold items: ${playerTaxData.soldItemsSLT}\n")
+            append("\n")
+            append("• Items profit: ${playerTaxData.soldItemsProfitSLT}${Economy.MONEY_SYMBOL}\n")
+            append("• Profit: §4${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL}§r\n")
+            append("\n")
+            append("• Tax rate: §4${playerTaxData.dueTaxPercentage}%\n")
+            append("\n")
+            append("§8* SINCE LAST TAX\n")
         }
-        meta.pages = listOf(page1, page2)
+        val page3 = buildString {
+            append("§l§nFORMALITIES§r\n")
+            append("\n")
+            append("Your due taxes are calculated based on your revenue, transactions and item sold.\n")
+            append("\n")
+            append("In the previous page you can find all of those listed along side your tax rate percentage.\n")
+        }
+        val page4 = buildString {
+            append("§l§nDUE TAXES§r\n")
+            append("\n")
+            append("You are due your tax rate percentage of your profit:\n")
+            append("\n")
+            append("→ §4${playerTaxData.dueTaxPercentage}%§r of §4${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL}§r\n")
+            append("\n")
+            append("Pay your due amount using: §6/taxpay§r.\n")
+        }
+        val page5 = buildString {
+            append("⚠ §l§nCONSEQUENCES§r ⚠\n")
+            append("\n")
+            append("Failing to pay your due taxes will be considered §4tax fraud§r, and will be met with important consequences by the NRS.")
+        }
+        meta.pages = listOf(page1, page2, page3, page4, page5)
         book.itemMeta = meta
         return book
+    }
+
+    // Helper function to format time - date
+    private fun formatTimeDate(instant: Instant): String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        return localDateTime.format(formatter)
+    }
+
+    // Helper function to format time - hours & minutes
+    private fun formatTimeHoursMinutes(instant: Instant): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        return localDateTime.format(formatter)
     }
 
 }

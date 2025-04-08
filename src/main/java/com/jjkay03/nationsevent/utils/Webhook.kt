@@ -41,5 +41,12 @@ object Webhook {
         })
     }
 
+    // Function to send multiple messages from a list with delay to avoid rate limit
+    fun sendBatch(webhookUrl: String, messages: List<String>, tickDelay: Long = 20) {
+        messages.forEachIndexed { index, message ->
+            Bukkit.getScheduler().runTaskLaterAsynchronously(NationsEvent.INSTANCE, Runnable { send(webhookUrl, message) }, index * tickDelay)
+        }
+    }
+
 
 }

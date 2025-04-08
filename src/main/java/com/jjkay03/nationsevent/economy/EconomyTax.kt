@@ -263,6 +263,9 @@ object EconomyTax {
 
     // Helper function to make all players on map pay their taxes
     private fun payTaxes() {
+        val webhookMessagesLog = mutableListOf<String>()
+
+        // Go through all players in map
         for ((player, playerTaxData) in PLAYER_TAX_DATA_MAP) {
             // Payment
             val playerBalance = EconomyUtils.getPlayerBalance(player)
@@ -287,19 +290,19 @@ object EconomyTax {
             val colorSignMessage = if (validity == EconomyTaxValidity.VALID || validity == EconomyTaxValidity.OVERPAID ) "+" else "-"
             val playerWebhookMessage = """
                 ```diff
-                $colorSignMessage ${player.name} $validity TAX - Paid: ${playerTaxData.paidTaxAmount}${Economy.MONEY_SYMBOL} (Missing amount: $missingAmount${Economy.MONEY_SYMBOL})
+                $colorSignMessage ${player.name} $validity TAX - Paid: ${playerTaxData.paidTaxAmount}${Economy.MONEY_SYMBOL}${if (missingAmount > 0) " (Missing amount: $missingAmount${Economy.MONEY_SYMBOL})" else ""}
                 • Due tax: ${playerTaxData.dueTaxPercentage}% of ${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL} profit = ${playerTaxData.dueTaxAmount}${Economy.MONEY_SYMBOL} due tax
                 • Pay sent: ${playerTaxData.paymentSentSLT} / Pay received: ${playerTaxData.paymentReceivedSLT} / Item sold: ${playerTaxData.soldItemsSLT}
                 • Item profit: ${playerTaxData.soldItemsProfitSLT}${Economy.MONEY_SYMBOL} / Profit:  ${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL}
                 ```
             """.trimIndent()
-
-            // TODO - gradually sent webhook messages to prevent rate limit
-
-            Webhook.send(Saves.WEBHOOK_ADMIN, playerWebhookMessage)
+            webhookMessagesLog.add(playerWebhookMessage)
 
             // TODO - reset all SLT stats in player balance file
         }
+
+        // Send all tax log webhook messages to discord gradually
+        Webhook.sendBatch(Saves.WEBHOOK_ADMIN, webhookMessagesLog, 10)
     }
 
 }

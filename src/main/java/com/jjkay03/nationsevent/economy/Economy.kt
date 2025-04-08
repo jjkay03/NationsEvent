@@ -34,11 +34,13 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val MAX_MONEY = 999_999_999_999_999_999L
         const val MIN_MONEY = -999_999_999_999_999_999L
         const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
+        val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile")
     }
 
     init {
         // Load economy feature when plugin starts if enabled
         if (FEATURE_ENABLED) loadEconomy()
+        else disableAllCommand()
     }
 
     // Function to load the economy (create files, commands, listeners ect)
@@ -73,6 +75,11 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)
         plugin.server.pluginManager.registerEvents(EconomyItems(), plugin)
+    }
+
+    // Function to disable all commands if economy is disabled
+    private fun disableAllCommand() {
+        for (command in COMMANDS) plugin.getCommand(command)?.setExecutor(DisabledEconomyCommands())
     }
 
     // Create balance file for player when joining the server if it doesn't exist

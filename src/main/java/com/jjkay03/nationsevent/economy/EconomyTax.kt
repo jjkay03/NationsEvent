@@ -1,7 +1,10 @@
 package com.jjkay03.nationsevent.economy
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.utils.LogsManager
+import com.jjkay03.nationsevent.utils.Webhook
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -28,6 +31,8 @@ data class EconomyPlayerTaxData(
     var taxFraud: Boolean = false,
 )
 
+enum class EconomyTaxValidity { VALID, OVERPAID, UNDERPAID, UNKNOWN }
+
 object EconomyTax {
 
     val PLAYER_TAX_DATA_MAP = mutableMapOf<Player, EconomyPlayerTaxData>()
@@ -45,7 +50,7 @@ object EconomyTax {
     var TAX_PAYMENTS_OPEN: Boolean = false
     var TOTAL_DUE_TAX: Long = 0
     private var TOTAL_COLLECTED_TAX: Long = 0
-    private var TAX_COLLECTION_DURATION_MINUTES: Int = 2
+    private var TAX_COLLECTION_DURATION_MINUTES: Int = 1
 
 
     // Function to update the player tax data map
@@ -70,10 +75,18 @@ object EconomyTax {
 
         // Run timer and pay taxes once done
         runTimer(TAX_COLLECTION_DURATION_MINUTES) {
-            // TODO - make players pay tax
-            TAX_PAYMENTS_OPEN = false // Close tax payment
+            payTaxes() // Make all players pay taxes
             Utils.messageStaff("§6COLLECTED TAXES - ${PLAYER_TAX_DATA_MAP.size} players collected total of ${EconomyUtils.formatMoney(TOTAL_COLLECTED_TAX)}")
+            TAX_PAYMENTS_OPEN = false // Close tax payment
+            TOTAL_DUE_TAX = 0 // Reset
+            TOTAL_COLLECTED_TAX = 0 // Reset
         }
+    }
+
+    // Function to save how much a player set aside to pay due tax
+    fun setPlayerPaidTaxAmount(player: Player, amount: Long) {
+        val playerTaxData = PLAYER_TAX_DATA_MAP[player] ?: return
+        playerTaxData.paidTaxAmount = amount
     }
 
     // Helper function to update data in map from players balances files
@@ -248,10 +261,45 @@ object EconomyTax {
         return localDateTime.format(formatter)
     }
 
-    // Function to save how much a player set aside to pay due tax
-    fun setPlayerPaidTaxAmount(player: Player, amount: Long) {
-        val playerTaxData = PLAYER_TAX_DATA_MAP[player] ?: return
-        playerTaxData.paidTaxAmount = amount
+    // Helper function to make all players on map pay their taxes
+    private fun payTaxes() {
+        for ((player, playerTaxData) in PLAYER_TAX_DATA_MAP) {
+            // Payment
+            val playerBalance = EconomyUtils.getPlayerBalance(player)
+            val playerUpdatedBalance = playerBalance - playerTaxData.paidTaxAmount
+            val missingAmount = (playerTaxData.dueTaxAmount - playerTaxData.paidTaxAmount).coerceAtLeast(0)
+            EconomyUtils.setPlayerBalance(player, playerUpdatedBalance)
+            TOTAL_COLLECTED_TAX += playerTaxData.paidTaxAmount
+
+            // Check validity of payment
+            val validity = when {
+                playerTaxData.paidTaxAmount == playerTaxData.dueTaxAmount -> EconomyTaxValidity.VALID
+                playerTaxData.paidTaxAmount > playerTaxData.dueTaxAmount -> EconomyTaxValidity.OVERPAID
+                playerTaxData.paidTaxAmount < playerTaxData.dueTaxAmount -> EconomyTaxValidity.UNDERPAID
+                else -> EconomyTaxValidity.UNKNOWN
+            }
+
+            // Alert player + log
+            player.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid a total of ${EconomyUtils.formatMoney(playerTaxData.paidTaxAmount)}§7 to cover your taxes (new balance ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
+            LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[TAX] ${player.name} ([-] $playerBalance -> $playerUpdatedBalance) paid ${playerTaxData.paidTaxAmount} to cover taxes ($validity - due taxes were ${playerTaxData.dueTaxAmount} missing $missingAmount).")
+
+            // Webhook
+            val colorSignMessage = if (validity == EconomyTaxValidity.VALID || validity == EconomyTaxValidity.OVERPAID ) "+" else "-"
+            val playerWebhookMessage = """
+                ```diff
+                $colorSignMessage ${player.name} $validity TAX - Paid: ${playerTaxData.paidTaxAmount}${Economy.MONEY_SYMBOL} (Missing amount: $missingAmount${Economy.MONEY_SYMBOL})
+                • Due tax: ${playerTaxData.dueTaxPercentage}% of ${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL} profit = ${playerTaxData.dueTaxAmount}${Economy.MONEY_SYMBOL} due tax
+                • Pay sent: ${playerTaxData.paymentSentSLT} / Pay received: ${playerTaxData.paymentReceivedSLT} / Item sold: ${playerTaxData.soldItemsSLT}
+                • Item profit: ${playerTaxData.soldItemsProfitSLT}${Economy.MONEY_SYMBOL} / Profit:  ${playerTaxData.profitSLT}${Economy.MONEY_SYMBOL}
+                ```
+            """.trimIndent()
+
+            // TODO - gradually sent webhook messages to prevent rate limit
+
+            Webhook.send(Saves.WEBHOOK_ADMIN, playerWebhookMessage)
+
+            // TODO - reset all SLT stats in player balance file
+        }
     }
 
 }

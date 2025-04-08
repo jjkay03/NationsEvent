@@ -148,6 +148,10 @@ commands:
     permission: nationsevent.command.taxpay
     permission-message: "You do not have permission to use this command"
 
+  balancefile:
+    permission: nationsevent.command.balancefile
+    permission-message: "You do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

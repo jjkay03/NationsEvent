@@ -18,7 +18,7 @@ object EconomyUtils {
     }
 
     // Function that returns the player balance file of a given player
-    private fun getPlayerBalanceFile(player: Player): File { return File(Saves.DIR_ECONOMY_BALANCES,"${player.uniqueId}.yml") }
+    fun getPlayerBalanceFile(player: Player): File { return File(Saves.DIR_ECONOMY_BALANCES,"${player.uniqueId}.yml") }
 
     // Function to create player yml containing player balance
     fun createPlayerBalanceFile(player: Player, startingBalance: Long) {

@@ -11,6 +11,7 @@ import org.bukkit.entity.Player
 
 class BalanceCommand : CommandExecutor, TabCompleter {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Check if the sender is a player
         if (sender !is Player) { sender.sendMessage("§cOnly players can check balances."); return true }
@@ -32,6 +33,7 @@ class BalanceCommand : CommandExecutor, TabCompleter {
         return true
     }
 
+    // TAB COMPLETE
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
         return if (args.size == 1) { Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(args[0], true) } }
         else { emptyList() }

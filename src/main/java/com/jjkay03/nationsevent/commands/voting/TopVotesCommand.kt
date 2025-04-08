@@ -57,6 +57,7 @@ class TopVotesCommand : CommandExecutor {
                         val totalVotes = VoteCommand.PLAYERS_VOTES.size
 
                         // Send the appropriate header
+                        sender.sendMessage(" ")
                         if (isAllVotes) {
                             sender.sendMessage("§e§l==== ALL VOTES ====")
                         } else {
@@ -74,6 +75,7 @@ class TopVotesCommand : CommandExecutor {
 
                         // Send footer
                         sender.sendMessage("§e§l=====================")
+                        sender.sendMessage(" ")
                     }
                 }.runTask(NationsEvent.INSTANCE)
             }

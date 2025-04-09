@@ -70,16 +70,18 @@ object EconomyTax {
             "§7Read the book and calculate how much tax you are due. You have §e$TAX_COLLECTION_DURATION_MINUTES minutes §7to pay.",
             "§7You can pay your due tax using §e/taxpay <amount>§7.\n§r " )
         for (line in taxAlertMessage) Utils.messageAllPlayers(line)
-        giveTaxRecordsToAllPlayers() // Give all players tax records
-        TAX_PAYMENTS_OPEN = true // Open tax payment
+
+        // Give all players tax records
+        Bukkit.getOnlinePlayers().forEach { player -> Utils.giveItemToPlayer(player, createTaxRecordsBook(player)) }
+
+        // Open tax payment
+        TAX_PAYMENTS_OPEN = true
 
         // Run timer and pay taxes once done
         runTimer(TAX_COLLECTION_DURATION_MINUTES) {
             payTaxes() // Make all players pay taxes
             Utils.messageStaff("§6COLLECTED TAXES - ${PLAYER_TAX_DATA_MAP.size} players collected total of ${EconomyUtils.formatMoney(TOTAL_COLLECTED_TAX)}")
-            TAX_PAYMENTS_OPEN = false // Close tax payment
-            TOTAL_DUE_TAX = 0 // Reset
-            TOTAL_COLLECTED_TAX = 0 // Reset
+            TAX_PAYMENTS_OPEN = false; TOTAL_DUE_TAX = 0; TOTAL_COLLECTED_TAX = 0 // Close tax payment and reset total vars
         }
     }
 
@@ -163,30 +165,6 @@ object EconomyTax {
                 }
             }
         }.runTaskTimer(NationsEvent.INSTANCE, intervalSeconds * 20L, intervalSeconds * 20L)
-    }
-
-    // Helper function to give tax record to all players
-    private fun giveTaxRecordsToAllPlayers() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            val book = createTaxRecordsBook(player)
-            val inventory = player.inventory
-            val handItem = inventory.itemInMainHand
-
-            // If main hand is empty place book there
-            if (handItem.type == Material.AIR) inventory.setItemInMainHand(book)
-
-            // If hand is not empty move item to inv and put book instead
-            else if (inventory.firstEmpty() != -1) {
-                inventory.setItem(inventory.firstEmpty(), handItem)
-                inventory.setItemInMainHand(book)
-            }
-
-            // Inventory is full drop the book
-            else {
-                player.world.dropItemNaturally(player.location, book)
-                player.sendMessage("§cYour inventory is full, your Tax Records book has been dropped at your feet.")
-            }
-        }
     }
 
     // Helper function to create tax record book

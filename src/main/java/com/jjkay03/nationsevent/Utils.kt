@@ -1,15 +1,16 @@
 package com.jjkay03.nationsevent
 
-import net.kyori.adventure.title.Title
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 import java.lang.reflect.Field
 
 object Utils {
@@ -79,6 +80,20 @@ object Utils {
             }
         }
         getCommandMap().register(plugin.name, command)
+    }
+
+    // Function to give an item to a player (item will be placed in player's hand)
+    fun giveItemToPlayer(player: Player, item: ItemStack) {
+        val inventory = player.inventory
+        if (inventory.itemInMainHand.type == Material.AIR) inventory.setItemInMainHand(item)
+        else if (inventory.firstEmpty() != -1) { inventory.setItem(inventory.firstEmpty(), inventory.itemInMainHand); inventory.setItemInMainHand(item) }
+        else { player.world.dropItemNaturally(player.location, item); player.sendMessage("§c⚠ Your inventory is full ${item.type} has been dropped at your feet!") }
+        player.playSound(player.location, Sound.ENTITY_ITEM_PICKUP, 0.5f, 1f)
+    }
+
+    // Function to give an item to all players (item will be placed in player's hand)
+    fun giveItemToAllPlayers(item: ItemStack) {
+        Bukkit.getOnlinePlayers().forEach { player -> giveItemToPlayer(player, item) }
     }
 
 }

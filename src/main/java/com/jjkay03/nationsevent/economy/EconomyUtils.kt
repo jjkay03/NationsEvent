@@ -3,9 +3,11 @@ package com.jjkay03.nationsevent.economy
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.LogsManager
+import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import java.io.File
+import java.util.UUID
 
 object EconomyUtils {
 
@@ -68,6 +70,19 @@ object EconomyUtils {
         val file = getPlayerBalanceFile(player)
         val config = YamlConfiguration.loadConfiguration(file)
         return config.getLong(key)
+    }
+
+    // TODO [FIX] - This function always need to be called twice to display accurate info (works when not async)
+    // Function that gets all player balances from balances folder into Economy.PLAYERS_BALANCES_MAP
+    fun getAllPlayersBalancesAsync(map: MutableMap<UUID, Long> = Economy.PLAYERS_BALANCES_MAP) {
+        Bukkit.getScheduler().runTaskAsynchronously(NationsEvent.INSTANCE, Runnable {
+            Saves.DIR_ECONOMY_BALANCES.listFiles { file -> file.extension == "yml" }?.forEach { file ->
+                val uuid = runCatching { UUID.fromString(file.nameWithoutExtension) }.getOrNull() ?: return@forEach
+                val config = YamlConfiguration.loadConfiguration(file)
+                val balance = config.getLong(Economy.KEY_BALANCE)
+                synchronized(map) { map[uuid] = balance }
+            }
+        })
     }
 
     // Function that returns the balance of a given player

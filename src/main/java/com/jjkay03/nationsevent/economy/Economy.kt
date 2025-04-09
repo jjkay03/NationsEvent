@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.*
 
 class Economy (private val plugin: JavaPlugin) : Listener {
 
@@ -34,7 +35,8 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val MAX_MONEY = 999_999_999_999_999_999L
         const val MIN_MONEY = -999_999_999_999_999_999L
         const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
-        val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile")
+        val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile", "balancetop")
+        val PLAYERS_BALANCES_MAP: MutableMap<UUID, Long> = mutableMapOf()
     }
 
     init {
@@ -62,6 +64,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         val taxCommand = TaxCommand()
         val taxPayCommand = TaxPayCommand()
         val balanceFileCommand = BalanceFileCommand()
+        val balanceTopCommand = BalanceTopCommand()
 
         // Register commands
         plugin.getCommand("economy")?.apply { setExecutor(economyCommand); tabCompleter = economyCommand }
@@ -71,6 +74,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         plugin.getCommand("tax")?.apply { setExecutor(taxCommand); tabCompleter = taxCommand }
         plugin.getCommand("taxpay")?.apply { setExecutor(taxPayCommand); tabCompleter = taxPayCommand }
         plugin.getCommand("balancefile")?.apply { setExecutor(balanceFileCommand); tabCompleter = balanceFileCommand }
+        plugin.getCommand("balancetop")?.apply { setExecutor(balanceTopCommand); tabCompleter = balanceTopCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

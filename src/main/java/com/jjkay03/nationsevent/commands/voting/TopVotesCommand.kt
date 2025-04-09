@@ -13,31 +13,22 @@ class TopVotesCommand : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         // Only players can use this command
-        if (sender !is Player) {
-            sender.sendMessage("§cOnly players can use this command!")
-            return true
-        }
+        if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
 
-        if (VoteCommand.PLAYERS_VOTES.isEmpty()) {
-            sender.sendMessage("§cNo votes have been cast yet!")
-            return true
-        }
+        if (VoteCommand.PLAYERS_VOTES.isEmpty()) { sender.sendMessage("§cNo votes have been cast yet!"); return true }
 
         // Start the async task to process votes and prevent blocking the main thread
         object : BukkitRunnable() {
             override fun run() {
                 // Count how many votes each player has received
                 val voteCounts = mutableMapOf<UUID, Int>()
-                VoteCommand.PLAYERS_VOTES.values.forEach { votedFor ->
-                    voteCounts[votedFor] = voteCounts.getOrDefault(votedFor, 0) + 1
-                }
+                VoteCommand.PLAYERS_VOTES.values.forEach { votedFor -> voteCounts[votedFor] = voteCounts.getOrDefault(votedFor, 0) + 1 }
 
                 // Determine whether to show top 10 or all votes based on the argument
                 val isAllVotes = args.isNotEmpty() && args[0].equals("all", ignoreCase = true)
 
                 // Sort players by number of votes, descending
-                val sortedPlayers = voteCounts.entries
-                    .sortedByDescending { it.value }
+                val sortedPlayers = voteCounts.entries.sortedByDescending { it.value }
 
                 // Show top 10 or all votes based on the argument
                 val playersToDisplay = if (isAllVotes) sortedPlayers else sortedPlayers.take(10)
@@ -46,9 +37,7 @@ class TopVotesCommand : CommandExecutor {
                 val cachedPlayerNames = mutableMapOf<UUID, String?>()
 
                 // Fetch player names asynchronously (doesn't block the main thread)
-                playersToDisplay.forEach { (uuid, _) ->
-                    cachedPlayerNames[uuid] = Bukkit.getOfflinePlayer(uuid).name
-                }
+                playersToDisplay.forEach { (uuid, _) -> cachedPlayerNames[uuid] = Bukkit.getOfflinePlayer(uuid).name }
 
                 // Switch back to the main thread to send messages to the player
                 object : BukkitRunnable() {
@@ -58,11 +47,8 @@ class TopVotesCommand : CommandExecutor {
 
                         // Send the appropriate header
                         sender.sendMessage(" ")
-                        if (isAllVotes) {
-                            sender.sendMessage("§e§l==== ALL VOTES ====")
-                        } else {
-                            sender.sendMessage("§e§l==== TOP 10 VOTES ====")
-                        }
+                        if (isAllVotes) sender.sendMessage("§e§l==== ALL VOTES ====")
+                        else sender.sendMessage("§e§l==== TOP 10 VOTES ====")
 
                         // Display total number of votes
                         sender.sendMessage("§7Number of votes: $totalVotes")

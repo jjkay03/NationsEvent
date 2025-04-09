@@ -152,6 +152,11 @@ commands:
     permission: nationsevent.command.balancefile
     permission-message: "You do not have permission to use this command"
 
+  balancetop:
+    aliases: [ baltop, topbal, topbalance ]
+    permission: nationsevent.command.balancetop
+    permission-message: "You do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

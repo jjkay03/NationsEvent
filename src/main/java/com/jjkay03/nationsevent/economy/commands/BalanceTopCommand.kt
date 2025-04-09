@@ -12,6 +12,8 @@ import org.bukkit.command.TabCompleter
 
 class BalanceTopCommand : CommandExecutor, TabCompleter {
 
+    // TODO [FIX] - The command is bugged due to getAllPlayersBalancesAsync command runs before async fun is done running
+
     private val sortedPlayerBalancesMap: MutableMap<OfflinePlayer, Long> = mutableMapOf()
 
     // COMMAND

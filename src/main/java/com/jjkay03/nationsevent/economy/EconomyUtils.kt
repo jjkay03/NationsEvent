@@ -72,7 +72,6 @@ object EconomyUtils {
         return config.getLong(key)
     }
 
-    // TODO [FIX] - This function always need to be called twice to display accurate info (works when not async)
     // Function that gets all player balances from balances folder into Economy.PLAYERS_BALANCES_MAP
     fun getAllPlayersBalancesAsync(map: MutableMap<UUID, Long> = Economy.PLAYERS_BALANCES_MAP) {
         Bukkit.getScheduler().runTaskAsynchronously(NationsEvent.INSTANCE, Runnable {

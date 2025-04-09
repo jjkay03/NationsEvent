@@ -11,30 +11,6 @@ import org.bukkit.inventory.ItemStack
 
 class EconomyItems : Listener {
 
-    // Function to add item value to lore
-    private fun addValueToLore(item: ItemStack): ItemStack {
-        val meta = item.itemMeta ?: return item
-        val economyItem = EconomyItemsValues.entries.find { it.item == item.type } ?: return item
-        val lore = meta.lore ?: mutableListOf()
-
-        // Remove any existing money value entries
-        val filteredLore = lore.filterNot { line ->
-            EconomyItemsValues.entries.any {
-                line == EconomyUtils.formatMoney(it.value)
-            }
-        }.toMutableList()
-
-        // Add the updated money value
-        filteredLore.add(EconomyUtils.formatMoney(economyItem.value))
-
-        // Update the lore
-        meta.lore = filteredLore
-        item.itemMeta = meta
-
-        return item
-    }
-
-
     // Event handler for when an item is picked up
     @EventHandler
     fun onItemPickup(event: EntityPickupItemEvent) {
@@ -64,4 +40,26 @@ class EconomyItems : Listener {
         val result = event.inventory.result ?: return
         event.inventory.result = addValueToLore(result.clone())
     }
+
+    // Function to add item value to lore
+    private fun addValueToLore(item: ItemStack): ItemStack {
+        val meta = item.itemMeta ?: return item
+        val economyItem = EconomyItemsValues.entries.find { it.item == item.type } ?: return item
+        val lore = meta.lore ?: mutableListOf()
+
+        // Remove any existing money value entries
+        val filteredLore = lore.filterNot { line ->
+            EconomyItemsValues.entries.any { line == EconomyUtils.formatMoney(it.value) }
+        }.toMutableList()
+
+        // Add the updated money value
+        filteredLore.add(EconomyUtils.formatMoney(economyItem.value))
+        meta.lore = filteredLore
+        item.itemMeta = meta
+
+        return item
+    }
+
+    // TODO - Code selling items function
+
 }

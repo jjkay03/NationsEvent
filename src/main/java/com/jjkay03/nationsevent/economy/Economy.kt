@@ -4,6 +4,7 @@ import com.jjkay03.nationsevent.FilesManager
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.economy.commands.*
+import com.jjkay03.nationsevent.economy.EconomyTraderEntity
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -35,7 +36,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val MAX_MONEY = 999_999_999_999_999_999L
         const val MIN_MONEY = -999_999_999_999_999_999L
         const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
-        val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile", "balancetop")
+        val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile", "balancetop", "spawntraderentity")
         val PLAYERS_BALANCES_MAP: MutableMap<UUID, Long> = mutableMapOf()
     }
 
@@ -75,10 +76,12 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         plugin.getCommand("taxpay")?.apply { setExecutor(taxPayCommand); tabCompleter = taxPayCommand }
         plugin.getCommand("balancefile")?.apply { setExecutor(balanceFileCommand); tabCompleter = balanceFileCommand }
         plugin.getCommand("balancetop")?.apply { setExecutor(balanceTopCommand); tabCompleter = balanceTopCommand }
+        plugin.getCommand("spawntraderentity")?.apply { setExecutor(SpawnTraderEntityCommand()) }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)
         plugin.server.pluginManager.registerEvents(EconomyItems(), plugin)
+        plugin.server.pluginManager.registerEvents(EconomyTraderEntity, plugin)
     }
 
     // Function to disable all commands if economy is disabled

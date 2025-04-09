@@ -15,8 +15,6 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class NG6_GunBullet : Listener {
 
-    // TODO: Attempt to make arrows not lose velocity and go strait
-
     private val gunItems = setOf(Material.BOW, Material.CROSSBOW)
 
     // Shot arrows deal extra damage (gun)

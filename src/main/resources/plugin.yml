@@ -157,6 +157,10 @@ commands:
     permission: nationsevent.command.balancetop
     permission-message: "You do not have permission to use this command"
 
+  spawntraderentity:
+    permission: nationsevent.command.spawntraderentity
+    permission-message: "You do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

@@ -52,8 +52,8 @@ class PayCommand : CommandExecutor, TabCompleter {
         EconomyUtils.setPlayerBalance(target, targetUpdatedBalance)
 
         // Alert players
-        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amountLong)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)})")
-        target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amountLong)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)})")
+        sender.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid §f${target.name} §7a total of ${EconomyUtils.formatMoney(amountLong)} §7(new balance ${EconomyUtils.formatMoney(senderUpdatedBalance)}§7)")
+        target.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(amountLong)} §7from §f${sender.name} §7(new balance ${EconomyUtils.formatMoney(targetUpdatedBalance)}§7)")
 
         // Update players balances files stats
         EconomyUtils.updatePlayerBalanceFileKeyLong(sender, 1, setOf(Economy.KEY_PAYMENT_SENT, Economy.KEY_PAYMENT_SENT_SLT))

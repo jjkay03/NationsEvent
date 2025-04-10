@@ -44,8 +44,8 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 if (args.size < 3 || args[2].toLongOrNull() == null) { sender.sendMessage("§cInvalid amount!"); return true }
                 val amount = args[2].toLong()
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) + amount)
-                sender.sendMessage("§aGave ${EconomyUtils.formatMoney(amount)} §ato §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
-                LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Gave $amount to ${player.name} (new balance: $newBalance)")
+                sender.sendMessage("§aGave ${EconomyUtils.formatMoney(amount)} §ato §f${player.name} §a(new bal: ${EconomyUtils.formatMoney(newBalance)}§a)")
+                LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Gave $amount to ${player.name} (new bal: $newBalance)")
                 alertTargetPlayer(player)
             }
 
@@ -54,8 +54,8 @@ class EconomyCommand : CommandExecutor, TabCompleter {
                 if (args.size < 3 || args[2].toLongOrNull() == null) { sender.sendMessage("§cInvalid amount!"); return true }
                 val amount = args[2].toLong()
                 val newBalance = EconomyUtils.setPlayerBalance(player, EconomyUtils.getPlayerBalance(player) - amount)
-                sender.sendMessage("§aTook ${EconomyUtils.formatMoney(amount)} §afrom §f${player.name} §a(new balance: ${EconomyUtils.formatMoney(newBalance)}§a)")
-                LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Took $amount from ${player.name} (new balance: $newBalance)")
+                sender.sendMessage("§aTook ${EconomyUtils.formatMoney(amount)} §afrom §f${player.name} §a(new bal: ${EconomyUtils.formatMoney(newBalance)}§a)")
+                LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[Economy Command - ${sender.name}] Took $amount from ${player.name} (new bal: $newBalance)")
                 alertTargetPlayer(player)
             }
 

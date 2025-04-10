@@ -264,7 +264,7 @@ object EconomyTax {
             if (validity == EconomyTaxValidity.UNDERPAID) playerTaxData.taxFraud = true
 
             // Alert player + log
-            player.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid a total of ${EconomyUtils.formatMoney(playerTaxData.paidTaxAmount)}§7 to cover your taxes (new balance ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
+            player.sendMessage("§c[${Economy.MONEY_SYMBOL}➖] §7You paid a total of ${EconomyUtils.formatMoney(playerTaxData.paidTaxAmount)}§7 to cover your taxes (new bal ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
             LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[TAX] ${player.name} ([-] $playerBalance -> $playerUpdatedBalance) paid ${playerTaxData.paidTaxAmount} to cover taxes ($validity - due taxes were ${playerTaxData.dueTaxAmount} missing $missingAmount).")
 
             // Webhook

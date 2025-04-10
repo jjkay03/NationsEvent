@@ -1,5 +1,8 @@
 package com.jjkay03.nationsevent.economy
 
+import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.utils.LogsManager
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -60,6 +63,33 @@ class EconomyItems : Listener {
         return item
     }
 
-    // TODO - Code selling items function
+    companion object {
+
+        // Function to sell items in player hand if they are economy items
+        fun sellPlayerItems(player: Player) : Long {
+            // Checks
+            val playerItem = player.inventory.itemInMainHand
+            if (playerItem.type == Material.AIR) return 0
+            val economyItem = EconomyItemsValues.entries.find { it.item == playerItem.type } ?: run { player.sendMessage("§cThis item is not for sale!"); return 0 }
+
+            // Operations
+            val itemAmount = playerItem.amount.toLong()
+            val totalPrice = economyItem.value * itemAmount
+            val playerBalance = EconomyUtils.getPlayerBalance(player)
+            val playerUpdatedBalance = playerBalance + totalPrice
+            EconomyUtils.setPlayerBalance(player, playerUpdatedBalance)
+
+            // Delete items
+            player.inventory.setItemInMainHand(ItemStack(Material.AIR))
+
+            // Alert player and log
+            player.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(totalPrice)} §7from selling ${playerItem.type} x${itemAmount} §7(new bal ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
+            LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[ITEM SALE] ${player.name} ([+] $playerBalance -> $playerUpdatedBalance) sold ${playerItem.type} x${itemAmount} for $totalPrice")
+
+            return totalPrice
+
+        }
+
+    }
 
 }

@@ -86,6 +86,10 @@ class EconomyItems : Listener {
             player.sendMessage("§a[${Economy.MONEY_SYMBOL}➕] §7You received ${EconomyUtils.formatMoney(totalPrice)} §7from selling ${playerItem.type} x${itemAmount} §7(new bal ${EconomyUtils.formatMoney(playerUpdatedBalance)}§7)")
             LogsManager.log(Saves.LOG_FILE_ECONOMY, "Economy", "[ITEM SALE] ${player.name} ([+] $playerBalance -> $playerUpdatedBalance) sold ${playerItem.type} x${itemAmount} for $totalPrice")
 
+            // Update player stats
+            EconomyUtils.updatePlayerBalanceFileKeyLong(player, itemAmount, setOf(Economy.KEY_SOLD_ITEMS, Economy.KEY_SOLD_ITEMS_SLT))
+            EconomyUtils.updatePlayerBalanceFileKeyLong(player, totalPrice, setOf(Economy.KEY_SOLD_ITEMS_PROFIT_SLT, Economy.KEY_PROFIT_SLT))
+
             return totalPrice
 
         }

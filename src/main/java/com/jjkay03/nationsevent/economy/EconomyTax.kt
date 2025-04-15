@@ -50,7 +50,7 @@ object EconomyTax {
     var TAX_PAYMENTS_OPEN: Boolean = false
     var TOTAL_DUE_TAX: Long = 0
     private var TOTAL_COLLECTED_TAX: Long = 0
-    private var TAX_COLLECTION_DURATION_MINUTES: Int = 1
+    private var TAX_COLLECTION_DURATION_MINUTES: Int = 6
 
 
     // Function to update the player tax data map

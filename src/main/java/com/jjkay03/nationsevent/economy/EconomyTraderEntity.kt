@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.economy
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -28,6 +29,9 @@ object EconomyTraderEntity : Listener {
 
         // Cancel event
         event.isCancelled = true
+
+        // Check player permission
+        if (!event.player.hasPermission(Saves.PERM_USE_ECONOMY_TRADE_ENTITY)) {event.player.sendMessage("§cYou don't have permission to use the trade entity!"); return}
 
         // Make the villager face the player
         val villagerLocation = entity.location

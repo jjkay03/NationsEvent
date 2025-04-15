@@ -1,7 +1,5 @@
 package com.jjkay03.nationsevent.economy.commands
 
-import com.jjkay03.nationsevent.NationsEvent
-import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.economy.EconomyUtils
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer

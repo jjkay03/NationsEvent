@@ -87,7 +87,8 @@ class Saves() {
             Enchantment.FLAME to 0,
             Enchantment.PIERCING to 1,
             Enchantment.QUICK_CHARGE to 0,
-            Enchantment.RIPTIDE to 0
+            Enchantment.RIPTIDE to 0,
+            Enchantment.FORTUNE to 0
         )
     }
 

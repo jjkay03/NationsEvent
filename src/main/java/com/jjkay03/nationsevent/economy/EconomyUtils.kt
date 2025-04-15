@@ -73,14 +73,15 @@ object EconomyUtils {
     }
 
     // Function that gets all player balances from balances folder into Economy.PLAYERS_BALANCES_MAP
-    fun getAllPlayersBalancesAsync(map: MutableMap<UUID, Long> = Economy.PLAYERS_BALANCES_MAP) {
+    fun getAllPlayersBalancesAsync(map: MutableMap<UUID, Long> = Economy.PLAYERS_BALANCES_MAP, onComplete: (MutableMap<UUID, Long>) -> Unit = {}) {
         Bukkit.getScheduler().runTaskAsynchronously(NationsEvent.INSTANCE, Runnable {
             Saves.DIR_ECONOMY_BALANCES.listFiles { file -> file.extension == "yml" }?.forEach { file ->
-                val uuid = runCatching { UUID.fromString(file.nameWithoutExtension) }.getOrNull() ?: return@forEach
-                val config = YamlConfiguration.loadConfiguration(file)
-                val balance = config.getLong(Economy.KEY_BALANCE)
-                synchronized(map) { map[uuid] = balance }
-            }
+                    val uuid = runCatching { UUID.fromString(file.nameWithoutExtension) }.getOrNull() ?: return@forEach
+                    val config = YamlConfiguration.loadConfiguration(file)
+                    val balance = config.getLong(Economy.KEY_BALANCE)
+                    synchronized(map) { map[uuid] = balance }
+                }
+            Bukkit.getScheduler().runTask(NationsEvent.INSTANCE, Runnable { onComplete(map) })
         })
     }
 

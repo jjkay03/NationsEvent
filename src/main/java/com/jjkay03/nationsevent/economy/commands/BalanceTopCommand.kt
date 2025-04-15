@@ -9,23 +9,23 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import java.util.*
 
 class BalanceTopCommand : CommandExecutor, TabCompleter {
-
-    // TODO [FIX] - The command is bugged due to getAllPlayersBalancesAsync command runs before async fun is done running
 
     private val sortedPlayerBalancesMap: MutableMap<OfflinePlayer, Long> = mutableMapOf()
 
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        // Get all players balances and sort them
-        EconomyUtils.getAllPlayersBalancesAsync()
-        sortPlayerBalancesAsync(sortedPlayerBalancesMap)
 
         sender.sendMessage("§7Sorting top balances...")
 
-        // Schedule this to run after balances are loaded
-        Bukkit.getScheduler().runTaskLater(NationsEvent.INSTANCE, Runnable {
+        // Get all players balances and sort them
+        EconomyUtils.getAllPlayersBalancesAsync() { playerBalancesMap ->
+
+            // Sort balances
+            sortPlayerBalancesAsync(playerBalancesMap, sortedPlayerBalancesMap)
+
             // Args
             val displayCount = when {
                 args.isEmpty() -> 10                                            // Default to 10 if no args
@@ -60,8 +60,7 @@ class BalanceTopCommand : CommandExecutor, TabCompleter {
             // Send footer
             if (isAll) sender.sendMessage("§e§l=====================") else sender.sendMessage("§e§l========================")
             sender.sendMessage(" ")
-
-        }, 20L) // Wait a second to ensure the async operations complete
+        }
 
         return true
     }
@@ -79,14 +78,11 @@ class BalanceTopCommand : CommandExecutor, TabCompleter {
     }
 
     // Helper function that fills a target map with offline players and sort it by balances from Economy.PLAYERS_BALANCES_MAP
-    private fun sortPlayerBalancesAsync(map: MutableMap<OfflinePlayer, Long>) {
-        Bukkit.getScheduler().runTaskAsynchronously(NationsEvent.INSTANCE, Runnable {
-            map.clear()
-            Economy.PLAYERS_BALANCES_MAP
-                .map { Bukkit.getOfflinePlayer(it.key) to it.value }
-                .sortedByDescending { it.second }
-                .forEach { (player, balance) -> map[player] = balance }
-        })
+    private fun sortPlayerBalancesAsync(mapToSort: MutableMap<UUID, Long>, sortedMap: MutableMap<OfflinePlayer, Long>) {
+        sortedMap.clear()
+        mapToSort
+            .map { Bukkit.getOfflinePlayer(it.key) to it.value }
+            .sortedByDescending { it.second }
+            .forEach { (player, balance) -> sortedMap[player] = balance }
     }
-
 }

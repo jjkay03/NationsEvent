@@ -25,6 +25,7 @@ resourcepacks-players-exempt:
   - jjkay02
 
 
+
 # == Economy ==========================================================================================================
 
 # Economy feature toggle
@@ -37,6 +38,11 @@ economy-money-color: "§e"
 # Allow negative balances
 economy-allow-negative-balance: true
 
+# Update total balances - run a task and update total balance var every x minutes (used in placeholders)
+economy-update-total-balances: true
+economy-update-total-balances-interval: 1
+
+
 
 # == Gameplay settings ================================================================================================
 # Disabled crafts (managed from Saves class)
@@ -44,6 +50,7 @@ setting-no-craft: true
 
 # Limited enchants (managed from Saves class)
 setting-limit-enchant: true
+
 
 
 # == Features toggle ==================================================================================================
@@ -61,6 +68,7 @@ feature-speedy-blocks: false
 
 # Make villagers automatically restock their trades at intervals without the need of daylight cycle
 feature-auto-restock-villagers: false
+
 
 
 # == Patches ==========================================================================================================

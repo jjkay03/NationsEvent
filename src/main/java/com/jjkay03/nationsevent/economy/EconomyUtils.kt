@@ -85,6 +85,19 @@ object EconomyUtils {
         })
     }
 
+    // Function that updates Economy.TOTAL_BALANCES_AMOUNT (total amount of money on the server)
+    private fun updateTotalBalanceAmount() {
+        getAllPlayersBalancesAsync { playerBalancesMap ->
+            Economy.TOTAL_BALANCES_AMOUNT = playerBalancesMap.values.filter { it >= 0 }.sum()
+        }
+    }
+
+    // Function that runs updateTotalBalanceAmount() at minute intervals (used for placeholders)
+    fun updateTotalBalanceAmountAtInterval(minute: Long) {
+        val ticks = minute * 60 * 20
+        NationsEvent.INSTANCE.server.scheduler.runTaskTimer(NationsEvent.INSTANCE, Runnable { updateTotalBalanceAmount() }, 0L, ticks)
+    }
+
     // Function that returns the balance of a given player
     fun getPlayerBalance(player: Player): Long {
         val file = getPlayerBalanceFile(player)

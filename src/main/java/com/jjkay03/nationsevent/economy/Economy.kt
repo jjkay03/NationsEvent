@@ -19,6 +19,8 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         val MONEY_SYMBOL: String = NationsEvent.INSTANCE.config.getString("economy-money-symbol").toString()
         val MONEY_COLOR: String = NationsEvent.INSTANCE.config.getString("economy-money-color").toString()
         val ALLOW_NEGATIVE_BALANCE: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-allow-negative-balance")
+        val UPDATE_TOTAL_BALANCES: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-update-total-balances")
+        val UPDATE_TOTAL_BALANCES_INTERVAL: Long = NationsEvent.INSTANCE.config.getLong("economy-update-total-balances-interval")
 
         // Keys used in player balance file yml
         const val KEY_IGN = "ign"
@@ -38,13 +40,20 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         const val TXT_IN_DEBT = "§4(YOU ARE IN DEBT ☠)"
         val COMMANDS = setOf("economy", "balance", "pay", "rollmoney", "tax", "taxpay", "balancefile", "balancetop", "spawntraderentity")
         val PLAYERS_BALANCES_MAP: MutableMap<UUID, Long> = mutableMapOf()
+        var TOTAL_BALANCES_AMOUNT: Long = 0
     }
 
-    init {
-        // Load economy feature when plugin starts if enabled
-        if (FEATURE_ENABLED) loadEconomy()
-        else disableAllCommand()
+    init { initializeEconomy() }
+
+    // Function to initialize economy
+    private fun initializeEconomy() {
+        if (!FEATURE_ENABLED) { disableAllCommand(); return } // End if economy is disabled
+        loadEconomy() // Load economy if enabled
+
+        // Start task to update total balances (used for placeholder)
+        if (UPDATE_TOTAL_BALANCES) { EconomyUtils.updateTotalBalanceAmountAtInterval(UPDATE_TOTAL_BALANCES_INTERVAL) }
     }
+
 
     // Function to load the economy (create files, commands, listeners ect)
     private fun loadEconomy() {

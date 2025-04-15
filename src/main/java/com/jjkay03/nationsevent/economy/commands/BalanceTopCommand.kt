@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent.economy.commands
 
+import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.economy.EconomyUtils
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -19,7 +20,7 @@ class BalanceTopCommand : CommandExecutor, TabCompleter {
         sender.sendMessage("§7Sorting top balances...")
 
         // Get all players balances and sort them
-        EconomyUtils.getAllPlayersBalancesAsync() { playerBalancesMap ->
+        EconomyUtils.getAllPlayersBalancesAsync { playerBalancesMap ->
 
             // Sort balances
             sortPlayerBalancesAsync(playerBalancesMap, sortedPlayerBalancesMap)
@@ -36,6 +37,7 @@ class BalanceTopCommand : CommandExecutor, TabCompleter {
             // Display top balances
             val playersToDisplay = sortedPlayerBalancesMap.entries.take(displayCount)
             val totalMoney = sortedPlayerBalancesMap.values.filter { it > 0 }.sum()
+            Economy.TOTAL_BALANCES_AMOUNT = totalMoney // Update general total balances var (used for placeholders)
 
             // Send header
             sender.sendMessage(" ")

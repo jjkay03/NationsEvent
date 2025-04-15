@@ -112,6 +112,9 @@ open class NationsEvent : JavaPlugin() {
 
         // Season specific load
         NE2_Load(this)
+
+        // Register placeholder (PlaceholderAPI)
+        registerPlaceholderAPI()
     }
 
     // Plugin shutdown logic
@@ -125,11 +128,18 @@ open class NationsEvent : JavaPlugin() {
         TAB_INSTANCE = TabAPI.getInstance()
         TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
         TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
-        if (TAB_INSTANCE != null) logger.info("Connected to TAB API") else logger.warning("Can't connect to TAB API")
+        if (TAB_INSTANCE != null) logger.info("Connected to TAB API") else logger.severe("Can't connect to TAB API")
 
         // LUCKPERMS API
         LP_INSTANCE = LuckPermsProvider.get()
         LP_GROUP_MANAGER = LP_INSTANCE.groupManager
-        if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.warning("Can't connect to LuckPerms API")
+        if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.severe("Can't connect to LuckPerms API")
+    }
+
+    // Register PlaceholderAPI expansion if found
+    private fun registerPlaceholderAPI() {
+        server.pluginManager.getPlugin("PlaceholderAPI")
+            ?.let { logger.info("Placeholders registered successfully!"); Placeholders().register() }
+            ?: logger.severe("PlaceholderAPI not found, placeholders will not be registered!")
     }
 }

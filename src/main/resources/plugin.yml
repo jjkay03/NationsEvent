@@ -7,6 +7,9 @@ depend:
   - TAB
   - LuckPerms
 
+softdepend:
+  - PlaceholderAPI
+
 main: com.jjkay03.nationsevent.NationsEvent
 api-version: '1.20'
 

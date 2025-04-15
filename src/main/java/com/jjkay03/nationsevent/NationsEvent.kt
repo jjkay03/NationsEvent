@@ -7,6 +7,7 @@ import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatsManager
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.server_settings.*
 import com.jjkay03.nationsevent.specific.ne2.*
@@ -109,6 +110,7 @@ open class NationsEvent : JavaPlugin() {
         LimitEnchant() // Gameplay setting
         AntiBlockGlitching() // Patch
         AntiEnderPearl() // Patch
+        PlayerGroupChatsManager() // Group chats
 
         // Season specific load
         NE2_Load(this)

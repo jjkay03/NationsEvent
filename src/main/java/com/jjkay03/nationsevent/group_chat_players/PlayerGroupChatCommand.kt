@@ -1,7 +1,6 @@
 package com.jjkay03.nationsevent.group_chat_players
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatUtils.getGroupChatName
 import com.jjkay03.nationsevent.utils.LogsManager
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -15,7 +14,8 @@ import org.bukkit.entity.Player
 class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     companion object {
-        private val OPTIONS = listOf("chat", "create", "delete", "invite", "join", "kick", "leave", "list", "setowner")
+        private val OPTIONS = listOf("chat", "coords", "create", "join", "leave", "list")
+        private val OWNER_OPTIONS = listOf("delete", "invite", "kick", "setowner")
     }
 
     // COMMAND
@@ -29,6 +29,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
         // Deal with arguments
         when (args[0].lowercase()) {
+
+            // COORDS
+            "coords" -> PlayerGroupChatUtils.sendInGroupChat(player, "${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}")
 
             // CREATE
             "create" -> {
@@ -121,6 +124,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 if (result.first) {
                     if (result.second != -1) {
                         player.sendMessage("§aSet ${newOwner.name} as the new group chat owner")
+                        newOwner.sendMessage("§aYou are the new owner of your group chat")
                         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "${player.name} TRANSFERRED GC${result.second} to ${newOwner.name}")
                     }
                     else { player.sendMessage("§cYou are not the owner of this group chat!") }
@@ -150,7 +154,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
         if (sender !is Player) return listOf()
         return when (args.size) {
-            1 -> OPTIONS.filter { op -> op.startsWith(args[0], true) }.ifEmpty { listOf("<message>") }
+            1 -> OPTIONS.plus(if (PlayerGroupChatUtils.isGroupChatOwner(sender)) OWNER_OPTIONS else listOf())
+                .filter { op -> op.startsWith(args[0], true) }.ifEmpty { listOf("<message>") }
             2 -> return when (args[0]) {
                 "invite" -> Bukkit.getOnlinePlayers().minus(sender).map { it.name }.filter { it.startsWith(args[1], true) }
                 "join" -> PlayerGroupChatUtils.getInvites(sender).map { it.name!! }

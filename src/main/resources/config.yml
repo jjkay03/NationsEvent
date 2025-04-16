@@ -56,7 +56,7 @@ setting-limit-enchant: true
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
-player-group-chats-enable: true
+player-group-chats-enable: false
 
 # If group chats can be used while chat is disabled
 player-group-chats-bypass-disabled-chat: false

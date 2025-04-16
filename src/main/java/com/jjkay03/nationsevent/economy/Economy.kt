@@ -3,6 +3,8 @@ package com.jjkay03.nationsevent.economy
 import com.jjkay03.nationsevent.FilesManager
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.commands.DisabledCommands
 import com.jjkay03.nationsevent.economy.commands.*
 import com.jjkay03.nationsevent.economy.EconomyTraderEntity
 import org.bukkit.event.EventHandler
@@ -43,11 +45,12 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         var TOTAL_BALANCES_AMOUNT: Long = 0
     }
 
+    // Run on class initialization
     init { initializeEconomy() }
 
     // Function to initialize economy
     private fun initializeEconomy() {
-        if (!FEATURE_ENABLED) { disableAllCommand(); return } // End if economy is disabled
+        if (!FEATURE_ENABLED) { Utils.disableCommands(COMMANDS, "Economy system"); return } // End if economy is disabled
         loadEconomy() // Load economy if enabled
 
         // Start task to update total balances (used for placeholder)
@@ -91,11 +94,6 @@ class Economy (private val plugin: JavaPlugin) : Listener {
         plugin.server.pluginManager.registerEvents(this, plugin)
         plugin.server.pluginManager.registerEvents(EconomyItems(), plugin)
         plugin.server.pluginManager.registerEvents(EconomyTraderEntity, plugin)
-    }
-
-    // Function to disable all commands if economy is disabled
-    private fun disableAllCommand() {
-        for (command in COMMANDS) plugin.getCommand(command)?.setExecutor(DisabledEconomyCommands())
     }
 
     // Create balance file for player when joining the server if it doesn't exist

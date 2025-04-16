@@ -1,5 +1,7 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.commands.DisabledCommands
+import com.jjkay03.nationsevent.economy.Economy.Companion.COMMANDS
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -94,6 +96,11 @@ object Utils {
     // Function to give an item to all players (item will be placed in player's hand)
     fun giveItemToAllPlayers(item: ItemStack) {
         Bukkit.getOnlinePlayers().forEach { player -> giveItemToPlayer(player, item) }
+    }
+
+    // Function to disable all commands in a list
+    fun disableCommands(commands: Set<String>, featureName: String) {
+        for (command in COMMANDS) NationsEvent.INSTANCE.getCommand(command)?.setExecutor(DisabledCommands(featureName))
     }
 
 }

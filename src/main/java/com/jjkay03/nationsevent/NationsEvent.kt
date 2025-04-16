@@ -105,12 +105,12 @@ open class NationsEvent : JavaPlugin() {
 
         // Initialize classes
         Economy(this) // Economy
+        PlayerGroupChatManager(this) // Group chats
         RenderDistance() // Server settings
         NoCraft() // Gameplay setting
         LimitEnchant() // Gameplay setting
         AntiBlockGlitching() // Patch
         AntiEnderPearl() // Patch
-        PlayerGroupChatManager() // Group chats
 
         // Season specific load
         NE2_Load(this)
@@ -130,11 +130,13 @@ open class NationsEvent : JavaPlugin() {
         TAB_INSTANCE = TabAPI.getInstance()
         TAB_NAMETAG_MANAGER = TAB_INSTANCE.nameTagManager!!
         TAB_HEADER_FOOTER_MANAGER = TAB_INSTANCE.headerFooterManager!!
+        @Suppress("SENSELESS_COMPARISON")
         if (TAB_INSTANCE != null) logger.info("Connected to TAB API") else logger.severe("Can't connect to TAB API")
 
         // LUCKPERMS API
         LP_INSTANCE = LuckPermsProvider.get()
         LP_GROUP_MANAGER = LP_INSTANCE.groupManager
+        @Suppress("SENSELESS_COMPARISON")
         if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.severe("Can't connect to LuckPerms API")
     }
 

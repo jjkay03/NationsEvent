@@ -7,6 +7,7 @@ import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.Particle
 import org.bukkit.Sound
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 import org.bukkit.event.EventHandler
@@ -58,6 +59,7 @@ object EconomyTraderEntity : Listener {
         villager.recipes = mutableListOf() // Remove all trades
         villager.villagerType = Villager.Type.SAVANNA
         villager.profession = Villager.Profession.LIBRARIAN
+        villager.getAttribute(Attribute.SCALE)!!.baseValue = 1.2
         villager.customName(Component.text("Johnny"))
         villager.persistentDataContainer.set(NAMESPACED_KEY_TRADER_ENTITY, PersistentDataType.BYTE, 1)
 

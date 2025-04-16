@@ -39,7 +39,7 @@ object PlayerGroupChatUtils {
         val groupChatID = getGroupChatID(owner)
         if (!bypassOwner && !isGroupChatOwner(owner)) return false to groupChatID
 
-        sendInGroupChat(owner, "This group chat was deleted by the owner")
+        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by the owner")
 
         GROUP_CHATS.remove(groupChatID)
         INVITES.remove(groupChatID)
@@ -130,7 +130,7 @@ object PlayerGroupChatUtils {
         ) }
 
         // Log message to log file
-        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[${getGroupChatName(groupChatID)}] $message")
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[CHAT] [${getGroupChatName(groupChatID)}] $message")
     }
 
     // Function to send a message to all player in a group chat
@@ -171,7 +171,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function to check if a player is group chat owner
-    private fun isGroupChatOwner(player: OfflinePlayer): Boolean {
+    fun isGroupChatOwner(player: OfflinePlayer): Boolean {
         if (!hasGroupChat(player)) return false
         return GROUP_CHATS[getGroupChatID(player)]!![0] == player
     }

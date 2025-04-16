@@ -1,50 +1,19 @@
 package com.jjkay03.nationsevent.group_chat_players
 
-import com.jjkay03.nationsevent.FilesManager
-import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.BYPASSDISABLEDCHAT
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUPCHATCOLOR
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUPCHATSPYCOLOR
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.INVITES
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_SPIES
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
-import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import java.io.File
-import java.util.UUID
 
-object PlayerGroupChatsManager {
-
-    init { loadGroupChats() }
-
-    private val ENABLED = NationsEvent.INSTANCE.config.getBoolean("player-group-chats-enable")
-    private val GROUPCHATCOLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-color")
-    private val GROUPCHATSPYCOLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-spy-color")
-    private val BYPASSDISABLEDCHAT = NationsEvent.INSTANCE.config.getBoolean("player-group-chat-bypass-disabled-chat")
-
-    private val GROUP_CHATS = mutableMapOf<Int, MutableList<OfflinePlayer>>()
-    private val INVITES = mutableMapOf<Int, MutableList<Player>>()
-    private val STAFF_SPIES = mutableListOf<Player>()
-
-    private fun loadGroupChats() {
-        if (!ENABLED) return
-
-        FilesManager.createFile(Saves.FILE_PLAYER_GROUP_CHATS)
-
-        NationsEvent.INSTANCE.getCommand("groupchat")?.apply { setExecutor(PlayerGroupChatsCommand()) }
-        NationsEvent.INSTANCE.getCommand("admingroupchat")?.apply { setExecutor(AdminGroupChatsCommand()) }
-
-        loadGroupChatsFromFile(Saves.FILE_PLAYER_GROUP_CHATS)
-    }
-
-    private fun loadGroupChatsFromFile(file: File) {
-        YamlConfiguration.loadConfiguration(file).getValues(true).forEach {
-            (p, v) -> run {
-                if (v.javaClass != listOf("").javaClass) return@run
-                GROUP_CHATS.plus(p to (v as List<*>).map { n -> Bukkit.getOfflinePlayer(UUID.fromString(n.toString())) })
-            }
-        }
-    }
+object PlayerGroupChatUtils {
 
     fun getGroupChatID(player: OfflinePlayer): Int {
         GROUP_CHATS.entries.forEach { (k, v) -> if (v.contains(player)) return k }
@@ -59,14 +28,17 @@ object PlayerGroupChatsManager {
         if (isInAGroupChat(owner)) return false to -1
 
         GROUP_CHATS[GROUP_CHATS.keys.size] = mutableListOf(owner)
-        return true to GROUP_CHATS.keys.size
+        return true to GROUP_CHATS.keys.size - 1
     }
 
     fun deleteGroupChat(owner: Player, bypassOwner: Boolean = false): Pair<Boolean, Int> {
         val groupchatID = getGroupChatID(owner)
-        if (!bypassOwner || !isGroupChatOwner(owner)) return false to groupchatID
+        if (!bypassOwner && !isGroupChatOwner(owner)) return false to groupchatID
+
+        sendInGroupChat(owner, "This group chat was deleted by the owner")
 
         GROUP_CHATS.remove(groupchatID)
+        INVITES.remove(groupchatID)
         return true to groupchatID
     }
 
@@ -85,8 +57,8 @@ object PlayerGroupChatsManager {
 
         val groupchatID = getGroupChatID(owner)
 
-        if (INVITES.containsKey(groupchatID)) { INVITES[groupchatID]!!.plus(invited) }
-        else { INVITES.plus(groupchatID to mutableListOf(invited)) }
+        if (!INVITES.containsKey(groupchatID)) { INVITES[groupchatID] = mutableListOf(invited) }
+        else { INVITES[groupchatID]!!.add(invited) }
 
         invited.sendMessage(
             Component.text("${GROUPCHATCOLOR}You have been invited to group chat §f${getGroupChatName(groupchatID)} by ${owner.name} §a[ACCEPT]")
@@ -99,11 +71,11 @@ object PlayerGroupChatsManager {
 
     fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer): Pair<Boolean, Int> {
         val groupchatID = getGroupChatID(inviteSender)
-        if (!INVITES.containsKey(groupchatID) || !INVITES[groupchatID]!!.contains(player)) { return false to -1 }
+        if (!INVITES.containsKey(groupchatID) || !INVITES[groupchatID]!!.contains(player)) { return false to groupchatID }
 
-        GROUP_CHATS[groupchatID]!!.plus(player)
+        GROUP_CHATS[groupchatID]!!.add(player)
 
-        INVITES[groupchatID]!!.minus(player)
+        INVITES[groupchatID]!!.remove(player)
         if (INVITES[groupchatID]!!.isEmpty()) INVITES.remove(groupchatID)
 
         sendInGroupChat(groupchatID, "${player.name} joined this group chat")
@@ -118,7 +90,7 @@ object PlayerGroupChatsManager {
         val groupchatID = getGroupChatID(kicker ?: player)
         if (!isInGroupChat(groupchatID, player)) return false to -1
 
-        GROUP_CHATS[groupchatID]!!.minus(player)
+        GROUP_CHATS[groupchatID]!!.remove(player)
         if (GROUP_CHATS[groupchatID]!!.isEmpty()) GROUP_CHATS.remove(groupchatID)
 
         sendInGroupChat(groupchatID, "${player.name} left this group chat")
@@ -129,15 +101,19 @@ object PlayerGroupChatsManager {
     fun sendInGroupChat(groupchatID: Int, message: String) {
         if (!hasOnlinePlayers(groupchatID)) return
 
-        GROUP_CHATS[groupchatID]!!.filter { p -> p.isOnline }.forEach { p -> p.player!!.sendMessage("$GROUPCHATCOLOR[${getGroupChatName(groupchatID)}] $message") }
-        STAFF_SPIES.filter { p -> p.isOnline }.forEach { p -> p.player!!.sendMessage("$GROUPCHATSPYCOLOR[${getGroupChatName(groupchatID)}] $message") }
+        GROUP_CHATS[groupchatID]!!.filter { it.isOnline }.forEach { it.player!!.sendMessage(
+            Component.text().append(buildGroupChatMessagePrefix(groupchatID, GROUPCHATCOLOR!!)).append(Component.text("$GROUPCHATCOLOR $message"))
+        ) }
+        STAFF_SPIES.filter { it.isOnline && !isInGroupChat(groupchatID, it) }.forEach { it.player!!.sendMessage(
+            Component.text().append(buildGroupChatMessagePrefix(groupchatID, GROUPCHATSPYCOLOR!!)).append(Component.text("$GROUPCHATSPYCOLOR $message"))
+        ) }
     }
 
     fun sendInGroupChat(player: Player, message: String) {
         if (!isInAGroupChat(player)) { player.sendMessage("§cYou are not in a group chat!"); return }
         if (!BYPASSDISABLEDCHAT && !player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cChat is disabled!"); return }
 
-        sendInGroupChat(getGroupChatID(player), "${player.name} $message")
+        sendInGroupChat(getGroupChatID(player), "${player.name}: $message")
     }
 
     fun setOwner(previousOwner: Player, newOwner: OfflinePlayer): Pair<Boolean, Int> {
@@ -151,6 +127,10 @@ object PlayerGroupChatsManager {
         GROUP_CHATS[groupchatID]!![index] = GROUP_CHATS[groupchatID]!![0]
         GROUP_CHATS[groupchatID]!![0] = newOwner
         return true to groupchatID
+    }
+
+    fun getInvites(player: OfflinePlayer): List<OfflinePlayer> {
+        return INVITES.filter { it.value.contains(player) }.values.map { it.first() }
     }
 
     fun isInAGroupChat(player: OfflinePlayer): Boolean {
@@ -172,7 +152,22 @@ object PlayerGroupChatsManager {
 
     fun hasOnlinePlayers(groupchatID: Int): Boolean {
         if (!isGroupChat(groupchatID)) return false
-        GROUP_CHATS[groupchatID]!!.forEach { p -> if (p.isOnline) return true }
+        GROUP_CHATS[groupchatID]!!.forEach { if (it.isOnline) return true }
         return false
+    }
+
+    fun buildGroupChatMessagePrefix(groupchatID: Int, color: String): Component {
+        return Component.text("$color[${getGroupChatName(groupchatID)}]")
+            .hoverEvent(createGroupChatMessageHover(getGroupChatName(groupchatID), groupchatID))
+    }
+
+    fun createGroupChatMessageHover(groupName: String, groupchatID: Int): HoverEvent<Component> {
+        val text = StringBuilder("§a§n$groupName Member List:§r\n")
+        for (p: OfflinePlayer in getPlayerList(groupchatID)) {
+            text.append(p.name!!)
+            if (isGroupChatOwner(p)) text.append(" §6👑§r")
+            if (p != getPlayerList(groupchatID).last()) text.append(", ")
+        }
+        return HoverEvent.showText(Component.text(text.toString()))
     }
 }

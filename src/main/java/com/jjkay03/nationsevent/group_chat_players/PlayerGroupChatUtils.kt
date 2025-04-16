@@ -7,6 +7,7 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.INVITES
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_SPIES
+import com.jjkay03.nationsevent.utils.LogsManager
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
@@ -127,6 +128,9 @@ object PlayerGroupChatUtils {
         STAFF_SPIES.filter { it.isOnline && !isInGroupChat(groupChatID, it) }.forEach { it.player!!.sendMessage(
             Component.text().append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_SPY_COLOR!!)).append(Component.text("$GROUP_CHAT_SPY_COLOR $message"))
         ) }
+
+        // Log message to log file
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[${getGroupChatName(groupChatID)}] $message")
     }
 
     // Function to send a message to all player in a group chat

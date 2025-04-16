@@ -32,18 +32,24 @@ class Saves() {
 
         // DIRECTORIES
         val DIR_MAIN_PLUGIN = File("plugins/NationsEvent")
+        val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")
+        val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
+        // DIRS - Economy
         val DIR_ECONOMY = File(DIR_MAIN_PLUGIN, "economy")
         val DIR_ECONOMY_BALANCES = File(DIR_ECONOMY, "balances")
         val DIR_ECONOMY_LOGS = File(DIR_ECONOMY, "economy_logs")
-        val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")
-        val DIR_EXPORTED_VOTES = File(DIR_MAIN_PLUGIN, "exported_votes")
+        // DIRS - Player Group Chat
+        val DIR_PLAYER_GC = File(DIR_MAIN_PLUGIN, "player_group_chat")
+        val DIR_PLAYER_GC_LOGS = File(DIR_PLAYER_GC, "player_group_chat_logs")
 
         // FILES
         const val FILE_NAME_CONFIG = "config.yml"; val FILE_CONFIG = File(DIR_MAIN_PLUGIN, FILE_NAME_CONFIG)
         const val FILE_NAME_WEBHOOKS = "webhooks.yml"; val FILE_WEBHOOKS = File(DIR_MAIN_PLUGIN, FILE_NAME_WEBHOOKS)
-        const val FILE_NAME_PLAYER_GROUP_CHATS = "playergroupchats.yml"; val FILE_PLAYER_GROUP_CHATS = File(DIR_MAIN_PLUGIN, FILE_NAME_PLAYER_GROUP_CHATS)
-        // LOG FILES
-        val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY)
+        // FILES - Economy
+        val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY) // LOG
+        // FILES - Player Group Chat
+        const val FILE_NAME_PLAYER_GC = "player_group_chats.yml"; val FILE_PLAYER_GROUP_CHATS = File(DIR_PLAYER_GC, FILE_NAME_PLAYER_GC)
+        val LOG_FILE_NAME_PLAYER_GC = LogsManager.generateLogFileName(); val LOG_FILE_PLAYER_GC = File(DIR_PLAYER_GC_LOGS, LOG_FILE_NAME_PLAYER_GC) // LOG
 
         // SCOREBOARDS
         val SCOREBOARD_MANAGER: ScoreboardManager = Bukkit.getScoreboardManager()

@@ -50,6 +50,9 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
         NationsEvent.INSTANCE.logger.info("Loading player group chats...")
 
         // Create default player group chat files
+        FilesManager.createDirectory(Saves.DIR_PLAYER_GC)
+        FilesManager.createDirectory(Saves.DIR_PLAYER_GC_LOGS)
+        FilesManager.createFile(Saves.LOG_FILE_PLAYER_GC)
         FilesManager.createFile(Saves.FILE_PLAYER_GROUP_CHATS)
 
         // Class variables

@@ -11,7 +11,7 @@ softdepend:
   - PlaceholderAPI
 
 main: com.jjkay03.nationsevent.NationsEvent
-api-version: '1.20'
+api-version: '1.21'
 
 commands:
   joinvc:

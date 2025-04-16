@@ -17,5 +17,7 @@ class NE2_Load (private val plugin: JavaPlugin) {
 
         // Register events
         //...
+
+        // gonk was here
     }
 }

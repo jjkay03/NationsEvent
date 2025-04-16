@@ -41,6 +41,7 @@ class Saves() {
         // FILES
         const val FILE_NAME_CONFIG = "config.yml"; val FILE_CONFIG = File(DIR_MAIN_PLUGIN, FILE_NAME_CONFIG)
         const val FILE_NAME_WEBHOOKS = "webhooks.yml"; val FILE_WEBHOOKS = File(DIR_MAIN_PLUGIN, FILE_NAME_WEBHOOKS)
+        const val FILE_NAME_PLAYER_GROUP_CHATS = "playergroupchats.yml"; val FILE_PLAYER_GROUP_CHATS = File(DIR_MAIN_PLUGIN, FILE_NAME_PLAYER_GROUP_CHATS)
         // LOG FILES
         val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY)
 

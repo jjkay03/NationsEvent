@@ -1,6 +1,6 @@
 name: NationsEvent
 version: '${project.version}'
-authors: [jjkay03]
+authors: [jjkay03, Gonkas77]
 website: https://jjkay03.com/
 
 depend:
@@ -162,6 +162,16 @@ commands:
 
   spawntraderentity:
     permission: nationsevent.command.spawntraderentity
+    permission-message: "You do not have permission to use this command"
+
+  groupchat:
+    aliases: [ gc, playergroupchats ]
+    permission: nationsevent.command.groupchat
+    permission-message: "You do not have permission to use this command"
+
+  admingroupchat:
+    aliases: [ agc, admingc ]
+    permission: nationsevent.command.admingroupchat
     permission-message: "You do not have permission to use this command"
 
 

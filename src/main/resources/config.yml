@@ -53,6 +53,20 @@ setting-limit-enchant: true
 
 
 
+# == Player Group Chats ===============================================================================================
+
+# Player group chat feature toggle
+player-group-chats-enable: false
+
+# If group chats can be used while chat is disabled
+player-group-chats-bypass-disabled-chat: false
+
+# Colors for player group chat messages
+player-group-chat-color: "§7"
+player-group-chat-spy-color: "§8"
+
+
+
 # == Features toggle ==================================================================================================
 # Make players drop meet on death
 feature-meat-player-death: false

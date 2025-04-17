@@ -30,13 +30,6 @@ class EconomyItems : Listener {
         player.inventory.setItem(event.newSlot, addValueToLore(item))
     }
 
-    // Event handler for when a player interacts with an item
-    @EventHandler
-    fun onItemInteract(event: PlayerInteractEvent) {
-        val item = event.item ?: return
-        event.player.inventory.setItemInMainHand(addValueToLore(item))
-    }
-
     // Event handler for when an item is crafted
     @EventHandler
     fun onItemCraft(event: PrepareItemCraftEvent) {

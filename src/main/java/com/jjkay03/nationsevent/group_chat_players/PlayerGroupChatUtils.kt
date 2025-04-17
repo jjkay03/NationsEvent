@@ -28,14 +28,18 @@ object PlayerGroupChatUtils {
     }
 
     // Function to create a group chat with player as owner
-    fun createGroupChat(owner: Player): Pair<Boolean, Int> {
-        if (hasGroupChat(owner)) return false to -1
+    fun createGroupChat(owner: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
+        if (hasGroupChat(owner) && !adminForce) return false to -1
+
+        // Forces 'owner' to make a new group chat even if the owner is already in one
+        if (adminForce) { leaveGroupChat(owner, adminForce = true) }
+
         GROUP_CHATS[GROUP_CHATS.keys.size] = mutableListOf(owner)
         return true to GROUP_CHATS.keys.size - 1
     }
 
     // Function to delete a player's group chat
-    fun deleteGroupChat(owner: Player, bypassOwner: Boolean = false): Pair<Boolean, Int> {
+    fun deleteGroupChat(owner: OfflinePlayer, bypassOwner: Boolean = false): Pair<Boolean, Int> {
         val groupChatID = getGroupChatID(owner)
         if (!bypassOwner && !isGroupChatOwner(owner)) return false to groupChatID
 
@@ -79,10 +83,13 @@ object PlayerGroupChatUtils {
     }
 
     // Function to make a player join a group chat
-    fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer): Pair<Boolean, Int> {
+    fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Check if player has invite to group
         val groupChatID = getGroupChatID(inviteSender)
-        if (!INVITES.containsKey(groupChatID) || !INVITES[groupChatID]!!.contains(player)) { return false to groupChatID }
+        if ((!INVITES.containsKey(groupChatID) || !INVITES[groupChatID]!!.contains(player)) && !adminForce) { return false to groupChatID }
+
+        // Forces 'player' to join the group chat owned by 'inviteSender' even if 'player' is already in one
+        if (adminForce) { leaveGroupChat(player, adminForce = true) }
 
         // Add player to group and remove from invites list
         GROUP_CHATS[groupChatID]!!.add(player)
@@ -96,7 +103,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function to remove a player from a group chat
-    fun leaveGroupChat(player: OfflinePlayer, kicker: OfflinePlayer? = null): Pair<Boolean, Int> {
+    fun leaveGroupChat(player: OfflinePlayer, kicker: OfflinePlayer? = null, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Checks
         if (!hasGroupChat(player)) return false to -1
         if (kicker != null && !isGroupChatOwner(kicker)) return false to getGroupChatID(kicker)
@@ -110,13 +117,13 @@ object PlayerGroupChatUtils {
         if (GROUP_CHATS[groupChatID]!!.isEmpty()) GROUP_CHATS.remove(groupChatID)
 
         // Notify players in group chat of the player that left
-        sendInGroupChat(groupChatID, "${player.name} left this group chat")
+        sendInGroupChat(groupChatID, if (adminForce) "${player.name} was removed from this group chat by an admin" else "${player.name} left this group chat")
 
         return true to groupChatID
     }
 
     // Function to send a message to all player in a group chat
-    private fun sendInGroupChat(groupChatID: Int, message: String) {
+    fun sendInGroupChat(groupChatID: Int, message: String) {
         if (!hasOnlinePlayers(groupChatID)) return
 
         // Send message to all players in group chat
@@ -141,7 +148,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function to change owner of a group chat
-    fun setOwner(previousOwner: Player, newOwner: OfflinePlayer): Pair<Boolean, Int> {
+    fun setOwner(previousOwner: OfflinePlayer, newOwner: OfflinePlayer): Pair<Boolean, Int> {
         // Check
         if (!hasGroupChat(previousOwner)) return false to -1
         if (!isGroupChatOwner(previousOwner)) return true to -1
@@ -177,7 +184,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function that check if an ID has a group chat associated with it
-    private fun isGroupChat(groupChatID: Int): Boolean {
+    fun isGroupChat(groupChatID: Int): Boolean {
         return GROUP_CHATS.containsKey(groupChatID)
     }
 

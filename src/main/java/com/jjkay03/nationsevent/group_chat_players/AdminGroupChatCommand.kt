@@ -215,7 +215,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 if (args.size > 1) { target = args[1].toIntOrNull() }
 
                 // Get group chat ID
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || (!PlayerGroupChatUtils.isGroupChat(target)) && target != 1) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 PlayerGroupChatUtils.setSpy(sender, target)
                 sender.sendMessage("§aNow spying on GC$target")

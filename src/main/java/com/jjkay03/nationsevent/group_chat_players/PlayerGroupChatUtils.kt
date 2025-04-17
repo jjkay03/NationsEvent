@@ -1,6 +1,5 @@
 package com.jjkay03.nationsevent.group_chat_players
 
-import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.BYPASS_DISABLED_CHAT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
@@ -8,6 +7,7 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.INVITES
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_SPIES
 import com.jjkay03.nationsevent.utils.LogsManager
 import net.kyori.adventure.text.Component
@@ -15,7 +15,6 @@ import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
-import java.util.function.Predicate
 
 object PlayerGroupChatUtils {
 
@@ -23,11 +22,6 @@ object PlayerGroupChatUtils {
     fun getGroupChatID(player: OfflinePlayer): Int {
         GROUP_CHATS.entries.forEach { (k, v) -> if (v.contains(player)) return k }
         return -1
-    }
-
-    // Function to get a group chat name from ID (Example: GC1)
-    fun getGroupChatName(groupChatID: Int): String {
-        return "GC$groupChatID"
     }
 
     // Function to returns the owner of a group chat
@@ -47,9 +41,16 @@ object PlayerGroupChatUtils {
         var lastIndex = -1
         for (index: Int in GROUP_CHATS.keys) { if (index - lastIndex != 1) { break }; lastIndex += 1 }
 
+        // Creation of the group chat
         GROUP_CHATS[lastIndex + 1] = mutableListOf(owner)
         INVITES[lastIndex + 1] = mutableListOf()
         STAFF_SPIES[lastIndex + 1] = mutableListOf()
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) " $STAFF_MESSAGE_PREFIX_FORMATLESS" else owner.name} CREATED group chat GC${lastIndex+1}"
+        )
+
         return true to lastIndex + 1
     }
 
@@ -58,11 +59,18 @@ object PlayerGroupChatUtils {
         val groupChatID = getGroupChatID(owner)
         if (!adminForce && !isGroupChatOwner(owner)) return false to groupChatID
 
-        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by " + if (adminForce) "an admin" else "the owner")
+        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by " + if (adminForce) STAFF_MESSAGE_PREFIX else "the owner")
 
+        // Deletion of the group chat
         GROUP_CHATS.remove(groupChatID)
         INVITES.remove(groupChatID)
         STAFF_SPIES.remove(groupChatID)
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) " $STAFF_MESSAGE_PREFIX_FORMATLESS" else owner.name} DELETED group chat GC$groupChatID"
+        )
+
         return true to groupChatID
     }
 
@@ -88,11 +96,15 @@ object PlayerGroupChatUtils {
 
         // Notify players
         invited.sendMessage(
-            Component.text("${GROUP_CHAT_COLOR}You have been invited to group chat §f${getGroupChatName(groupChatID)} by ${owner.name} §a[ACCEPT]")
+            Component.text("${GROUP_CHAT_COLOR}You have been invited to group chat GC§f$groupChatID by ${owner.name} §a[ACCEPT]")
                 .clickEvent(ClickEvent.runCommand("/groupchat join ${owner.name}"))
                 .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§aClick to join ${owner.name}'s group chat!")))
         )
         owner.sendMessage("§aInvited player ${invited.name} to your group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${owner.name} INVITED ${invited.name} to GC${groupChatID}")
     }
 
     // Function to make a player join a group chat
@@ -110,6 +122,12 @@ object PlayerGroupChatUtils {
 
         // Notify players in group of who joined
         sendInGroupChat(groupChatID, if (adminForce) "${player.name} was put into this group chat by Staff" else "${player.name} joined this group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY ADDED ${player.name} to ${inviteSender.name}'s group GC${groupChatID}"
+            else "${player.name} JOINED ${inviteSender.name}'s group GC${groupChatID}"
+        )
 
         return true to getGroupChatID(player)
     }
@@ -130,6 +148,12 @@ object PlayerGroupChatUtils {
 
         // Notify players in group chat of the player that left
         sendInGroupChat(groupChatID, if (adminForce) "${player.name} was removed from this group chat by Staff" else "${player.name} left this group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            if (adminForce || kicker != null) "${if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY" else kicker!!.name} KICKED ${player.name} from GC$groupChatID"
+            else "${player.name} LEFT from GC${groupChatID}"
+        )
 
         return true to groupChatID
     }
@@ -160,7 +184,7 @@ object PlayerGroupChatUtils {
         ) }
 
         // Log message to log file
-        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[CHAT] [${getGroupChatName(groupChatID)}] $message")
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[CHAT] [GC$groupChatID] $message")
     }
 
     // Function to send a message to all player in a group chat
@@ -185,6 +209,12 @@ object PlayerGroupChatUtils {
         val index = GROUP_CHATS[groupChatID]!!.indexOf(newOwner)
         GROUP_CHATS[groupChatID]!![index] = GROUP_CHATS[groupChatID]!![0]
         GROUP_CHATS[groupChatID]!![0] = newOwner
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY" else previousOwner.name} TRANSFERRED GC$groupChatID to ${newOwner.name}"
+        )
+
         return true to groupChatID
     }
 
@@ -195,6 +225,9 @@ object PlayerGroupChatUtils {
         // Adds the spy to the spy map
         if (!STAFF_SPIES.containsKey(groupChatID)) STAFF_SPIES[groupChatID] = mutableListOf(player)
         else STAFF_SPIES[groupChatID]!!.add(player)
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "${player.name} is SPYING in GC$groupChatID")
 
         return true to groupChatID
     }
@@ -234,7 +267,7 @@ object PlayerGroupChatUtils {
 
     // Function that creates/build the group chat message prefix
     fun buildGroupChatMessagePrefix(groupChatID: Int, color: String): Component {
-        return Component.text("$color[${getGroupChatName(groupChatID)}]")
+        return Component.text("$color[GC$groupChatID]")
             .hoverEvent(createGroupChatMessageHover(groupChatID))
     }
 

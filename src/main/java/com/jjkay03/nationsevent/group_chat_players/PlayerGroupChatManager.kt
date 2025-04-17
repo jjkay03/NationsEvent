@@ -23,6 +23,7 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
         val GROUP_CHAT_COLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-color")
         val GROUP_CHAT_SPY_COLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-spy-color")
         val STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("player-group-chat-staff-msg-prefix")
+        val STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(STAFF_MESSAGE_PREFIX)
         val BYPASS_DISABLED_CHAT = NationsEvent.INSTANCE.config.getBoolean("player-group-chat-bypass-disabled-chat")
 
         // Variables

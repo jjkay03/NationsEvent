@@ -29,6 +29,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
      *   /agc togglespy [groupChatID]
      */
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         if (!OPTIONS.contains(args[0])) { sender.sendMessage("§cUsage: /$label <add/chat/create/delete/getid/kick/list/listall/setowner/togglespy>"); return true }
@@ -202,7 +203,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 // Sets the new owner of 'owner's' group chat as 'player'
                 PlayerGroupChatUtils.setOwner(owner, player, true)
                 sender.sendMessage("§aSet ${player.name} as the new owner of GC${target}")
-                owner.player!!.sendMessage("§cYou are no longer your group chat's owner!")
+                if (owner.isOnline) owner.player!!.sendMessage("§cYou are no longer your group chat's owner!")
             }
 
             // TOGGLESPY
@@ -222,6 +223,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
         return true
     }
 
+    // TAB COMPLETER
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
         return when (args.size) {
             1 -> OPTIONS.filter { it.startsWith(args[0], true) }

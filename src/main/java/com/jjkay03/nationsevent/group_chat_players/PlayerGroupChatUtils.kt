@@ -6,6 +6,8 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.INVITES
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_SPIES
 import com.jjkay03.nationsevent.utils.LogsManager
 import net.kyori.adventure.text.Component
@@ -22,27 +24,53 @@ object PlayerGroupChatUtils {
         return -1
     }
 
-    // Function to get a group chat name from ID (Example: GC1)
-    fun getGroupChatName(groupChatID: Int): String {
-        return "GC$groupChatID"
+    // Function to returns the owner of a group chat
+    fun getOwner(groupChatID: Int): OfflinePlayer? {
+        if (!GROUP_CHATS.containsKey(groupChatID)) { return null }
+        return GROUP_CHATS[groupChatID]!!.first()
     }
 
     // Function to create a group chat with player as owner
-    fun createGroupChat(owner: Player): Pair<Boolean, Int> {
-        if (hasGroupChat(owner)) return false to -1
-        GROUP_CHATS[GROUP_CHATS.keys.size] = mutableListOf(owner)
-        return true to GROUP_CHATS.keys.size - 1
+    fun createGroupChat(owner: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
+        if (hasGroupChat(owner) && !adminForce) return false to -1
+
+        // Forces 'owner' to make a new group chat even if the owner is already in one
+        if (adminForce) { leaveGroupChat(owner, adminForce = true) }
+
+        // Gets the first non-used int to become the index
+        var lastIndex = -1
+        for (index: Int in GROUP_CHATS.keys) { if (index - lastIndex != 1) { break }; lastIndex += 1 }
+
+        // Creation of the group chat
+        GROUP_CHATS[lastIndex + 1] = mutableListOf(owner)
+        INVITES[lastIndex + 1] = mutableListOf()
+        STAFF_SPIES[lastIndex + 1] = mutableListOf()
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) " $STAFF_MESSAGE_PREFIX_FORMATLESS" else owner.name} CREATED group chat GC${lastIndex+1}"
+        )
+
+        return true to lastIndex + 1
     }
 
     // Function to delete a player's group chat
-    fun deleteGroupChat(owner: Player, bypassOwner: Boolean = false): Pair<Boolean, Int> {
+    fun deleteGroupChat(owner: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
         val groupChatID = getGroupChatID(owner)
-        if (!bypassOwner && !isGroupChatOwner(owner)) return false to groupChatID
+        if (!adminForce && !isGroupChatOwner(owner)) return false to groupChatID
 
-        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by the owner")
+        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by " + if (adminForce) STAFF_MESSAGE_PREFIX else "the owner")
 
+        // Deletion of the group chat
         GROUP_CHATS.remove(groupChatID)
         INVITES.remove(groupChatID)
+        STAFF_SPIES.remove(groupChatID)
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) " $STAFF_MESSAGE_PREFIX_FORMATLESS" else owner.name} DELETED group chat GC$groupChatID"
+        )
+
         return true to groupChatID
     }
 
@@ -64,39 +92,48 @@ object PlayerGroupChatUtils {
         if (invited.hasPermission(Saves.PERM_STAFF) && !owner.hasPermission(Saves.PERM_STAFF)) { owner.sendMessage("§cYou can not invite staff!"); return }
 
         val groupChatID = getGroupChatID(owner)
-
-        // Add player to invited players list
-        if (!INVITES.containsKey(groupChatID)) { INVITES[groupChatID] = mutableListOf(invited) }
-        else { INVITES[groupChatID]!!.add(invited) }
+        INVITES[groupChatID]!!.add(invited)
 
         // Notify players
         invited.sendMessage(
-            Component.text("${GROUP_CHAT_COLOR}You have been invited to group chat §f${getGroupChatName(groupChatID)} by ${owner.name} §a[ACCEPT]")
+            Component.text("${GROUP_CHAT_COLOR}You have been invited to group chat GC§f$groupChatID by ${owner.name} §a[ACCEPT]")
                 .clickEvent(ClickEvent.runCommand("/groupchat join ${owner.name}"))
                 .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§aClick to join ${owner.name}'s group chat!")))
         )
         owner.sendMessage("§aInvited player ${invited.name} to your group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${owner.name} INVITED ${invited.name} to GC${groupChatID}")
     }
 
     // Function to make a player join a group chat
-    fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer): Pair<Boolean, Int> {
+    fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Check if player has invite to group
         val groupChatID = getGroupChatID(inviteSender)
-        if (!INVITES.containsKey(groupChatID) || !INVITES[groupChatID]!!.contains(player)) { return false to groupChatID }
+        if (!INVITES[groupChatID]!!.contains(player) && !adminForce) { return false to groupChatID }
+
+        // Forces 'player' to join the group chat owned by 'inviteSender' even if 'player' is already in one
+        if (adminForce) { leaveGroupChat(player, adminForce = true) }
 
         // Add player to group and remove from invites list
         GROUP_CHATS[groupChatID]!!.add(player)
         INVITES[groupChatID]!!.remove(player)
-        if (INVITES[groupChatID]!!.isEmpty()) INVITES.remove(groupChatID)
 
         // Notify players in group of who joined
-        sendInGroupChat(groupChatID, "${player.name} joined this group chat")
+        sendInGroupChat(groupChatID, if (adminForce) "${player.name} was put into this group chat by Staff" else "${player.name} joined this group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY ADDED ${player.name} to ${inviteSender.name}'s group GC${groupChatID}"
+            else "${player.name} JOINED ${inviteSender.name}'s group GC${groupChatID}"
+        )
 
         return true to getGroupChatID(player)
     }
 
     // Function to remove a player from a group chat
-    fun leaveGroupChat(player: OfflinePlayer, kicker: OfflinePlayer? = null): Pair<Boolean, Int> {
+    fun leaveGroupChat(player: OfflinePlayer, kicker: OfflinePlayer? = null, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Checks
         if (!hasGroupChat(player)) return false to -1
         if (kicker != null && !isGroupChatOwner(kicker)) return false to getGroupChatID(kicker)
@@ -105,32 +142,49 @@ object PlayerGroupChatUtils {
         val groupChatID = getGroupChatID(kicker ?: player)
         if (!isInGroupChat(groupChatID, player)) return false to -1
 
-        // Remove player from group chat
-        GROUP_CHATS[groupChatID]!!.remove(player)
-        if (GROUP_CHATS[groupChatID]!!.isEmpty()) GROUP_CHATS.remove(groupChatID)
+        // Remove player from group chat. Delete if the player is the last member
+        if (GROUP_CHATS[groupChatID]!!.size == 1) deleteGroupChat(player)
+        else GROUP_CHATS[groupChatID]!!.remove(player)
 
         // Notify players in group chat of the player that left
-        sendInGroupChat(groupChatID, "${player.name} left this group chat")
+        sendInGroupChat(groupChatID, if (adminForce) "${player.name} was removed from this group chat by Staff" else "${player.name} left this group chat")
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            if (adminForce || kicker != null) "${if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY" else kicker!!.name} KICKED ${player.name} from GC$groupChatID"
+            else "${player.name} LEFT from GC${groupChatID}"
+        )
 
         return true to groupChatID
     }
 
     // Function to send a message to all player in a group chat
-    private fun sendInGroupChat(groupChatID: Int, message: String) {
+    fun sendInGroupChat(groupChatID: Int, message: String, isStaff: Boolean = false) {
         if (!hasOnlinePlayers(groupChatID)) return
 
         // Send message to all players in group chat
         GROUP_CHATS[groupChatID]!!.filter { it.isOnline }.forEach { it.player!!.sendMessage(
-            Component.text().append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_COLOR!!)).append(Component.text("$GROUP_CHAT_COLOR $message"))
+            Component.text()
+                .append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_COLOR!!))
+                .append(Component.text("${if (isStaff) " $STAFF_MESSAGE_PREFIX" else ""}$GROUP_CHAT_COLOR $message"))
         ) }
 
-        // Send message to all staff spies
-        STAFF_SPIES.filter { it.isOnline && !isInGroupChat(groupChatID, it) }.forEach { it.player!!.sendMessage(
-            Component.text().append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_SPY_COLOR!!)).append(Component.text("$GROUP_CHAT_SPY_COLOR $message"))
+        // Send message to staff spies spying on this specific group chat
+        STAFF_SPIES[groupChatID]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) }.forEach { it.player!!.sendMessage(
+            Component.text()
+                .append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_SPY_COLOR!!))
+                .append(Component.text("${if (isStaff) " $STAFF_MESSAGE_PREFIX" else ""}$GROUP_CHAT_SPY_COLOR $message"))
+        ) }
+
+        // Send message to staff spies spying on ALL group chats
+        STAFF_SPIES[-1]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) && !STAFF_SPIES[groupChatID]!!.contains(it) }.forEach { it.player!!.sendMessage(
+            Component.text()
+                .append(buildGroupChatMessagePrefix(groupChatID, GROUP_CHAT_SPY_COLOR!!))
+                .append(Component.text("${if (isStaff) " $STAFF_MESSAGE_PREFIX" else ""}$GROUP_CHAT_SPY_COLOR $message"))
         ) }
 
         // Log message to log file
-        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[CHAT] [${getGroupChatName(groupChatID)}] $message")
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "[CHAT] [GC$groupChatID] $message")
     }
 
     // Function to send a message to all player in a group chat
@@ -141,17 +195,40 @@ object PlayerGroupChatUtils {
     }
 
     // Function to change owner of a group chat
-    fun setOwner(previousOwner: Player, newOwner: OfflinePlayer): Pair<Boolean, Int> {
+    fun setOwner(previousOwner: OfflinePlayer, newOwner: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Check
         if (!hasGroupChat(previousOwner)) return false to -1
-        if (!isGroupChatOwner(previousOwner)) return true to -1
+        if (!isGroupChatOwner(previousOwner) && !adminForce) return true to -1
         val groupChatID = getGroupChatID(previousOwner)
-        if (!isInGroupChat(groupChatID, newOwner)) return false to groupChatID
+        if (!isInGroupChat(groupChatID, newOwner)) {
+            if (!adminForce) return false to groupChatID // If not forced by admin, return as failed
+            else { joinGroupChat(newOwner, previousOwner, true) } // If newOwner is not in previousOwner's GC, force join
+        }
 
         // Switch group chat owner by moving the new owner to the first position of the list
         val index = GROUP_CHATS[groupChatID]!!.indexOf(newOwner)
         GROUP_CHATS[groupChatID]!![index] = GROUP_CHATS[groupChatID]!![0]
         GROUP_CHATS[groupChatID]!![0] = newOwner
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
+            "${if (adminForce) "$STAFF_MESSAGE_PREFIX_FORMATLESS FORCIBLY" else previousOwner.name} TRANSFERRED GC$groupChatID to ${newOwner.name}"
+        )
+
+        return true to groupChatID
+    }
+
+    // Function to plant a spy ඞ
+    fun setSpy(player: Player, groupChatID: Int = -1): Pair<Boolean, Int> {
+        if (!isGroupChat(groupChatID) && groupChatID != -1) return false to groupChatID
+
+        // Adds the spy to the spy map
+        if (!STAFF_SPIES.containsKey(groupChatID)) STAFF_SPIES[groupChatID] = mutableListOf(player)
+        else STAFF_SPIES[groupChatID]!!.add(player)
+
+        // Log action
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "${player.name} is SPYING in GC$groupChatID")
+
         return true to groupChatID
     }
 
@@ -177,7 +254,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function that check if an ID has a group chat associated with it
-    private fun isGroupChat(groupChatID: Int): Boolean {
+    fun isGroupChat(groupChatID: Int): Boolean {
         return GROUP_CHATS.containsKey(groupChatID)
     }
 
@@ -189,14 +266,14 @@ object PlayerGroupChatUtils {
     }
 
     // Function that creates/build the group chat message prefix
-    private fun buildGroupChatMessagePrefix(groupChatID: Int, color: String): Component {
-        return Component.text("$color[${getGroupChatName(groupChatID)}]")
-            .hoverEvent(createGroupChatMessageHover(getGroupChatName(groupChatID), groupChatID))
+    fun buildGroupChatMessagePrefix(groupChatID: Int, color: String): Component {
+        return Component.text("$color[GC$groupChatID]")
+            .hoverEvent(createGroupChatMessageHover(groupChatID))
     }
 
     // Function that creates hover message for group chat message prefix
-    fun createGroupChatMessageHover(groupName: String, groupChatID: Int): HoverEvent<Component> {
-        val text = StringBuilder("§a§n$groupName Member List:§r\n")
+    fun createGroupChatMessageHover(groupChatID: Int): HoverEvent<Component> {
+        val text = StringBuilder("§a§nGC$groupChatID Member List:§r\n")
         for (p: OfflinePlayer in getPlayerList(groupChatID)) {
             text.append(p.name!!)
             if (isGroupChatOwner(p)) text.append(" §6👑§r")

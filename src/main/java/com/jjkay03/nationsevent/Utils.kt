@@ -102,4 +102,20 @@ object Utils {
         for (command in commands) NationsEvent.INSTANCE.getCommand(command)?.setExecutor(DisabledCommands(featureName))
     }
 
+    // Function to return a list of all online player names that start with 'name'
+    fun matchOnlinePlayers(name: String, ignoreCase: Boolean = true): List<String> {
+        return Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(name, ignoreCase) }
+    }
+
+    // Function that removes the formats from strings. https://minecraft.wiki/w/Formatting_codes
+    fun removeFormattingCodes(string: String?): String {
+        return if (string == null) "null" else {
+            val result = StringBuilder(string)
+            val indexes = mutableListOf<Int>()
+
+            for (i in 0..<result.length) { if (result[i] == '§') { indexes.add(i - 2*indexes.size) } }
+            indexes.forEach { result.delete(it, it+2) }
+            return result.toString()
+        }
+    }
 }

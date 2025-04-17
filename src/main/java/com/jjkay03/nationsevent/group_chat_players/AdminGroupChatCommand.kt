@@ -211,8 +211,10 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 if (sender !is Player) { sender.sendMessage("§cThis command is only usable by players!"); return true }
 
+                var target: Int? = -1
+                if (args.size > 1) { target = args[1].toIntOrNull() }
+
                 // Get group chat ID
-                val target = args[1].toIntOrNull()
                 if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 PlayerGroupChatUtils.setSpy(sender, target)

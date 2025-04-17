@@ -64,6 +64,7 @@ player-group-chats-bypass-disabled-chat: false
 # Colors for player group chat messages
 player-group-chat-color: "§7"
 player-group-chat-spy-color: "§8"
+player-group-chat-staff-msg-prefix: "§6[STAFF]"
 
 
 

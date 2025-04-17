@@ -22,13 +22,14 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
         val ENABLED = NationsEvent.INSTANCE.config.getBoolean("player-group-chats-enable")
         val GROUP_CHAT_COLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-color")
         val GROUP_CHAT_SPY_COLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-spy-color")
+        val STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("player-group-chat-staff-msg-prefix")
         val BYPASS_DISABLED_CHAT = NationsEvent.INSTANCE.config.getBoolean("player-group-chat-bypass-disabled-chat")
 
         // Variables
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableMapOf<Int, MutableList<OfflinePlayer>>()
         val INVITES = mutableMapOf<Int, MutableList<Player>>()
-        val STAFF_SPIES = mutableListOf<Player>()
+        val STAFF_SPIES = mutableMapOf<Int, MutableList<Player>>(-1 to mutableListOf())
     }
 
     // Run on class initialization
@@ -75,6 +76,8 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
 
                 // Reconstruct yml data into group chat map of Int and Player
                 GROUP_CHATS[p.toInt()] = (v as List<*>).map { n -> Bukkit.getOfflinePlayer(UUID.fromString(n.toString())) }.toMutableList()
+                INVITES[p.toInt()] = mutableListOf()
+                STAFF_SPIES[p.toInt()] = mutableListOf()
             }
         }
     }
@@ -84,6 +87,7 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
         if (!ENABLED) return
         NationsEvent.INSTANCE.logger.info("Saving player group chats to YML...")
         val gcFile = YamlConfiguration.loadConfiguration(Saves.FILE_PLAYER_GROUP_CHATS)
+        gcFile.getKeys(false).forEach { key -> gcFile.set(key, null) }
         GROUP_CHATS.forEach { (k, v) -> gcFile.set(k.toString(), v.map { it.uniqueId.toString() }) }
         gcFile.save(Saves.FILE_PLAYER_GROUP_CHATS)
     }

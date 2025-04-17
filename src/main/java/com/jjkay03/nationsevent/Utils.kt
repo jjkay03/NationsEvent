@@ -103,4 +103,8 @@ object Utils {
         for (command in COMMANDS) NationsEvent.INSTANCE.getCommand(command)?.setExecutor(DisabledCommands(featureName))
     }
 
+    // Function to return a list of all online player names that start with 'name'
+    fun matchOnlinePlayers(name: String, ignoreCase: Boolean = true): List<String> {
+        return Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(name, ignoreCase) }
+    }
 }

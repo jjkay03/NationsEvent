@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.group_chat_players
+package com.jjkay03.nationsevent.group_chat_players.deprecated
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -140,7 +140,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             // CHAT and works the same if no args are provided
             else -> {
                 val startIndex = if (args[0] == "chat") 1 else 0
-                if (startIndex == 1 && args.size == 1) { player.sendMessage("§cUsage: /$label chat <message>");return true }
+                if (startIndex == 1 && args.size == 1) { player.sendMessage("§cUsage: /$label chat <message>"); return true }
 
                 val message = StringBuilder(args[startIndex])
                 for (i in startIndex + 1..< args.size) {message.append(" ").append(args[i])}

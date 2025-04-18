@@ -69,6 +69,7 @@ player-group-chat-bypass-disabled-chat: true
 player-group-chat-color: "§7"
 player-group-chat-spy-color: "§8"
 player-group-chat-staff-msg-prefix: "§6[STAFF]"
+player-group-chat-name-character-limit: 6
 
 
 

@@ -8,5 +8,6 @@ data class PlayerGroupChat(
     val playerList: MutableList<OfflinePlayer> = mutableListOf(owner),
     val invites: MutableList<OfflinePlayer> = mutableListOf(),
     val spies: MutableList<OfflinePlayer> = mutableListOf(),
-    val name: String = "GC$id"
+    val name: String = "",
+    var prefix: String = "GC$id"
 )

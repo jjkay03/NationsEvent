@@ -4,7 +4,9 @@ import org.bukkit.OfflinePlayer
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
 import org.bukkit.entity.Player
+import kotlin.collections.set
 
 object PlayerGroupChatUtils {
 
@@ -35,6 +37,7 @@ object PlayerGroupChatUtils {
    ✅ get group chat from id : returns a group chat using an id
 
    ✅ all in one function to manage the multiple gcs : checks if player is in multiple gcs
+   ✅ group chat selection system
 
    ✅ implement logging
      */
@@ -85,12 +88,13 @@ object PlayerGroupChatUtils {
     }
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
-    fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), staffAction: Boolean = false) : PlayerGroupChat? {
+    fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), name: String = "", staffAction: Boolean = false) : PlayerGroupChat? {
         // Check if owner has reached gc limit
         if (checkPlayerGCLimit(owner) != LimitState.VALID) return null
 
         // Create group chat
-        val groupChat = PlayerGroupChat(getNewGCID(), owner)
+        val groupChat = PlayerGroupChat(id = getNewGCID(), owner = owner, name = name)
+        if (name.isNotBlank()) { groupChat.prefix = "${groupChat.prefix}-$name" }
         addPlayerToGC(groupChat, players, staffAction)
         GROUP_CHATS.add(groupChat)
 
@@ -102,6 +106,10 @@ object PlayerGroupChatUtils {
 
     // Function to deletes a group chat
     fun deleteGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {
+        // Remove selected gc for members that might have it selected
+        groupChat.playerList.forEach { player -> unselectPlayerGC(groupChat, player) }
+
+        // Delete gc
         GROUP_CHATS.remove(groupChat)
 
         // Log action
@@ -134,6 +142,9 @@ object PlayerGroupChatUtils {
             // Remove player
             groupChat.playerList.remove(player)
 
+            // Remove player selected gc if they have 'groupChat' as their selected one
+            unselectPlayerGC(groupChat, player)
+
             // Delete the GC if there are no more players
             if (groupChat.playerList.isEmpty()) { deleteGC(groupChat); return@forEach }
 
@@ -160,6 +171,28 @@ object PlayerGroupChatUtils {
             groupChat.invites.add(player)
             PlayerGroupChatLog.invitePlayerToGC(groupChat, player)
         }
+    }
+
+    // Function that adds a selected group chat for 'player' (reruns false if 'player' not in gc they are trying to select)
+    fun selectPlayerGC(groupChat: PlayerGroupChat, player: OfflinePlayer): Boolean {
+        if (!groupChat.playerList.contains(player)) return false
+        PLAYERS_SELECTED_GC[player] = groupChat.id
+        return true
+    }
+
+    // Function that unselects a group chat for 'player' if they have it selected (returns true if it was unselected)
+    fun unselectPlayerGC(groupChat: PlayerGroupChat, player: OfflinePlayer): Boolean {
+        val selectedGroupChat = getSelectedPlayerGC(player) ?: return false
+        if (selectedGroupChat != groupChat) return false
+        PLAYERS_SELECTED_GC.remove(player)
+        return true
+    }
+
+    // Returns the selected group chat for the player, the only one they’re in if none is selected or null if they are in multiple but non are selected
+    fun getSelectedPlayerGC(player: OfflinePlayer): PlayerGroupChat? {
+        PLAYERS_SELECTED_GC[player]?.let { id -> return getGCfromID(id) }
+        val playerGCs = getPlayerGCs(player)
+        return if (playerGCs.size == 1) playerGCs.first() else null
     }
 
     // Function that checks if player is exceeding the group chat limit

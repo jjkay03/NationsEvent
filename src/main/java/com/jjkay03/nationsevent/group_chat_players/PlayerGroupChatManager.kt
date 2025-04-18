@@ -8,6 +8,7 @@ import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.group_chat_players.commands.*
+import org.bukkit.OfflinePlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.server.PluginDisableEvent
@@ -17,7 +18,6 @@ import java.io.File
 class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
 
     companion object {
-
         // Get config settings
         val ENABLED = NationsEvent.INSTANCE.config.getBoolean("player-group-chat-enable")
         val GROUP_CHAT_LIMIT = NationsEvent.INSTANCE.config.getInt("player-group-chat-limit")
@@ -26,10 +26,12 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val GROUP_CHAT_SPY_COLOR = NationsEvent.INSTANCE.config.getString("player-group-chat-spy-color")
         val STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("player-group-chat-staff-msg-prefix")
         val STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(STAFF_MESSAGE_PREFIX)
+        val NAME_CHARACTER_LIMIT = NationsEvent.INSTANCE.config.getInt("player-group-chat-name-character-limit")
 
         // Variables
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
+        val PLAYERS_SELECTED_GC = mutableMapOf<OfflinePlayer, Int>()
     }
 
     // Run on class initialization

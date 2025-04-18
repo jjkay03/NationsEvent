@@ -1,8 +1,8 @@
 package com.jjkay03.nationsevent.group_chat_players
 
 import org.bukkit.OfflinePlayer
-
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
 
 object PlayerGroupChatUtils {
 
@@ -13,11 +13,11 @@ object PlayerGroupChatUtils {
        - chat to spies
        - [GC<ID>] <player>: <message>
 
-   create gc : make a new group chat; prevent if already in one
-   delete gc : delete group chat (if owner)
+   create gc : make a new group chat; prevent if already in one ✅
+   delete gc : delete group chat (if owner) ✅
 
    add to gc (playerList) : add a player to gc
-   remove from gc (playerList) : remove a player from gc
+   remove from gc (playerList) : remove a player from gc ✅
 
    coords gc : send your coords in gc chat
    list gc members : send get group chat name in chat (of all gcs player is in)
@@ -37,6 +37,9 @@ object PlayerGroupChatUtils {
    implement logging !!
 
      */
+
+    // Use to signify the state of a player group chats limit
+    enum class LimitState { VALID, LIMIT, EXCEEDED }
 
     // Function that gets the smallest available ID (used when creating new GCs)
     fun getNewGCID() : Int {
@@ -92,4 +95,31 @@ object PlayerGroupChatUtils {
         // Log action
         PlayerGroupChatLog.removePlayerFromGC(groupChat, player, staffAction)
     }
+
+    // Function that removes player from a given amount of group chats
+    fun removePlayerFromAmountOfGC(player: OfflinePlayer, amount: Int) {
+        val playerGroupChats = getPlayerGC(player)
+        playerGroupChats.takeLast(amount).reversed().forEach { groupChat ->
+            removePlayerFromGC(groupChat, player)
+        }
+    }
+
+    // Function that checks if player is exceeding the group chat limit
+    fun checkPlayerGCLimit(player: OfflinePlayer): LimitState {
+        val playerGroupChats = getPlayerGC(player)
+
+        // If player is under the group chat limit -> return state
+        if (playerGroupChats.size < GROUP_CHAT_LIMIT) return LimitState.VALID
+
+        // If player is at the group chat limit -> return state
+        else if (playerGroupChats.size == GROUP_CHAT_LIMIT) return LimitState.LIMIT
+
+        // If player is at the group chat limit -> return state and remove player from additional group chats
+        else {
+            removePlayerFromAmountOfGC(player, (playerGroupChats.size - GROUP_CHAT_LIMIT))
+            return LimitState.EXCEEDED
+        }
+    }
+
+
 }

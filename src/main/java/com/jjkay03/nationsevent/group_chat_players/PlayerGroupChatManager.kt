@@ -9,9 +9,7 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.group_chat_players.commands.*
 import org.bukkit.OfflinePlayer
-import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -32,6 +30,7 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
         val PLAYERS_SELECTED_GC = mutableMapOf<OfflinePlayer, Int>()
+        val UNIVERSAL_STAFF_SPIES = mutableListOf<OfflinePlayer>()
     }
 
     // Run on class initialization

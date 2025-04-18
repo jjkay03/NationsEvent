@@ -2,7 +2,9 @@ package com.jjkay03.nationsevent.group_chat_players
 
 import org.bukkit.OfflinePlayer
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
+import org.bukkit.entity.Player
 
 object PlayerGroupChatUtils {
 
@@ -23,13 +25,14 @@ object PlayerGroupChatUtils {
 
    ✅ invite : invite a player to the gc
    ❌ join gc : add yourself to a gc if you were invited
-   ❌ leave gc : leave current gc
-   ❌ kick gc : remove someone else from gc (if owner)
+   ⬜ leave gc : leave current gc  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
+   ⬜ kick gc : remove someone else from gc (if owner)  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
 
    ❌ transfer gc : make a diff player the gc owner (if owner)
 
-   ✅ get owner : returns the owner
+   ⬜ get owner : returns the owner  |  JUST USE "PlayerGroupChat.owner"
    ❌ get group chat name : returns a component with "GC<ID>" that is hoverable, displaying all members
+   ✅ get group chat from id : returns a group chat using an id
 
    ✅ all in one function to manage the multiple gcs : checks if player is in multiple gcs
 
@@ -39,9 +42,18 @@ object PlayerGroupChatUtils {
     // Use to signify the state of a player group chats limit
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 
+    // TODO : TEMPORARY CHAT IMPLEMENTATION FOR TESTING!
     // Function used to send message in a group chat
     fun chat(message: String, groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
-        // TODO : ADD IMPLEMENTATION
+        groupChat.playerList.forEach { gcMember ->
+            val gcMember = gcMember.player ?: return@forEach
+            gcMember.sendMessage("$GROUP_CHAT_COLOR[${groupChat.name}] ${player.name}: $message")
+        }
+    }
+
+    // Function to send 'player' coordinates in 'groupChat'
+    fun chatCoords(groupChat: PlayerGroupChat, player: Player, staffAction: Boolean = false) {
+        chat("${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}", groupChat, player, staffAction)
     }
 
     // Function that gets the smallest available ID (used when creating new GCs)
@@ -57,6 +69,12 @@ object PlayerGroupChatUtils {
 
         // Returns the smallest available Int
         return lastIndex + 1
+    }
+
+    // Function that looks for a group chat using an ID
+    fun getGCfromID(id: Int): PlayerGroupChat? {
+        for (groupChat in GROUP_CHATS) { if (groupChat.id == id) return groupChat }
+        return null // Return null if no group chat with 'id' found
     }
 
     // Function that gets all the group chats 'player' is in

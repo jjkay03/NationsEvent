@@ -1,20 +1,27 @@
 package com.jjkay03.nationsevent.group_chat_players
 
+import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.BYPASS_DISABLED_CHAT
 import org.bukkit.OfflinePlayer
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_STAFF_SPIES
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
 import kotlin.collections.set
 
 object PlayerGroupChatUtils {
 
     /*
-   ❌ chat : send message to all group chat members + spies (separate methods)
-       ❌ - chat to gc
-       ❌ - chat to spies
-       ❌ - [GC<ID>] <player>: <message>
+   ✅ chat : send message to all group chat members + spies (separate methods)
+       ✅ - chat to gc
+       ✅ - chat to spies
+       ✅ - [GC<ID>] <player>: <message>
 
    ✅ create gc : make a new group chat; prevent if already in one
    ✅ delete gc : delete group chat (if owner)
@@ -22,18 +29,18 @@ object PlayerGroupChatUtils {
    ✅ add to gc (playerList) : add a player to gc
    ✅ remove from gc (playerList) : remove a player from gc
 
-   ❌ coords gc : send your coords in gc chat
-   ❌ list gc members : send get group chat name in chat (of all gcs player is in)
+   ✅ coords gc : send your coords in gc chat
+   ⬜ list gc members : send get group chat name in chat (of all gcs player is in) | DO DIRECTLY IN COMMAND USING formatHoverableMessage()
 
    ✅ invite : invite a player to the gc
-   ❌ join gc : add yourself to a gc if you were invited
+   ⬜ join gc : add yourself to a gc if you were invited | DO DIRECTLY IN COMMAND USING addPlayerToGC
    ⬜ leave gc : leave current gc  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
    ⬜ kick gc : remove someone else from gc (if owner)  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
 
-   ❌ transfer gc : make a diff player the gc owner (if owner)
+   ⬜ transfer gc : make a diff player the gc owner (if owner) | DO DIRECTLY IN COMMAND USING groupChat.owner = newOwner
 
    ⬜ get owner : returns the owner  |  JUST USE "PlayerGroupChat.owner"
-   ❌ get group chat name : returns a component with "GC<ID>" that is hoverable, displaying all members
+   ✅ get group chat name : returns a component with "GC<ID>" that is hoverable, displaying all members
    ✅ get group chat from id : returns a group chat using an id
 
    ✅ all in one function to manage the multiple gcs : checks if player is in multiple gcs
@@ -45,18 +52,27 @@ object PlayerGroupChatUtils {
     // Use to signify the state of a player group chats limit
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 
-    // TODO : TEMPORARY CHAT IMPLEMENTATION FOR TESTING!
     // Function used to send message in a group chat
-    fun chat(message: String, groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
-        groupChat.playerList.forEach { gcMember ->
-            val gcMember = gcMember.player ?: return@forEach
-            gcMember.sendMessage("$GROUP_CHAT_COLOR[${groupChat.name}] ${player.name}: $message")
-        }
+    fun chat(groupChat: PlayerGroupChat, player: Player, message: String, staffAction: Boolean = false) {
+        // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
+        if (!player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
+
+        // Send message to GC members
+        Utils.sendMessageToPlayerList(groupChat.playerList, formatHoverableMessage("$GROUP_CHAT_COLOR[%gc] ${player.name}: $message", groupChat))
+
+        // Send message to Staff spying this GC
+        Utils.sendMessageToPlayerList(groupChat.spies, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", groupChat))
+
+        // Send message to Staff spying on all GCs
+        Utils.sendMessageToPlayerList(UNIVERSAL_STAFF_SPIES, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", groupChat))
+
+        // Log action
+        PlayerGroupChatLog.chatInGC(groupChat, player, message, staffAction)
     }
 
     // Function to send 'player' coordinates in 'groupChat'
     fun chatCoords(groupChat: PlayerGroupChat, player: Player, staffAction: Boolean = false) {
-        chat("${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}", groupChat, player, staffAction)
+        chat(groupChat, player, "${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}", staffAction)
     }
 
     // Function that gets the smallest available ID (used when creating new GCs)
@@ -212,5 +228,40 @@ object PlayerGroupChatUtils {
         }
     }
 
+    // Takes a string with format delimiter '%gc' and returns a component containing the string
+    // Replaces '%gc' with the group chat's name and displays the group chat's member list when hovered
+    // If 'isWholeMessageHoverable' is true, the entire message will be hoverable, otherwise just the '%gc' placeholder
+    fun formatHoverableMessage(message: String, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
 
+        // Separates the message with '%gc' as the delimiter and maps the strings to TextComponents
+        val msg = message.split("%gc").map { Component.text(it) }
+
+        // For each of the split strings above, appends it to 'texts' and the hoverable GC name component (unless it's the last iteration)
+        val texts = mutableListOf<Component>().apply {
+            msg.forEach {
+                this@apply.add(it)
+                if (msg.last() != it) this@apply.add(Component.text(groupChat.name).hoverEvent(getPlayerListHoverEvent(groupChat)))
+            }
+        }
+
+        // Joins all of the components created into one
+        val result = Component.text("").apply { texts.forEach { append(it) } }
+        if (isWholeMessageHoverable) result.hoverEvent(getPlayerListHoverEvent(groupChat))
+
+        // Returns a single component made up of the components created above
+        return Component.text("").apply { texts.forEach { append(it) } }
+    }
+
+    // Returns a hover event with the 'groupChat's' member list
+    fun getPlayerListHoverEvent(groupChat: PlayerGroupChat): HoverEvent<Component> {
+        return HoverEvent.showText(
+            Component.text("§aList of ${groupChat.name} members:\n\n").apply {
+                groupChat.playerList.forEach {
+                    append(Component.text(it.name!!))
+                    if (groupChat.owner == it) append(Component.text(" §6👑§r"))
+                    if (groupChat.playerList.last() != it) append(Component.text(", "))
+                }
+            }
+        )
+    }
 }

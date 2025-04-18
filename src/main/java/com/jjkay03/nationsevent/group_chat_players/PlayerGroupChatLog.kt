@@ -31,4 +31,8 @@ object PlayerGroupChatLog {
     fun invitePlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer) {
         log("${groupChat.owner} INVITED ${player.name} to group chat ${groupChat.name}")
     }
+
+    fun chatInGC(groupChat: PlayerGroupChat, player: OfflinePlayer, message: String, staffAction: Boolean = false) {
+        log("[${groupChat.name}] ${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else ""} ${player.name}: $message")
+    }
 }

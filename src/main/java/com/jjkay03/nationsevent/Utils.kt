@@ -1,9 +1,11 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.DisabledCommands
+import net.kyori.adventure.text.Component
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.OfflinePlayer
 import org.bukkit.Sound
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandMap
@@ -117,5 +119,10 @@ object Utils {
             indexes.forEach { result.delete(it, it+2) }
             return result.toString()
         }
+    }
+
+    // Function that sends a 'message' to all online players in 'receivers'
+    fun sendMessageToPlayerList(receivers: List<OfflinePlayer>, message: Component) {
+        receivers.filter { it.isOnline }.forEach { it.player!!.sendMessage(message) }
     }
 }

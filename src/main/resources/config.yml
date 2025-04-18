@@ -56,10 +56,14 @@ setting-limit-enchant: true
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
-player-group-chats-enable: false
+player-group-chat-enable: true
+
+# Maximum amount of GCs a player can join
+player-group-chat-limit: 3
 
 # If group chats can be used while chat is disabled
-player-group-chats-bypass-disabled-chat: false
+player-group-chat-bypass-disabled-chat: true
+
 
 # Colors for player group chat messages
 player-group-chat-color: "§7"

@@ -78,7 +78,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function that gets all the group chats 'player' is in
-    fun getPlayerGC(player: OfflinePlayer): List<PlayerGroupChat> {
+    fun getPlayerGCs(player: OfflinePlayer): List<PlayerGroupChat> {
         val gcList = mutableListOf<PlayerGroupChat>()
         GROUP_CHATS.forEach { if (it.playerList.contains(player)) gcList.add(it) }
         return gcList
@@ -106,7 +106,7 @@ object PlayerGroupChatUtils {
     fun addPlayerToGC(groupChat: PlayerGroupChat, players: List<OfflinePlayer>, staffAction: Boolean = false) {
         players.forEach { player ->
             // End if player already in gc
-            if (groupChat.playerList.contains(player)) return
+            if (groupChat.playerList.contains(player)) return@forEach
 
             // Add player
             groupChat.playerList.add(player)
@@ -120,13 +120,13 @@ object PlayerGroupChatUtils {
     fun removePlayerFromGC(groupChat: PlayerGroupChat, players: List<OfflinePlayer>, staffAction: Boolean = false) {
         players.forEach { player ->
             // End if player not in gc
-            if (!groupChat.playerList.contains(player)) return
+            if (!groupChat.playerList.contains(player)) return@forEach
 
             // Remove player
             groupChat.playerList.remove(player)
 
             // Delete the GC if there are no more players
-            if (groupChat.playerList.isEmpty()) { deleteGC(groupChat); return }
+            if (groupChat.playerList.isEmpty()) { deleteGC(groupChat); return@forEach }
 
             // If 'player' was the owner, sets the first in 'playerList' as the new owner
             if (groupChat.owner == player) groupChat.owner = groupChat.playerList.first()
@@ -138,7 +138,7 @@ object PlayerGroupChatUtils {
 
     // Function that removes player from a given amount of group chats
     fun removePlayerFromAmountOfGC(player: OfflinePlayer, amount: Int) {
-        val playerGroupChats = getPlayerGC(player)
+        val playerGroupChats = getPlayerGCs(player)
         playerGroupChats.takeLast(amount).reversed().forEach { groupChat ->
             removePlayerFromGC(groupChat, listOf(player))
         }
@@ -155,7 +155,7 @@ object PlayerGroupChatUtils {
 
     // Function that checks if player is exceeding the group chat limit
     fun checkPlayerGCLimit(player: OfflinePlayer): LimitState {
-        val playerGroupChats = getPlayerGC(player)
+        val playerGroupChats = getPlayerGCs(player)
 
         // If player is under the group chat limit -> return state
         if (playerGroupChats.size < GROUP_CHAT_LIMIT) return LimitState.VALID

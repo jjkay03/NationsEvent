@@ -8,18 +8,18 @@ import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
-object PlayerGroupChatUtils {
+object Deprecated_PlayerGroupChatUtils {
 
     // Function to get group chat ID of a player
     fun getGroupChatID(player: OfflinePlayer): Int {
-        PlayerGroupChatManager.Companion.GROUP_CHATS.entries.forEach { (k, v) -> if (v.contains(player)) return k }
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.entries.forEach { (k, v) -> if (v.contains(player)) return k }
         return -1
     }
 
     // Function to returns the owner of a group chat
     fun getOwner(groupChatID: Int): OfflinePlayer? {
-        if (!PlayerGroupChatManager.Companion.GROUP_CHATS.containsKey(groupChatID)) { return null }
-        return PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.first()
+        if (!Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.containsKey(groupChatID)) { return null }
+        return Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.first()
     }
 
     // Function to create a group chat with player as owner
@@ -31,16 +31,16 @@ object PlayerGroupChatUtils {
 
         // Gets the first non-used int to become the index
         var lastIndex = -1
-        for (index: Int in PlayerGroupChatManager.Companion.GROUP_CHATS.keys) { if (index - lastIndex != 1) { break }; lastIndex += 1 }
+        for (index: Int in Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.keys) { if (index - lastIndex != 1) { break }; lastIndex += 1 }
 
         // Creation of the group chat
-        PlayerGroupChatManager.Companion.GROUP_CHATS[lastIndex + 1] = mutableListOf(owner)
-        PlayerGroupChatManager.Companion.INVITES[lastIndex + 1] = mutableListOf()
-        PlayerGroupChatManager.Companion.STAFF_SPIES[lastIndex + 1] = mutableListOf()
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[lastIndex + 1] = mutableListOf(owner)
+        Deprecated_PlayerGroupChatManager.Companion.INVITES[lastIndex + 1] = mutableListOf()
+        Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[lastIndex + 1] = mutableListOf()
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
-            "${if (adminForce) " ${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS}" else owner.name} CREATED group chat GC${lastIndex+1}"
+            "${if (adminForce) " ${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS}" else owner.name} CREATED group chat GC${lastIndex+1}"
         )
 
         return true to lastIndex + 1
@@ -51,16 +51,16 @@ object PlayerGroupChatUtils {
         val groupChatID = getGroupChatID(owner)
         if (!adminForce && !isGroupChatOwner(owner)) return false to groupChatID
 
-        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by " + if (adminForce) PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX else "the owner")
+        sendInGroupChat(getGroupChatID(owner), "This group chat was deleted by " + if (adminForce) Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX else "the owner")
 
         // Deletion of the group chat
-        PlayerGroupChatManager.Companion.GROUP_CHATS.remove(groupChatID)
-        PlayerGroupChatManager.Companion.INVITES.remove(groupChatID)
-        PlayerGroupChatManager.Companion.STAFF_SPIES.remove(groupChatID)
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.remove(groupChatID)
+        Deprecated_PlayerGroupChatManager.Companion.INVITES.remove(groupChatID)
+        Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES.remove(groupChatID)
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
-            "${if (adminForce) " ${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS}" else owner.name} DELETED group chat GC$groupChatID"
+            "${if (adminForce) " ${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS}" else owner.name} DELETED group chat GC$groupChatID"
         )
 
         return true to groupChatID
@@ -68,7 +68,7 @@ object PlayerGroupChatUtils {
 
     // Function to get a list of all players in a group chat
     private fun getPlayerList(groupChatID: Int): MutableList<OfflinePlayer> {
-        return PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID] ?: mutableListOf()
+        return Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID] ?: mutableListOf()
     }
 
     // Function to get a list of all players in a group chat
@@ -84,11 +84,11 @@ object PlayerGroupChatUtils {
         if (invited.hasPermission(Saves.PERM_STAFF) && !owner.hasPermission(Saves.PERM_STAFF)) { owner.sendMessage("§cYou can not invite staff!"); return }
 
         val groupChatID = getGroupChatID(owner)
-        PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.add(invited)
+        Deprecated_PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.add(invited)
 
         // Notify players
         invited.sendMessage(
-            Component.text("${PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR}You have been invited to group chat GC§f$groupChatID by ${owner.name} §a[ACCEPT]")
+            Component.text("${Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR}You have been invited to group chat GC§f$groupChatID by ${owner.name} §a[ACCEPT]")
                 .clickEvent(ClickEvent.runCommand("/groupchat join ${owner.name}"))
                 .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§aClick to join ${owner.name}'s group chat!")))
         )
@@ -103,21 +103,21 @@ object PlayerGroupChatUtils {
     fun joinGroupChat(player: OfflinePlayer, inviteSender: OfflinePlayer, adminForce: Boolean = false): Pair<Boolean, Int> {
         // Check if player has invite to group
         val groupChatID = getGroupChatID(inviteSender)
-        if (!PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.contains(player) && !adminForce) { return false to groupChatID }
+        if (!Deprecated_PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.contains(player) && !adminForce) { return false to groupChatID }
 
         // Forces 'player' to join the group chat owned by 'inviteSender' even if 'player' is already in one
         if (adminForce) { leaveGroupChat(player, adminForce = true) }
 
         // Add player to group and remove from invites list
-        PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.add(player)
-        PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.remove(player)
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.add(player)
+        Deprecated_PlayerGroupChatManager.Companion.INVITES[groupChatID]!!.remove(player)
 
         // Notify players in group of who joined
         sendInGroupChat(groupChatID, if (adminForce) "${player.name} was put into this group chat by Staff" else "${player.name} joined this group chat")
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
-            if (adminForce) "${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY ADDED ${player.name} to ${inviteSender.name}'s group GC${groupChatID}"
+            if (adminForce) "${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY ADDED ${player.name} to ${inviteSender.name}'s group GC${groupChatID}"
             else "${player.name} JOINED ${inviteSender.name}'s group GC${groupChatID}"
         )
 
@@ -135,15 +135,15 @@ object PlayerGroupChatUtils {
         if (!isInGroupChat(groupChatID, player)) return false to -1
 
         // Remove player from group chat. Delete if the player is the last member
-        if (PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.size == 1) deleteGroupChat(player)
-        else PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.remove(player)
+        if (Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.size == 1) deleteGroupChat(player)
+        else Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.remove(player)
 
         // Notify players in group chat of the player that left
         sendInGroupChat(groupChatID, if (adminForce) "${player.name} was removed from this group chat by Staff" else "${player.name} left this group chat")
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
-            if (adminForce || kicker != null) "${if (adminForce) "${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY" else kicker!!.name} KICKED ${player.name} from GC$groupChatID"
+            if (adminForce || kicker != null) "${if (adminForce) "${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY" else kicker!!.name} KICKED ${player.name} from GC$groupChatID"
             else "${player.name} LEFT from GC${groupChatID}"
         )
 
@@ -155,24 +155,24 @@ object PlayerGroupChatUtils {
         if (!hasOnlinePlayers(groupChatID)) return
 
         // Send message to all players in group chat
-        PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.filter { it.isOnline }.forEach { it.player!!.sendMessage(
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.filter { it.isOnline }.forEach { it.player!!.sendMessage(
             Component.text()
-                .append(buildGroupChatMessagePrefix(groupChatID, PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR!!))
-                .append(Component.text("${if (isStaff) " ${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR} $message"))
+                .append(buildGroupChatMessagePrefix(groupChatID, Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR!!))
+                .append(Component.text("${if (isStaff) " ${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR} $message"))
         ) }
 
         // Send message to staff spies spying on this specific group chat
-        PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) }.forEach { it.player!!.sendMessage(
+        Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) }.forEach { it.player!!.sendMessage(
             Component.text()
-                .append(buildGroupChatMessagePrefix(groupChatID, PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR!!))
-                .append(Component.text("${if (isStaff) " ${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR} $message"))
+                .append(buildGroupChatMessagePrefix(groupChatID, Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR!!))
+                .append(Component.text("${if (isStaff) " ${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR} $message"))
         ) }
 
         // Send message to staff spies spying on ALL group chats
-        PlayerGroupChatManager.Companion.STAFF_SPIES[-1]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) && !PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.contains(it) }.forEach { it.player!!.sendMessage(
+        Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[-1]!!.filter { it.isOnline && !isInGroupChat(groupChatID, it) && !Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.contains(it) }.forEach { it.player!!.sendMessage(
             Component.text()
-                .append(buildGroupChatMessagePrefix(groupChatID, PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR!!))
-                .append(Component.text("${if (isStaff) " ${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR} $message"))
+                .append(buildGroupChatMessagePrefix(groupChatID, Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR!!))
+                .append(Component.text("${if (isStaff) " ${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX}" else ""}${Deprecated_PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR} $message"))
         ) }
 
         // Log message to log file
@@ -182,7 +182,7 @@ object PlayerGroupChatUtils {
     // Function to send a message to all player in a group chat
     fun sendInGroupChat(player: Player, message: String) {
         if (!hasGroupChat(player)) { player.sendMessage("§cYou are not in a group chat!"); return }
-        if (!PlayerGroupChatManager.Companion.BYPASS_DISABLED_CHAT && !player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cChat is disabled!"); return }
+        if (!Deprecated_PlayerGroupChatManager.Companion.BYPASS_DISABLED_CHAT && !player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cChat is disabled!"); return }
         sendInGroupChat(getGroupChatID(player), "${player.name}: $message")
     }
 
@@ -198,13 +198,13 @@ object PlayerGroupChatUtils {
         }
 
         // Switch group chat owner by moving the new owner to the first position of the list
-        val index = PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.indexOf(newOwner)
-        PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![index] = PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![0]
-        PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![0] = newOwner
+        val index = Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.indexOf(newOwner)
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![index] = Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![0]
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!![0] = newOwner
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC",
-            "${if (adminForce) "${PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY" else previousOwner.name} TRANSFERRED GC$groupChatID to ${newOwner.name}"
+            "${if (adminForce) "${Deprecated_PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS} FORCIBLY" else previousOwner.name} TRANSFERRED GC$groupChatID to ${newOwner.name}"
         )
 
         return true to groupChatID
@@ -215,8 +215,8 @@ object PlayerGroupChatUtils {
         if (!isGroupChat(groupChatID) && groupChatID != -1) return false to groupChatID
 
         // Adds the spy to the spy map
-        if (!PlayerGroupChatManager.Companion.STAFF_SPIES.containsKey(groupChatID)) PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID] = mutableListOf(player)
-        else PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.add(player)
+        if (!Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES.containsKey(groupChatID)) Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID] = mutableListOf(player)
+        else Deprecated_PlayerGroupChatManager.Companion.STAFF_SPIES[groupChatID]!!.add(player)
 
         // Log action
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", "${player.name} is SPYING in GC$groupChatID")
@@ -226,7 +226,7 @@ object PlayerGroupChatUtils {
 
     // Function to get invites of a player
     fun getInvites(player: OfflinePlayer): List<OfflinePlayer> {
-        return PlayerGroupChatManager.Companion.INVITES.filter { it.value.contains(player) }.values.map { it.first() }
+        return Deprecated_PlayerGroupChatManager.Companion.INVITES.filter { it.value.contains(player) }.values.map { it.first() }
     }
 
     // Function to check if a player is a group chat in general
@@ -242,18 +242,18 @@ object PlayerGroupChatUtils {
     // Function to check if a player is group chat owner
     fun isGroupChatOwner(player: OfflinePlayer): Boolean {
         if (!hasGroupChat(player)) return false
-        return PlayerGroupChatManager.Companion.GROUP_CHATS[getGroupChatID(player)]!![0] == player
+        return Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[getGroupChatID(player)]!![0] == player
     }
 
     // Function that check if an ID has a group chat associated with it
     fun isGroupChat(groupChatID: Int): Boolean {
-        return PlayerGroupChatManager.Companion.GROUP_CHATS.containsKey(groupChatID)
+        return Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.containsKey(groupChatID)
     }
 
     // Function that checks if a group chat has any online players
     private fun hasOnlinePlayers(groupChatID: Int): Boolean {
         if (!isGroupChat(groupChatID)) return false
-        PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.forEach { if (it.isOnline) return true }
+        Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS[groupChatID]!!.forEach { if (it.isOnline) return true }
         return false
     }
 

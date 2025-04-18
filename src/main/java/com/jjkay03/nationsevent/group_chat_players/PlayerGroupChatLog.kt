@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer
 object PlayerGroupChatLog {
 
     private fun log(msg: String) {
-        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "Player GC", msg)
+        LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "PGC", msg)
     }
 
     fun createGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {

@@ -38,7 +38,7 @@ object PlayerGroupChatUtils {
 
      */
 
-    // Get the smallest available ID (used when creating new GCs)
+    // Function that gets the smallest available ID (used when creating new GCs)
     fun getNewGCID() : Int {
 
         // Gets the first non-used int to become the index
@@ -54,14 +54,14 @@ object PlayerGroupChatUtils {
         return lastIndex + 1
     }
 
-    // Gets all the group chats 'player' is in
+    // Function that gets all the group chats 'player' is in
     fun getPlayerGC(player: OfflinePlayer): List<PlayerGroupChat> {
         val gcList = mutableListOf<PlayerGroupChat>()
         GROUP_CHATS.forEach { if (it.playerList.contains(player)) gcList.add(it) }
         return gcList
     }
 
-    // Creates a new group chat with 'owner' as its owner and 'players' as the players
+    // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
     fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), staffAction: Boolean = false) : PlayerGroupChat {
         val groupChat = PlayerGroupChat(getNewGCID(), owner)
         groupChat.playerList.addAll(players)
@@ -71,7 +71,7 @@ object PlayerGroupChatUtils {
         return groupChat
     }
 
-    // Deletes a group chat
+    // Function to deletes a group chat
     fun deleteGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {
         GROUP_CHATS.remove(groupChat)
 
@@ -79,7 +79,7 @@ object PlayerGroupChatUtils {
         PlayerGroupChatLog.deleteGC(groupChat, staffAction)
     }
 
-    // Removes 'player' from the given 'groupChat'
+    // Function to removes 'player' from the given 'groupChat'
     fun removePlayerFromGC(groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
         groupChat.playerList.remove(player)
 

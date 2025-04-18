@@ -48,7 +48,7 @@ class Saves() {
         // FILES - Economy
         val LOG_FILE_NAME_ECONOMY = LogsManager.generateLogFileName(); val LOG_FILE_ECONOMY = File(DIR_ECONOMY_LOGS, LOG_FILE_NAME_ECONOMY) // LOG
         // FILES - Player Group Chat
-        const val FILE_NAME_PLAYER_GC = "player_group_chats.yml"; val FILE_PLAYER_GROUP_CHATS = File(DIR_PLAYER_GC, FILE_NAME_PLAYER_GC)
+        const val FILE_NAME_PLAYER_GC = "player_group_chats.json"; val FILE_PLAYER_GROUP_CHATS = File(DIR_PLAYER_GC, FILE_NAME_PLAYER_GC)
         val LOG_FILE_NAME_PLAYER_GC = LogsManager.generateLogFileName(); val LOG_FILE_PLAYER_GC = File(DIR_PLAYER_GC_LOGS, LOG_FILE_NAME_PLAYER_GC) // LOG
 
         // SCOREBOARDS

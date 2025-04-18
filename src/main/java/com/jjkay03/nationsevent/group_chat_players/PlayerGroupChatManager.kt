@@ -1,11 +1,13 @@
 package com.jjkay03.nationsevent.group_chat_players
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.jjkay03.nationsevent.FilesManager
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
-import com.jjkay03.nationsevent.group_chat_players.commands.AdminGroupChatCommand
-import com.jjkay03.nationsevent.group_chat_players.commands.PlayerGroupChatCommand
+import com.jjkay03.nationsevent.group_chat_players.commands.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.server.PluginDisableEvent
@@ -25,9 +27,6 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("player-group-chat-staff-msg-prefix")
         val STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(STAFF_MESSAGE_PREFIX)
 
-        // Log type
-        const val LOG_TYPE = "Player GC"
-
         // Variables
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
@@ -39,11 +38,12 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         else Utils.disableCommands(COMMANDS, "Players Group Chats")
     }
 
+    // TODO: DISABLED TEMP BECAUSE NOT TESTED
     // Run on plugin disable to save group chats to yml
-    @EventHandler
-    fun onPluginDisable(event: PluginDisableEvent) { saveGroupChats() }
+    //@EventHandler
+    //fun onPluginDisable(event: PluginDisableEvent) { saveGCToFile(Saves.FILE_PLAYER_GROUP_CHATS, GROUP_CHATS) }
 
-
+    // Function to load the player group chat
     fun loadGroupChats() {
         // Log message
         NationsEvent.INSTANCE.logger.info("Loading player group chats...")
@@ -65,15 +65,26 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)
 
+        // TODO: DISABLED TEMP BECAUSE NOT TESTED
         // Load saved player group chats from yml file
-        loadGroupChatsFromFile(Saves.FILE_PLAYER_GROUP_CHATS)
+        //GROUP_CHATS.addAll(importGCFromFile(Saves.FILE_PLAYER_GROUP_CHATS))
     }
 
-    fun saveGroupChats() {
-        // TODO
+    // TODO: NEEDS TESTING
+    // Function to save group chats to json file
+    fun saveGCToFile(file: File, groupChatsList: List<PlayerGroupChat>) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val json = gson.toJson(groupChatsList)
+        file.writeText(json)
     }
 
-    fun loadGroupChatsFromFile(file: File) {
-        // TODO
+    // TODO: NEEDS TESTING
+    // Function to import group chats from json file
+    fun importGCFromFile(file: File): List<PlayerGroupChat> {
+        val gson = Gson()
+        if (!file.exists()) return emptyList()
+        val reader = file.bufferedReader()
+        val type = object : TypeToken<List<PlayerGroupChat>>() {}.type
+        return gson.fromJson(reader, type)
     }
 }

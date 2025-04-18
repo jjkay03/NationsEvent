@@ -9,7 +9,7 @@ import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
-class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
+class Deprecated_PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     companion object {
         private val OPTIONS = listOf("create", "join")
@@ -42,18 +42,18 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
         when (args[0].lowercase()) {
 
             // COORDS
-            "coords" -> PlayerGroupChatUtils.sendInGroupChat(player, "${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}")
+            "coords" -> Deprecated_PlayerGroupChatUtils.sendInGroupChat(player, "${player.location.blockX} / ${player.location.blockY} / ${player.location.blockZ}")
 
             // CREATE
             "create" -> {
-                val result = PlayerGroupChatUtils.createGroupChat(player)
+                val result = Deprecated_PlayerGroupChatUtils.createGroupChat(player)
                 if (!result.first) { player.sendMessage("§cYou are already in a group chat! Leave it or delete it to make a new one"); return true }
                 player.sendMessage("§aCreated group chat GC${result.second}")
             }
 
             // DELETE
             "delete" -> {
-                val result = PlayerGroupChatUtils.deleteGroupChat(player)
+                val result = Deprecated_PlayerGroupChatUtils.deleteGroupChat(player)
                 if (!result.first) { player.sendMessage("§cYou are not the owner of this group chat!") }
                 player.sendMessage("§aDeleted group chat GC${result.second}")
             }
@@ -63,7 +63,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 if (args.size < 2) { player.sendMessage("§cUsage: /$label invite <player>"); return true }
                 val invited = Bukkit.getPlayerExact(args[1])
                 if (invited == null) { player.sendMessage("§cThis player is offline!"); return true }
-                PlayerGroupChatUtils.inviteToGroupChat(player, invited)
+                Deprecated_PlayerGroupChatUtils.inviteToGroupChat(player, invited)
             }
 
             // JOIN
@@ -73,7 +73,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val inviteSender = Bukkit.getPlayerExact(args[1])
                 if (inviteSender == null) { player.sendMessage("§cThis player is offline!"); return true }
 
-                val result = PlayerGroupChatUtils.joinGroupChat(player, inviteSender)
+                val result = Deprecated_PlayerGroupChatUtils.joinGroupChat(player, inviteSender)
                 if (!result.first) { player.sendMessage("§cYou have not received an invite to ${inviteSender.name}'s group chat GC${result.second}!"); return true }
 
                 player.sendMessage("§aYou have joined ${inviteSender.name}'s group chat ")
@@ -86,7 +86,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val toKick = Bukkit.getPlayerExact(args[1])
                 if (toKick == null) { player.sendMessage("§cThis player is offline!"); return true }
 
-                val result = PlayerGroupChatUtils.leaveGroupChat(toKick, player)
+                val result = Deprecated_PlayerGroupChatUtils.leaveGroupChat(toKick, player)
 
                 if (!result.first) {
                     if (result.second != -1) { player.sendMessage("§cYou are not the owner of this group chat!") }
@@ -99,19 +99,19 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // LEAVE
             "leave" -> {
-                val result = PlayerGroupChatUtils.leaveGroupChat(player)
+                val result = Deprecated_PlayerGroupChatUtils.leaveGroupChat(player)
                 if (!result.first) { player.sendMessage("§cYou are not in a group chat!"); return true }
                 player.sendMessage("§aYou have left group chat GC${result.second}}")
             }
 
             // LIST
             "list" -> {
-                if (!PlayerGroupChatUtils.hasGroupChat(player)) { player.sendMessage("§cYou are not in a group chat!"); return true }
+                if (!Deprecated_PlayerGroupChatUtils.hasGroupChat(player)) { player.sendMessage("§cYou are not in a group chat!"); return true }
 
-                val groupChatID = PlayerGroupChatUtils.getGroupChatID(player)
+                val groupChatID = Deprecated_PlayerGroupChatUtils.getGroupChatID(player)
                 player.sendMessage(Component
                     .text("§aList of §2§nGC$groupChatID§a members §8(hover)")
-                    .hoverEvent(PlayerGroupChatUtils.createGroupChatMessageHover(groupChatID))
+                    .hoverEvent(Deprecated_PlayerGroupChatUtils.createGroupChatMessageHover(groupChatID))
                 )
             }
 
@@ -122,7 +122,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val newOwner = Bukkit.getPlayerExact(args[1])
                 if (newOwner == null) { player.sendMessage("§cThis player is offline!"); return true }
 
-                val result = PlayerGroupChatUtils.setOwner(player, newOwner)
+                val result = Deprecated_PlayerGroupChatUtils.setOwner(player, newOwner)
 
                 if (result.first) {
                     if (result.second != -1) {
@@ -145,7 +145,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val message = StringBuilder(args[startIndex])
                 for (i in startIndex + 1..< args.size) {message.append(" ").append(args[i])}
 
-                PlayerGroupChatUtils.sendInGroupChat(player, message.toString())
+                Deprecated_PlayerGroupChatUtils.sendInGroupChat(player, message.toString())
             }
         }
 
@@ -156,13 +156,13 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
         if (sender !is Player) return listOf()
         return when (args.size) {
-            1 -> OPTIONS.plus(if (PlayerGroupChatUtils.hasGroupChat(sender)) GROUP_OPTIONS else listOf())
-                .plus(if (PlayerGroupChatUtils.isGroupChatOwner(sender)) OWNER_OPTIONS else listOf())
+            1 -> OPTIONS.plus(if (Deprecated_PlayerGroupChatUtils.hasGroupChat(sender)) GROUP_OPTIONS else listOf())
+                .plus(if (Deprecated_PlayerGroupChatUtils.isGroupChatOwner(sender)) OWNER_OPTIONS else listOf())
                 .filter { it.startsWith(args[0], true) }.ifEmpty { listOf("<message>") }
             2 -> return when (args[0].lowercase()) {
                 "invite" -> Bukkit.getOnlinePlayers().minus(sender).map { it.name }.filter { it.startsWith(args[1], true) }
-                "join" -> PlayerGroupChatUtils.getInvites(sender).map { it.name!! }
-                "kick", "setowner" -> PlayerGroupChatUtils.getPlayerList(sender).minus(sender).map { it.name!! }
+                "join" -> Deprecated_PlayerGroupChatUtils.getInvites(sender).map { it.name!! }
+                "kick", "setowner" -> Deprecated_PlayerGroupChatUtils.getPlayerList(sender).minus(sender).map { it.name!! }
                 else -> listOf()
             }
             else -> listOf()

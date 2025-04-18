@@ -26,6 +26,16 @@ resourcepacks-players-exempt:
 
 
 
+# == Gameplay settings ================================================================================================
+
+# Disabled crafts (managed from Saves class)
+setting-no-craft: true
+
+# Limited enchants (managed from Saves class)
+setting-limit-enchant: true
+
+
+
 # == Economy ==========================================================================================================
 
 # Economy feature toggle
@@ -44,15 +54,6 @@ economy-update-total-balances-interval: 1
 
 
 
-# == Gameplay settings ================================================================================================
-# Disabled crafts (managed from Saves class)
-setting-no-craft: true
-
-# Limited enchants (managed from Saves class)
-setting-limit-enchant: true
-
-
-
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
@@ -64,7 +65,6 @@ player-group-chat-limit: 3
 # If group chats can be used while chat is disabled
 player-group-chat-bypass-disabled-chat: true
 
-
 # Colors for player group chat messages
 player-group-chat-color: "§7"
 player-group-chat-spy-color: "§8"
@@ -73,6 +73,7 @@ player-group-chat-staff-msg-prefix: "§6[STAFF]"
 
 
 # == Features toggle ==================================================================================================
+
 # Make players drop meet on death
 feature-meat-player-death: false
 
@@ -91,6 +92,7 @@ feature-auto-restock-villagers: false
 
 
 # == Patches ==========================================================================================================
+
 # Prevent players from block glitching
 patch-anti-block-glitching: false
 

@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.UUID
 
-class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
+class Deprecated_PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
 
     companion object {
         // Get config settings
@@ -55,7 +55,7 @@ class PlayerGroupChatManager (private val plugin: JavaPlugin) : Listener {
         FilesManager.createFile(Saves.FILE_PLAYER_GROUP_CHATS)
 
         // Class variables
-        val playerGroupChatCommand = PlayerGroupChatCommand()
+        val playerGroupChatCommand = Deprecated_PlayerGroupChatCommand()
         val adminGroupChatCommand = AdminGroupChatCommand()
 
         // Register commands

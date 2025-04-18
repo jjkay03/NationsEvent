@@ -41,14 +41,14 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Get group chat ID
                 val target = args[1].toIntOrNull()
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || !Deprecated_PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 // Gets the player that is to join the GC
                 val player = Bukkit.getOfflinePlayerIfCached(args[2])
                 if (player == null) { sender.sendMessage("§c\"${args[2]}\" is not a cached player!"); return true }
 
                 // Forces 'player' to join the GC
-                PlayerGroupChatUtils.joinGroupChat(player, PlayerGroupChatUtils.getOwner(target)!!, true)
+                Deprecated_PlayerGroupChatUtils.joinGroupChat(player, Deprecated_PlayerGroupChatUtils.getOwner(target)!!, true)
                 if (player.isOnline) { player.player!!.sendMessage("§aYou were forcefully put into GC${target} by Staff!") }
 
                 sender.sendMessage("§aForced ${player.name} to join GC${target}")
@@ -60,13 +60,13 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Get group chat ID
                 val target = args[1].toIntOrNull()
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || !Deprecated_PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 // Get message to send in GC
                 val message = StringBuilder()
                 for (i in 2..<args.size) { message.append(args[i]); if (i != args.size - 1) message.append(" ") }
 
-                PlayerGroupChatUtils.sendInGroupChat(target, "${sender.name}: $message", true)
+                Deprecated_PlayerGroupChatUtils.sendInGroupChat(target, "${sender.name}: $message", true)
             }
 
             // CREATE
@@ -94,8 +94,8 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 }
 
                 // Create the group chat and put the players in
-                val result = PlayerGroupChatUtils.createGroupChat(owner, true)
-                targets.forEach { PlayerGroupChatUtils.joinGroupChat(it, owner, true) }
+                val result = Deprecated_PlayerGroupChatUtils.createGroupChat(owner, true)
+                targets.forEach { Deprecated_PlayerGroupChatUtils.joinGroupChat(it, owner, true) }
 
                 sender.sendMessage("§aCreated group chat GC${result.second}")
             }
@@ -107,10 +107,10 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Get group chat ID
                 val target = args[1].toIntOrNull()
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || !Deprecated_PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 // Delete the group chat
-                val result = PlayerGroupChatUtils.deleteGroupChat(PlayerGroupChatUtils.getOwner(target)!!, true)
+                val result = Deprecated_PlayerGroupChatUtils.deleteGroupChat(Deprecated_PlayerGroupChatUtils.getOwner(target)!!, true)
                 sender.sendMessage("§aDeleted group chat GC${result.second}")
             }
 
@@ -123,12 +123,12 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 val player = Bukkit.getOfflinePlayerIfCached(args[1])
                 if (player == null) { sender.sendMessage("§c\"${args[1]}\" is not a cached player!"); return true }
 
-                if (!PlayerGroupChatUtils.hasGroupChat(player)) { sender.sendMessage("§cThis player is not in a group chat!"); return true }
+                if (!Deprecated_PlayerGroupChatUtils.hasGroupChat(player)) { sender.sendMessage("§cThis player is not in a group chat!"); return true }
 
                 // Sends a hoverable message with the specified player's GC
                 sender.sendMessage(Component
-                    .text("§a${player.name} is in §2§nGC${PlayerGroupChatUtils.getGroupChatID(player)}§a §8(hover)")
-                    .hoverEvent(PlayerGroupChatUtils.createGroupChatMessageHover(PlayerGroupChatUtils.getGroupChatID(player)))
+                    .text("§a${player.name} is in §2§nGC${Deprecated_PlayerGroupChatUtils.getGroupChatID(player)}§a §8(hover)")
+                    .hoverEvent(Deprecated_PlayerGroupChatUtils.createGroupChatMessageHover(Deprecated_PlayerGroupChatUtils.getGroupChatID(player)))
                 )
             }
 
@@ -142,7 +142,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 if (player == null) { sender.sendMessage("§c\"${args[1]}\" is not a cached player!"); return true }
 
                 // Forces 'player' to be kicked from whatever GC they're in
-                val result = PlayerGroupChatUtils.leaveGroupChat(player, adminForce = true)
+                val result = Deprecated_PlayerGroupChatUtils.leaveGroupChat(player, adminForce = true)
 
                 // Command feedback
                 if (result.first) {
@@ -159,12 +159,12 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Get group chat ID
                 val target = args[1].toIntOrNull()
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || !Deprecated_PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 // Sends a hoverable message with the specified player's GC
                 sender.sendMessage(Component
                     .text("§aList of §2§nGC$target§a members §8(hover)")
-                    .hoverEvent(PlayerGroupChatUtils.createGroupChatMessageHover(target))
+                    .hoverEvent(Deprecated_PlayerGroupChatUtils.createGroupChatMessageHover(target))
                 )
             }
 
@@ -173,9 +173,9 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Gets a message with hoverable text for each existing group chat
                 val message = Component.text().append(Component.text("§aList of all group chats §8(hover)§a: "))
-                PlayerGroupChatManager.Companion.GROUP_CHATS.toSortedMap().forEach {
-                    message.append(Component.text("§2§nGC${it.key}").hoverEvent(PlayerGroupChatUtils.createGroupChatMessageHover(it.key)))
-                    if (it.key != PlayerGroupChatManager.Companion.GROUP_CHATS.size - 1) { message.append(Component.text("§a, ")) }
+                Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.toSortedMap().forEach {
+                    message.append(Component.text("§2§nGC${it.key}").hoverEvent(Deprecated_PlayerGroupChatUtils.createGroupChatMessageHover(it.key)))
+                    if (it.key != Deprecated_PlayerGroupChatManager.Companion.GROUP_CHATS.size - 1) { message.append(Component.text("§a, ")) }
                 }
 
                 // Sends the list created above with intermediate lines
@@ -191,16 +191,16 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Get group chat ID
                 val target = args[1].toIntOrNull()
-                if (target == null || !PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || !Deprecated_PlayerGroupChatUtils.isGroupChat(target)) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
                 // Gets the player that is to become the new owner
                 val player = Bukkit.getOfflinePlayerIfCached(args[2])
                 if (player == null) { sender.sendMessage("§c\"${args[2]}\" is not a cached player!"); return true }
 
-                val owner = PlayerGroupChatUtils.getOwner(target)!!
+                val owner = Deprecated_PlayerGroupChatUtils.getOwner(target)!!
 
                 // Sets the new owner of 'owner's' group chat as 'player'
-                PlayerGroupChatUtils.setOwner(owner, player, true)
+                Deprecated_PlayerGroupChatUtils.setOwner(owner, player, true)
                 sender.sendMessage("§aSet ${player.name} as the new owner of GC${target}")
                 if (owner.isOnline) owner.player!!.sendMessage("§cYou are no longer your group chat's owner!")
             }
@@ -214,9 +214,9 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 if (args.size > 1) { target = args[1].toIntOrNull() }
 
                 // Get group chat ID
-                if (target == null || (!PlayerGroupChatUtils.isGroupChat(target)) && target != -1) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
+                if (target == null || (!Deprecated_PlayerGroupChatUtils.isGroupChat(target)) && target != -1) { sender.sendMessage("§cGroup chat ID does not exist!"); return true }
 
-                PlayerGroupChatUtils.setSpy(sender, target)
+                Deprecated_PlayerGroupChatUtils.setSpy(sender, target)
                 sender.sendMessage("§aNow spying on GC$target")
             }
         }

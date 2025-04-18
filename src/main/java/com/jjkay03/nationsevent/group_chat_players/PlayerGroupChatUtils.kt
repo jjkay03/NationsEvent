@@ -85,12 +85,18 @@ object PlayerGroupChatUtils {
     }
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
-    fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), staffAction: Boolean = false) : PlayerGroupChat {
+    fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), staffAction: Boolean = false) : PlayerGroupChat? {
+        // Check if owner has reached gc limit
+        if (checkPlayerGCLimit(owner) != LimitState.VALID) return null
+
+        // Create group chat
         val groupChat = PlayerGroupChat(getNewGCID(), owner)
-        groupChat.playerList.addAll(players)
+        addPlayerToGC(groupChat, players, staffAction)
         GROUP_CHATS.add(groupChat)
 
+        // Log action
         PlayerGroupChatLog.createGC(groupChat, staffAction)
+
         return groupChat
     }
 
@@ -105,6 +111,9 @@ object PlayerGroupChatUtils {
     // Function to add 'player' from the given 'groupChat'
     fun addPlayerToGC(groupChat: PlayerGroupChat, players: List<OfflinePlayer>, staffAction: Boolean = false) {
         players.forEach { player ->
+            // Check if player has reached gc limit
+            if (checkPlayerGCLimit(player) != LimitState.VALID) return@forEach
+
             // End if player already in gc
             if (groupChat.playerList.contains(player)) return@forEach
 

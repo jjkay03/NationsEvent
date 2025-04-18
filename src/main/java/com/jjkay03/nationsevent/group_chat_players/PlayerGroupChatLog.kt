@@ -19,7 +19,16 @@ object PlayerGroupChatLog {
         log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner} DELETED group chat ${groupChat.name}")
     }
 
+    fun addPlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
+        if (staffAction) { log("$STAFF_MESSAGE_PREFIX_FORMATLESS ADDED ${player.name} to group chat ${groupChat.name}") }
+        else { log("${player.name} JOINED group chat ${groupChat.name}") }
+    }
+
     fun removePlayerFromGC(groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
         log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner} REMOVED ${player.name} from group chat ${groupChat.name}")
+    }
+
+    fun invitePlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer) {
+        log("${groupChat.owner} INVITED ${player.name} to group chat ${groupChat.name}")
     }
 }

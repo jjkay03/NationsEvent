@@ -5,6 +5,8 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
 import kotlin.collections.set
 
@@ -212,5 +214,41 @@ object PlayerGroupChatUtils {
         }
     }
 
+    // Takes a string with format delimiter '%gc' and returns a component containing the string
+    // Replaces '%gc' with the group chat's name and displays the group chat's member list when hovered
+    fun formatHoverableMessage(message: String, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
 
+        // If 'isWholeMessageHoverable' is true, returns a component with the entire 'message' that is hoverable
+        if (isWholeMessageHoverable) { return getHoverablePlayerList(groupChat, message) }
+
+        // Separates the message with '%gc' as the delimiter and maps the strings to TextComponents
+        val msg = message.split("%gc").map { Component.text(it) }
+
+        // For each of the split strings above, appends it to 'texts' and the hoverable GC name component (unless it's the last iteration)
+        val texts = mutableListOf<Component>().apply {
+            msg.forEach { this@apply.add(it); if (msg.last() != it) this@apply.add(getHoverablePlayerList(groupChat)) }
+        }
+
+        // Returns a single component made up of the components created above
+        return Component.text("").apply { texts.forEach { append(it) } }
+    }
+
+    // Returns a component with the text being 'groupChat's' name,
+    // or 'hoverableMessage' if used, and displays the group chat member list when hovered
+    // You can use '%gc' in 'hoverableMessage' to insert 'groupChat's' name in the message
+    fun getHoverablePlayerList(groupChat: PlayerGroupChat, hoverableMessage: String = ""): Component {
+
+        // Component containing 'groupChat's' name or if hoverableMessage was passed, a component containing that message
+        val component = if (hoverableMessage.isEmpty()) Component.text(groupChat.name) else formatHoverableMessage(hoverableMessage, groupChat)
+
+        return component.hoverEvent(HoverEvent.showText(
+            Component.text("§aList of ${groupChat.name} members:\n\n").apply {
+                groupChat.playerList.forEach {
+                    append(Component.text(it.name!!))
+                    if (groupChat.owner == it) append(Component.text(" §6👑§r"))
+                    if (groupChat.playerList.last() != it) append(Component.text(", "))
+                }
+            }
+        ))
+    }
 }

@@ -12,27 +12,27 @@ object PlayerGroupChatLog {
     }
 
     fun createGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {
-        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner} CREATED group chat ${groupChat.name}")
+        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner.name} CREATED group chat ${groupChat.prefix}")
     }
 
     fun deleteGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {
-        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner} DELETED group chat ${groupChat.name}")
+        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner.name} DELETED group chat ${groupChat.prefix}")
     }
 
     fun addPlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
-        if (staffAction) { log("$STAFF_MESSAGE_PREFIX_FORMATLESS ADDED ${player.name} to group chat ${groupChat.name}") }
+        if (staffAction) { log("$STAFF_MESSAGE_PREFIX_FORMATLESS ADDED ${player.name} to group chat ${groupChat.prefix}") }
         else { log("${player.name} JOINED group chat ${groupChat.name}") }
     }
 
     fun removePlayerFromGC(groupChat: PlayerGroupChat, player: OfflinePlayer, staffAction: Boolean = false) {
-        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner} REMOVED ${player.name} from group chat ${groupChat.name}")
+        log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner.name} REMOVED ${player.name} from group chat ${groupChat.prefix}")
     }
 
     fun invitePlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer) {
-        log("${groupChat.owner} INVITED ${player.name} to group chat ${groupChat.name}")
+        log("${groupChat.owner.name} INVITED ${player.name} to group chat ${groupChat.prefix}")
     }
 
     fun chatInGC(groupChat: PlayerGroupChat, player: OfflinePlayer, message: String, staffAction: Boolean = false) {
-        log("[${groupChat.name}] ${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else ""} ${player.name}: $message")
+        log("[${groupChat.prefix}] ${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else ""} ${player.name}: $message")
     }
 }

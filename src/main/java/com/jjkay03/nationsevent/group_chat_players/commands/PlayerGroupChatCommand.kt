@@ -31,8 +31,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Checks
-        if (args.isEmpty()) {sender.sendMessage("§cUsage: /$label <coords/chat/create/delete/invite/join/leave/select/setowner>"); return true;}
         if (sender is ConsoleCommandSender) {sender.sendMessage("§eUse /admingroupchat instead, this command is for players only!"); return true;}
+        if (args.isEmpty()) {sender.sendMessage("§cUsage: /$label <coords/chat/create/delete/invite/join/leave/select/setowner>"); return true;}
 
         val player = sender as Player
 
@@ -64,7 +64,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Notify player
                 if (groupChat == null) player.sendMessage("§cYou have reached the limit of group chats that you can be in!")
-                else player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§aCreated group chat %gc%", groupChat))
+                else player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§aCreated group chat %gc%", "§2", groupChat))
             }
 
             // DELETE

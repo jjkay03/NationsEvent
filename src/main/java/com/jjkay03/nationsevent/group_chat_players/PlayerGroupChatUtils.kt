@@ -64,13 +64,13 @@ object PlayerGroupChatUtils {
         if (!player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
 
         // Send message to GC members
-        Utils.sendMessageToPlayerList(groupChat.playerList, formatHoverableMessage("$GROUP_CHAT_COLOR[%gc] ${player.name}: $message", groupChat))
+        Utils.sendMessageToPlayerList(groupChat.playerList, formatHoverableMessage("$GROUP_CHAT_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_COLOR, groupChat))
 
         // Send message to Staff spying this GC
-        Utils.sendMessageToPlayerList(groupChat.spies, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", groupChat))
+        Utils.sendMessageToPlayerList(groupChat.spies, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_SPY_COLOR, groupChat))
 
         // Send message to Staff spying on all GCs
-        Utils.sendMessageToPlayerList(UNIVERSAL_STAFF_SPIES, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", groupChat))
+        Utils.sendMessageToPlayerList(UNIVERSAL_STAFF_SPIES, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_SPY_COLOR, groupChat))
 
         // Log action
         PlayerGroupChatLog.chatInGC(groupChat, player, message, staffAction)
@@ -235,40 +235,35 @@ object PlayerGroupChatUtils {
     }
 
     // Function that takes a string with format delimiter '%gc%' and returns a component containing the string
-    // Replaces '%gc' with the group chat's name and displays the group chat's member list when hovered
-    // If 'isWholeMessageHoverable' is true, the entire message will be hoverable, otherwise just the '%gc' placeholder
-    fun formatHoverableMessage(message: String, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
+    // Replaces '%gc%' with the group chat's name and displays the group chat's member list when hovered
+    // If 'isWholeMessageHoverable' is true, the entire message will be hoverable, otherwise just the '%gc%' placeholder
+    fun formatHoverableMessage(message: String, gcNameColor: String?, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
+        // Separates the message with '%gc%' as the delimiter
+        val parts = message.split("%gc%")
+        val nameColor = gcNameColor ?: "§r"
 
-        // Separates the message with '%gc' as the delimiter and maps the strings to TextComponents
-        val msg = message.split("%gc%").map { Component.text(it) }
-
-        // For each of the split strings above, appends it to 'texts' and the hoverable GC name component (unless it's the last iteration)
-        val texts = mutableListOf<Component>().apply {
-            msg.forEach {
-                this@apply.add(it)
-                if (msg.last() != it) this@apply.add(Component.text(groupChat.name).hoverEvent(getPlayerListHoverEvent(groupChat)))
+        // Build the component
+        var result = Component.text("")
+        for (i in parts.indices) {
+            result = result.append(Component.text(parts[i]))
+            if (i < parts.size - 1) {
+                result = result.append(Component.text(nameColor + groupChat.prefix).hoverEvent(getPlayerListHoverEvent(groupChat)))
             }
         }
 
-        // Joins all of the components created into one
-        val result = Component.text("").apply { texts.forEach { append(it) } }
-        if (isWholeMessageHoverable) result.hoverEvent(getPlayerListHoverEvent(groupChat))
-
-        // Returns a single component made up of the components created above
-        return Component.text("").apply { texts.forEach { append(it) } }
+        // If the whole message should be hoverable, apply the hover event to the entire component
+        return if (isWholeMessageHoverable) result.hoverEvent(getPlayerListHoverEvent(groupChat)) else result
     }
 
     // Function that returns a hover event with the 'groupChat's' member list
     fun getPlayerListHoverEvent(groupChat: PlayerGroupChat): HoverEvent<Component> {
-        return HoverEvent.showText(
-            Component.text("§aList of ${groupChat.name} members:\n\n").apply {
-                groupChat.playerList.forEach {
-                    append(Component.text(it.name!!))
-                    if (groupChat.owner == it) append(Component.text(" §6👑§r"))
-                    if (groupChat.playerList.last() != it) append(Component.text(", "))
-                }
-            }
-        )
+        var playerList = Component.text("List of ${groupChat.prefix} members:\n\n")
+        groupChat.playerList.forEach {
+            playerList = playerList.append(Component.text(it.name!!))
+            if (groupChat.owner == it) playerList = playerList.append(Component.text(" §6👑§r"))
+            if (groupChat.playerList.last() != it) playerList = playerList.append(Component.text(", "))
+        }
+        return HoverEvent.showText(playerList)
     }
 
     // Function that returns a list of group chat ID-Name that 'player' is in (Used for command tab complete)

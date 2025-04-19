@@ -8,6 +8,7 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_STAFF_SPIES
 import net.kyori.adventure.text.Component
@@ -47,6 +48,11 @@ object PlayerGroupChatUtils {
    ✅ group chat selection system
 
    ✅ implement logging
+
+   ✅ Create function that returns a list of gc the player is in formated for tab complete
+      (Example: "1-name", "3-fun", "5", "14-test", "55") the id will be extracted use to
+      determine what gc they want to perform the action in
+
      */
 
     // Use to signify the state of a player group chats limit
@@ -228,13 +234,13 @@ object PlayerGroupChatUtils {
         }
     }
 
-    // Takes a string with format delimiter '%gc' and returns a component containing the string
+    // Function that takes a string with format delimiter '%gc%' and returns a component containing the string
     // Replaces '%gc' with the group chat's name and displays the group chat's member list when hovered
     // If 'isWholeMessageHoverable' is true, the entire message will be hoverable, otherwise just the '%gc' placeholder
     fun formatHoverableMessage(message: String, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
 
         // Separates the message with '%gc' as the delimiter and maps the strings to TextComponents
-        val msg = message.split("%gc").map { Component.text(it) }
+        val msg = message.split("%gc%").map { Component.text(it) }
 
         // For each of the split strings above, appends it to 'texts' and the hoverable GC name component (unless it's the last iteration)
         val texts = mutableListOf<Component>().apply {
@@ -252,7 +258,7 @@ object PlayerGroupChatUtils {
         return Component.text("").apply { texts.forEach { append(it) } }
     }
 
-    // Returns a hover event with the 'groupChat's' member list
+    // Function that returns a hover event with the 'groupChat's' member list
     fun getPlayerListHoverEvent(groupChat: PlayerGroupChat): HoverEvent<Component> {
         return HoverEvent.showText(
             Component.text("§aList of ${groupChat.name} members:\n\n").apply {
@@ -263,5 +269,33 @@ object PlayerGroupChatUtils {
                 }
             }
         )
+    }
+
+    // Function that returns a list of group chat ID-Name that 'player' is in (Used for command tab complete)
+    fun tabCompletePlayerGCsList(player: OfflinePlayer, ownedGroupChatOnly: Boolean = false, staffAction: Boolean = false): List<String> {
+        // Get list of group chats
+        val groupChats =
+            // If 'staffAction' return all group chats on the server
+            if (staffAction) GROUP_CHATS
+            // Else if it's used by a normal player return only their group chats
+            else getPlayerGCs(player).let { if (ownedGroupChatOnly) it.filter { gc -> gc.owner == player } else it }
+
+        // If in no group chats rerun empty list
+        if (groupChats.isEmpty()) return listOf()
+
+        // Return formated list for tab complete
+        val formattedGroupChats = groupChats.map { "${it.id}-${it.name}" }
+        return formattedGroupChats
+    }
+
+    // Function that converts a tab complete group chat like "2-test" into a PlayerGroupChat object
+    fun commandInputGCGet(input: String): PlayerGroupChat? {
+        val groupChatID = input.split("-").firstOrNull()?.toIntOrNull() ?: return null
+        return getGCfromID(groupChatID)
+    }
+
+    // Function to validate group chat name at creation, returns true if name is valid
+    fun validateGroupChatName(name: String): Boolean {
+        return name.matches(Regex("^[a-z]{0,$NAME_CHARACTER_LIMIT}$"))
     }
 }

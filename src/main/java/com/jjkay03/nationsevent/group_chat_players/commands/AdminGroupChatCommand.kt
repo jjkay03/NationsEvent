@@ -7,21 +7,14 @@ import org.bukkit.command.TabCompleter
 
 class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
-    override fun onCommand(
-        p0: CommandSender,
-        p1: Command,
-        p2: String,
-        p3: Array<out String>
-    ): Boolean {
+    // COMMAND
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun onTabComplete(
-        p0: CommandSender,
-        p1: Command,
-        p2: String,
-        p3: Array<out String>
-    ): List<String?>? {
-        TODO("Not yet implemented")
+    // TAB COMPLETER
+    override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
+        // TODO
+        return listOf()
     }
 }

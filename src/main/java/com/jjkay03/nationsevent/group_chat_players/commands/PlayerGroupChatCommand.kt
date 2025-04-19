@@ -17,7 +17,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     ❌ /gc coords <gc (optional, if not provided use selected one)>
     ❌ /gc chat <gc> <message>
-    ❌ /gc create <name (optional)>
+    ✅ /gc create <name (optional)>
     ❌ /gc delete <gc>
     ❌ /gc join <gc>
     ❌ /gc kick <gc> <player>
@@ -49,7 +49,6 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 TODO("Not yet implemented")
             }
 
-            // TODO : NOT TESTED YET!!
             // CREATE
             "create" -> {
                 // Validate group chat name
@@ -109,7 +108,68 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     // TAB COMPLETER
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): List<String> {
-        // TODO
-        return listOf()
+        if (sender !is Player) return emptyList()
+
+        val player = sender
+        val joinedGroups = PlayerGroupChatUtils.getPlayerGCs(player)
+        val ownedGroups = PlayerGroupChatUtils.getPlayerGCs(player, true)
+
+        return when (args.size) {
+            // First argument - command list
+            1 -> {
+                val availableOptions = mutableListOf<String>().apply {
+                    addAll(OPTIONS)
+                    if (joinedGroups.isNotEmpty()) addAll(GROUP_OPTIONS)
+                    if (ownedGroups.isNotEmpty()) addAll(OWNER_OPTIONS)
+                }
+                availableOptions.filter { it.startsWith(args[0], true) }
+            }
+
+            // Second argument - context-specific completions
+            2 -> {
+                val subCommand = args[0].lowercase()
+                val currentInput = args[1].lowercase()
+
+                when (subCommand) {
+                    // Show joined groups
+                    "coords", "chat", "leave", "select" ->
+                        PlayerGroupChatUtils.tabCompletePlayerGCsList(joinedGroups)
+                            .filter { it.lowercase().startsWith(currentInput) }
+
+                    // Show owned groups
+                    "delete", "kick", "setowner" ->
+                        PlayerGroupChatUtils.tabCompletePlayerGCsList(ownedGroups)
+                            .filter { it.lowercase().startsWith(currentInput) }
+
+                    // Show invited to groups
+                    "join" ->
+                        PlayerGroupChatUtils.tabCompletePlayerGCsList(PlayerGroupChatUtils.getPlayerInvitedToGCs(player))
+                            .filter { it.lowercase().startsWith(currentInput) }
+
+                    else -> emptyList()
+                }
+            }
+
+            // Third argument for player-specific commands
+            3 -> {
+                val currentInput = args[2].lowercase()
+
+                when (args[0].lowercase()) {
+
+                    // List players in group chat
+                    "kick", "setowner" -> {
+                        PlayerGroupChatUtils.tabCompleteInputGCGet(args[1])?.playerList?.map { it.name }
+                            ?.filter { playerName -> playerName?.lowercase()?.startsWith(currentInput) ?: false }
+                            ?.filterNotNull()
+                            ?: emptyList()
+                    }
+
+                    else -> emptyList()
+                }
+            }
+
+            else -> emptyList()
+        }
+
     }
 }

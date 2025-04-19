@@ -103,11 +103,19 @@ object PlayerGroupChatUtils {
     }
 
     // Function that gets all the group chats 'player' is in
-    fun getPlayerGCs(player: OfflinePlayer): List<PlayerGroupChat> {
+    fun getPlayerGCs(player: OfflinePlayer, ownedGroupChatOnly: Boolean = false): List<PlayerGroupChat> {
         val gcList = mutableListOf<PlayerGroupChat>()
-        GROUP_CHATS.forEach { if (it.playerList.contains(player)) gcList.add(it) }
+        GROUP_CHATS.forEach { groupChat ->
+            // Only check ownership when ownedGroupChatOnly is true
+            if (ownedGroupChatOnly) { if (groupChat.owner == player) gcList.add(groupChat) }
+            // Add all chats the player is in
+            else { if (groupChat.playerList.contains(player)) gcList.add(groupChat) }
+        }
         return gcList
     }
+
+    // Function that gets all the group chats that 'player' is invited to
+    fun getPlayerInvitedToGCs(player: Player): List<PlayerGroupChat> = GROUP_CHATS.filter { it.invites.contains(player) }
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
     fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), name: String = "", staffAction: Boolean = false) : PlayerGroupChat? {
@@ -267,30 +275,22 @@ object PlayerGroupChatUtils {
     }
 
     // Function that returns a list of group chat ID-Name that 'player' is in (Used for command tab complete)
-    fun tabCompletePlayerGCsList(player: OfflinePlayer, ownedGroupChatOnly: Boolean = false, staffAction: Boolean = false): List<String> {
-        // Get list of group chats
-        val groupChats =
-            // If 'staffAction' return all group chats on the server
-            if (staffAction) GROUP_CHATS
-            // Else if it's used by a normal player return only their group chats
-            else getPlayerGCs(player).let { if (ownedGroupChatOnly) it.filter { gc -> gc.owner == player } else it }
-
-        // If in no group chats rerun empty list
+    fun tabCompletePlayerGCsList(groupChats: List<PlayerGroupChat>): List<String> {
         if (groupChats.isEmpty()) return listOf()
-
-        // Return formated list for tab complete
-        val formattedGroupChats = groupChats.map { "${it.id}-${it.name}" }
-        return formattedGroupChats
+        return groupChats.map { gc ->
+            if (gc.name.isBlank()) "${gc.id}"
+            else "${gc.id}-${gc.name}"
+        }
     }
 
     // Function that converts a tab complete group chat like "2-test" into a PlayerGroupChat object
-    fun commandInputGCGet(input: String): PlayerGroupChat? {
+    fun tabCompleteInputGCGet(input: String): PlayerGroupChat? {
         val groupChatID = input.split("-").firstOrNull()?.toIntOrNull() ?: return null
         return getGCfromID(groupChatID)
     }
 
     // Function to validate group chat name at creation, returns true if name is valid
     fun validateGroupChatName(name: String): Boolean {
-        return name.matches(Regex("^[a-z]{0,$NAME_CHARACTER_LIMIT}$"))
+        return name.matches(Regex("^[a-zA-Z]{0,$NAME_CHARACTER_LIMIT}$"))
     }
 }

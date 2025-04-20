@@ -3,6 +3,7 @@ package com.jjkay03.nationsevent.group_chat_players.commands
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChat
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatUtils
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatUtils.chat
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.entity.Player
@@ -22,8 +23,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     ✅ /gc chat <gc> <message>
     ✅ /gc create <name (optional)>
     ✅ /gc delete <gc>
-    ❌ /gc invite <gc> <all player>
-    ❌ /gc join <gc>
+    ✅ /gc invite <gc> <all player>
+    ✅ /gc join <gc>
     ❌ /gc kick <gc> <group player>
     ❌ /gc leave <gc>
     ❌ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
@@ -87,7 +88,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val groupChat = getAndValidateGC(args[1], player) ?: return true
 
                 // Check - if player is owner
-                if (groupChat.owner != player) { player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§cOnly ${groupChat.owner.name} (owner) can perform this action in %gc%", "§c", groupChat)) }
+                if (!isOwner(groupChat, player, "delete")) return true
 
                 // Alert group chat members and delete
                 PlayerGroupChatUtils.chat(groupChat, null, "${groupChat.owner.name} deleted group chat")
@@ -96,12 +97,55 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // INVITE
             "invite" -> {
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label invite <ID> <player>"); return true }
 
+                // Get target player
+                val targetPlayer = Bukkit.getPlayer(args[2]) ?: return player.sendMessage("§cInvalid player!").let { true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Check - if player is owner
+                if (!isOwner(groupChat, player, "invite")) return true
+
+                // Check - if player is already invited or member of the group chat
+                if (groupChat.playerList.contains(targetPlayer)) { player.sendMessage("§c${targetPlayer.name} is already a member of ${groupChat.prefix}!"); return true }
+                if (groupChat.invites.contains(targetPlayer)) { player.sendMessage("§c${targetPlayer.name} has already been invited to ${groupChat.prefix}!"); return true }
+
+                // Invite player
+                groupChat.invites.add(targetPlayer)
+
+                // Notify players
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§aYou have invited ${targetPlayer.name} to %gc%", "§a", groupChat))
+                val targetPlayerMessage = PlayerGroupChatUtils.formatHoverableMessage("§eYou have invited by ${player.name} to %gc%", "§e", groupChat)
+                targetPlayer.sendMessage(targetPlayerMessage)
             }
 
             // JOIN
             "join" -> {
-                TODO("Not yet implemented")
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label join <ID>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player, false) ?: return true
+
+                // Check - if player has invite to group chat or already member of gc
+                if (groupChat.playerList.contains(player)) { player.sendMessage("§cYou are already a member of ${groupChat.prefix}!") }
+                if (!groupChat.invites.contains(player)) { player.sendMessage("§cYou have not been invited to ${groupChat.prefix}!") }
+
+                // Accept invite
+                PlayerGroupChatUtils.addPlayerToGC(groupChat, listOf(player))
+
+                // Check if player is in group chat (could have reached the limit)
+                if (!groupChat.playerList.contains(player)) { player.sendMessage("§cUnable to join ${groupChat.prefix} you might of reached the group chat limit!"); return true }
+
+                // Alert player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§aYou joined %gc%", "§a", groupChat))
+
+                // Send join message in group chat
+                chat(groupChat, null, "${player.name} joined group")
+
             }
 
             // KICK
@@ -219,10 +263,19 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     }
 
     // Helper function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)
-    private fun getAndValidateGC(groupChatArgument: String, player: Player): PlayerGroupChat? {
+    private fun getAndValidateGC(groupChatArgument: String, player: Player, playerIsMember: Boolean = true): PlayerGroupChat? {
         val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
         if (groupChat == null) { player.sendMessage("§cInvalid group chat ID!"); return groupChat }
-        if (!PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§cYou are not a member of this group chat!"); return groupChat }
+        if (playerIsMember && !PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§cYou are not a member of this group chat!"); return groupChat }
         else return groupChat
+    }
+
+    // Helper function to check if 'player' is owner of 'groupChat'
+    private fun isOwner(groupChat: PlayerGroupChat, player: Player, action: String): Boolean {
+        if (groupChat.owner == player) return true
+        player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage(
+            "§cOnly ${groupChat.owner.name} (owner) can perform $action action in %gc%", "§c", groupChat)
+        )
+        return false
     }
 }

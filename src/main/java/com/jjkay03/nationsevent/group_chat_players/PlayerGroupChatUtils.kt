@@ -68,8 +68,8 @@ object PlayerGroupChatUtils {
             (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_COLOR ${player.name}: "
             else -> "${player.name}: "
         }
-        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat)
-        val spiesMsg  = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_SPY_COLOR, groupChat)
+        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat, false)
+        val spiesMsg  = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_SPY_COLOR, groupChat, false)
 
         // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
         if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
@@ -167,8 +167,9 @@ object PlayerGroupChatUtils {
             // End if player already in gc
             if (groupChat.playerList.contains(player)) return@forEach
 
-            // Add player
+            // Add player (+ remove invite if there is one)
             groupChat.playerList.add(player)
+            groupChat.invites.remove(player)
 
             // Log action
             PlayerGroupChatLog.addPlayerToGC(groupChat, player, staffAction)
@@ -257,7 +258,7 @@ object PlayerGroupChatUtils {
     // Function that takes a string with format delimiter '%gc%' and returns a component containing the string
     // Replaces '%gc%' with the group chat's name and displays the group chat's member list when hovered
     // If 'isWholeMessageHoverable' is true, the entire message will be hoverable, otherwise just the '%gc%' placeholder
-    fun formatHoverableMessage(message: String, gcNameColor: String?, groupChat: PlayerGroupChat, isWholeMessageHoverable: Boolean = false): Component {
+    fun formatHoverableMessage(message: String, gcNameColor: String?, groupChat: PlayerGroupChat, underLined: Boolean = true, isWholeMessageHoverable: Boolean = false): Component {
         // Separates the message with '%gc%' as the delimiter
         val parts = message.split("%gc%")
         val nameColor = gcNameColor ?: "§r"
@@ -267,7 +268,9 @@ object PlayerGroupChatUtils {
         for (i in parts.indices) {
             result = result.append(Component.text(parts[i]))
             if (i < parts.size - 1) {
-                result = result.append(Component.text(nameColor + groupChat.prefix).hoverEvent(getPlayerListHoverEvent(groupChat)))
+                val prefixText = nameColor + (if (underLined) "§n" else "") + groupChat.prefix
+                val prefixComponent = Component.text(prefixText).hoverEvent(getPlayerListHoverEvent(groupChat))
+                result = result.append(prefixComponent)
             }
         }
 

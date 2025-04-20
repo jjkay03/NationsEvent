@@ -59,6 +59,9 @@ economy-update-total-balances-interval: 1
 # Player group chat feature toggle
 player-group-chat-enable: false
 
+# If group chats should be saved and loaded when server restarts
+player-group-chat-save-on-server-restart: true
+
 # Maximum amount of GCs a player can join
 player-group-chat-limit: 3
 

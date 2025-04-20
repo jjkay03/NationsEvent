@@ -17,7 +17,7 @@ class Economy (private val plugin: JavaPlugin) : Listener {
 
     companion object {
         // Get config settings
-        val FEATURE_ENABLED: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-enable")
+        val FEATURE_ENABLED: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-enable", false)
         val MONEY_SYMBOL: String = NationsEvent.INSTANCE.config.getString("economy-money-symbol").toString()
         val MONEY_COLOR: String = NationsEvent.INSTANCE.config.getString("economy-money-color").toString()
         val ALLOW_NEGATIVE_BALANCE: Boolean = NationsEvent.INSTANCE.config.getBoolean("economy-allow-negative-balance")

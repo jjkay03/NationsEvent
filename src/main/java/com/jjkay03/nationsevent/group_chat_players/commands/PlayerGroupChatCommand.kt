@@ -39,7 +39,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Checks
-        if (sender is ConsoleCommandSender) {sender.sendMessage("§eUse /admingroupchat instead, this command is for players only!"); return true;}
+        if (sender is ConsoleCommandSender) {sender.sendMessage("§eOnly players can use this command!"); return true;}
         if (args.isEmpty()) {sender.sendMessage("§cUsage: /$label <coords/chat/create/delete/invite/join/leave/select/setowner>"); return true;}
 
         val player = sender as Player

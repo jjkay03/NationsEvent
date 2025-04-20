@@ -1,8 +1,5 @@
 package com.jjkay03.nationsevent.group_chat_players
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.jjkay03.nationsevent.FilesManager
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -13,7 +10,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 
 class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
 

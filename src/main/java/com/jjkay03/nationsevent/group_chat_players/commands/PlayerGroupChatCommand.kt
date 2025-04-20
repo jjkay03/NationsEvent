@@ -20,22 +20,6 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
         private val OWNER_OPTIONS = listOf("delete", "invite", "kick", "setowner")
     }
 
-    /*
-
-    ✅ /gc coords <gc (optional, if not provided use selected one)>
-    ✅ /gc chat <gc> <message>
-    ✅ /gc create <name (optional)>
-    ✅ /gc delete <gc>
-    ✅ /gc invite <gc> <all player>
-    ✅ /gc join <gc>
-    ✅ /gc kick <gc> <group player>
-    ✅ /gc leave <gc>
-    ✅ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
-    ✅ /gc select <gc>
-    ✅ /gc setowner <gc> <group player>
-
-     */
-
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // Checks

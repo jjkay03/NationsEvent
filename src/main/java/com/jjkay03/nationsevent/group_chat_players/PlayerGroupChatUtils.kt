@@ -19,43 +19,6 @@ import kotlin.collections.set
 
 object PlayerGroupChatUtils {
 
-    /*
-   ✅ chat : send message to all group chat members + spies (separate methods)
-       ✅ - chat to gc
-       ✅ - chat to spies
-       ✅ - [GC<ID>] <player>: <message>
-
-   ✅ create gc : make a new group chat; prevent if already in one
-   ✅ delete gc : delete group chat (if owner)
-
-   ✅ add to gc (playerList) : add a player to gc
-   ✅ remove from gc (playerList) : remove a player from gc
-
-   ✅ coords gc : send your coords in gc chat
-   ⬜ list gc members : send get group chat name in chat (of all gcs player is in) | DO DIRECTLY IN COMMAND USING formatHoverableMessage()
-
-   ✅ invite : invite a player to the gc
-   ⬜ join gc : add yourself to a gc if you were invited | DO DIRECTLY IN COMMAND USING addPlayerToGC
-   ⬜ leave gc : leave current gc  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
-   ⬜ kick gc : remove someone else from gc (if owner)  |  DO DIRECTLY IN COMMAND USING removePlayerFromGC
-
-   ⬜ transfer gc : make a diff player the gc owner (if owner) | DO DIRECTLY IN COMMAND USING groupChat.owner = newOwner
-
-   ⬜ get owner : returns the owner  |  JUST USE "PlayerGroupChat.owner"
-   ✅ get group chat name : returns a component with "GC<ID>" that is hoverable, displaying all members
-   ✅ get group chat from id : returns a group chat using an id
-
-   ✅ all in one function to manage the multiple gcs : checks if player is in multiple gcs
-   ✅ group chat selection system
-
-   ✅ implement logging
-
-   ✅ Create function that returns a list of gc the player is in formated for tab complete
-      (Example: "1-name", "3-fun", "5", "14-test", "55") the id will be extracted use to
-      determine what gc they want to perform the action in
-
-     */
-
     // Use to signify the state of a player group chats limit
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 

@@ -28,7 +28,7 @@ class GroupChatsCommands(private val groupChats: GroupChats) : CommandExecutor {
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command"); return true }
         val player = sender
 
-        // End if player doesn't have send pem or staff perm
+        // End if player doesn't have sent pem or staff perm
         if (!player.hasPermission(groupChats.permissionSend) || !player.hasPermission(Saves.PERM_STAFF)) {
             player.sendMessage("§cYou do not have permission to use this command"); return true
         }

@@ -11,6 +11,15 @@ object PlayerGroupChatLog {
         LogsManager.log(Saves.LOG_FILE_PLAYER_GC, "PGC", msg)
     }
 
+    fun chatInGC(groupChat: PlayerGroupChat, player: OfflinePlayer?, message: String, staffAction: Boolean = false) {
+        val author = when {
+            player == null -> ""
+            staffAction -> "$STAFF_MESSAGE_PREFIX_FORMATLESS ${player.name}: "
+            else -> "${player.name}: "
+        }
+        log("[CHAT] [${groupChat.prefix}] $author$message")
+    }
+
     fun createGC(groupChat: PlayerGroupChat, staffAction: Boolean = false) {
         log("${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else groupChat.owner.name} CREATED group chat ${groupChat.prefix}")
     }
@@ -30,9 +39,5 @@ object PlayerGroupChatLog {
 
     fun invitePlayerToGC(groupChat: PlayerGroupChat, player: OfflinePlayer) {
         log("${groupChat.owner.name} INVITED ${player.name} to group chat ${groupChat.prefix}")
-    }
-
-    fun chatInGC(groupChat: PlayerGroupChat, player: OfflinePlayer, message: String, staffAction: Boolean = false) {
-        log("[${groupChat.prefix}] ${if (staffAction) "$STAFF_MESSAGE_PREFIX_FORMATLESS " else ""} ${player.name}: $message")
     }
 }

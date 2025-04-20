@@ -10,7 +10,8 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
-import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_STAFF_SPIES
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_SPIES
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
@@ -59,20 +60,25 @@ object PlayerGroupChatUtils {
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 
     // Function used to send message in a group chat
-    fun chat(groupChat: PlayerGroupChat, player: Player, message: String, staffAction: Boolean = false) {
+    fun chat(groupChat: PlayerGroupChat, player: Player?, message: String, staffAction: Boolean = false) {
+        // Format messages
+        val prefix = "$GROUP_CHAT_COLOR[%gc%$GROUP_CHAT_COLOR] "
+        val author = when {
+            player == null -> ""
+            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_COLOR ${player.name}: "
+            else -> "${player.name}: "
+        }
+        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat)
+        val spiesMsg  = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_SPY_COLOR, groupChat)
+
         // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
-        if (!player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
+        if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
 
-        // Send message to GC members
-        Utils.sendMessageToPlayerList(groupChat.playerList, formatHoverableMessage("$GROUP_CHAT_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_COLOR, groupChat))
+        Utils.sendMessageToPlayerList(groupChat.playerList, playerMsg)
+        Utils.sendMessageToPlayerList(groupChat.spies, spiesMsg)
+        Utils.sendMessageToPlayerList(UNIVERSAL_SPIES, spiesMsg)
 
-        // Send message to Staff spying this GC
-        Utils.sendMessageToPlayerList(groupChat.spies, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_SPY_COLOR, groupChat))
-
-        // Send message to Staff spying on all GCs
-        Utils.sendMessageToPlayerList(UNIVERSAL_STAFF_SPIES, formatHoverableMessage("$GROUP_CHAT_SPY_COLOR[%gc] ${player.name}: $message", GROUP_CHAT_SPY_COLOR, groupChat))
-
-        // Log action
+        // Log
         PlayerGroupChatLog.chatInGC(groupChat, player, message, staffAction)
     }
 
@@ -116,6 +122,12 @@ object PlayerGroupChatUtils {
 
     // Function that gets all the group chats that 'player' is invited to
     fun getPlayerInvitedToGCs(player: Player): List<PlayerGroupChat> = GROUP_CHATS.filter { it.invites.contains(player) }
+
+    // Function that returns true if 'player' is owner of 'groupChat'
+    fun isGCOwner(player: Player, groupChat: PlayerGroupChat): Boolean = groupChat.owner == player
+
+    // Function that returns true if 'player' is a member of 'groupChat'
+    fun isPlayerInGC(player: Player, groupChat: PlayerGroupChat): Boolean = groupChat.playerList.contains(player)
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
     fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), name: String = "", staffAction: Boolean = false) : PlayerGroupChat? {
@@ -290,7 +302,7 @@ object PlayerGroupChatUtils {
     }
 
     // Function to validate group chat name at creation, returns true if name is valid
-    fun validateGroupChatName(name: String): Boolean {
+    fun validateGCName(name: String): Boolean {
         return name.matches(Regex("^[a-zA-Z]{0,$NAME_CHARACTER_LIMIT}$"))
     }
 }

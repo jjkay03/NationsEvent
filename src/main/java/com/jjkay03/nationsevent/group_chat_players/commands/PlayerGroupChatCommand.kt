@@ -1,9 +1,12 @@
 package com.jjkay03.nationsevent.group_chat_players.commands
 
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChat
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatUtils
+import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.entity.Player
+import kotlin.text.startsWith
 
 class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
@@ -16,15 +19,16 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     /*
 
     ❌ /gc coords <gc (optional, if not provided use selected one)>
-    ❌ /gc chat <gc> <message>
+    ✅ /gc chat <gc> <message>
     ✅ /gc create <name (optional)>
-    ❌ /gc delete <gc>
+    ✅ /gc delete <gc>
+    ❌ /gc invite <gc> <all player>
     ❌ /gc join <gc>
-    ❌ /gc kick <gc> <player>
+    ❌ /gc kick <gc> <group player>
     ❌ /gc leave <gc>
     ❌ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
     ❌ /gc select <gc>
-    ❌ /gc setowner <gc> <player>
+    ❌ /gc setowner <gc> <group player>
 
      */
 
@@ -45,15 +49,23 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // CHAT
-            "chat" -> {
-                TODO("Not yet implemented")
+            "chat", "c" -> {
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label chat <ID> <message>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Send the message
+                val message = args.drop(2).joinToString(" ")
+                PlayerGroupChatUtils.chat(groupChat, player, message)
             }
 
             // CREATE
             "create" -> {
-                // Validate group chat name
+                // Check - validate group chat name
                 val name = args.getOrNull(1) ?: ""
-                if (!PlayerGroupChatUtils.validateGroupChatName(name)) {
+                if (!PlayerGroupChatUtils.validateGCName(name)) {
                     player.sendMessage("§cInvalid group chat name, use only letters and max $NAME_CHARACTER_LIMIT characters!")
                     return true
                 }
@@ -68,7 +80,23 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // DELETE
             "delete" -> {
-                TODO("Not yet implemented")
+                // Check - validate arguments and confirmation
+                if (args.size < 3 || args[2] != "CONFIRM") { player.sendMessage("§cUsage: /$label delete <ID> CONFIRM"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Check - if player is owner
+                if (groupChat.owner != player) { player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§cOnly ${groupChat.owner.name} (owner) can perform this action in %gc%", "§c", groupChat)) }
+
+                // Alert group chat members and delete
+                PlayerGroupChatUtils.chat(groupChat, null, "${groupChat.owner.name} deleted group chat")
+                PlayerGroupChatUtils.deleteGC(groupChat)
+            }
+
+            // INVITE
+            "invite" -> {
+
             }
 
             // JOIN
@@ -99,6 +127,17 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             // SETOWNER
             "setowner" -> {
                 TODO("Not yet implemented")
+            }
+
+            // INVALID ARG - Send message in selected group chat
+            else -> {
+                // Get selected group chat
+                val groupChat = PlayerGroupChatUtils.getSelectedPlayerGC(player)
+                if (groupChat == null) { player.sendMessage("§cYou need to a select group chat to chat in using: /$label select <ID>"); return true}
+
+                // Send the message
+                val message = args.drop(0).joinToString(" ")
+                PlayerGroupChatUtils.chat(groupChat, player, message)
             }
 
         }
@@ -132,12 +171,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 when (subCommand) {
                     // Show joined groups
-                    "coords", "chat", "leave", "select" ->
+                    "coords", "chat", "c", "leave", "select" ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(joinedGroups)
                             .filter { it.lowercase().startsWith(currentInput) }
 
                     // Show owned groups
-                    "delete", "kick", "setowner" ->
+                    "delete", "kick", "setowner", "invite" ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(ownedGroups)
                             .filter { it.lowercase().startsWith(currentInput) }
 
@@ -145,6 +184,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                     "join" ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(PlayerGroupChatUtils.getPlayerInvitedToGCs(player))
                             .filter { it.lowercase().startsWith(currentInput) }
+
+                    // Show argument
+                    "create" -> listOf("<name (optional)>")
 
                     else -> emptyList()
                 }
@@ -164,6 +206,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                             ?: emptyList()
                     }
 
+                    // List all online players
+                    "invite" -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(currentInput) }
+
                     else -> emptyList()
                 }
             }
@@ -171,5 +216,13 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             else -> emptyList()
         }
 
+    }
+
+    // Helper function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)
+    private fun getAndValidateGC(groupChatArgument: String, player: Player): PlayerGroupChat? {
+        val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
+        if (groupChat == null) { player.sendMessage("§cInvalid group chat ID!"); return groupChat }
+        if (!PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§cYou are not a member of this group chat!"); return groupChat }
+        else return groupChat
     }
 }

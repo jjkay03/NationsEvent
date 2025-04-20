@@ -59,6 +59,7 @@ object PlayerGroupChatUtils {
     // Use to signify the state of a player group chats limit
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 
+    // TODO - WHEN SPYING DON'T SEND DUPLICATE MESSAGES TO SPIES IF THEY ARE ALREADY IN THE GROUP CHAT OR A UNIVERSAL SPY!
     // Function used to send message in a group chat
     fun chat(groupChat: PlayerGroupChat, player: Player?, message: String, staffAction: Boolean = false) {
         // Format messages

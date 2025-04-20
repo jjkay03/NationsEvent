@@ -61,39 +61,38 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
             // 2nd argument - context-specific completions
             2 -> when (sub) {
+                // Show all group chats
                 "coords", "chat", "delete", "add", "remove", "setowner" ->
                     PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS).filter { it.lowercase().startsWith(current) }
 
+                // Show all group chats + @a
                 "spy" -> (listOf("@a") + PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS)).filter { it.lowercase().startsWith(current) }
 
+                // Show all players + @a
                 "list" -> (listOf("@a") + Bukkit.getOnlinePlayers().map { it.name }).filter { it.lowercase().startsWith(current) }
 
+                // Show argument
                 "create" -> listOf("<name>").filter { it.startsWith(current, true) }
 
                 else -> emptyList()
             }
 
-            // 3rd argument - context-specific completions
-            3 -> when (sub) {
+            // 3rd+ arguments - context-specific completions
+            in 3..Int.MAX_VALUE -> when (sub) {
 
-                "remove", "setowner" -> {
+                // Show group members (only when 3 args)
+                "setowner" -> if (args.size == 3) {
                     val gc = PlayerGroupChatUtils.tabCompleteInputGCGet(args[1]) ?: return emptyList()
                     gc.playerList.mapNotNull { it.name }.filter { it.lowercase().startsWith(current) }
-                }
+                } else emptyList()
 
-                "add", "create" -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(current) }
-
-                else -> emptyList()
-            }
-
-            // 4th+ argument - context-specific completions
-            in 4..Int.MAX_VALUE -> when (sub) {
-
+                // Show group members
                 "remove" -> {
                     val gc = PlayerGroupChatUtils.tabCompleteInputGCGet(args[1]) ?: return emptyList()
                     gc.playerList.mapNotNull { it.name }.filter { it.lowercase().startsWith(current) }
                 }
 
+                // Show all players
                 "add", "create" -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(current) }
 
                 else -> emptyList()

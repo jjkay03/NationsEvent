@@ -32,7 +32,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     ✅ /gc leave <gc>
     ✅ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
     ✅ /gc select <gc>
-    ❌ /gc setowner <gc> <group player>
+    ✅ /gc setowner <gc> <group player>
 
      */
 
@@ -253,7 +253,28 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // SETOWNER
             "setowner" -> {
-                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label invite <ID> <player>"); return true }
+
+                // Get target player
+                val targetPlayer = Bukkit.getPlayer(args[2]) ?: return player.sendMessage("§cInvalid player!").let { true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Check - if player is owner
+                if (!isOwner(groupChat, player, "setowner")) return true
+
+                // Check - if player is member of group chat or self
+                if (!groupChat.playerList.contains(targetPlayer)) { player.sendMessage("§c${PREFIX}${targetPlayer.name} is not a member of ${groupChat.prefix}!"); return true }
+                if (targetPlayer == player) { player.sendMessage("§c${PREFIX} You are already the owner of ${groupChat.prefix}!") }
+
+                // Set new owner
+                PlayerGroupChatUtils.setGCOwner(groupChat, targetPlayer)
+
+                // Notify players
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You transferred %gc% §ato ${targetPlayer.name}", "§a", groupChat))
+                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§e${PREFIX} ${player.name} transferred %gc% §eto you", "§e", groupChat))
             }
 
             // INVALID ARG - Send message in selected group chat

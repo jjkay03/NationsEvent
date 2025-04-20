@@ -123,11 +123,11 @@ object PlayerGroupChatUtils {
     // Function that gets all the group chats that 'player' is invited to
     fun getPlayerInvitedToGCs(player: Player): List<PlayerGroupChat> = GROUP_CHATS.filter { it.invites.contains(player) }
 
-    // Function that returns true if 'player' is owner of 'groupChat'
-    fun isGCOwner(player: Player, groupChat: PlayerGroupChat): Boolean = groupChat.owner == player
-
     // Function that returns true if 'player' is a member of 'groupChat'
     fun isPlayerInGC(player: Player, groupChat: PlayerGroupChat): Boolean = groupChat.playerList.contains(player)
+
+    // Function to change owner of a group
+    fun setGCOwner(groupChat: PlayerGroupChat, newOwner: OfflinePlayer) { groupChat.owner = newOwner }
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
     fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), name: String = "", staffAction: Boolean = false) : PlayerGroupChat? {

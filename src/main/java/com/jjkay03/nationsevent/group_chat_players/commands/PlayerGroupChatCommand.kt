@@ -16,7 +16,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     companion object {
         private val OPTIONS = listOf("create", "join")
-        private val GROUP_OPTIONS = listOf("chat", "coords", "leave", "list")
+        private val GROUP_OPTIONS = listOf("chat", "coords", "leave", "list", "select")
         private val OWNER_OPTIONS = listOf("delete", "invite", "kick", "setowner")
     }
 
@@ -29,9 +29,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     ✅ /gc invite <gc> <all player>
     ✅ /gc join <gc>
     ✅ /gc kick <gc> <group player>
-    ❌ /gc leave <gc>
-    ❌ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
-    ❌ /gc select <gc>
+    ✅ /gc leave <gc>
+    ✅ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
+    ✅ /gc select <gc>
     ❌ /gc setowner <gc> <group player>
 
      */
@@ -216,12 +216,39 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // LIST
             "list" -> {
-                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
+                // Get all groups player is in
+                val groupChats = PlayerGroupChatUtils.getPlayerGCs(player)
+
+                // Check - if player is no groups
+                if (groupChats.isEmpty()) { player.sendMessage("§c${PREFIX}You are not in any group chats!"); return true }
+
+                // List groups
+                player.sendMessage("")
+                player.sendMessage("§e${PREFIX}Group chats you're in:")
+                player.sendMessage ("§7(Hover GC for more info")
+                for (group in groupChats) {
+                    val line = if (group.owner == player) "  §f• %gc% §6👑" else "  §f• %gc%"
+                    player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage(line, "§f", group,
+                        underLined = false,
+                        isWholeMessageHoverable = true
+                    ))
+                }
+                player.sendMessage("")
             }
 
             // SELECT
             "select" -> {
-                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label <ID>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Select group chat
+                PlayerGroupChatUtils.selectPlayerGC(groupChat, player)
+
+                // Notify player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}Selected %gc%", "§7", groupChat))
             }
 
             // SETOWNER
@@ -322,7 +349,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     private fun getAndValidateGC(groupChatArgument: String, player: Player, playerIsMember: Boolean = true): PlayerGroupChat? {
         val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
         if (groupChat == null) { player.sendMessage("§c${PREFIX}Invalid group chat ID!"); return groupChat }
-        if (playerIsMember && !PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§c${PREFIX}You are not a member of this group chat!"); return groupChat }
+        if (playerIsMember && !PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§c${PREFIX}You are not a member of GC${groupChat.id}!"); return null }
         else return groupChat
     }
 

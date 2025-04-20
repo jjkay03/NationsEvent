@@ -9,7 +9,6 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_SPY_COLOR
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHAT_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
-import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PREFIX
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_SPIES
@@ -281,7 +280,7 @@ object PlayerGroupChatUtils {
 
     // Function that returns a hover event with the 'groupChat's' member list
     fun getPlayerListHoverEvent(groupChat: PlayerGroupChat): HoverEvent<Component> {
-        var playerList = Component.text("${PREFIX}List of ${groupChat.prefix} members:\n\n")
+        var playerList = Component.text("👥 ${groupChat.prefix} members:\n\n")
         groupChat.playerList.forEach {
             playerList = playerList.append(Component.text(it.name!!))
             if (groupChat.owner == it) playerList = playerList.append(Component.text(" §6👑§r"))

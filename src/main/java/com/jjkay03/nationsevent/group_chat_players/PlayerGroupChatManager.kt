@@ -27,6 +27,7 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val NAME_CHARACTER_LIMIT = NationsEvent.INSTANCE.config.getInt("player-group-chat-name-character-limit")
 
         // Variables
+        const val PREFIX = "\uD83D\uDC65\uD83D\uDCAC " // Prefix used before all command feedback
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
         val PLAYERS_SELECTED_GC = mutableMapOf<OfflinePlayer, Int>()

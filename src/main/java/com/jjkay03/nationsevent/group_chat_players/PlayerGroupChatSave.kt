@@ -12,8 +12,6 @@ data class SerializablePlayerGroupChat(
     val id: Int,
     val ownerUUID: UUID,
     val playerUUIDs: List<UUID>,
-    val invites: List<UUID>,
-    val spies: List<UUID>,
     val name: String,
     val prefix: String
 )
@@ -26,8 +24,6 @@ object PlayerGroupChatSave {
             id,
             owner.uniqueId,
             playerList.map { it.uniqueId },
-            invites.map { it.uniqueId },
-            spies.map { it.uniqueId },
             name,
             prefix
         )
@@ -39,8 +35,8 @@ object PlayerGroupChatSave {
             id,
             Bukkit.getOfflinePlayer(ownerUUID),
             playerList = playerUUIDs.map { Bukkit.getOfflinePlayer(it) }.toMutableList(),
-            invites = invites.map { Bukkit.getOfflinePlayer(it) }.toMutableList(),
-            spies = spies.map { Bukkit.getOfflinePlayer(it) }.toMutableList(),
+            invites = mutableListOf(),
+            spies = mutableListOf(),
             name = name,
             prefix = prefix
         )
@@ -63,6 +59,5 @@ object PlayerGroupChatSave {
         val serializedList: List<SerializablePlayerGroupChat> = gson.fromJson(reader, type)
         return serializedList.map { it.toPlayerGroupChat() }
     }
-
 
 }

@@ -22,7 +22,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     /*
 
-    ❌ /gc coords <gc (optional, if not provided use selected one)>
+    ✅ /gc coords <gc (optional, if not provided use selected one)>
     ✅ /gc chat <gc> <message>
     ✅ /gc create <name (optional)>
     ✅ /gc delete <gc>
@@ -103,6 +103,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Check - if player is owner
                 if (!isOwner(groupChat, player, "delete")) return true
+
+                // Notify player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You deleted %gc%", "§a", groupChat))
 
                 // Alert group chat members and delete
                 PlayerGroupChatUtils.chat(groupChat, null, "${groupChat.owner.name} deleted group chat")
@@ -195,22 +198,35 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // LEAVE
             "leave" -> {
-                TODO("Not yet implemented")
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label leave <ID>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Remove player
+                PlayerGroupChatUtils.removePlayerFromGC(groupChat, listOf(player))
+
+                // Notify player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You left from %gc%", "§a", groupChat))
+
+                // Send leave message in group
+                PlayerGroupChatUtils.chat(groupChat, null, "${player.name} left group")
             }
 
             // LIST
             "list" -> {
-                TODO("Not yet implemented")
+                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
             }
 
             // SELECT
             "select" -> {
-                TODO("Not yet implemented")
+                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
             }
 
             // SETOWNER
             "setowner" -> {
-                TODO("Not yet implemented")
+                player.sendMessage("§4TODO: NOT YET IMPLEMENTED") // TODO
             }
 
             // INVALID ARG - Send message in selected group chat
@@ -302,7 +318,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
     }
 
-    // Helper function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)
+    // Function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)
     private fun getAndValidateGC(groupChatArgument: String, player: Player, playerIsMember: Boolean = true): PlayerGroupChat? {
         val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
         if (groupChat == null) { player.sendMessage("§c${PREFIX}Invalid group chat ID!"); return groupChat }

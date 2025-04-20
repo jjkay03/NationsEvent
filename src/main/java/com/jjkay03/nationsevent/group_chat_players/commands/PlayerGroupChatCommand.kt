@@ -28,7 +28,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     ✅ /gc delete <gc>
     ✅ /gc invite <gc> <all player>
     ✅ /gc join <gc>
-    ❌ /gc kick <gc> <group player>
+    ✅ /gc kick <gc> <group player>
     ❌ /gc leave <gc>
     ❌ /gc list -> (list all gc you in, hoverable list, maybe also show what gc is selected)
     ❌ /gc select <gc>
@@ -49,7 +49,18 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // COORDS
             "coords" -> {
-                TODO("Not yet implemented")
+                val groupChat = if (args.size < 2 || args[1].isEmpty()) {
+                    // No group provided, use selected group
+                    val selected = PlayerGroupChatUtils.getSelectedPlayerGC(player)
+                    if (selected == null) { player.sendMessage("§cYou need to have a selected group: /$label select <ID>, or provide one: /$label coords <ID>"); return true }
+                    selected
+                } else {
+                    // Group ID provided
+                    getAndValidateGC(args[1], player) ?: return true
+                }
+
+                // Send player coords in group
+                PlayerGroupChatUtils.chatCoords(groupChat, player)
             }
 
             // CHAT
@@ -206,7 +217,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             else -> {
                 // Get selected group chat
                 val groupChat = PlayerGroupChatUtils.getSelectedPlayerGC(player)
-                if (groupChat == null) { player.sendMessage("§cYou need to a select group chat to chat in using: /$label select <ID>"); return true}
+                if (groupChat == null) { player.sendMessage("§cYou need to have a select group chat to chat in using: /$label select <ID>"); return true}
 
                 // Send the message
                 val message = args.drop(0).joinToString(" ")

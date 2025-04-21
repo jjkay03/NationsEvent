@@ -57,7 +57,7 @@ economy-update-total-balances-interval: 1
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
-player-group-chat-enable: false
+player-group-chat-enable: true
 
 # If group chats should be saved and loaded when server restarts
 player-group-chat-save-on-server-restart: true

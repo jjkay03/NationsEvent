@@ -31,7 +31,7 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
 
         // Variables
         const val PREFIX = "\uD83D\uDC65\uD83D\uDCAC " // Prefix used before all command feedback
-        val COMMANDS = setOf("groupchat", "admingroupchat")
+        val COMMANDS = setOf("groupchat", "admingroupchat", "debuggroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
         val PLAYERS_SELECTED_GC = mutableMapOf<OfflinePlayer, Int>()
         val GLOBAL_SPIES = mutableListOf<OfflinePlayer>()
@@ -63,10 +63,12 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         // Class variables
         val playerGroupChatCommand = PlayerGroupChatCommand()
         val adminGroupChatCommand = AdminGroupChatCommand()
+        val debugGroupChatCommand = DebugGroupChatCommand()
 
         // Register commands
         plugin.getCommand("groupchat")?.apply { setExecutor(playerGroupChatCommand); tabCompleter = playerGroupChatCommand }
         plugin.getCommand("admingroupchat")?.apply { setExecutor(adminGroupChatCommand); tabCompleter = adminGroupChatCommand }
+        plugin.getCommand("debuggroupchat")?.apply { setExecutor(debugGroupChatCommand); tabCompleter = debugGroupChatCommand }
 
         // Register events
         plugin.server.pluginManager.registerEvents(this, plugin)

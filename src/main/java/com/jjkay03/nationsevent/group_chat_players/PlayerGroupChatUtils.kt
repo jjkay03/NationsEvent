@@ -1,7 +1,6 @@
 package com.jjkay03.nationsevent.group_chat_players
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.BYPASS_DISABLED_CHAT
 import org.bukkit.OfflinePlayer
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
@@ -11,13 +10,11 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
-import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GLOBAL_SPIES
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PERM_BYPASS_LIMIT
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
-import java.util.UUID
 import kotlin.collections.set
 
 object PlayerGroupChatUtils {

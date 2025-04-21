@@ -58,7 +58,7 @@ object PlayerGroupChatSave {
         val gson = Gson()
         val reader = file.bufferedReader()
         val type = object : TypeToken<List<SerializablePlayerGroupChat>>() {}.type
-        val serializedList: List<SerializablePlayerGroupChat> = gson.fromJson(reader, type)
+        val serializedList: List<SerializablePlayerGroupChat> = gson.fromJson(reader, type) ?: emptyList()
         return serializedList.map { it.toPlayerGroupChat() }
     }
 

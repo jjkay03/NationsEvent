@@ -10,16 +10,31 @@ import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.entity.Player
+import org.bukkit.permissions.Permission
 import kotlin.text.startsWith
 
 class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
-    // TODO - REDO SUBCOMMAND SYSTEM USING ENUM AND PER SUBCOMMAND PERM (Same as /admingroupchat)
+    // SUBCOMMANDS - names and perms
+    enum class SubCommand(val cmd: String) {
+        COORDS("coords"),
+        CHAT("chat"),
+        CREATE("create"),
+        DELETE("delete"),
+        INVITE("invite"),
+        JOIN("join"),
+        KICK("kick"),
+        LEAVE("leave"),
+        LIST("list"),
+        SELECT("select"),
+        SETOWNER("setowner");
+        val perm: Permission get() = Permission("nationsevent.command.groupchat.$cmd")
+    }
 
     companion object {
-        private val OPTIONS = listOf("create", "join")
-        private val GROUP_OPTIONS = listOf("chat", "coords", "leave", "list", "select")
-        private val OWNER_OPTIONS = listOf("delete", "invite", "kick", "setowner")
+        private val OPTIONS = listOf(SubCommand.CREATE, SubCommand.JOIN)
+        private val GROUP_OPTIONS = listOf(SubCommand.CHAT, SubCommand.COORDS, SubCommand.LEAVE, SubCommand.LIST, SubCommand.SELECT)
+        private val OWNER_OPTIONS = listOf(SubCommand.DELETE, SubCommand.INVITE, SubCommand.KICK, SubCommand.SETOWNER)
     }
 
     // COMMAND
@@ -34,7 +49,11 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
         when (args[0].lowercase()) {
 
             // COORDS
-            "coords" -> {
+            SubCommand.COORDS.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.COORDS)) return true
+
+                // Deal with argument or not
                 val groupChat = if (args.size < 2 || args[1].isEmpty()) {
                     // No group provided, use selected group
                     val selected = PlayerGroupChatUtils.getSelectedPlayerGC(player)
@@ -50,9 +69,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // CHAT
-            "chat", "c" -> {
+            SubCommand.CHAT.cmd, "c" -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.CHAT)) return true
+
                 // Check - validate arguments
-                if (args.size < 3) { player.sendMessage("§cUsage: /$label chat <ID> <message>"); return true }
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.CHAT.cmd} <ID> <message>"); return true }
 
                 // Check - get and validate group chat
                 val groupChat = getAndValidateGC(args[1], player) ?: return true
@@ -63,7 +85,10 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // CREATE
-            "create" -> {
+            SubCommand.CREATE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.CREATE)) return true
+
                 // Check - validate group chat name
                 val name = args.getOrNull(1) ?: ""
                 if (!PlayerGroupChatUtils.validateGCName(name)) {
@@ -80,9 +105,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // DELETE
-            "delete" -> {
+            SubCommand.DELETE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.DELETE)) return true
+
                 // Check - validate arguments and confirmation
-                if (args.size < 3 || args[2] != "CONFIRM") { player.sendMessage("§cUsage: /$label delete <ID> CONFIRM"); return true }
+                if (args.size < 3 || args[2] != "CONFIRM") { player.sendMessage("§cUsage: /$label ${SubCommand.DELETE.cmd} <ID> CONFIRM"); return true }
 
                 // Check - get and validate group chat
                 val groupChat = getAndValidateGC(args[1], player) ?: return true
@@ -99,7 +127,10 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // INVITE
-            "invite" -> {
+            SubCommand.INVITE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.INVITE)) return true
+
                 // Check - validate arguments
                 if (args.size < 3) { player.sendMessage("§cUsage: /$label invite <ID> <player>"); return true }
 
@@ -130,9 +161,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // JOIN
-            "join" -> {
+            SubCommand.JOIN.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.JOIN)) return true
+
                 // Check - validate arguments
-                if (args.size < 2) { player.sendMessage("§cUsage: /$label join <ID>"); return true }
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.JOIN} <ID>"); return true }
 
                 // Check - get and validate group chat
                 val groupChat = getAndValidateGC(args[1], player, false) ?: return true
@@ -155,9 +189,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // KICK
-            "kick" -> {
+            SubCommand.KICK.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.KICK)) return true
+
                 // Check - validate arguments
-                if (args.size < 3) { player.sendMessage("§cUsage: /$label kick <ID> <player>"); return true }
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.KICK} <ID> <player>"); return true }
 
                 // Get target player
                 val targetPlayer = Bukkit.getPlayer(args[2]) ?: return player.sendMessage("§cInvalid player!").let { true }
@@ -183,9 +220,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // LEAVE
-            "leave" -> {
+            SubCommand.LEAVE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.LEAVE)) return true
+
                 // Check - validate arguments
-                if (args.size < 2) { player.sendMessage("§cUsage: /$label leave <ID>"); return true }
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.LEAVE} <ID>"); return true }
 
                 // Check - get and validate group chat
                 val groupChat = getAndValidateGC(args[1], player) ?: return true
@@ -201,7 +241,10 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // LIST
-            "list" -> {
+            SubCommand.LIST.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.LIST)) return true
+
                 // Get all groups player is in
                 val groupChats = PlayerGroupChatUtils.getPlayerGCs(player)
 
@@ -223,7 +266,10 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // SELECT
-            "select" -> {
+            SubCommand.SELECT.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.SELECT)) return true
+
                 // Check - validate arguments
                 if (args.size < 2) { player.sendMessage("§cUsage: /$label <ID>"); return true }
 
@@ -238,7 +284,10 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             }
 
             // SETOWNER
-            "setowner" -> {
+            SubCommand.SETOWNER.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.SETOWNER)) return true
+
                 // Check - validate arguments
                 if (args.size < 3) { player.sendMessage("§cUsage: /$label invite <ID> <player>"); return true }
 
@@ -265,6 +314,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
             // INVALID ARG - Send message in selected group chat
             else -> {
+                // Check - subcommand permission (chat)
+                if (!checkSubCommandPerm(player, SubCommand.CHAT)) return true
+
                 // Get selected group chat
                 val groupChat = PlayerGroupChatUtils.getSelectedPlayerGC(player)
                 if (groupChat == null) { player.sendMessage("§cYou need to have a select group chat to chat in using: /$label select <ID>"); return true}
@@ -288,12 +340,12 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
         val ownedGroups = PlayerGroupChatUtils.getPlayerGCs(player, true)
 
         return when (args.size) {
-            // First argument - command list
+            // First argument - command list (show depending on perm and groups)
             1 -> {
                 val availableOptions = mutableListOf<String>().apply {
-                    addAll(OPTIONS)
-                    if (joinedGroups.isNotEmpty()) addAll(GROUP_OPTIONS)
-                    if (ownedGroups.isNotEmpty()) addAll(OWNER_OPTIONS)
+                    addAll(OPTIONS.filter { sender.hasPermission(it.perm) }.map { it.cmd })
+                    if (joinedGroups.isNotEmpty()) addAll(GROUP_OPTIONS.filter { sender.hasPermission(it.perm) }.map { it.cmd })
+                    if (ownedGroups.isNotEmpty()) addAll(OWNER_OPTIONS.filter { sender.hasPermission(it.perm) }.map { it.cmd })
                 }
                 availableOptions.filter { it.startsWith(args[0], true) }
             }
@@ -305,22 +357,22 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 when (subCommand) {
                     // Show joined groups
-                    "coords", "chat", "c", "leave", "select" ->
+                    SubCommand.COORDS.cmd, SubCommand.CHAT.cmd, "c", SubCommand.LEAVE.cmd, SubCommand.SELECT.cmd ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(joinedGroups)
                             .filter { it.lowercase().startsWith(currentInput) }
 
                     // Show owned groups
-                    "delete", "kick", "setowner", "invite" ->
+                    SubCommand.DELETE.cmd, SubCommand.KICK.cmd, SubCommand.SETOWNER.cmd, SubCommand.INVITE.cmd ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(ownedGroups)
                             .filter { it.lowercase().startsWith(currentInput) }
 
                     // Show invited to groups
-                    "join" ->
+                    SubCommand.JOIN.cmd ->
                         PlayerGroupChatUtils.tabCompletePlayerGCsList(PlayerGroupChatUtils.getPlayerInvitedToGCs(player))
                             .filter { it.lowercase().startsWith(currentInput) }
 
                     // Show argument
-                    "create" -> listOf("<name (optional)>")
+                    SubCommand.CREATE.cmd -> listOf("<name (optional)>")
 
                     else -> emptyList()
                 }
@@ -333,7 +385,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 when (args[0].lowercase()) {
 
                     // List players in group chat
-                    "kick", "setowner" -> {
+                    SubCommand.KICK.cmd, SubCommand.SETOWNER.cmd -> {
                         PlayerGroupChatUtils.tabCompleteInputGCGet(args[1])?.playerList?.map { it.name }
                             ?.filter { playerName -> playerName?.lowercase()?.startsWith(currentInput) ?: false }
                             ?.filterNotNull()
@@ -341,7 +393,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                     }
 
                     // List all online players
-                    "invite" -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(currentInput) }
+                    SubCommand.INVITE.cmd -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(currentInput) }
 
                     else -> emptyList()
                 }
@@ -350,6 +402,15 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
             else -> emptyList()
         }
 
+    }
+
+    // Helper function to check if sender has permission to use subcommand
+    private fun checkSubCommandPerm(sender: CommandSender, subCommand: SubCommand): Boolean {
+        if (sender.hasPermission(subCommand.perm)) return true
+        else {
+            sender.sendMessage("§cYou do not have permission to use '${subCommand.cmd}' subcommand!")
+            return false
+        }
     }
 
     // Function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)

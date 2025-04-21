@@ -1,7 +1,10 @@
 package com.jjkay03.nationsevent.group_chat_players.commands
 
-import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChat
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PREFIX
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -15,21 +18,19 @@ import kotlin.collections.filter
 import kotlin.text.lowercase
 import kotlin.text.startsWith
 
-
-
-
 class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
     /*
 
     ✅ Tab complete
 
-    ❌ /agc coords <gc>
-    ❌ /agc chat <gc> message
-    ❌ /agc create <name> <owner> <players...>
-    ❌ /agc delete <ID> CONFIRM
-    ❌ /agc add <ID> <players...>
-    ❌ /agc remove <ID> <players...>
+    ✅ /agc coords <gc>
+    ✅ /agc chat <gc> message
+    ✅ /agc create <name> <owner> <players...>
+    ✅ /agc delete <ID> CONFIRM
+    ✅ /agc deleteall CONFIRM
+    ✅ /agc add <ID> <players...>
+    ✅ /agc remove <ID> <players...>
     ❌ /agc list <player / @a>
     ❌ /agc setowner <ID> <player>
     ❌ /agc spy <ID / @a>
@@ -42,6 +43,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
         CHAT("chat"),
         CREATE("create"),
         DELETE("delete"),
+        DELETEALL("deleteall"),
         ADD("add"),
         REMOVE("remove"),
         LIST("list"),
@@ -50,7 +52,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
         val perm: Permission get() = Permission("nationsevent.command.admingroupchat.$cmd")
     }
 
-    val commandUsage = "§cUsage:" + (SubCommand.entries.joinToString("/") { it.cmd })
+    val commandUsage = "§cUsage: " + (SubCommand.entries.joinToString("/") { it.cmd })
 
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -64,47 +66,195 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
         when (args[0].lowercase()) {
 
             // COORDS
-            SubCommand.COORDS.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.COORDS.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.COORDS)) return true
+
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.COORDS.cmd} <ID>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Send the message
+                PlayerGroupChatUtils.chatCoords(groupChat, player, true)
             }
 
             // CHAT
-            SubCommand.CHAT.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.CHAT.cmd, "c" -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.CHAT)) return true
+
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.CHAT.cmd} <ID> <message>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Send the message
+                val message = args.drop(2).joinToString(" ")
+                PlayerGroupChatUtils.chat(groupChat, player, message, true)
             }
 
             // CREATE
-            SubCommand.CREATE.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.CREATE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.CREATE)) return true
+
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.CREATE.cmd} <name> <owner> <players...>"); return true }
+
+                // Check - validate group chat name
+                if (!PlayerGroupChatUtils.validateGCName(args[1])) {
+                    player.sendMessage("§c${PREFIX}Invalid group chat name, use only letters and max $NAME_CHARACTER_LIMIT characters!")
+                    return true
+                }
+
+                // Get target player (owner) - end if invalid player
+                val targetPlayerOwner = Bukkit.getPlayer(args[2]) ?: return player.sendMessage("§cInvalid player ${args[2]}!").let { true }
+
+                // Get target players (members) - end if invalid player
+                val targetPlayersMembers = mutableListOf<Player>()
+                args.drop(3).forEach {
+                    Bukkit.getPlayer(it)?.let { player -> targetPlayersMembers.add(player) } ?:
+                    return player.sendMessage("§cInvalid player $it!").let { true }
+                }
+
+                // Create group chat
+                val groupChat = PlayerGroupChatUtils.createGC(targetPlayerOwner, targetPlayersMembers, args[1], true)
+                if (groupChat == null) { player.sendMessage("§c${PREFIX}Failed to create group chat, ${targetPlayerOwner.name} has reached the group chat limit!"); return true }
+
+                // Notify players
+                val targetPlayersNames = groupChat.playerList.mapNotNull { it.name }.joinToString(", ")
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aCREATED §7group chat %gc% §7with $targetPlayersNames", "§2", groupChat))
+                val targetPlayersMembersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You were §aADDED §7to group chat %gc% §7by staff", "§7", groupChat)
+                Utils.sendMessageToPlayerList(groupChat.playerList, targetPlayersMembersMsg)
+
+                // Alert group chat members
+                PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetPlayersNames to group chat")
             }
 
             // DELETE
-            SubCommand.DELETE.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.DELETE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.DELETE)) return true
+
+                // Check - validate arguments and confirmation
+                if (args.size < 3 || args[2] != "CONFIRM") { player.sendMessage("§cUsage: /$label ${SubCommand.DELETE.cmd} <ID> CONFIRM"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Notify player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cDELETED §7group chat %gc%", "§c", groupChat))
+
+                // Alert group chat members and delete
+                PlayerGroupChatUtils.chat(groupChat, null, "Staff deleted group chat")
+                PlayerGroupChatUtils.deleteGC(groupChat)
+            }
+
+            // DELETEALL
+            SubCommand.DELETEALL.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.DELETEALL)) return true
+
+                // Check - validate arguments and confirmation
+                if (args.size < 2 || args[1] != "CONFIRM") { player.sendMessage("§cUsage: /$label ${SubCommand.DELETEALL.cmd} CONFIRM"); return true }
+
+                // Go through all groups
+                for ( group in GROUP_CHATS.toList() ) {
+                    // Notify player
+                    player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cDELETED §7group chat %gc%", "§c", group))
+
+                    // Alert group chat members and delete
+                    PlayerGroupChatUtils.chat(group, null, "Staff deleted group chat")
+                    PlayerGroupChatUtils.deleteGC(group)
+                }
             }
 
             // ADD
-            SubCommand.ADD.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.ADD.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.ADD)) return true
+
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.ADD.cmd} <ID> <players...>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Get target players (members) - end if invalid player
+                val targetPlayers = mutableListOf<Player>()
+                args.drop(2).forEach {
+                    // End if player invalid
+                    val target = Bukkit.getPlayer(it) ?: return player.sendMessage("§cInvalid player $it!").let { true }
+
+                    // Skip if player is already in group
+                    if (groupChat.playerList.contains(target)) { return@forEach }
+                    targetPlayers.add(target)
+                }
+
+                // Add players to group
+                PlayerGroupChatUtils.addPlayerToGC(groupChat, targetPlayers, true)
+
+                // Notify players
+                val targetNames = if (targetPlayers.size == 1) targetPlayers.first().name else targetPlayers.joinToString(", ") { it.name }
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aADDED §7$targetNames to %gc%", "§7", groupChat))
+                val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You were §aADDED §7to group chat %gc% §7by staff", "§7", groupChat)
+                Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
+
+                // Alert group chat members
+                PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetNames to group chat")
+
             }
 
             // REMOVE
-            SubCommand.REMOVE.name -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+            SubCommand.REMOVE.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.REMOVE)) return true
+
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.REMOVE.cmd} <ID> <players...>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Get target players (members) - end if invalid player
+                val targetPlayers = mutableListOf<Player>()
+                args.drop(2).forEach {
+                    // End if player invalid
+                    val target = Bukkit.getPlayer(it) ?: return player.sendMessage("§cInvalid player $it!").let { true }
+
+                    // Skip if player is already in group
+                    if (groupChat.playerList.contains(target)) { return@forEach }
+                    targetPlayers.add(target)
+                }
+
+                // Add players to group
+                PlayerGroupChatUtils.removePlayerFromGC(groupChat, targetPlayers, true)
+
+                // Notify players
+                val targetNames = if (targetPlayers.size == 1) targetPlayers.first().name else targetPlayers.joinToString(", ") { it.name }
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cREMOVED §7$targetNames to %gc%", "§7", groupChat))
+                val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You were §cREMOVED §7to group chat %gc% §7by staff", "§7", groupChat)
+                Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
+
+                // Alert group chat members
+                PlayerGroupChatUtils.chat(groupChat, null, "Staff removed $targetNames from group chat")
             }
 
             // LIST
-            SubCommand.LIST.name -> {
+            SubCommand.LIST.cmd -> {
                 player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
             }
 
             // SETOWNER
-            SubCommand.SETOWNER.name -> {
+            SubCommand.SETOWNER.cmd -> {
                 player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
             }
 
             // SPY
-            SubCommand.SPY.name -> {
+            SubCommand.SPY.cmd -> {
                 player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
             }
 
@@ -129,17 +279,17 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
             // 2nd argument - context-specific completions
             2 -> when (sub) {
                 // Show all group chats
-                "coords", "chat", "delete", "add", "remove", "setowner" ->
+                SubCommand.COORDS.cmd, SubCommand.CHAT.cmd, "c", SubCommand.DELETE.cmd, SubCommand.ADD.cmd, SubCommand.REMOVE.cmd, SubCommand.SETOWNER.cmd ->
                     PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS).filter { it.lowercase().startsWith(current) }
 
                 // Show all group chats + @a
-                "spy" -> (listOf("@a") + PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS)).filter { it.lowercase().startsWith(current) }
+                SubCommand.SPY.cmd -> (listOf("@a") + PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS)).filter { it.lowercase().startsWith(current) }
 
                 // Show all players + @a
-                "list" -> (listOf("@a") + Bukkit.getOnlinePlayers().map { it.name }).filter { it.lowercase().startsWith(current) }
+                SubCommand.LIST.cmd -> (listOf("@a") + Bukkit.getOnlinePlayers().map { it.name }).filter { it.lowercase().startsWith(current) }
 
                 // Show argument
-                "create" -> listOf("<name>").filter { it.startsWith(current, true) }
+                SubCommand.CREATE.cmd -> listOf("<name>").filter { it.startsWith(current, true) }
 
                 else -> emptyList()
             }
@@ -148,24 +298,40 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
             in 3..Int.MAX_VALUE -> when (sub) {
 
                 // Show group members (only when 3 args)
-                "setowner" -> if (args.size == 3) {
+                SubCommand.SETOWNER.cmd -> if (args.size == 3) {
                     val gc = PlayerGroupChatUtils.tabCompleteInputGCGet(args[1]) ?: return emptyList()
                     gc.playerList.mapNotNull { it.name }.filter { it.lowercase().startsWith(current) }
                 } else emptyList()
 
                 // Show group members
-                "remove" -> {
+                SubCommand.REMOVE.cmd -> {
                     val gc = PlayerGroupChatUtils.tabCompleteInputGCGet(args[1]) ?: return emptyList()
                     gc.playerList.mapNotNull { it.name }.filter { it.lowercase().startsWith(current) }
                 }
 
                 // Show all players
-                "add", "create" -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(current) }
+                SubCommand.ADD.cmd, SubCommand.CREATE.cmd -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.lowercase().startsWith(current) }
 
                 else -> emptyList()
             }
 
             else -> emptyList()
         }
+    }
+
+    // Helper function to check if sender has permission to use subcommand
+    private fun checkSubCommandPerm(sender: CommandSender, subCommand: SubCommand): Boolean {
+        if (sender.hasPermission(subCommand.perm)) return true
+        else {
+            sender.sendMessage("§cYou do not have permission to use '${subCommand.cmd}' subcommand!")
+            return false
+        }
+    }
+
+    // Helper function use to get validate a group input
+    private fun getAndValidateGC(groupChatArgument: String, sender: CommandSender): PlayerGroupChat? {
+        val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
+        if (groupChat == null) { sender.sendMessage("§c${PREFIX}Invalid group chat ID!"); return null }
+        else return groupChat
     }
 }

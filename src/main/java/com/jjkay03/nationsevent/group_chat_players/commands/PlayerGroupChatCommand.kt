@@ -14,6 +14,8 @@ import kotlin.text.startsWith
 
 class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
+    // TODO - REDO SUBCOMMAND SYSTEM USING ENUM AND PER SUBCOMMAND PERM (Same as /admingroupchat)
+
     companion object {
         private val OPTIONS = listOf("create", "join")
         private val GROUP_OPTIONS = listOf("chat", "coords", "leave", "list", "select")
@@ -74,7 +76,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Notify player
                 if (groupChat == null) player.sendMessage("§c${PREFIX}You have reached the limit of group chats that you can be in!")
-                else player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}Created group chat %gc%", "§2", groupChat))
+                else player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aCREATED §7group chat %gc%", "§2", groupChat))
             }
 
             // DELETE
@@ -89,7 +91,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 if (!isOwner(groupChat, player, "delete")) return true
 
                 // Notify player
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You deleted %gc%", "§a", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cDELETED §7group chat %gc%", "§c", groupChat))
 
                 // Alert group chat members and delete
                 PlayerGroupChatUtils.chat(groupChat, null, "${groupChat.owner.name} deleted group chat")
@@ -118,8 +120,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 groupChat.invites.add(targetPlayer)
 
                 // Notify players (sender and invited player with clickable invite message)
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You invited ${targetPlayer.name} to %gc%", "§a", groupChat))
-                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§e${PREFIX}You have invited by ${player.name} to %gc%", "§e", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §eINVITED §7${targetPlayer.name} to %gc%", "§7", groupChat))
+                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You have §eINVITED §7by ${player.name} to %gc%", "§7", groupChat))
                 targetPlayer.sendMessage(
                     Component.text("§7➥ use §e/gc join ${groupChat.id} §7to join §a[ACCEPT]")
                         .clickEvent(ClickEvent.runCommand("/gc join ${groupChat.id}"))
@@ -146,7 +148,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 if (!groupChat.playerList.contains(player)) { player.sendMessage("§c${PREFIX}Unable to join ${groupChat.prefix} you might of reached the group chat limit!"); return true }
 
                 // Alert player
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You joined %gc%", "§a", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aJOINED §7group chat %gc%", "§7", groupChat))
 
                 // Send join message in group chat
                 PlayerGroupChatUtils.chat(groupChat, null, "${player.name} joined group")
@@ -173,8 +175,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 PlayerGroupChatUtils.removePlayerFromGC(groupChat, listOf(targetPlayer))
 
                 // Notify players
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You kicked ${targetPlayer.name} from %gc%", "§a", groupChat))
-                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§c${PREFIX}You were kicked from %gc%", "§c", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cKICKED §7${targetPlayer.name} from %gc%", "§7", groupChat))
+                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You were §cKICKED §7from %gc%", "§7", groupChat))
 
                 // Send kick message in group
                 PlayerGroupChatUtils.chat(groupChat, null, "${targetPlayer.name} was kicked from group")
@@ -192,7 +194,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 PlayerGroupChatUtils.removePlayerFromGC(groupChat, listOf(player))
 
                 // Notify player
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You left from %gc%", "§a", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cLEFT §7from group chat %gc%", "§7", groupChat))
 
                 // Send leave message in group
                 PlayerGroupChatUtils.chat(groupChat, null, "${player.name} left group")
@@ -257,8 +259,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 PlayerGroupChatUtils.setGCOwner(groupChat, targetPlayer)
 
                 // Notify players
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§a${PREFIX}You transferred %gc% §ato ${targetPlayer.name}", "§a", groupChat))
-                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§e${PREFIX} ${player.name} transferred %gc% §eto you", "§e", groupChat))
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §bTRANSFERRED §7group chat %gc% §7to ${targetPlayer.name}", "§7", groupChat))
+                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX} ${player.name} §bTRANSFERRED §7group chat %gc% §7to you", "§7", groupChat))
             }
 
             // INVALID ARG - Send message in selected group chat
@@ -353,7 +355,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
     // Function use to get, validate and make sure 'player' is part of 'groupChat' (used in multiple sub commands)
     private fun getAndValidateGC(groupChatArgument: String, player: Player, playerIsMember: Boolean = true): PlayerGroupChat? {
         val groupChat = PlayerGroupChatUtils.tabCompleteInputGCGet(groupChatArgument)
-        if (groupChat == null) { player.sendMessage("§c${PREFIX}Invalid group chat ID!"); return groupChat }
+        if (groupChat == null) { player.sendMessage("§c${PREFIX}Invalid group chat ID!"); return null }
         if (playerIsMember && !PlayerGroupChatUtils.isPlayerInGC(player, groupChat)) { player.sendMessage("§c${PREFIX}You are not a member of GC${groupChat.id}!"); return null }
         else return groupChat
     }

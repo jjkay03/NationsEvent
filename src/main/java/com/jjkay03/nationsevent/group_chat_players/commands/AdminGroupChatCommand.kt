@@ -21,23 +21,6 @@ import kotlin.text.startsWith
 
 class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
-    /*
-
-    ✅ Tab complete
-
-    ✅ /agc coords <gc>
-    ✅ /agc chat <gc> message
-    ✅ /agc create <name> <owner> <players...>
-    ✅ /agc delete <ID> CONFIRM
-    ✅ /agc deleteall CONFIRM
-    ✅ /agc add <ID> <players...>
-    ✅ /agc remove <ID> <players...>
-    ❌ /agc list <player / @a>
-    ✅ /agc setowner <ID> <player>
-    ✅ /agc spy <ID / @a>
-
-     */
-
     // SUBCOMMANDS - names and perms
     enum class SubCommand(val cmd: String) {
         COORDS("coords"),
@@ -47,6 +30,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
         DELETEALL("deleteall"),
         ADD("add"),
         REMOVE("remove"),
+        JOIN("join"),
         LIST("list"),
         SETOWNER("setowner"),
         SPY("spy");
@@ -205,7 +189,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
 
                 // Alert group chat members
-                PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetNames to group chat")
+                if (targetNames != "") PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetNames to group chat")
 
             }
 
@@ -244,9 +228,75 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 PlayerGroupChatUtils.chat(groupChat, null, "Staff removed $targetNames from group chat")
             }
 
+            // JOIN
+            SubCommand.JOIN.cmd -> {
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.JOIN)) return true
+
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.JOIN.cmd} <ID>"); return true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Check if player is already a member of group
+                if (groupChat.playerList.contains(player)) { player.sendMessage("§c${PREFIX}You are already a member of ${groupChat.prefix}!") }
+
+                // Add player to group
+                PlayerGroupChatUtils.addPlayerToGC(groupChat, listOf(player))
+
+                // Alert player
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aJOINED §7group chat %gc%", "§7", groupChat))
+
+                // Send join message in group chat
+                PlayerGroupChatUtils.chat(groupChat, null, "${player.name} joined group")
+            }
+
             // LIST
             SubCommand.LIST.cmd -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.LIST)) return true
+
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.LIST.cmd} <player/@a>"); return true }
+
+                // Deal with argument
+                when (args[1].lowercase()) {
+                    // List all groups
+                    "@a", "all" -> {
+                        // List all server groups
+                        player.sendMessage("")
+                        player.sendMessage("§e${PREFIX}All server group chats:")
+                        player.sendMessage ("§7(Hover GC for more info")
+                        for (group in GROUP_CHATS) {
+                            val line = if (group.owner == player) "  §f• %gc% §6👑" else "  §f• %gc%"
+                            player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage(line, "§f", group,
+                                underLined = false,
+                                isWholeMessageHoverable = true
+                            ))
+                        }
+                        player.sendMessage("")
+                    }
+
+                    // List all groups a player is in
+                    else -> {
+                        // Get target player (owner) - end if invalid player
+                        val targetPlayer = Bukkit.getPlayer(args[1]) ?: return player.sendMessage("§cInvalid player ${args[1]}!").let { true }
+
+                        // List groups player is in
+                        player.sendMessage("")
+                        player.sendMessage("§e${PREFIX}Group chats ${targetPlayer.name} is in:")
+                        player.sendMessage ("§7(Hover GC for more info")
+                        for (group in PlayerGroupChatUtils.getPlayerGCs(targetPlayer)) {
+                            val line = if (group.owner == targetPlayer) "  §f• %gc% §6👑" else "  §f• %gc%"
+                            player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage(line, "§f", group,
+                                underLined = false,
+                                isWholeMessageHoverable = true
+                            ))
+                        }
+                        player.sendMessage("")
+                    }
+                }
             }
 
             // SETOWNER
@@ -288,7 +338,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                     // Clear all spied on groups
                     "clearall", "clear" -> {
                         PlayerGroupChatUtils.spyRemoveAll(player)
-                        player.sendMessage("§7${PREFIX}You §aCLEARED §dSPYING §7on all group chats")
+                        player.sendMessage("§7${PREFIX}You CLEARED §dSPYING §7on all group chats")
                     }
 
                     // Spy on all
@@ -341,7 +391,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
             // 2nd argument - context-specific completions
             2 -> when (sub) {
                 // Show all group chats
-                SubCommand.COORDS.cmd, SubCommand.CHAT.cmd, "c", SubCommand.DELETE.cmd, SubCommand.ADD.cmd, SubCommand.REMOVE.cmd, SubCommand.SETOWNER.cmd ->
+                SubCommand.COORDS.cmd, SubCommand.CHAT.cmd, "c", SubCommand.DELETE.cmd, SubCommand.ADD.cmd, SubCommand.REMOVE.cmd, SubCommand.JOIN.cmd, SubCommand.SETOWNER.cmd ->
                     PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS).filter { it.lowercase().startsWith(current) }
 
                 // Show all group chats + @a + CLEAR

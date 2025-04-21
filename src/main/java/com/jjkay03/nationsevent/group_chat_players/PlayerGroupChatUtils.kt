@@ -13,6 +13,7 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GLOBAL_SPIES
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PERM_BYPASS_LIMIT
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
@@ -24,44 +25,37 @@ object PlayerGroupChatUtils {
     // Use to signify the state of a player group chats limit
     enum class LimitState { VALID, LIMIT, EXCEEDED }
 
-    // TODO - WHEN SPYING DON'T SEND DUPLICATE MESSAGES TO SPIES IF THEY ARE ALREADY IN THE GROUP CHAT OR A UNIVERSAL SPY!
     // Function used to send message in a group chat
     fun chat(groupChat: PlayerGroupChat, player: Player?, message: String, staffAction: Boolean = false) {
         // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
         if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
 
-        // Format messages
+        // Message components
         val prefix = "$GROUP_CHAT_COLOR[%gc%$GROUP_CHAT_COLOR] "
-        val prefixSpyMsg = "$GROUP_CHAT_SPY_COLOR[%gc%$GROUP_CHAT_SPY_COLOR] "
-        val author = when {
+        val spyPrefix = "$GROUP_CHAT_SPY_COLOR[%gc%$GROUP_CHAT_SPY_COLOR] "
+
+        // Author formatting helper
+        fun formatAuthor(color: String?): String = when {
             player == null -> ""
-            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_COLOR ${player.name}: "
-            else -> "${player.name}: " }
-        val authorSpyMsg = when {
-            player == null -> ""
-            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_SPY_COLOR ${player.name}: "
-            else -> "${player.name}: " }
-
-        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat, false)
-        val spiesMsg  = formatHoverableMessage("$prefixSpyMsg$authorSpyMsg$message", GROUP_CHAT_SPY_COLOR, groupChat, false)
-
-        // Send message (without duplicates for spies)
-        val alreadySentTo = mutableSetOf<UUID>()
-
-        // Send regular messages to group members
-        for (member in groupChat.playerList) {
-            val onlinePlayer = member.player ?: continue
-            onlinePlayer.sendMessage(playerMsg)
-            alreadySentTo.add(member.uniqueId)
+            staffAction -> "$STAFF_MESSAGE_PREFIX$color ${player.name}: "
+            else -> "${player.name}: "
         }
 
-        // Send spy messages to any spies who haven't received a message yet
-        for (spy in (groupChat.spies + GLOBAL_SPIES)) {
-            if (spy.uniqueId in alreadySentTo) continue
-            val onlinePlayer = spy.player ?: continue
-            onlinePlayer.sendMessage(spiesMsg)
-            alreadySentTo.add(spy.uniqueId)
-        }
+        // Create messages
+        val playerMsg = formatHoverableMessage(prefix + formatAuthor(GROUP_CHAT_COLOR) + message, GROUP_CHAT_COLOR, groupChat, false)
+        val spiesMsg = formatHoverableMessage(spyPrefix + formatAuthor(GROUP_CHAT_SPY_COLOR) + message, GROUP_CHAT_SPY_COLOR, groupChat, false)
+
+        // Send messages
+        val groupMembers = groupChat.playerList.mapNotNull { it.player }
+        val sentTo = groupMembers.mapTo(mutableSetOf()) { it.uniqueId }
+        groupMembers.forEach { it.sendMessage(playerMsg) }
+
+        // Send to spies if they have not received yet
+        (groupChat.spies + GLOBAL_SPIES)
+            .mapNotNull { it.player }
+            .distinctBy { it.uniqueId }
+            .filterNot { it.uniqueId in sentTo }
+            .forEach { it.sendMessage(spiesMsg) }
 
         // Log
         PlayerGroupChatLog.chatInGC(groupChat, player, message, staffAction)
@@ -233,6 +227,9 @@ object PlayerGroupChatUtils {
 
     // Function that checks if player is exceeding the group chat limit
     fun checkPlayerGCLimit(player: OfflinePlayer): LimitState {
+        // End if player is staff (bypass)
+        if ((player as? Player)?.hasPermission(PERM_BYPASS_LIMIT) == true) return LimitState.VALID
+
         val playerGroupChats = getPlayerGCs(player)
 
         // If player is under the group chat limit -> return state

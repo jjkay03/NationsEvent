@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.server.PluginDisableEvent
+import org.bukkit.permissions.Permission
 import org.bukkit.plugin.java.JavaPlugin
 
 class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
@@ -24,6 +25,9 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("player-group-chat-staff-msg-prefix", "§6[STAFF]")
         val STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(STAFF_MESSAGE_PREFIX)
         val NAME_CHARACTER_LIMIT = NationsEvent.INSTANCE.config.getInt("player-group-chat-name-character-limit", 6)
+
+        // Permission
+        val PERM_BYPASS_LIMIT: Permission = Permission("nationsevent.playergroupchat.bypasslimit")
 
         // Variables
         const val PREFIX = "\uD83D\uDC65\uD83D\uDCAC " // Prefix used before all command feedback

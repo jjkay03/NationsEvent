@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.group_chat_players.commands
 
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChat
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GLOBAL_SPIES
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GROUP_CHATS
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PREFIX
@@ -32,8 +33,8 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
     ✅ /agc add <ID> <players...>
     ✅ /agc remove <ID> <players...>
     ❌ /agc list <player / @a>
-    ❌ /agc setowner <ID> <player>
-    ❌ /agc spy <ID / @a>
+    ✅ /agc setowner <ID> <player>
+    ✅ /agc spy <ID / @a>
 
      */
 
@@ -250,12 +251,73 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
             // SETOWNER
             SubCommand.SETOWNER.cmd -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.SETOWNER)) return true
+
+                // Check - validate arguments
+                if (args.size < 3) { player.sendMessage("§cUsage: /$label ${SubCommand.SETOWNER.cmd} <ID> <player>"); return true }
+
+                // Get target player
+                val targetPlayer = Bukkit.getPlayer(args[2]) ?: return player.sendMessage("§cInvalid player!").let { true }
+
+                // Check - get and validate group chat
+                val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                // Check - if player is member of group chat or already owner
+                if (!groupChat.playerList.contains(targetPlayer)) { player.sendMessage("§c${PREFIX}${targetPlayer.name} is not a member of ${groupChat.prefix}!"); return true }
+                if (targetPlayer == groupChat.owner) { player.sendMessage("§c${PREFIX}${targetPlayer.name} is already the owner of ${groupChat.prefix}!"); return true }
+
+                // Set new owner
+                PlayerGroupChatUtils.setGCOwner(groupChat, targetPlayer)
+
+                // Notify players
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §bTRANSFERRED §7group chat %gc% §7to ${targetPlayer.name}", "§7", groupChat))
+                targetPlayer.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}Group chat %gc% §7was §bTRANSFERRED §7to you by staff", "§7", groupChat))
             }
 
             // SPY
             SubCommand.SPY.cmd -> {
-                player.sendMessage("§cNOT IMPLEMENTED YET!") // TODO
+                // Check - subcommand permission
+                if (!checkSubCommandPerm(player, SubCommand.SPY)) return true
+
+                // Check - validate arguments
+                if (args.size < 2) { player.sendMessage("§cUsage: /$label ${SubCommand.SETOWNER.cmd} <ID/@a/CLEARALL>"); return true }
+
+                // Deal with argument
+                when (args[1].lowercase()) {
+                    // Clear all spied on groups
+                    "clearall", "clear" -> {
+                        PlayerGroupChatUtils.spyRemoveAll(player)
+                        player.sendMessage("§7${PREFIX}You §aCLEARED §dSPYING §7on all group chats")
+                    }
+
+                    // Spy on all
+                    "@a", "all" -> {
+                        // Check if player is global spy
+                        if (!GLOBAL_SPIES.contains(player)) {
+                            GLOBAL_SPIES.add(player)
+                            player.sendMessage("§7${PREFIX}You §aENABLED §dGLOBAL SPYING §7on all group chats")
+                        } else {
+                            GLOBAL_SPIES.remove(player)
+                            player.sendMessage("§7${PREFIX}You §cDISABLED §dGLOBAL SPYING §7on all group chats")
+                        }
+
+                    }
+
+                    // Spy on specific group
+                    else -> {
+                        // Check - get and validate group chat
+                        val groupChat = getAndValidateGC(args[1], player) ?: return true
+
+                        // Add/remove spy to group + notify player
+                        if (PlayerGroupChatUtils.spyAdd(groupChat, player)) {
+                            player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §aENABLED §dSPYING §7on group chat %gc%", "§7", groupChat))
+                        } else {
+                            PlayerGroupChatUtils.spyRemove(groupChat, player)
+                            player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PREFIX}You §cDISABLED §dSPYING §7on group chat %gc%", "§7", groupChat))
+                        }
+                    }
+                }
             }
 
             // NO ARGS - Display command usage
@@ -282,8 +344,8 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 SubCommand.COORDS.cmd, SubCommand.CHAT.cmd, "c", SubCommand.DELETE.cmd, SubCommand.ADD.cmd, SubCommand.REMOVE.cmd, SubCommand.SETOWNER.cmd ->
                     PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS).filter { it.lowercase().startsWith(current) }
 
-                // Show all group chats + @a
-                SubCommand.SPY.cmd -> (listOf("@a") + PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS)).filter { it.lowercase().startsWith(current) }
+                // Show all group chats + @a + CLEAR
+                SubCommand.SPY.cmd -> (listOf("@a", "CLEARALL") + PlayerGroupChatUtils.tabCompletePlayerGCsList(GROUP_CHATS)).filter { it.lowercase().startsWith(current) }
 
                 // Show all players + @a
                 SubCommand.LIST.cmd -> (listOf("@a") + Bukkit.getOnlinePlayers().map { it.name }).filter { it.lowercase().startsWith(current) }

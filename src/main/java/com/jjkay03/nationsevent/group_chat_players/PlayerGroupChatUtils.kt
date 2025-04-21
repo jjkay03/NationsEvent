@@ -11,10 +11,12 @@ import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Compan
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.NAME_CHARACTER_LIMIT
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.PLAYERS_SELECTED_GC
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX
-import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.UNIVERSAL_SPIES
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.STAFF_MESSAGE_PREFIX_FORMATLESS
+import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager.Companion.GLOBAL_SPIES
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.entity.Player
+import java.util.UUID
 import kotlin.collections.set
 
 object PlayerGroupChatUtils {
@@ -25,22 +27,41 @@ object PlayerGroupChatUtils {
     // TODO - WHEN SPYING DON'T SEND DUPLICATE MESSAGES TO SPIES IF THEY ARE ALREADY IN THE GROUP CHAT OR A UNIVERSAL SPY!
     // Function used to send message in a group chat
     fun chat(groupChat: PlayerGroupChat, player: Player?, message: String, staffAction: Boolean = false) {
-        // Format messages
-        val prefix = "$GROUP_CHAT_COLOR[%gc%$GROUP_CHAT_COLOR] "
-        val author = when {
-            player == null -> ""
-            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_COLOR ${player.name}: "
-            else -> "${player.name}: "
-        }
-        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat, false)
-        val spiesMsg  = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_SPY_COLOR, groupChat, false)
-
         // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
         if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
 
-        Utils.sendMessageToPlayerList(groupChat.playerList, playerMsg)
-        Utils.sendMessageToPlayerList(groupChat.spies, spiesMsg)
-        Utils.sendMessageToPlayerList(UNIVERSAL_SPIES, spiesMsg)
+        // Format messages
+        val prefix = "$GROUP_CHAT_COLOR[%gc%$GROUP_CHAT_COLOR] "
+        val prefixSpyMsg = "$GROUP_CHAT_SPY_COLOR[%gc%$GROUP_CHAT_SPY_COLOR] "
+        val author = when {
+            player == null -> ""
+            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_COLOR ${player.name}: "
+            else -> "${player.name}: " }
+        val authorSpyMsg = when {
+            player == null -> ""
+            (staffAction) -> "$STAFF_MESSAGE_PREFIX$GROUP_CHAT_SPY_COLOR ${player.name}: "
+            else -> "${player.name}: " }
+
+        val playerMsg = formatHoverableMessage("$prefix$author$message", GROUP_CHAT_COLOR, groupChat, false)
+        val spiesMsg  = formatHoverableMessage("$prefixSpyMsg$authorSpyMsg$message", GROUP_CHAT_SPY_COLOR, groupChat, false)
+
+        // Send message (without duplicates for spies)
+        val alreadySentTo = mutableSetOf<UUID>()
+
+        // Send regular messages to group members
+        for (member in groupChat.playerList) {
+            val onlinePlayer = member.player ?: continue
+            onlinePlayer.sendMessage(playerMsg)
+            alreadySentTo.add(member.uniqueId)
+        }
+
+        // Send spy messages to any spies who haven't received a message yet
+        for (spy in (groupChat.spies + GLOBAL_SPIES)) {
+            if (spy.uniqueId in alreadySentTo) continue
+            val onlinePlayer = spy.player ?: continue
+            onlinePlayer.sendMessage(spiesMsg)
+            alreadySentTo.add(spy.uniqueId)
+        }
 
         // Log
         PlayerGroupChatLog.chatInGC(groupChat, player, message, staffAction)
@@ -92,6 +113,23 @@ object PlayerGroupChatUtils {
 
     // Function to change owner of a group
     fun setGCOwner(groupChat: PlayerGroupChat, newOwner: OfflinePlayer) { groupChat.owner = newOwner }
+
+    // Function to add a spy to a group (returns true when spy is added, false is spy already in group)
+    fun spyAdd(groupChat: PlayerGroupChat, spy: OfflinePlayer): Boolean {
+        if (!groupChat.spies.contains(spy)) { groupChat.spies.add(spy); return true }
+        else return false
+    }
+
+    // Function to remove spy from a group
+    fun spyRemove(groupChat: PlayerGroupChat, spy: OfflinePlayer) { groupChat.spies.remove(spy) }
+
+    // Function to remove spy from all groups and global
+    fun spyRemoveAll(spy: OfflinePlayer) {
+        GLOBAL_SPIES.remove(spy)
+        for (group in GROUP_CHATS) {
+            group.spies.remove(spy)
+        }
+    }
 
     // Function to creates a new group chat with 'owner' as its owner and 'players' as the players
     fun createGC(owner: OfflinePlayer, players: List<OfflinePlayer> = listOf(), name: String = "", staffAction: Boolean = false) : PlayerGroupChat? {
@@ -168,15 +206,6 @@ object PlayerGroupChatUtils {
         val playerGroupChats = getPlayerGCs(player)
         playerGroupChats.takeLast(amount).reversed().forEach { groupChat ->
             removePlayerFromGC(groupChat, listOf(player))
-        }
-    }
-
-    // Function to invite a player to a group chat
-    fun invitePlayerToGC(groupChat: PlayerGroupChat, players: List<OfflinePlayer>) {
-        players.forEach { player ->
-            if (groupChat.invites.contains(player)) return@forEach // Skip if already invited
-            groupChat.invites.add(player)
-            PlayerGroupChatLog.invitePlayerToGC(groupChat, player)
         }
     }
 

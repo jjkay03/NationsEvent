@@ -30,7 +30,7 @@ class PlayerGroupChatManager(private val plugin: JavaPlugin): Listener {
         val COMMANDS = setOf("groupchat", "admingroupchat")
         val GROUP_CHATS = mutableListOf<PlayerGroupChat>()
         val PLAYERS_SELECTED_GC = mutableMapOf<OfflinePlayer, Int>()
-        val UNIVERSAL_SPIES = mutableListOf<OfflinePlayer>()
+        val GLOBAL_SPIES = mutableListOf<OfflinePlayer>()
     }
 
     // Run on class initialization

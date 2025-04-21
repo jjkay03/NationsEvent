@@ -3,6 +3,7 @@ package com.jjkay03.nationsevent.group_chat_players
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.Bukkit
 import java.io.File
 import java.util.UUID
@@ -44,6 +45,7 @@ object PlayerGroupChatSave {
 
     // Function to save all group chats to json
     fun saveGCToFile(file: File, groupChatsList: List<PlayerGroupChat>) {
+        NationsEvent.INSTANCE.logger.info("Saving ${groupChatsList.size} player group chats to file (${file.name})")
         val gson = GsonBuilder().setPrettyPrinting().create()
         val serializableList = groupChatsList.map { it.toSerializable() }
         val json = gson.toJson(serializableList)

@@ -302,7 +302,7 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Check - if player is member of group chat or self
                 if (!groupChat.playerList.contains(targetPlayer)) { player.sendMessage("§c${PREFIX}${targetPlayer.name} is not a member of ${groupChat.prefix}!"); return true }
-                if (targetPlayer == player) { player.sendMessage("§c${PREFIX} You are already the owner of ${groupChat.prefix}!") }
+                if (targetPlayer == player) { player.sendMessage("§c${PREFIX}You are already the owner of ${groupChat.prefix}!"); return true }
 
                 // Set new owner
                 PlayerGroupChatUtils.setGCOwner(groupChat, targetPlayer)

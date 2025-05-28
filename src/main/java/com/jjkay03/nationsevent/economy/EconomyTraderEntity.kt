@@ -32,7 +32,7 @@ object EconomyTraderEntity : Listener {
         event.isCancelled = true
 
         // Check player permission
-        if (!event.player.hasPermission(Saves.PERM_USE_ECONOMY_TRADE_ENTITY)) {event.player.sendMessage("§cYou don't have permission to use the trade entity!"); return}
+        if (!event.player.hasPermission(Saves.PERM_ECONOMY_USE_TRADE_ENTITY)) {event.player.sendMessage("§cYou don't have permission to use the trade entity!"); return}
 
         // Make the villager face the player
         val villagerLocation = entity.location

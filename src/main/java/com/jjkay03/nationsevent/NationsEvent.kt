@@ -10,7 +10,7 @@ import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.patches.*
 import com.jjkay03.nationsevent.server_settings.*
-import com.jjkay03.nationsevent.specific.ne2.*
+import com.jjkay03.nationsevent.specific.ne3.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -113,7 +113,7 @@ open class NationsEvent : JavaPlugin() {
         AntiEnderPearl() // Patch
 
         // Season specific load
-        NE2_Load(this)
+        NE3_Load(this)
 
         // Register placeholder (PlaceholderAPI)
         registerPlaceholderAPI()

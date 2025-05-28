@@ -36,6 +36,9 @@ class PayCommand : CommandExecutor, TabCompleter {
         // End if target is self
         if (target == sender) { sender.sendMessage("§cYou cannot pay yourself!"); return true }
 
+        // End if target doesn't have perm PERM_ECONOMY_RECEIVE_PAYMENTS
+        if (!target.hasPermission(Saves.PERM_ECONOMY_RECEIVE_MONEY)) { sender.sendMessage("§c${target.name} doesn't have permission to receive money!"); return true }
+
         // End if amount is invalid
         val amountLong = args[1].toLongOrNull()
         if (amountLong == null || amountLong <= 0) { sender.sendMessage("§cInvalid amount! You must enter a positive whole number."); return true }

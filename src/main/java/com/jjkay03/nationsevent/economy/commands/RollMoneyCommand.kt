@@ -61,12 +61,12 @@ class RollMoneyCommand : CommandExecutor, TabCompleter {
 
         // End if min/max invalid or no players online.
         if (min == null || max == null || max < min) { sender.sendMessage("§cInvalid min/max input!"); return true }
-        val onlinePlayers = Bukkit.getOnlinePlayers()
-        if (onlinePlayers.isEmpty()) { sender.sendMessage("§cNo players online to roll money for!"); return true }
+        val eligiblePlayers = Bukkit.getOnlinePlayers().filter { it.hasPermission(Saves.PERM_ECONOMY_RECEIVE_MONEY) }
+        if (eligiblePlayers.isEmpty()) { sender.sendMessage("§cNo players online to roll money for!"); return true }
 
         lastMin = min
         lastMax = max
-        lastRoll = onlinePlayers.map { player -> player to generateRandomMultipleOfFive(min, max) }
+        lastRoll = eligiblePlayers.map { player -> player to generateRandomMultipleOfFive(min, max) }
 
         displayRollResults(sender)
         return true

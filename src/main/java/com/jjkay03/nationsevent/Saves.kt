@@ -20,8 +20,9 @@ class Saves() {
         const val PERM_SPECTATOR: String = "nationsevent.spectator"
 
         // PERMISSIONS
-        const val PERM_USE_CHAT: String = "nationsevent.usechat"
-        const val PERM_USE_ECONOMY_TRADE_ENTITY: String = "nationsevent.economy.usetradeentity"
+        const val PERM_USE_CHAT: String = "nationsevent.use-chat"
+        const val PERM_ECONOMY_USE_TRADE_ENTITY: String = "nationsevent.economy.use-trade-entity"
+        const val PERM_ECONOMY_RECEIVE_MONEY: String = "nationsevent.economy.receive-money"
         const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
 
         // LUCKPERMS GROUPS

@@ -6,7 +6,7 @@
 # == Server settings =================================================================================================
 
 # Event code name (Example: NG1)
-event-codename: NE2
+event-codename: NE3
 
 # Default players max render distance
 render-distance-manager: false
@@ -49,7 +49,7 @@ economy-money-color: "§e"
 economy-allow-negative-balance: true
 
 # Update total balances - run a task and update total balance var every x minutes (used in placeholders)
-economy-update-total-balances: true
+economy-update-total-balances: false
 economy-update-total-balances-interval: 1
 
 

@@ -20,6 +20,7 @@ import me.neznamy.tab.api.tablist.HeaderFooterManager
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.model.group.GroupManager
+import net.luckperms.api.model.user.UserManager
 import org.ipvp.canvas.MenuFunctionListener
 
 open class NationsEvent : JavaPlugin() {
@@ -33,6 +34,7 @@ open class NationsEvent : JavaPlugin() {
         // LUCKPERMS API
         lateinit var LP_INSTANCE: LuckPerms
         lateinit var LP_GROUP_MANAGER: GroupManager
+        lateinit var LP_USER_MANAGER: UserManager
     }
 
     // Plugin startup logic
@@ -136,6 +138,7 @@ open class NationsEvent : JavaPlugin() {
         // LUCKPERMS API
         LP_INSTANCE = LuckPermsProvider.get()
         LP_GROUP_MANAGER = LP_INSTANCE.groupManager
+        LP_USER_MANAGER = LP_INSTANCE.userManager
         @Suppress("SENSELESS_COMPARISON")
         if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.severe("Can't connect to LuckPerms API")
     }

@@ -25,5 +25,21 @@ enum class GroupChats (
         Saves.PERM_STAFF,
         Saves.PERM_STAFF,
         setOf("staffchat", "sc")
+    ),
+
+    // NE3 SPECIFIC
+    NE3_RED_CHAT (
+        "§7[§cRED-CHAT§7] §f%player%: %message%",
+        "nationsevent.ne3.red-chat.send",
+        "nationsevent.ne3.red-chat.view",
+        setOf("redchat", "rc")
+    ),
+
+    // NE3 SPECIFIC
+    NE3_BLUE_CHAT (
+        "§7[§9BLUE-CHAT§7] §f%player%: %message%",
+        "nationsevent.ne3.blue-chat.send",
+        "nationsevent.ne3.blue-chat.view",
+        setOf("bluechat", "bc")
     )
 }

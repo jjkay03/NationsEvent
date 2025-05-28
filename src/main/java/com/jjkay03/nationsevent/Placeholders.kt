@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.economy.EconomyUtils
+import com.jjkay03.nationsevent.specific.ne3.NE3_SocialStatus
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 
@@ -30,6 +31,9 @@ class Placeholders : PlaceholderExpansion() {
             "eco_total_balances" -> EconomyUtils.formatMoney(Economy.TOTAL_BALANCES_AMOUNT)
             "eco_total_balances_format_full" -> EconomyUtils.formatMoney(Economy.TOTAL_BALANCES_AMOUNT, EconomyUtils.MoneyFormat.FULL)
             "eco_total_balances_format_shorten" -> EconomyUtils.formatMoney(Economy.TOTAL_BALANCES_AMOUNT, EconomyUtils.MoneyFormat.SHORTEN)
+
+            // NE3 Social Status placeholder
+            "ne3_social_status_icon" -> player?.let { NE3_SocialStatus.getSocialStatusIcon(it) } ?: ""
 
             else -> null
         }

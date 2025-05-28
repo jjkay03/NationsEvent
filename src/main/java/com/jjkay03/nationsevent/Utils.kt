@@ -3,6 +3,7 @@ package com.jjkay03.nationsevent
 import com.jjkay03.nationsevent.commands.DisabledCommands
 import net.kyori.adventure.text.Component
 import net.luckperms.api.model.group.Group
+import net.luckperms.api.node.Node
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
@@ -13,6 +14,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.permissions.Permission
 import org.bukkit.plugin.java.JavaPlugin
 import java.lang.reflect.Field
 
@@ -59,10 +61,28 @@ object Utils {
         Bukkit.getOnlinePlayers().forEach { player -> player.playSound(player.location, sound, volume, pitch) }
     }
 
-    // Function that checks if a luckperms group has a permission
+    // Function that checks if a LuckPerms group has a permission
     fun luckPermsGroupHasPermission(group: Group?, permission: String): Boolean {
         if (group == null) return false // Return false if the group is null
         return group.nodes.any { it.key == permission && it.value }
+    }
+
+    // Function that give a player a permission using LuckPerms
+    fun luckPermsPlayerAddPermission(player: Player, permission: String) {
+        val lpPlayer = NationsEvent.LP_USER_MANAGER.getUser(player.uniqueId)
+        if (lpPlayer == null) return
+        val node = Node.builder(permission).value(true).build()
+        lpPlayer.data().add(node)
+        NationsEvent.LP_USER_MANAGER.saveUser(lpPlayer)
+    }
+
+    // Function that remove a player a permission using LuckPerms
+    fun luckPermsPlayerRemovePermission(player: Player, permission: String) {
+        val lpPlayer = NationsEvent.LP_USER_MANAGER.getUser(player.uniqueId)
+        if (lpPlayer == null) return
+        val node = Node.builder(permission).value(true).build()
+        lpPlayer.data().remove(node)
+        NationsEvent.LP_USER_MANAGER.saveUser(lpPlayer)
     }
 
     // Function to initialize commandMap using reflection

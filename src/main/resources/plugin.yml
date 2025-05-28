@@ -16,166 +16,169 @@ api-version: '1.21'
 commands:
   joinvc:
     permission: nationsevent.command.joinvc
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   joinstage:
     permission: nationsevent.command.joinstage
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   announcesession:
     permission: nationsevent.command.announcesession
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   sessiontime:
     permission: nationsevent.command.sessiontime
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   pvptoggle:
     permission: nationsevent.command.pvptoggle
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   pvpalerts:
     permission: nationsevent.command.pvpalerts
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   voicechatperms:
     permission: nationsevent.command.voicechatperms
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   bypassviewdistance:
     permission: nationsevent.command.bypassviewdistance
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   vote:
     permission: nationsevent.command.vote
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   topvotes:
     permission: nationsevent.command.topvotes
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   clearvotes:
     permission: nationsevent.command.clearvotes
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   exportvotes:
     permission: nationsevent.command.exportvotes
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   lockvotes:
     permission: nationsevent.command.lockvotes
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   playerscale:
     aliases: [pscale]
     permission: nationsevent.command.playerscale
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   playerscalerestall:
     aliases: [pscaleresetall]
     permission: nationsevent.command.playerscalerestall
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   needadmin:
     aliases: [nadmin]
     permission: nationsevent.command.needadmin
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   freezeall:
     permission: nationsevent.command.freezeall
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   hidestaff:
     permission: nationsevent.command.hidestaff
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   fullmoon:
     permission: nationsevent.command.fullmoon
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   permanentmessage:
     aliases: [permmessage, permmsg]
     permission: nationsevent.command.permanentmessage
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   admingui:
     aliases: [ag, agui]
     permission: nationsevent.admin
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   globalchat:
     aliases: [chat]
     permission: nationsevent.command.globalchat
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   applyserverpack:
     permission: nationsevent.command.applyserverpack
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   restockvillagers:
     permission: nationsevent.command.restockvillagers
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   randomplayertp:
     aliases: [rplayertp, rptp, tprandomplayer]
     permission: nationsevent.command.randomplayertp
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   economy:
     aliases: [ eco, neco, nationseconomy ]
     permission: nationsevent.command.economy
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   balance:
     aliases: [ bal, nbal, nationsbalance ]
     permission: nationsevent.command.balance
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   pay:
     aliases: [ npay, nationspay, sendmoney ]
     permission: nationsevent.command.pay
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   rollmoney:
     aliases: [ moneyroll ]
     permission: nationsevent.command.rollmoney
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   tax:
     aliases: [ economytax, ecotax ]
     permission: nationsevent.command.tax
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   taxpay:
     aliases: [ paytax ]
     permission: nationsevent.command.taxpay
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   balancefile:
     permission: nationsevent.command.balancefile
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   balancetop:
     aliases: [ baltop, topbal, topbalance ]
     permission: nationsevent.command.balancetop
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   spawntraderentity:
     permission: nationsevent.command.spawntraderentity
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   groupchat:
     aliases: [ gc, playergroupchats ]
     permission: nationsevent.command.groupchat
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
   admingroupchat:
     aliases: [ agc, admingc ]
     permission: nationsevent.command.admingroupchat
-    permission-message: "You do not have permission to use this command"
+    permission-message: "§cYou do not have permission to use this command"
 
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!
 # =====================================================================================================================
 
+  socialstatus:
+    permission: nationsevent.command.ne3.socialstatus
+    permission-message: "§cYou do not have permission to use this command"

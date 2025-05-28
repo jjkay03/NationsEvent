@@ -10,14 +10,12 @@ class NE3_Load (private val plugin: JavaPlugin) {
         Bukkit.getConsoleSender().sendMessage("§e[NationsEvent] Loading season specific code: §6NE3")
 
         // Class variables
-        //...
+        val ne3SocialStatus = NE3_SocialStatus()
 
         // Register commands
-        //...
+        plugin.getCommand("socialstatus")?.apply { setExecutor(ne3SocialStatus); tabCompleter = ne3SocialStatus }
 
         // Register events
-        //...
-
-        // gonk was here
+        // ...
     }
 }

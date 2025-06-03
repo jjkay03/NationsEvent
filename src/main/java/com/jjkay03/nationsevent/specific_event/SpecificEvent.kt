@@ -31,8 +31,5 @@ class SpecificEvent (private val plugin: JavaPlugin) {
 
         // Register events
         // ...
-
-        // Register placeholders (PlaceholderAPI)
-        plugin.server.pluginManager.getPlugin("PlaceholderAPI")?.let { SpecificEventPlaceholders().register() }
     }
 }

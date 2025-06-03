@@ -33,7 +33,7 @@ enum class NE3_SocialStatus (
     ),
 
     TIER_3 (
-        "nationsevent.ne3.social-status.tier-2",
+        "nationsevent.ne3.social-status.tier-3",
         "⭐",
         5
     ),
@@ -52,9 +52,7 @@ enum class NE3_SocialStatus (
         // Function that returns social status of a player if they have one
         fun getPlayerSocialStatusIcon(player: Player): String {
             if (!player.hasPermission(PERM_RECEIVE_STATUS)) return ""
-            NE3_SocialStatus.entries.firstOrNull { player.hasPermission(it.permission) }?.let {
-                return if (it.icon.isEmpty()) "" else "${it.icon} "
-            }
+            NE3_SocialStatus.entries.firstOrNull { player.hasPermission(it.permission) }?.let { return if (it.icon.isEmpty()) "" else "${it.icon} " }
             return ""
         }
 

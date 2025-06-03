@@ -4,7 +4,6 @@ authors: [jjkay03, Gonkas77]
 website: https://jjkay03.com/
 
 depend:
-  - TAB
   - LuckPerms
 
 softdepend:

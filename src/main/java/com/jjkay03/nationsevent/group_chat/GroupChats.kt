@@ -1,7 +1,6 @@
 package com.jjkay03.nationsevent.group_chat
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.specific.ng6.NG6_RolesEnum
 
 enum class GroupChats (
     val formatting: String,

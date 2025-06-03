@@ -9,7 +9,7 @@ import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.patches.*
-import com.jjkay03.nationsevent.specific_event.LoadSpecificEvent
+import com.jjkay03.nationsevent.specific_event.SpecificEvent
 import com.jjkay03.nationsevent.server_settings.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
@@ -109,7 +109,7 @@ open class NationsEvent : JavaPlugin() {
         AntiEnderPearl() // Patch
 
         // Load specific event classes
-        LoadSpecificEvent(this)
+        SpecificEvent(this)
 
         // Register placeholder (PlaceholderAPI)
         registerPlaceholderAPI()

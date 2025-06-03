@@ -6,6 +6,7 @@
 # == Server settings =================================================================================================
 
 # Event code name (Example: NG1)
+# Needs to match actual build-in event codename to load event specific classes
 event-codename: NE3
 
 # Default players max render distance

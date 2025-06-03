@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ne3
+package com.jjkay03.nationsevent.specific_event.ne3
 
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.Bukkit
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
-class NE3_SocialStatus : CommandExecutor, TabCompleter {
+class SocialStatusCommand : CommandExecutor, TabCompleter {
 
     companion object{
         const val PERM_RECEIVE_STATUS = "nationsevent.ne3.receive-status"
@@ -17,12 +17,21 @@ class NE3_SocialStatus : CommandExecutor, TabCompleter {
         const val PERM_SOCIAL_STATUS_TIER_1 = "nationsevent.ne3.social-status.1"
         const val PERM_SOCIAL_STATUS_TIER_2 = "nationsevent.ne3.social-status.2"
         const val PERM_SOCIAL_STATUS_TIER_3 = "nationsevent.ne3.social-status.3"
-        val ALL_SOCIAL_STATUS_PERMS = listOf<String>(PERM_SOCIAL_STATUS_LEADER, PERM_SOCIAL_STATUS_TIER_1, PERM_SOCIAL_STATUS_TIER_2, PERM_SOCIAL_STATUS_TIER_3)
+        const val PERM_SOCIAL_STATUS_SOLDIER = "nationsevent.ne3.social-status.soldier"
+
+        val ALL_SOCIAL_STATUS_PERMS = listOf<String>(
+            PERM_SOCIAL_STATUS_LEADER,
+            PERM_SOCIAL_STATUS_TIER_1,
+            PERM_SOCIAL_STATUS_TIER_2,
+            PERM_SOCIAL_STATUS_TIER_3,
+            PERM_SOCIAL_STATUS_SOLDIER
+        )
 
         const val ICON_SOCIAL_STATUS_LEADER = "\uD83D\uDC51"
         const val ICON_SOCIAL_STATUS_1 = "✵ "
         const val ICON_SOCIAL_STATUS_2 = "✯ "
         const val ICON_SOCIAL_STATUS_3 = "⭐ "
+        const val ICON_SOCIAL_STATUS_SOLDIER = "🎖 "
 
         // Function to get icon social status of a player
         fun getSocialStatusIcon(player: Player): String {
@@ -32,6 +41,7 @@ class NE3_SocialStatus : CommandExecutor, TabCompleter {
                 player.hasPermission(PERM_SOCIAL_STATUS_TIER_1) -> ICON_SOCIAL_STATUS_1
                 player.hasPermission(PERM_SOCIAL_STATUS_TIER_2) -> ICON_SOCIAL_STATUS_2
                 player.hasPermission(PERM_SOCIAL_STATUS_TIER_3) -> ICON_SOCIAL_STATUS_3
+                player.hasPermission(PERM_SOCIAL_STATUS_SOLDIER) -> ICON_SOCIAL_STATUS_SOLDIER
                 else -> ""
             }
         }
@@ -70,6 +80,11 @@ class NE3_SocialStatus : CommandExecutor, TabCompleter {
                 sender.sendMessage("§aSet ${target.name}'s social status to $option")
                 Utils.messagePlayerWithPerm(redChatMessagePromote, "nationsevent.ne3.red-chat.view")
             }
+            "SOLDIER" -> {
+                givePlayerTier(target, PERM_SOCIAL_STATUS_SOLDIER)
+                sender.sendMessage("§aSet ${target.name}'s social status to $option")
+                Utils.messagePlayerWithPerm(redChatMessagePromote, "nationsevent.ne3.red-chat.view")
+            }
             "NONE" -> {
                 removePlayerTiers(target)
                 sender.sendMessage("§aCleared ${target.name}'s social status")
@@ -84,7 +99,7 @@ class NE3_SocialStatus : CommandExecutor, TabCompleter {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
         return when (args.size) {
             1 -> Bukkit.getOnlinePlayers().map { it.name }.filter { it.startsWith(args[0], ignoreCase = true) }
-            2 -> listOf("T1", "T2", "T3", "NONE").filter { it.startsWith(args[1], ignoreCase = true) }
+            2 -> listOf("T1", "T2", "T3", "SOLDIER", "NONE").filter { it.startsWith(args[1], ignoreCase = true) }
             else -> emptyList()
         }
     }

@@ -9,8 +9,8 @@ import com.jjkay03.nationsevent.gameplay.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.patches.*
+import com.jjkay03.nationsevent.specific_event.LoadSpecificEvent
 import com.jjkay03.nationsevent.server_settings.*
-import com.jjkay03.nationsevent.specific.ne3.*
 import com.jjkay03.nationsevent.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -114,8 +114,8 @@ open class NationsEvent : JavaPlugin() {
         AntiBlockGlitching() // Patch
         AntiEnderPearl() // Patch
 
-        // Season specific load
-        NE3_Load(this)
+        // Load specific event classes
+        LoadSpecificEvent(this)
 
         // Register placeholder (PlaceholderAPI)
         registerPlaceholderAPI()

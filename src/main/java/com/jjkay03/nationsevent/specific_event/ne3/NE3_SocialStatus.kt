@@ -20,28 +20,40 @@ enum class NE3_SocialStatus (
         2
     ),
 
+    GENERAL (
+        "nationsevent.ne3.social-status.general",
+        "☠",
+        3
+    ),
+
     TIER_1 (
         "nationsevent.ne3.social-status.tier-1",
         "✵",
-        3
+        4
     ),
 
     TIER_2 (
         "nationsevent.ne3.social-status.tier-2",
         "✯",
-        4
+        5
     ),
 
     TIER_3 (
         "nationsevent.ne3.social-status.tier-3",
         "⭐",
-        5
+        6
+    ),
+
+    OFFICIAL (
+        "nationsevent.ne3.social-status.official",
+        "\uD83E\uDDF0",
+        7
     ),
 
     SOLDIER (
         "nationsevent.ne3.social-status.soldier",
         "🎖",
-        6
+        8
     );
 
     companion object {

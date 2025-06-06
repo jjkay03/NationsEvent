@@ -13,6 +13,11 @@ main: com.jjkay03.nationsevent.NationsEvent
 api-version: '1.21'
 
 commands:
+  nationseventtest:
+    aliases: [netest]
+    permission: nationsevent.command.nationseventtest
+    permission-message: "§cYou do not have permission to use this command"
+
   joinvc:
     permission: nationsevent.command.joinvc
     permission-message: "§cYou do not have permission to use this command"

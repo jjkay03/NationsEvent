@@ -54,6 +54,7 @@ open class NationsEvent : JavaPlugin() {
 
         // Register commands
         GroupChatsCommands.registerGroupChatCommands(this)
+        getCommand("nationseventtest")?.apply { setExecutor(NationsEventTestCommand()); tabCompleter = NationsEventTestCommand() }
         getCommand("joinvc")?.apply { setExecutor(JoinvcCommand()) }
         getCommand("joinstage")?.apply { setExecutor(JoinStageCommand()) }
         getCommand("announcesession")?.apply { setExecutor(AnnounceSessionCommand()) }
@@ -105,6 +106,7 @@ open class NationsEvent : JavaPlugin() {
 
         // Load specific event classes
         SpecificEvent(this)
+        PermToLPGroup(this) // Patch for DiscordSRV role link not working
 
         // Register placeholder (PlaceholderAPI)
         registerPlaceholderAPI()

@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific_event.ne3
 
 import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -72,13 +73,13 @@ class NE3_SocialStatusCommand : CommandExecutor, TabCompleter {
     // Helper function to give a player the perm for a social status
     private fun givePlayerSocialStatus(player: Player, status: NE3_SocialStatus) {
         removePlayerAllSocialStatus(player)
-        Utils.luckPermsPlayerAddPermission(player, status.permission)
+        LuckPermsUtils.playerAddPermission(player, status.permission)
     }
 
     // Helper function to remove all social status of a player
     private fun removePlayerAllSocialStatus(player: Player) {
         NE3_SocialStatus.ALL_SOCIAL_STATUS_PERMS.forEach { perm ->
-            Utils.luckPermsPlayerRemovePermission(player, perm)
+            LuckPermsUtils.playerRemovePermission(player, perm)
         }
     }
 }

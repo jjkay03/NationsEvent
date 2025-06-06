@@ -1,7 +1,7 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.Utils
+import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -86,7 +86,7 @@ class AdminGUI {
 
     // Function to toggle voicechat perms
     private fun buttonToggleVoicechatPerms(player: Player) {
-        if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) {
+        if (LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) {
             player.performCommand("voicechatperms off")
             player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
             adminGUI.getSlot(1).item = AdminGUI_Items.DISABLED_ITEM // Flip status item
@@ -100,7 +100,7 @@ class AdminGUI {
 
     // Function to toggle voicechat perms
     private fun buttonToggleGlobalChat(player: Player) {
-        if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) {
+        if (LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) {
             player.performCommand("globalchat off")
             player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1.0f, 1.0f)
             adminGUI.getSlot(2).item = AdminGUI_Items.DISABLED_ITEM // Flip status item

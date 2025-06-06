@@ -1,12 +1,12 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.commands.HideStaffCommand
 import com.jjkay03.nationsevent.commands.PermanentMessageCommand
 import com.jjkay03.nationsevent.commands.SessionTimeCommand
 import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.utils.FreezeAll
+import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import com.jjkay03.nationsevent.utils.PVPToggle
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -233,11 +233,11 @@ object AdminGUI_Items {
                 else DISABLED_ITEM
             }
             "voicechat_perms" -> {
-                if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) ENABLED_ITEM
+                if (LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)) ENABLED_ITEM
                 else DISABLED_ITEM
             }
             "global_chat" -> {
-                if (Utils.luckPermsGroupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) ENABLED_ITEM
+                if (LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)) ENABLED_ITEM
                 else DISABLED_ITEM
             }
             "frozen_players" -> {

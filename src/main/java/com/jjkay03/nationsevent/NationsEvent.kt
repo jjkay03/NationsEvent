@@ -54,36 +54,31 @@ open class NationsEvent : JavaPlugin() {
 
         // Register commands
         GroupChatsCommands.registerGroupChatCommands(this)
-        getCommand("joinvc")?.setExecutor(JoinvcCommand())
-        getCommand("joinstage")?.setExecutor(JoinStageCommand())
-        getCommand("announcesession")?.setExecutor(AnnounceSessionCommand())
-        getCommand("sessiontime")?.setExecutor(SessionTimeCommand())
-        getCommand("pvptoggle")?.setExecutor(PVPToggleCommand())
-        getCommand("pvptoggle")?.tabCompleter = PVPToggleCommand() // Tab completer
-        getCommand("pvpalerts")?.setExecutor(PVPAlertsCommand())
-        getCommand("voicechatperms")?.setExecutor(VoicechatPermsCommand())
-        getCommand("voicechatperms")?.tabCompleter = VoicechatPermsCommand() // Tab completer
-        getCommand("bypassviewdistance")?.setExecutor(BypassViewDistanceCommand())
-        getCommand("vote")?.setExecutor(VoteCommand())
-        getCommand("topvotes")?.setExecutor(TopVotesCommand())
-        getCommand("clearvotes")?.setExecutor(ClearVotesCommand())
-        getCommand("exportvotes")?.setExecutor(ExportVotesCommand())
-        getCommand("lockvotes")?.setExecutor(LockVotesCommand())
-        getCommand("playerscale")?.setExecutor(PlayerScaleCommand())
-        getCommand("playerscalerestall")?.setExecutor(PlayerScaleRestAllCommand())
-        getCommand("needadmin")?.setExecutor(NeedAdminCommand())
-        getCommand("needadmin")?.tabCompleter = NeedAdminCommand()
-        getCommand("freezeall")?.setExecutor(FreezeAllCommand())
-        getCommand("hidestaff")?.setExecutor(hideStaffCommand)
-        getCommand("hidestaff")?.tabCompleter = hideStaffCommand
-        getCommand("fullmoon")?.setExecutor(FullMoonCommand())
-        getCommand("permanentmessage")?.setExecutor(PermanentMessageCommand())
-        getCommand("admingui")?.setExecutor(AdminGUICommand())
-        getCommand("globalchat")?.setExecutor(GlobalChatCommand())
-        getCommand("globalchat")?.tabCompleter = GlobalChatCommand()
-        getCommand("applyserverpack")?.setExecutor(ApplyServerPackCommand())
-        getCommand("restockvillagers")?.setExecutor(RestockVillagers())
-        getCommand("randomplayertp")?.setExecutor(RandomPlayerTPCommand())
+        getCommand("joinvc")?.apply { setExecutor(JoinvcCommand()) }
+        getCommand("joinstage")?.apply { setExecutor(JoinStageCommand()) }
+        getCommand("announcesession")?.apply { setExecutor(AnnounceSessionCommand()) }
+        getCommand("sessiontime")?.apply { setExecutor(SessionTimeCommand()) }
+        getCommand("pvptoggle")?.apply { setExecutor(PVPToggleCommand()); tabCompleter = PVPToggleCommand() }
+        getCommand("pvpalerts")?.apply { setExecutor(PVPAlertsCommand()) }
+        getCommand("voicechatperms")?.apply { setExecutor(VoicechatPermsCommand()); tabCompleter = VoicechatPermsCommand() }
+        getCommand("bypassviewdistance")?.apply { setExecutor(BypassViewDistanceCommand()) }
+        getCommand("vote")?.apply { setExecutor(VoteCommand()) }
+        getCommand("topvotes")?.apply { setExecutor(TopVotesCommand()) }
+        getCommand("clearvotes")?.apply { setExecutor(ClearVotesCommand()) }
+        getCommand("exportvotes")?.apply { setExecutor(ExportVotesCommand()) }
+        getCommand("lockvotes")?.apply { setExecutor(LockVotesCommand()) }
+        getCommand("playerscale")?.apply { setExecutor(PlayerScaleCommand()) }
+        getCommand("playerscalerestall")?.apply { setExecutor(PlayerScaleRestAllCommand()) }
+        getCommand("needadmin")?.apply { setExecutor(NeedAdminCommand()); tabCompleter = NeedAdminCommand() }
+        getCommand("freezeall")?.apply { setExecutor(FreezeAllCommand()) }
+        getCommand("hidestaff")?.apply { setExecutor(hideStaffCommand); tabCompleter = hideStaffCommand }
+        getCommand("fullmoon")?.apply { setExecutor(FullMoonCommand()) }
+        getCommand("permanentmessage")?.apply { setExecutor(PermanentMessageCommand()) }
+        getCommand("admingui")?.apply { setExecutor(AdminGUICommand()) }
+        getCommand("globalchat")?.apply { setExecutor(GlobalChatCommand()); tabCompleter = GlobalChatCommand() }
+        getCommand("applyserverpack")?.apply { setExecutor(ApplyServerPackCommand()) }
+        getCommand("restockvillagers")?.apply { setExecutor(RestockVillagers()) }
+        getCommand("randomplayertp")?.apply { setExecutor(RandomPlayerTPCommand()) }
 
         // Register events
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener

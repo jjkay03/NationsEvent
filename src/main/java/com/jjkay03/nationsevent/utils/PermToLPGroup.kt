@@ -16,11 +16,11 @@ import org.bukkit.plugin.java.JavaPlugin
 class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
 
     val enabled = true
-    val syncIntervalMinutes = 1
+    val syncIntervalMinutes = 5
 
     val permissionGroupPairs = listOf(
-        "nationsevent.discord-role.ne3-capitalist" to NationsEvent.LP_GROUP_MANAGER.getGroup("ne3-capitalist"),
-        "nationsevent.discord-role.ne3-communist" to NationsEvent.LP_GROUP_MANAGER.getGroup("ne3-communist"),
+        "nationsevent.discord-role.ne3-capitalist" to NationsEvent.LP_GROUP_MANAGER.getGroup("capitalist-ne3"),
+        "nationsevent.discord-role.ne3-communist" to NationsEvent.LP_GROUP_MANAGER.getGroup("communist-ne3"),
     )
 
     // Load on class initialisation
@@ -48,7 +48,7 @@ class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
         Bukkit.getScheduler().runTaskLater(plugin, Runnable {
             if (!player.isOnline) return@Runnable
             permissionGroupPairs.forEach { (permission, group) -> syncPlayerGroup(player, permission, group) }
-        }, 100L)
+        }, 60L)
     }
 
     // Function to start periodic sync
@@ -59,6 +59,7 @@ class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
 
     // Function to sync all groups for all online players
     fun syncAllPlayersGroups() {
+        plugin.logger.info("[SYNC GROUP] Attempting to sync permissions to groups for all players online")
         for (player in Bukkit.getOnlinePlayers()) {
             for ((permission, group) in permissionGroupPairs) {
                 syncPlayerGroup(player, permission, group)
@@ -77,10 +78,16 @@ class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
 
         when {
             // Player has permission but not in group - add them
-            hasPermission && !isInGroup -> { playerSetGroup(player, group) }
+            hasPermission && !isInGroup -> {
+                playerSetGroup(player, group)
+                plugin.logger.info("[SYNC GROUP] Syncing permission to group for player ${player.name} added group ${group.name}")
+            }
 
             // Player doesn't have permission but is in group - remove them
-            !hasPermission && isInGroup -> { playerRemoveGroup(player, group) }
+            !hasPermission && isInGroup -> {
+                playerRemoveGroup(player, group)
+                plugin.logger.info("[SYNC GROUP] Syncing permission to group for player ${player.name} removed group ${group.name}")
+            }
         }
     }
 

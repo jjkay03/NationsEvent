@@ -1,9 +1,9 @@
 package com.jjkay03.nationsevent.gui.admin_gui
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.commands.HideStaffCommand
-import com.jjkay03.nationsevent.commands.PermanentMessageCommand
-import com.jjkay03.nationsevent.commands.SessionTimeCommand
+import com.jjkay03.nationsevent.commands.others.HideStaffCommand
+import com.jjkay03.nationsevent.commands.others.PermanentMessageCommand
+import com.jjkay03.nationsevent.commands.others.SessionTimeCommand
 import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.utils.FreezeAll
 import com.jjkay03.nationsevent.utils.LuckPermsUtils

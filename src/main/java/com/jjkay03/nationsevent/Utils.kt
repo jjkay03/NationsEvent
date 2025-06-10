@@ -1,9 +1,7 @@
 package com.jjkay03.nationsevent
 
-import com.jjkay03.nationsevent.commands.DisabledCommands
+import com.jjkay03.nationsevent.commands.others.DisabledCommands
 import net.kyori.adventure.text.Component
-import net.luckperms.api.model.group.Group
-import net.luckperms.api.node.Node
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
@@ -14,7 +12,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.permissions.Permission
 import org.bukkit.plugin.java.JavaPlugin
 import java.lang.reflect.Field
 

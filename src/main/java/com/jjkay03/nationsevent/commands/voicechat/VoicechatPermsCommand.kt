@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.voicechat
 
 import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit
@@ -31,11 +31,13 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
         }
 
         // Deal with perms
-        if (voicechatPermsState) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set ${Saves.PERM_SIMPLE_VOICECHAT_SPEAK} true"
+        if (voicechatPermsState) Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(),
+            "lp group $defaultGroupName permission set ${Saves.Companion.PERM_SIMPLE_VOICECHAT_SPEAK} true"
         )
-        else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set ${Saves.PERM_SIMPLE_VOICECHAT_SPEAK} false"
+        else Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(),
+            "lp group $defaultGroupName permission set ${Saves.Companion.PERM_SIMPLE_VOICECHAT_SPEAK} false"
         )
 
         return true

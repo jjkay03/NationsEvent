@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import com.jjkay03.nationsevent.server_settings.ApplyResourcepack
 import org.bukkit.command.Command

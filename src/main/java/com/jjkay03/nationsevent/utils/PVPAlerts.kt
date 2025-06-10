@@ -2,7 +2,7 @@ package com.jjkay03.nationsevent.utils
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.commands.PVPAlertsCommand
+import com.jjkay03.nationsevent.commands.others.PVPAlertsCommand
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent

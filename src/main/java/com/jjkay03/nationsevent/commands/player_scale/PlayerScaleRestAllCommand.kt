@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands.playerscale
+package com.jjkay03.nationsevent.commands.player_scale
 
 import org.bukkit.Bukkit
 import org.bukkit.attribute.Attribute

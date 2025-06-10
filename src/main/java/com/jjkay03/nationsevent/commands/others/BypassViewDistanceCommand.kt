@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor

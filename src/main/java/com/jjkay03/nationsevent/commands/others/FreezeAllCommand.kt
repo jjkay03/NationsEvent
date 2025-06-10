@@ -1,8 +1,6 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
-import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.utils.FreezeAll
-import com.jjkay03.nationsevent.utils.PVPToggle
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command

@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import com.jjkay03.nationsevent.gui.admin_gui.AdminGUI
 import org.bukkit.command.Command

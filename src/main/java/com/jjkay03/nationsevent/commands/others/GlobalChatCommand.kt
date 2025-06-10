@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import com.jjkay03.nationsevent.Saves
 import org.bukkit.Bukkit

@@ -1,7 +1,8 @@
 package com.jjkay03.nationsevent
 
-import com.jjkay03.nationsevent.commands.*
-import com.jjkay03.nationsevent.commands.playerscale.*
+import com.jjkay03.nationsevent.commands.others.*
+import com.jjkay03.nationsevent.commands.player_scale.*
+import com.jjkay03.nationsevent.commands.voicechat.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.features.*
@@ -62,6 +63,7 @@ open class NationsEvent : JavaPlugin() {
         getCommand("pvptoggle")?.apply { setExecutor(PVPToggleCommand()); tabCompleter = PVPToggleCommand() }
         getCommand("pvpalerts")?.apply { setExecutor(PVPAlertsCommand()) }
         getCommand("voicechatperms")?.apply { setExecutor(VoicechatPermsCommand()); tabCompleter = VoicechatPermsCommand() }
+        getCommand("groupvoicechatperm")?.apply { setExecutor(GroupVoicechatPermCommand()); tabCompleter = GroupVoicechatPermCommand() }
         getCommand("bypassviewdistance")?.apply { setExecutor(BypassViewDistanceCommand()) }
         getCommand("vote")?.apply { setExecutor(VoteCommand()) }
         getCommand("topvotes")?.apply { setExecutor(TopVotesCommand()) }

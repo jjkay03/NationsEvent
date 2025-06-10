@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import org.bukkit.Bukkit
 import org.bukkit.Sound

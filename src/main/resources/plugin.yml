@@ -43,7 +43,13 @@ commands:
     permission-message: "§cYou do not have permission to use this command"
 
   voicechatperms:
+    aliases: [vcperms]
     permission: nationsevent.command.voicechatperms
+    permission-message: "§cYou do not have permission to use this command"
+
+  groupvoicechatperm:
+    aliases: [ gvcperm, groupvcperm ]
+    permission: nationsevent.command.groupvoicechatperm
     permission-message: "§cYou do not have permission to use this command"
 
   bypassviewdistance:

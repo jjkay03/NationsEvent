@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands
+package com.jjkay03.nationsevent.commands.others
 
 import com.jjkay03.nationsevent.Saves
 import net.md_5.bungee.api.chat.ClickEvent

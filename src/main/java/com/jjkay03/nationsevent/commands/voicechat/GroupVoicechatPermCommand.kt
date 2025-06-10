@@ -15,23 +15,20 @@ class GroupVoicechatPermCommand : CommandExecutor, TabCompleter {
 
     // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        // Show all groups that have voice chat disabled when no args are given
+        // Show all groups that have voice chat explicitly disabled (value = false)
         if (args.isEmpty()) {
-            val disabledGroups = NationsEvent.LP_GROUP_MANAGER.loadedGroups
-                .filter { LuckPermsUtils.groupHasPermission(it, Saves.PERM_SIMPLE_VOICECHAT_SPEAK).not() }
-                .map { it.name }
-
+            val disabledGroups = getVoiceChatDisabledGroups()
             if (disabledGroups.isEmpty()) {
                 sender.sendMessage("§aAll groups have voice chat enabled")
             } else {
                 sender.sendMessage("")
-                sender.sendMessage("§e\uD83D\uDD07 §nGroups with voice chat disabled:")
+                sender.sendMessage("§e🔇 §nGroups with voice chat disabled:")
                 sender.sendMessage("§7${disabledGroups.joinToString(", ")}")
                 sender.sendMessage("")
             }
-
             return true
         }
+
 
         // Get group
         val groupName = args[0]
@@ -74,4 +71,12 @@ class GroupVoicechatPermCommand : CommandExecutor, TabCompleter {
             player.sendMessage(message)
         }
     }
+
+    // Helper function to returns the names of all groups with voice chat permission explicitly set to false
+    public fun getVoiceChatDisabledGroups(): List<String> {
+        return NationsEvent.LP_GROUP_MANAGER.loadedGroups
+            .filter { group -> group.nodes.any { it.key.equals(Saves.PERM_SIMPLE_VOICECHAT_SPEAK, ignoreCase = true) && !it.value } }
+            .map { it.name }
+    }
+
 }

@@ -47,6 +47,7 @@ class AdminGUI {
         val announceSessionSlot = adminGUI.getSlot(9).apply { item = AdminGUI_Items.announceSessionItem() }
         val sessionTimeSlot = adminGUI.getSlot(18).apply { item = AdminGUI_Items.sessionTimeItem() }
         val voicechatSlot = adminGUI.getSlot(10).apply { item = AdminGUI_Items.voicechatItem() }
+        val voicechatDisabledGroupsSlot = adminGUI.getSlot(19).apply { item = AdminGUI_Items.voicechatDisabledGroupsItem() }
         val globalChatSlot = adminGUI.getSlot(11).apply { item = AdminGUI_Items.globalChatItem() }
         val freezePlayersSlot = adminGUI.getSlot(12).apply { item = AdminGUI_Items.freezePlayersItems() }
         val pvpSlot = adminGUI.getSlot(13).apply { item = AdminGUI_Items.pvpItems() }
@@ -60,6 +61,7 @@ class AdminGUI {
         announceSessionSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "announcesession") } // TODO: Change to promote
         sessionTimeSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "sessiontime") }
         voicechatSlot.setClickHandler { clickPlayer, info -> buttonToggleVoicechatPerms(clickPlayer) }
+        voicechatDisabledGroupsSlot.setClickHandler { clickPlayer, info -> buttonPromptCommand(clickPlayer, "groupvoicechatperm") } // TODO: Change to promote
         globalChatSlot.setClickHandler { clickPlayer, info -> buttonToggleGlobalChat(clickPlayer) }
         freezePlayersSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "freezeall") }
         pvpSlot.setClickHandler { clickPlayer, info -> buttonRunCommand(clickPlayer, "pvptoggle") }

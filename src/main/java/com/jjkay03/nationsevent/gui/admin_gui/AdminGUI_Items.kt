@@ -4,6 +4,7 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.commands.others.HideStaffCommand
 import com.jjkay03.nationsevent.commands.others.PermanentMessageCommand
 import com.jjkay03.nationsevent.commands.others.SessionTimeCommand
+import com.jjkay03.nationsevent.commands.voicechat.GroupVoicechatPermCommand
 import com.jjkay03.nationsevent.commands.voting.VoteCommand
 import com.jjkay03.nationsevent.utils.FreezeAll
 import com.jjkay03.nationsevent.utils.LuckPermsUtils
@@ -76,6 +77,27 @@ object AdminGUI_Items {
                 "§r",
                 "§7Click to run:",
                 "§e/voicechatperms",
+                "§r"
+            )
+            item.itemMeta = this
+        }
+        return item
+    }
+
+    // ITEM: voicechat disabled groups
+    fun voicechatDisabledGroupsItem(): ItemStack {
+        val item = ItemStack(Material.BOOK)
+        val itemMeta = item.itemMeta
+        val disabledGroups = GroupVoicechatPermCommand().getVoiceChatDisabledGroups()
+        val disabledGroupsString = if (disabledGroups.isEmpty()) "X" else disabledGroups.joinToString(", ")
+        itemMeta?.apply {
+            setDisplayName("§6🔇 Voicechat Disabled Group")
+            lore = listOf(
+                "§r",
+                "§c$disabledGroupsString",
+                "§r",
+                "§7Toggle group using:",
+                "§e/gvcperm <group> [on/off]",
                 "§r"
             )
             item.itemMeta = this

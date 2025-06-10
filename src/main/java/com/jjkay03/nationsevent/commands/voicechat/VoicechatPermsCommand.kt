@@ -26,7 +26,7 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
             player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
             player.sendMessage(
                 if (voicechatPermsState) "§a\uD83D\uDD0A Voicechat has been ENABLED!"
-                else "§c🔊 Voicechat has been DISABLED!"
+                else "§c\uD83D\uDD07 Voicechat has been DISABLED!"
             )
         }
 

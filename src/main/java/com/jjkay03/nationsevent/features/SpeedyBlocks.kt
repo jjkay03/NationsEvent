@@ -32,7 +32,7 @@ class SpeedyBlocks : Listener {
         if (event.from.x == event.to.x && event.from.z == event.to.z) return
 
         // Get the block beneath the player's feet
-        val blockUnderPlayer = player.location.add(0.0, -1.0, 0.0).block
+        val blockUnderPlayer = player.location.add(0.0, -0.5, 0.0).block
 
         // If the block is in the list of speedy blocks, apply the speed effect
         if (blockUnderPlayer.type in listOfSpeedyBlocks) player.addPotionEffect(speedyEffect)

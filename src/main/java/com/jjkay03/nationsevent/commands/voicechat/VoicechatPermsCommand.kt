@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.commands.voicechat
 
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -10,45 +11,44 @@ import org.bukkit.command.TabCompleter
 
 class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
-    private val defaultGroupName = "default"
-
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
-        var voicechatPermsState: Boolean = false
+        // Get group
+        if (Saves.LP_GROUP_DEFAULT == null) { sender.sendMessage("§cDefault group in Saves class not found!"); return true }
 
-        // Check if the first argument is "silent"
-        if (args.isNotEmpty() && args[0].toLowerCase() == "on") { voicechatPermsState = true }
-        else if (args.isNotEmpty() && args[0].toLowerCase() == "off") { voicechatPermsState = false }
-        else { sender.sendMessage("§cInvalid argument, usage: /voicechatperms on/off"); return true }
-
-        // Notify all players on the server
-        Bukkit.getServer().onlinePlayers.forEach { player ->
-            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
-            player.sendMessage(
-                if (voicechatPermsState) "§a\uD83D\uDD0A Voicechat has been ENABLED!"
-                else "§c\uD83D\uDD07 Voicechat has been DISABLED!"
-            )
+        // Deal with args
+        when (args[0].lowercase()) {
+            "on" -> {
+                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, true)) { alertPlayers(true) }
+                else { sender.sendMessage("§7Voicechat already enabled!") }
+            }
+            "off" -> {
+                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(false) }
+                else { sender.sendMessage("§7Voicechat already disabled!") }
+            }
+            else -> {
+                sender.sendMessage("§cInvalid argument, usage: /voicechatperms on/off")
+            }
         }
-
-        // Deal with perms
-        if (voicechatPermsState) Bukkit.dispatchCommand(
-            Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set ${Saves.Companion.PERM_SIMPLE_VOICECHAT_SPEAK} true"
-        )
-        else Bukkit.dispatchCommand(
-            Bukkit.getConsoleSender(),
-            "lp group $defaultGroupName permission set ${Saves.Companion.PERM_SIMPLE_VOICECHAT_SPEAK} false"
-        )
 
         return true
     }
 
-    // Tab complete
+    // TAB COMPLETER
     override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<out String>): List<String>? {
         if (args.size == 1) {
             val completions = mutableListOf("on", "off")
             return completions.filter { it.startsWith(args[0], ignoreCase = true) }
         }
         return null
+    }
+
+    // Helper function to alert players in chat
+    fun alertPlayers(status: Boolean) {
+        val message = if (status) { "§a\uD83D\uDD0A Voicechat has been ENABLED!" } else { "§c\uD83D\uDD07 Voicechat has been DISABLED!" }
+        Bukkit.getServer().onlinePlayers.forEach { player ->
+            player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
+            player.sendMessage(message)
+        }
     }
 }

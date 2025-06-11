@@ -29,7 +29,6 @@ class GroupVoicechatPermCommand : CommandExecutor, TabCompleter {
             return true
         }
 
-
         // Get group
         val groupName = args[0]
         val group: Group? = LuckPermsUtils.getGroup(groupName)
@@ -39,11 +38,11 @@ class GroupVoicechatPermCommand : CommandExecutor, TabCompleter {
         when (args[1].lowercase()) {
             "on" -> {
                 if (LuckPermsUtils.groupRemovePermission(group, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(true, group) }
-                else { sender.sendMessage("§7Group '$groupName' already had voice chat enabled!") }
+                else { sender.sendMessage("§7Group '$groupName' already had voicechat enabled!") }
             }
             "off" -> {
                 if (LuckPermsUtils.groupAddPermission(group, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(false, group) }
-                else { sender.sendMessage("§7Group '$groupName' already had voice chat disabled!") }
+                else { sender.sendMessage("§7Group '$groupName' already had voicechat disabled!") }
             }
             else -> {
                 sender.sendMessage("§cInvalid state '${args[1]}'. Use 'on' or 'off'")
@@ -65,7 +64,7 @@ class GroupVoicechatPermCommand : CommandExecutor, TabCompleter {
 
     // Helper function to alert players in chat
     fun alertPlayers(status: Boolean, group: Group) {
-        val message = if (status) { "§a🔊 Voice chat ENABLED for group '${group.name}'!" } else { "§a\uD83D\uDD07 Voice chat DISABLED for group '${group.name}'!" }
+        val message = if (status) { "§a🔊 Voice chat ENABLED for group '${group.name}'!" } else { "§c\uD83D\uDD07 Voice chat DISABLED for group '${group.name}'!" }
         Bukkit.getServer().onlinePlayers.forEach { player ->
             player.playSound(player.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
             player.sendMessage(message)

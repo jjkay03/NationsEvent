@@ -13,6 +13,7 @@ class VoteCommand : CommandExecutor {
         var LOCKED_VOTES = false
     }
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
 
         // Only players can use this command

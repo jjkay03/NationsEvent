@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class AdminGUICommand: CommandExecutor {
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
 
         // End command if sender is not a player

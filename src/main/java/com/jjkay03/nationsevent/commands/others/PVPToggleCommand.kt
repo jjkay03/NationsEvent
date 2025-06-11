@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter
 
 class PVPToggleCommand: CommandExecutor, TabCompleter {
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         var silent = false
         PVPToggle.PVP_ENABLED = !PVPToggle.PVP_ENABLED // Toggle PVP state
@@ -37,7 +37,7 @@ class PVPToggleCommand: CommandExecutor, TabCompleter {
         return true
     }
 
-    // Tab complete
+    // TAB COMPLETE
     override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<out String>): List<String>? {
         if (args.size == 1) {
             val completions = mutableListOf("silent")

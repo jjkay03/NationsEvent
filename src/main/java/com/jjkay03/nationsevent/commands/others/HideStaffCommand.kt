@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
+class HideStaffCommand : CommandExecutor, Listener {
 
     companion object {
         // Save what players have hidden staff
@@ -23,6 +23,7 @@ class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
     // List of permissions that will cause a player to be hidden if they have any of them
     private val hidePermissions = listOf(Saves.PERM_STAFF, Saves.PERM_SPECTATOR)
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // End if sender is not a player
         if (sender !is Player) {
@@ -44,11 +45,6 @@ class HideStaffCommand : CommandExecutor, TabCompleter, Listener {
         }
 
         return true
-    }
-
-    // Tab Completer - no arguments needed
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
-        return emptyList()
     }
 
     // Handle staff login when someone has hide staff on

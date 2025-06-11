@@ -16,6 +16,7 @@ class NeedAdminCommand : CommandExecutor, TabCompleter {
     private val playersNeedingAdmin = mutableListOf<Player>()
     private val controlCommandPerm = Saves.PERM_PROD
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
 
@@ -87,6 +88,7 @@ class NeedAdminCommand : CommandExecutor, TabCompleter {
         return true
     }
 
+    // TAB COMPLETE
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         if (sender !is Player) return emptyList() // Only players can use the command
 

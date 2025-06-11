@@ -11,6 +11,7 @@ import java.util.*
 
 class TopVotesCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         // Only players can use this command
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }

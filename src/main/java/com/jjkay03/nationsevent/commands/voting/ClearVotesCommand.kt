@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 
 class ClearVotesCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         // Only allow players to execute the command
         if (sender !is Player) {

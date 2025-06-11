@@ -13,8 +13,11 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
 
     // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
-        // Get group
+        val invalidArgument = "§cInvalid argument, usage: /voicechatperms on/off"
+
+        // Check 'default' luckperms group and args
         if (Saves.LP_GROUP_DEFAULT == null) { sender.sendMessage("§cDefault group in Saves class not found!"); return true }
+        if (args.isEmpty()) { sender.sendMessage(invalidArgument); return true }
 
         // Deal with args
         when (args[0].lowercase()) {
@@ -27,7 +30,7 @@ class VoicechatPermsCommand: CommandExecutor, TabCompleter {
                 else { sender.sendMessage("§7Voicechat already disabled!") }
             }
             else -> {
-                sender.sendMessage("§cInvalid argument, usage: /voicechatperms on/off")
+                sender.sendMessage(invalidArgument)
             }
         }
 

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender
 
 class LockVotesCommand : CommandExecutor {
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         VoteCommand.LOCKED_VOTES = !VoteCommand.LOCKED_VOTES // Flip LOCKED_VOTES bool
         sender.sendMessage(

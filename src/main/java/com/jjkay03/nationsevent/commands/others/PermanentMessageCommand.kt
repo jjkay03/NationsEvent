@@ -16,6 +16,7 @@ class PermanentMessageCommand() : CommandExecutor {
 
     private var messageTask: BukkitRunnable? = null
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.isEmpty()) {
             // Stop the message task if running

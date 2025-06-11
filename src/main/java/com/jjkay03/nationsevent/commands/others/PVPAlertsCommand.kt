@@ -11,7 +11,7 @@ class PVPAlertsCommand: CommandExecutor {
         val PVP_ALERTS_PLAYERS = mutableSetOf<String>()
     }
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         // End command if sender is not a player
         if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }

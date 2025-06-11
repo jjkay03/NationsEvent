@@ -14,18 +14,11 @@ import java.util.*
 
 class ExportVotesCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        val votesFolderName = "exported votes"
-
-        if (sender !is Player) {
-            sender.sendMessage("§cOnly players can use this command!")
-            return true
-        }
-
-        if (VoteCommand.PLAYERS_VOTES.isEmpty()) {
-            sender.sendMessage("§cNo votes have been cast yet!")
-            return true
-        }
+        // Check if sender is player and if votes have been casted
+        if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }
+        if (VoteCommand.PLAYERS_VOTES.isEmpty()) { sender.sendMessage("§cNo votes have been cast yet!"); return true }
 
         sender.sendMessage("§eStarted exporting votes...")
 

@@ -9,7 +9,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class AnnounceSessionCommand: CommandExecutor {
-    // Command
+
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         // End command if sender is not a player
         if (sender !is Player) { sender.sendMessage("§cOnly players can run this command!"); return true }

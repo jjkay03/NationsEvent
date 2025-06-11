@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender
 
 class PlayerScaleCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         // Ensure at least 1 argument is provided (player name)
         if (args.isEmpty()) {

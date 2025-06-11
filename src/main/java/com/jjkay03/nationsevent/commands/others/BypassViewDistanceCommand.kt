@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 class BypassViewDistanceCommand: CommandExecutor {
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
 
         // Check if sender is player

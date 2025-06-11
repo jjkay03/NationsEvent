@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender
 
 class FreezeAllCommand : CommandExecutor {
 
-    // Command
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
 
         // Flip FREEZE_ALL_ENABLED bool

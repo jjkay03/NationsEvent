@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 
 class FullMoonCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // End if sender not player
         if (sender !is Player) { sender.sendMessage("§cOnly players can use this command!"); return true }

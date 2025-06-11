@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender
 
 class PlayerScaleRestAllCommand : CommandExecutor {
 
+    // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         // Check if the correct confirmation is provided
         if (args.isEmpty() || args[0] != "CONFIRM") {

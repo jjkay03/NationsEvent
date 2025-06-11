@@ -74,7 +74,7 @@ open class NationsEvent : JavaPlugin() {
         getCommand("playerscalerestall")?.apply { setExecutor(PlayerScaleRestAllCommand()) }
         getCommand("needadmin")?.apply { setExecutor(NeedAdminCommand()); tabCompleter = NeedAdminCommand() }
         getCommand("freezeall")?.apply { setExecutor(FreezeAllCommand()) }
-        getCommand("hidestaff")?.apply { setExecutor(hideStaffCommand); tabCompleter = hideStaffCommand }
+        getCommand("hidestaff")?.apply { setExecutor(hideStaffCommand) }
         getCommand("fullmoon")?.apply { setExecutor(FullMoonCommand()) }
         getCommand("permanentmessage")?.apply { setExecutor(PermanentMessageCommand()) }
         getCommand("admingui")?.apply { setExecutor(AdminGUICommand()) }

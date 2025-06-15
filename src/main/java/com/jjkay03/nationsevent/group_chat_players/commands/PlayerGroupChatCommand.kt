@@ -172,8 +172,8 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                 val groupChat = getAndValidateGC(args[1], player, false) ?: return true
 
                 // Check - if player has invite to group chat or already member of gc
-                if (groupChat.playerList.contains(player)) { player.sendMessage("§c${PREFIX}You are already a member of ${groupChat.prefix}!") }
-                if (!groupChat.invites.contains(player)) { player.sendMessage("§c${PREFIX}You have not been invited to ${groupChat.prefix}!") }
+                if (groupChat.playerList.contains(player)) { player.sendMessage("§c${PREFIX}You are already a member of ${groupChat.prefix}!"); return true }
+                if (!groupChat.invites.contains(player)) { player.sendMessage("§c${PREFIX}You have not been invited to ${groupChat.prefix}!"); return true }
 
                 // Accept invite
                 PlayerGroupChatUtils.addPlayerToGC(groupChat, listOf(player))

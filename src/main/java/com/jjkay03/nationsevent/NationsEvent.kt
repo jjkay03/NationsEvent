@@ -108,7 +108,7 @@ open class NationsEvent : JavaPlugin() {
 
         // Load specific event classes
         SpecificEvent(this)
-        PermToLPGroup(this) // Patch for DiscordSRV role link not working
+        //PermToLPGroup(this) // Patch for DiscordSRV role link not working
 
         // Register placeholder (PlaceholderAPI)
         registerPlaceholderAPI()

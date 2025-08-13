@@ -7,7 +7,7 @@
 
 # Event code name (Example: NG1)
 # Needs to match actual build-in event codename to load event specific classes
-event-codename: NE3
+event-codename: NE4
 
 # Default players max render distance
 render-distance-manager: false
@@ -40,7 +40,7 @@ setting-limit-enchant: true
 # == Economy ==========================================================================================================
 
 # Economy feature toggle
-economy-enable: true
+economy-enable: false
 
 # Money symbol $
 economy-money-symbol: "⛂"

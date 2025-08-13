@@ -189,6 +189,3 @@ commands:
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!
 # =====================================================================================================================
 
-  socialstatus:
-    permission: nationsevent.command.ne3.socialstatus
-    permission-message: "§cYou do not have permission to use this command"

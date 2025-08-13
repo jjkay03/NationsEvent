@@ -13,14 +13,17 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
 
+// This is a temporary solution for DiscordSRV, it is currently not working
+// Using this allows to give players on join a group based on a permission
+
 class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
 
     val enabled = true
     val syncIntervalMinutes = 5
 
     val permissionGroupPairs = listOf(
-        "nationsevent.discord-role.ne3-capitalist" to NationsEvent.LP_GROUP_MANAGER.getGroup("capitalist-ne3"),
-        "nationsevent.discord-role.ne3-communist" to NationsEvent.LP_GROUP_MANAGER.getGroup("communist-ne3"),
+        "nationsevent.discord-role.ne4-law" to NationsEvent.LP_GROUP_MANAGER.getGroup("ne4-law"),
+        "nationsevent.discord-role.ne4-anarchy" to NationsEvent.LP_GROUP_MANAGER.getGroup("ne4-anarchy"),
     )
 
     // Load on class initialisation
@@ -32,7 +35,7 @@ class PermToLPGroup(private val plugin: JavaPlugin) : Listener {
         if (!enabled) return
 
         // Display in console
-        plugin.logger.info("Loading PermToLPGroup temp patch for NE3")
+        plugin.logger.info("Loading PermToLPGroup temp patch for NE4")
 
         // Register listeners
         plugin.server.pluginManager.registerEvents(this, plugin)

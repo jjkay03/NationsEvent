@@ -1,14 +1,13 @@
 package com.jjkay03.nationsevent.specific_event
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.specific_event.ne3.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class SpecificEvent (private val plugin: JavaPlugin) {
 
     companion object {
-        const val SPECIFIC_EVENT_CODENAME: String = "NE3"
+        const val SPECIFIC_EVENT_CODENAME: String = "NE4"
         var SPECIFIC_EVENT_LOADED: Boolean = false
     }
 
@@ -24,10 +23,10 @@ class SpecificEvent (private val plugin: JavaPlugin) {
         Bukkit.getConsoleSender().sendMessage("§e[NationsEvent] Loading season specific code: §6${SPECIFIC_EVENT_CODENAME}")
 
         // Class variables
-        val ne3SocialStatus = NE3_SocialStatusCommand()
+        // ...
 
         // Register commands
-        plugin.getCommand("socialstatus")?.apply { setExecutor(ne3SocialStatus); tabCompleter = ne3SocialStatus }
+        // ...
 
         // Register events
         // ...

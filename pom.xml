@@ -6,7 +6,7 @@
 
   <groupId>com.jjkay03</groupId>
   <artifactId>NationsEvent</artifactId>
-  <version>NE3</version>
+  <version>NE4</version>
   <packaging>jar</packaging>
 
   <name>NationsEvent</name>
@@ -124,7 +124,7 @@
       <dependency>
           <groupId>io.papermc.paper</groupId>
           <artifactId>paper-api</artifactId>
-          <version>1.21.4-R0.1-SNAPSHOT</version>
+          <version>1.21.8-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <dependency>

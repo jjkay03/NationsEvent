@@ -35,6 +35,8 @@ setting-no-craft: true
 # Limited enchants (managed from Saves class)
 setting-limit-enchant: true
 
+# Ender pearl can't be obtained or used
+setting-no-ender-pearl: true
 
 
 # == Economy ==========================================================================================================
@@ -95,11 +97,7 @@ feature-speedy-blocks: true
 feature-auto-restock-villagers: false
 
 
-
 # == Patches ==========================================================================================================
 
 # Prevent players from block glitching
 patch-anti-block-glitching: false
-
-# Prevent players from using ender pearls
-patch-anti-ender-pearl: false

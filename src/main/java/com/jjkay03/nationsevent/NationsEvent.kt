@@ -98,13 +98,13 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // Initialize classes
-        Economy(this) // Economy
-        PlayerGroupChatManager(this) // Group chats
-        RenderDistance() // Server settings
-        NoCraft() // Gameplay setting
-        LimitEnchant() // Gameplay setting
-        AntiBlockGlitching() // Patch
-        AntiEnderPearl() // Patch
+        Economy(this)                  // Economy
+        PlayerGroupChatManager(this)   // Group chats
+        RenderDistance()                       // Server settings
+        NoCraft()                              // Gameplay setting
+        LimitEnchant()                         // Gameplay setting
+        NoEnderPearl()                         // Gameplay setting
+        AntiBlockGlitching()                   // Patch
 
         // Load specific event classes
         SpecificEvent(this)

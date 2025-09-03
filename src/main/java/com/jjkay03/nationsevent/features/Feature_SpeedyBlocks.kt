@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.features
 
 import com.jjkay03.nationsevent.NationsEvent
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -8,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class SpeedyBlocks : Listener {
+class Feature_SpeedyBlocks : Listener {
     private val config = NationsEvent.INSTANCE.config
     private val featureEnabled: Boolean = config.getBoolean("feature-speedy-blocks")
 
@@ -17,11 +18,13 @@ class SpeedyBlocks : Listener {
     private val speedyEffect: PotionEffect = PotionEffect(PotionEffectType.SPEED, 40, 0, false, false, false)
     private val speedyTimeRange: Pair<Long, Long> = Pair(3000, 11000)
 
+    // REGISTER IF ENABLED
+    init {
+        if (featureEnabled) { Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE) }
+    }
+
     @EventHandler
     fun onPlayerMove(event: PlayerMoveEvent) {
-        // Stop if feature disabled
-        if (!featureEnabled) return
-
         val player = event.player
         val timeOfDay = player.world.time
 

@@ -4,8 +4,6 @@ import com.jjkay03.nationsevent.NationsEvent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
-import org.bukkit.block.data.Openable
-import org.bukkit.block.data.Powerable
 import org.bukkit.block.data.type.Door
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -13,17 +11,19 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-class IronDoor: Listener {
+class Feature_IronDoor: Listener {
     private val config = NationsEvent.INSTANCE.config
     private val featureEnabled: Boolean = config.getBoolean("feature-iron-door")
 
     private val openIronDoorsPermission = "nationsevent.openirondoor"
 
+    // REGISTER IF ENABLED
+    init {
+        if (featureEnabled) { Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE) }
+    }
+
     @EventHandler(ignoreCancelled = false)
     fun onPlayerInteract(event: PlayerInteractEvent)  {
-        // Stop if feature disabled
-        if (!featureEnabled) return
-
         val player = event.player
         val block = event.clickedBlock
 

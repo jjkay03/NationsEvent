@@ -39,24 +39,6 @@ setting-limit-enchant: true
 setting-no-ender-pearl: true
 
 
-# == Economy ==========================================================================================================
-
-# Economy feature toggle
-economy-enable: false
-
-# Money symbol $
-economy-money-symbol: "⛂"
-# Money color
-economy-money-color: "§e"
-# Allow negative balances
-economy-allow-negative-balance: true
-
-# Update total balances - run a task and update total balance var every x minutes (used in placeholders)
-economy-update-total-balances: false
-economy-update-total-balances-interval: 1
-
-
-
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
@@ -104,3 +86,20 @@ feature-no-wolf-breeding: true
 
 # Prevent players from block glitching
 patch-anti-block-glitching: false
+
+
+# == Economy ==========================================================================================================
+
+# Economy feature toggle
+economy-enable: false
+
+# Money symbol $
+economy-money-symbol: "⛂"
+# Money color
+economy-money-color: "§e"
+# Allow negative balances
+economy-allow-negative-balance: true
+
+# Update total balances - run a task and update total balance var every x minutes (used in placeholders)
+economy-update-total-balances: false
+economy-update-total-balances-interval: 1

@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.gameplay
+package com.jjkay03.nationsevent.gameplay_settings
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -12,11 +12,13 @@ import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.inventory.ItemStack
 
 class LimitEnchant : Listener {
-
-    // REGISTER IF ENABLED IN CONFIG
     private val config = NationsEvent.INSTANCE.config
     private val featureEnabled: Boolean = config.getBoolean("setting-limit-enchant")
-    init { if (featureEnabled) Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE) }
+
+    // REGISTER IF ENABLED
+    init {
+        if (featureEnabled) Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
+    }
 
     // Check item when held
     @EventHandler

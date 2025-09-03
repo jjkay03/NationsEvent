@@ -6,7 +6,7 @@ import com.jjkay03.nationsevent.commands.voicechat.*
 import com.jjkay03.nationsevent.commands.voting.*
 import com.jjkay03.nationsevent.economy.Economy
 import com.jjkay03.nationsevent.features.*
-import com.jjkay03.nationsevent.gameplay.*
+import com.jjkay03.nationsevent.gameplay_settings.*
 import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.patches.*
@@ -32,28 +32,27 @@ open class NationsEvent : JavaPlugin() {
         lateinit var LP_USER_MANAGER: UserManager
     }
 
-    // Plugin startup logic
+    // PLUGIN STARTUP LOGIC
     override fun onEnable() {
         INSTANCE = this
 
-        // Startup info
+        // STARTUP INFO
         Utils.displayPluginWelcomeMessage("§e")
         logger.info("NationsEvent is running!")
         logger.info("Plugin version: ${description.version}")
 
-        // Config stuff
-        saveDefaultConfig() // Save the default configuration if it doesn't exist
-        reloadConfig() // Reload the configuration
+        // STARTUP
+        saveDefaultConfig()                       // Save the default configuration
+        reloadConfig()                            // Reload the configuration
+        getAPIs()                                 // Get all APIs instances and info
+        Saves()                                   // Load all variables in saves class
+        FilesManager.createDefaultDirectories()   // Create default directories
+        FilesManager.createDefaultFiles()         // Create default files
 
-        getAPIs() // Get all APIs instances and info
-        Saves() // Load all variables in saves class
-        FilesManager.createDefaultDirectories() // Create default directories
-        FilesManager.createDefaultFiles() // Create default files
-
-        // Class variable
+        // CLASS VARIABLES
         val hideStaffCommand = HideStaffCommand()
 
-        // Register commands
+        // REGISTER COMMANDS
         GroupChatsCommands.registerGroupChatCommands(this)
         getCommand("nationseventtest")?.apply { setExecutor(NationsEventTestCommand()); tabCompleter = NationsEventTestCommand() }
         getCommand("joinvc")?.apply { setExecutor(JoinvcCommand()) }
@@ -80,42 +79,42 @@ open class NationsEvent : JavaPlugin() {
         getCommand("admingui")?.apply { setExecutor(AdminGUICommand()) }
         getCommand("globalchat")?.apply { setExecutor(GlobalChatCommand()); tabCompleter = GlobalChatCommand() }
         getCommand("applyserverpack")?.apply { setExecutor(ApplyServerPackCommand()) }
-        getCommand("restockvillagers")?.apply { setExecutor(RestockVillagers()) }
+        getCommand("restockvillagers")?.apply { setExecutor(Feature_RestockVillagers()) }
         getCommand("randomplayertp")?.apply { setExecutor(RandomPlayerTPCommand()) }
 
-        // Register events
+        // REGISTER EVENTS
         Bukkit.getPluginManager().registerEvents(MenuFunctionListener(), this) // Canvas MenuFunctionListener
         server.pluginManager.registerEvents(hideStaffCommand, this)
         server.pluginManager.registerEvents(PVPToggle(), this)
         server.pluginManager.registerEvents(PVPAlerts(), this)
-        server.pluginManager.registerEvents(MeatPlayerDeath(), this)
-        server.pluginManager.registerEvents(IronDoor(), this)
-        server.pluginManager.registerEvents(FarmProtection(), this)
-        server.pluginManager.registerEvents(NoWolfBreeding(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
-        server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
         server.pluginManager.registerEvents(UseChat(), this)
         server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
-        // Initialize classes
-        Economy(this)                  // Economy
-        PlayerGroupChatManager(this)   // Group chats
+        // INITIALIZE CLASSES
         RenderDistance()                       // Server settings
         NoCraft()                              // Gameplay setting
         LimitEnchant()                         // Gameplay setting
         NoEnderPearl()                         // Gameplay setting
-        AntiBlockGlitching()                   // Patch
+        PlayerGroupChatManager(this)   // Group chats
+        Feature_MeatPlayerDeath()              // Feature
+        Feature_IronDoor()                     // Feature
+        Feature_FarmProtection()               // Feature
+        Feature_SpeedyBlocks()                 // Feature
+        Feature_NoWolfBreeding()               // Feature
+        Patch_AntiBlockGlitching()             // Patch
+        Economy(this)                  // Economy
 
-        // Load specific event classes
+        // LOAD SPECIFIC EVENT CLASSES
         SpecificEvent(this)
         PermToLPGroup(this) // Patch for DiscordSRV role link not working
 
-        // Register placeholder (PlaceholderAPI)
+        // REGISTER PLACEHOLDERS (PlaceholderAPI)
         registerPlaceholderAPI()
     }
 
-    // Plugin shutdown logic
+    // PLUGIN SHUTDOWN LOGIC
     override fun onDisable() {
         logger.info("Bye bye!")
     }

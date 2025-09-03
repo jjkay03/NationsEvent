@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.gameplay
+package com.jjkay03.nationsevent.gameplay_settings
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -11,11 +11,13 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
 
 class NoCraft : Listener {
-
-    // REGISTER IF ENABLED IN CONFIG
     private val config = NationsEvent.INSTANCE.config
     private val featureEnabled: Boolean = config.getBoolean("setting-no-craft")
-    init { if (featureEnabled) Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE) }
+
+    // REGISTER IF ENABLED
+    init {
+        if (featureEnabled) Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
+    }
 
     // Replace item result with air
     @EventHandler

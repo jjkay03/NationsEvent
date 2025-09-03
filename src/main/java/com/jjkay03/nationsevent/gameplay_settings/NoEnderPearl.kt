@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.gameplay
+package com.jjkay03.nationsevent.gameplay_settings
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -13,12 +13,12 @@ import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerTeleportEvent
 
 class NoEnderPearl: Listener {
+    val config = NationsEvent.Companion.INSTANCE.config
+    val featureEnabled: Boolean = config.getBoolean("setting-no-ender-pearl")
 
     // REGISTER IF ENABLED
     init {
-        val config = NationsEvent.Companion.INSTANCE.config
-        val featureEnabled: Boolean = config.getBoolean("setting-no-ender-pearl")
-        if (featureEnabled) { Bukkit.getPluginManager().registerEvents(this, NationsEvent.Companion.INSTANCE) }
+        if (featureEnabled) { Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE) }
     }
 
     // Handle player using ender peal item

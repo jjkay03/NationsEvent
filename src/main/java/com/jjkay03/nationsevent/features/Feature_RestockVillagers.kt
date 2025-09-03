@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Villager
 import org.bukkit.scheduler.BukkitRunnable
 
-class RestockVillagers : CommandExecutor {
+class Feature_RestockVillagers : CommandExecutor {
     private val config = NationsEvent.INSTANCE.config
     private val featureEnabled: Boolean = config.getBoolean("feature-auto-restock-villagers")
 

@@ -91,6 +91,7 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(MeatPlayerDeath(), this)
         server.pluginManager.registerEvents(IronDoor(), this)
         server.pluginManager.registerEvents(FarmProtection(), this)
+        server.pluginManager.registerEvents(NoWolfBreeding(), this)
         server.pluginManager.registerEvents(FreezeAll(), this)
         server.pluginManager.registerEvents(SpeedyBlocks(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)

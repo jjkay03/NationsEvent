@@ -96,6 +96,9 @@ feature-speedy-blocks: true
 # Make villagers automatically restock their trades at intervals without the need of daylight cycle
 feature-auto-restock-villagers: false
 
+# Make it so wolves can not be bred by players
+feature-no-wolf-breeding: true
+
 
 # == Patches ==========================================================================================================
 

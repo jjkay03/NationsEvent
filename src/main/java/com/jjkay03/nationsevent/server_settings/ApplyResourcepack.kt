@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.server_settings
 
 import com.jjkay03.nationsevent.NationsEvent
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.EventHandler
@@ -52,8 +53,12 @@ class ApplyResourcepack : Listener {
     }
 
     init {
-        // Download the resource pack if it's enabled
+        // Register listener and download the pack if setting enabled
         if (RESOURCEPACKS_ENABLED) {
+            // Register listener
+            Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
+
+            // Download
             downloadResourcePacks()
             val downloadedPacks = getDownloadedResourcePacks()
             generateHashes(downloadedPacks)
@@ -63,7 +68,6 @@ class ApplyResourcepack : Listener {
     // apply resourcepack on join
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        if (!RESOURCEPACKS_ENABLED) return  // Cancel if resource pack is disabled
         val player = event.player
         if (EXEMPT_PLAYERS.contains(player.name)) return  // Skip if player is in the exempt list
         applyPack(player)  // Apply pack to player

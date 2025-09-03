@@ -90,10 +90,10 @@ open class NationsEvent : JavaPlugin() {
         server.pluginManager.registerEvents(FreezeAll(), this)
         server.pluginManager.registerEvents(EventIGNs(), this)
         server.pluginManager.registerEvents(UseChat(), this)
-        server.pluginManager.registerEvents(ApplyResourcepack(), this)
 
         // INITIALIZE CLASSES
         RenderDistance()                       // Server settings
+        ApplyResourcepack()                    // Server settings
         NoCraft()                              // Gameplay setting
         LimitEnchant()                         // Gameplay setting
         NoEnderPearl()                         // Gameplay setting

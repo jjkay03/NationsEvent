@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
 import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.chat.group_chat.*
+import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
@@ -42,16 +43,7 @@ open class NationsEvent : JavaPlugin() {
 
         // REGISTER COMMANDS
         logger.info("REGISTER AND LOAD ALL FEATURES:")
-        logger.info("- Register all commands")
-        // COMMANDS : ANNOUNCE
-        AnnounceSessionCommand("announcesession")
-        JoinStageCommand("joinstage")
-        JoinVCCommand("joinvc")
-        // COMMANDS : MANAGEMENT
-        SessionTimeCommand("sessiontime")
-        // COMMANDS : PLAYER SCALE
-        PlayerScaleCommand("playerscale")
-        PlayerScaleRestAllCommand("playerscalerestall")
+        Commands()
 
         // CHAT
         ChatManager()

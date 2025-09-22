@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.SessionTimeCommand
+import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
 import net.luckperms.api.LuckPerms
@@ -44,6 +45,14 @@ open class NationsEvent : JavaPlugin() {
         JoinStageCommand("joinstage")
         // COMMANDS : MANAGEMENT
         SessionTimeCommand("sessiontime")
+
+        // SETTINGS
+        DisabledCrafts()
+        DisableCrafterCrafts()
+        LimitEnchants()
+        DisableEnderPearls()
+        FarmProtection()
+        DisableWolfBreeding()
 
     }
 

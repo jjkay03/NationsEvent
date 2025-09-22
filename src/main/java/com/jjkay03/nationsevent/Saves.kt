@@ -46,14 +46,9 @@ class Saves {
         @JvmStatic
         val DISABLED_CRAFT_ITEMS: Set<Material> = setOf(
             // General disabled
-            Material.ENDER_CHEST,
-            Material.END_CRYSTAL,
-            Material.RESPAWN_ANCHOR,
-            Material.TNT_MINECART,
-            Material.JUKEBOX,
-            Material.HOPPER,
+            Material.ENDER_CHEST, Material.END_CRYSTAL, Material.RESPAWN_ANCHOR, Material.TNT_MINECART,
+            Material.JUKEBOX, Material.HOPPER, Material.CRAFTER,
             //Material.GOLDEN_HELMET,
-            //Material.FIREWORK_ROCKET,
 
             // Boats
             Material.OAK_BOAT, Material.SPRUCE_BOAT, Material.BIRCH_BOAT, Material.JUNGLE_BOAT, Material.ACACIA_BOAT, Material.DARK_OAK_BOAT, Material.MANGROVE_BOAT, Material.CHERRY_BOAT, Material.BAMBOO_RAFT,

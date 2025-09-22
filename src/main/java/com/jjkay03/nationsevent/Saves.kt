@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.utils.LogsManager
+import net.luckperms.api.model.group.Group
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import java.io.File
@@ -18,6 +19,13 @@ class Saves {
         const val PERM_PROD: String = "nationsevent.production"
         const val PERM_STAFF: String = "nationsevent.staff"
         const val PERM_SPECTATOR: String = "nationsevent.spectator"
+
+
+        // LUCKPERMS GROUPS
+        val LP_GROUP_ADMIN: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("admin")
+        val LP_GROUP_PROD: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("prod")
+        val LP_GROUP_STAFF: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("staff")
+        val LP_GROUP_DEFAULT: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("default")
 
 
         // DIRECTORIES

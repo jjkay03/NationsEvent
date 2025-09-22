@@ -1,10 +1,10 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.chat.*
 import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
 import com.jjkay03.nationsevent.commands.player_scale.*
-import com.jjkay03.nationsevent.group_chat.GroupChats
-import com.jjkay03.nationsevent.group_chat.GroupChatsCommands
+import com.jjkay03.nationsevent.chat.group_chat.*
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
@@ -54,7 +54,8 @@ open class NationsEvent : JavaPlugin() {
         PlayerScaleRestAllCommand("playerscalerestall")
 
         // CHAT
-        GroupChatsCommands.registerGroupChatCommands()
+        ChatManager()
+        GroupChatsCommands.registerGroupChatsCommands()
 
         // SETTINGS
         DisabledCrafts()

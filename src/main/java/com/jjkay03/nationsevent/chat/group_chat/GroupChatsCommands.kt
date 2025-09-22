@@ -1,5 +1,6 @@
-package com.jjkay03.nationsevent.group_chat
+package com.jjkay03.nationsevent.chat.group_chat
 
+import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import org.bukkit.command.Command
@@ -11,7 +12,8 @@ class GroupChatsCommands : CommandExecutor {
 
     companion object {
         // Function to register group chat commands
-        fun registerGroupChatCommands() {
+        fun registerGroupChatsCommands() {
+            NationsEvent.INSTANCE.logger.info("- Loading Group Chats (${GroupChats.entries.size})")
             val commandInstance = GroupChatsCommands()
             GroupChats.entries.forEach { groupChat ->
                 groupChat.command.forEach { command ->

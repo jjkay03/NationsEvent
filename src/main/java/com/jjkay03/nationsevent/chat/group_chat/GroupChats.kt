@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.group_chat
+package com.jjkay03.nationsevent.chat.group_chat
 
 import com.jjkay03.nationsevent.Saves
 

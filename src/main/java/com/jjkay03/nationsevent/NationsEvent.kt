@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
 import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.chat.group_chat.*
+import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.FilesManager
@@ -47,6 +48,7 @@ open class NationsEvent : JavaPlugin() {
 
         // CHAT
         ChatManager()
+        PlayerGroupChatManager()
         GroupChatsCommands.registerGroupChatsCommands()
 
         // SETTINGS

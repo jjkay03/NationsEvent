@@ -8,7 +8,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Create default dir and files
 
 ✅ Command: Group chats
-❌ Command: Player group chats
+✅ Command: Player group chats
 
 ✅ Command: /joinvc
 ✅ Command: /joinstage

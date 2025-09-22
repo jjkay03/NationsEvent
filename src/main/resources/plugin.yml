@@ -56,6 +56,20 @@ commands:
     permission: nationsevent.command.playerscalerestall
     permission-message: "§cYou do not have permission to use this command"
 
+  #---------------------------
+  #   COMMANDS : PLAYER GC
+  #---------------------------
+
+  groupchat:
+    aliases: [ gc, playergroupchats ]
+    permission: nationsevent.command.groupchat
+    permission-message: "§cYou do not have permission to use this command"
+
+  admingroupchat:
+    aliases: [ agc, admingc ]
+    permission: nationsevent.command.admingroupchat
+    permission-message: "§cYou do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

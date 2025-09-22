@@ -25,7 +25,7 @@ class ChatManager : Listener {
         event.isCancelled = true
 
         // End if player doesn't have chat permission
-        if (!player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cGlobal chat is disabled!"); return }
+        if (!player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cChat is disabled!"); return }
 
         // Get message
         val message = MiniMessage.miniMessage().serialize(event.message())

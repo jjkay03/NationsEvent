@@ -18,9 +18,9 @@ softdepend:
 
 commands:
 
-  #-----------------------
-  #  COMMANDS : ANNOUNCE
-  #-----------------------
+  #---------------------------
+  #    COMMANDS : ANNOUNCE
+  #---------------------------
 
   announcesession:
     permission: nationsevent.command.announcesession
@@ -30,12 +30,26 @@ commands:
     permission: nationsevent.command.joinstage
     permission-message: "§cYou do not have permission to use this command"
 
-  #-----------------------
-  # COMMANDS : MANAGEMENT
-  #-----------------------
+  #---------------------------
+  #   COMMANDS : MANAGEMENT
+  #---------------------------
 
   sessiontime:
     permission: nationsevent.command.sessiontime
+    permission-message: "§cYou do not have permission to use this command"
+
+  #---------------------------
+  #  COMMANDS : PLAYER SCALE
+  #---------------------------
+
+  playerscale:
+    aliases: [ pscale ]
+    permission: nationsevent.command.playerscale
+    permission-message: "§cYou do not have permission to use this command"
+
+  playerscalerestall:
+    aliases: [ pscaleresetall ]
+    permission: nationsevent.command.playerscalerestall
     permission-message: "§cYou do not have permission to use this command"
 
 

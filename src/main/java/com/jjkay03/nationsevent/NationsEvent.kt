@@ -1,7 +1,8 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.commands.announce.*
-import com.jjkay03.nationsevent.commands.management.SessionTimeCommand
+import com.jjkay03.nationsevent.commands.management.*
+import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
@@ -45,6 +46,9 @@ open class NationsEvent : JavaPlugin() {
         JoinStageCommand("joinstage")
         // COMMANDS : MANAGEMENT
         SessionTimeCommand("sessiontime")
+        // COMMANDS : PLAYER SCALE
+        PlayerScaleCommand("playerscale")
+        PlayerScaleRestAllCommand("playerscalerestall")
 
         // SETTINGS
         DisabledCrafts()

@@ -17,7 +17,7 @@ class DisableEnderPearls: Listener {
     // REGISTER EVENTS
     init {
         Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
-        NationsEvent.INSTANCE.logger.info("- Loading gameplay setting: ${this::class.simpleName}")
+        NationsEvent.INSTANCE.logger.info("- Loading setting: ${this::class.simpleName}")
     }
 
     // Handle player using ender pearl item

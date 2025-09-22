@@ -1,5 +1,7 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.commands.announce.*
+import com.jjkay03.nationsevent.commands.management.SessionTimeCommand
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
 import net.luckperms.api.LuckPerms
@@ -33,6 +35,16 @@ open class NationsEvent : JavaPlugin() {
         getAPIs()                      // Get all APIs instances and info
         Saves()                        // Load all variables in saves class
         FilesManager.createDefaults()  // Generate default directories and files
+
+        // REGISTER COMMANDS
+        logger.info("REGISTER AND LOAD ALL FEATURES:")
+        logger.info("- Register all commands")
+        // COMMANDS : ANNOUNCE
+        AnnounceSessionCommand("announcesession")
+        JoinStageCommand("joinstage")
+        // COMMANDS : MANAGEMENT
+        SessionTimeCommand("sessiontime")
+
     }
 
     // PLUGIN SHUTDOWN LOGIC

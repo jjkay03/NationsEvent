@@ -40,7 +40,7 @@ class PlayerScaleCommand(private val commandName: String) : CommandExecutor {
         // Validate the scale (must be positive and non-zero)
         if (scale <= 0) { sender.sendMessage("§cScale must be greater than 0"); return true }
 
-        // Set the player's scale using the generic scale attribute (using schedular)
+        // Set the player's scale using the generic scale attribute (scheduler thread safe)
         Scheduler.task(Scheduler.SchedulerType.PLAYER, {
             val scaleAttribute = targetPlayer.getAttribute(Attribute.SCALE)
             if (scaleAttribute != null) {

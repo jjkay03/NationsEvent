@@ -27,7 +27,7 @@ class PlayerScaleRestAllCommand(private val commandName: String) : CommandExecut
         var processedCount = 0
         val totalCount = onlinePlayers.size
 
-        // Iterate through all online players
+        // Iterate through all online players (scheduler thread safe)
         for (player in onlinePlayers) {
             Scheduler.task(Scheduler.SchedulerType.PLAYER, {
                 // Get the player's scale attribute

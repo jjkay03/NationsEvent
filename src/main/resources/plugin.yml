@@ -30,6 +30,10 @@ commands:
     permission: nationsevent.command.joinstage
     permission-message: "§cYou do not have permission to use this command"
 
+  joinvc:
+    permission: nationsevent.command.joinvc
+    permission-message: "§cYou do not have permission to use this command"
+
   #---------------------------
   #   COMMANDS : MANAGEMENT
   #---------------------------

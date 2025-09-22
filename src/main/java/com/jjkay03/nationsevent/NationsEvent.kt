@@ -44,6 +44,7 @@ open class NationsEvent : JavaPlugin() {
         // COMMANDS : ANNOUNCE
         AnnounceSessionCommand("announcesession")
         JoinStageCommand("joinstage")
+        JoinVCCommand("joinvc")
         // COMMANDS : MANAGEMENT
         SessionTimeCommand("sessiontime")
         // COMMANDS : PLAYER SCALE

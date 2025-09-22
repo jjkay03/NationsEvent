@@ -8,7 +8,7 @@ object ServerType {
     var MINECRAFT_VERSION: MinecraftVersion = MinecraftVersion.UNKNOWN
     var CHECK_FOLIA_CLASS = "io.papermc.paper.threadedregions.RegionizedServer"
 
-    enum class ThreadingType { SINGLE_THREADED, MULTI_THREADED }
+    enum class ThreadingType { SINGLE_THREADED, MULTI_THREADED_FOLIA }
     enum class MinecraftVersion { V1_20, V1_21, UNKNOWN }
 
     // Function to run detections
@@ -19,7 +19,7 @@ object ServerType {
 
     // Function to detect server threading type
     private fun detectThreadingType(): ThreadingType {
-        return try { Class.forName(CHECK_FOLIA_CLASS); ThreadingType.MULTI_THREADED }
+        return try { Class.forName(CHECK_FOLIA_CLASS); ThreadingType.MULTI_THREADED_FOLIA }
         catch (e: ClassNotFoundException) { ThreadingType.SINGLE_THREADED }
     }
 

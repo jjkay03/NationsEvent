@@ -15,7 +15,7 @@ object Utils {
             "$color | |\\  | (_| | |_| | (_) | | | \\__ \\ |___\\ V /  __/ | | | |_ ",
             "$color |_| \\_|\\__,_|\\__|_|\\___/|_| |_|___/______\\_/ \\___|_| |_|\\__|"
         )
-        if (ServerType.SERVER_TYPE == ServerType.ThreadingType.MULTI_THREADED) welcomeMessage.add("$color THREADED VERSION §2(FOLIA)")
+        if (ServerType.SERVER_TYPE == ServerType.ThreadingType.MULTI_THREADED_FOLIA) welcomeMessage.add("$color THREADED VERSION §2(FOLIA)")
         welcomeMessage.add("")
         welcomeMessage.forEach { line -> Bukkit.getConsoleSender().sendMessage(line) }
         NationsEvent.INSTANCE.logger.info("NationsEvent is running!")

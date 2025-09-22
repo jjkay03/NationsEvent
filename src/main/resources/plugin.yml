@@ -3,14 +3,18 @@ version: '${project.version}'
 authors: [jjkay03, Gonkas77]
 website: https://jjkay03.com/
 
+
+main: com.jjkay03.nationsevent.NationsEvent
+api-version: '1.20'
+folia-supported: true
+
+
 depend:
   - LuckPerms
 
 softdepend:
   - PlaceholderAPI
 
-main: com.jjkay03.nationsevent.NationsEvent
-api-version: '1.21'
 
 commands:
   nationseventtest:

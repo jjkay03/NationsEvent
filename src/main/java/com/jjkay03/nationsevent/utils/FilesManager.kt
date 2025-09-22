@@ -1,19 +1,19 @@
-package com.jjkay03.nationsevent
+package com.jjkay03.nationsevent.utils
 
+import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 object FilesManager {
 
-    // Function to create default directories
-    fun createDefaultDirectories() {
+    // Function to create default directories and files
+    fun createDefaults() {
+        // Default directories
         NationsEvent.INSTANCE.logger.info("Generating default plugin directories...")
         createDirectory(Saves.DIR_EVENT_IGNS)
-        createDirectory(Saves.DIR_EXPORTED_VOTES)
-    }
 
-    // Function to create default files
-    fun createDefaultFiles() {
+        // Default files
         NationsEvent.INSTANCE.logger.info("Generating default plugin files...")
         createPluginEmbeddedFile(NationsEvent.INSTANCE, Saves.FILE_WEBHOOKS, Saves.FILE_NAME_WEBHOOKS)
     }

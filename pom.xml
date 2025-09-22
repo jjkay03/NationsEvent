@@ -6,7 +6,7 @@
 
   <groupId>com.jjkay03</groupId>
   <artifactId>NationsEvent</artifactId>
-  <version>NE4</version>
+  <version>NS7</version>
   <packaging>jar</packaging>
 
   <name>NationsEvent</name>
@@ -102,16 +102,16 @@
 
   <repositories>
       <repository>
-          <id>papermc-repo</id>
-          <url>https://repo.papermc.io/repository/maven-public/</url>
-      </repository>
-      <repository>
           <id>sonatype</id>
           <url>https://oss.sonatype.org/content/groups/public/</url>
       </repository>
       <repository>
           <id>jitpack.io</id>
           <url>https://jitpack.io</url>
+      </repository>
+      <repository>
+          <id>papermc-repo</id>
+          <url>https://repo.papermc.io/repository/maven-public/</url>
       </repository>
       <!-- Placeholder API -->
       <repository>
@@ -121,12 +121,7 @@
   </repositories>
 
   <dependencies>
-      <dependency>
-          <groupId>io.papermc.paper</groupId>
-          <artifactId>paper-api</artifactId>
-          <version>1.21.8-R0.1-SNAPSHOT</version>
-          <scope>provided</scope>
-      </dependency>
+      <!-- Kotlin -->
       <dependency>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -138,6 +133,23 @@
           <version>${kotlin.version}</version>
           <scope>test</scope>
       </dependency>
+
+      <!-- PaperMC -->
+      <dependency>
+          <groupId>io.papermc.paper</groupId>
+          <artifactId>paper-api</artifactId>
+          <version>1.21.8-R0.1-SNAPSHOT</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- Folia -->
+      <dependency>
+          <groupId>dev.folia</groupId>
+          <artifactId>folia-api</artifactId>
+          <version>1.21.8-R0.1-SNAPSHOT</version>
+          <scope>provided</scope>
+      </dependency>
+
       <!-- IPVP Canvas -->
       <dependency>
           <groupId>org.ipvp</groupId>
@@ -145,6 +157,7 @@
           <version>1.7.0-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
+
       <!-- LuckPerms API -->
       <dependency>
           <groupId>net.luckperms</groupId>
@@ -152,6 +165,7 @@
           <version>5.4</version>
           <scope>provided</scope>
       </dependency>
+
       <!-- Placeholder API -->
       <dependency>
           <groupId>me.clip</groupId>
@@ -159,5 +173,6 @@
           <version>2.11.6</version>
           <scope>provided</scope>
       </dependency>
+
   </dependencies>
 </project>

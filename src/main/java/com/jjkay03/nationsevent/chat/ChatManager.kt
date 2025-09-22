@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.chat
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -17,11 +18,16 @@ class ChatManager : Listener {
 
     @EventHandler
     fun onPlayerChat(event: AsyncChatEvent) {
-        // Cancel the default chat format
+        // Get player
+        val player = event.player
+
+        // Cancel the default chat
         event.isCancelled = true
 
-        // Get player and message
-        val player = event.player
+        // End if player doesn't have chat permission
+        if (!player.hasPermission(Saves.PERM_USE_CHAT)) { player.sendMessage("§cGlobal chat is disabled!"); return }
+
+        // Get message
         val message = MiniMessage.miniMessage().serialize(event.message())
 
         // Get player prefix color from LuckPerms

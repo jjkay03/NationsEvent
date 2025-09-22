@@ -28,6 +28,13 @@ class Saves {
         val LP_GROUP_DEFAULT: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("default")
 
 
+        // PERMISSIONS
+        const val PERM_USE_CHAT: String = "nationsevent.use-chat"
+        const val PERM_ECONOMY_USE_TRADE_ENTITY: String = "nationsevent.economy.use-trade-entity"
+        const val PERM_ECONOMY_RECEIVE_MONEY: String = "nationsevent.economy.receive-money"
+        const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
+
+
         // DIRECTORIES
         val DIR_MAIN_PLUGIN = File("plugins/NationsEvent")
         val DIR_EVENT_IGNS = File(DIR_MAIN_PLUGIN, "event_igns")

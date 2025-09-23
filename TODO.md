@@ -14,7 +14,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Command: /joinstage
 ✅ Command: /announcesession
 ✅ Command: /sessiontime
-❌ Command: /pvptoggle
+✅ Command: /pvptoggle
 ❌ Command: /voicechatperms
 ❌ Command: /groupvoicechatperm
 ❌ Command: /vote

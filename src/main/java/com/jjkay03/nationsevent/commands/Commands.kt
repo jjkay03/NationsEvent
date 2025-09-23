@@ -17,6 +17,7 @@ class Commands {
             // COMMANDS : MANAGEMENT
             SessionTimeCommand("sessiontime"),
             RandomPlayerTPCommand("randomplayertp"),
+            PVPToggleCommand("pvptoggle"),
             FreezeAllCommand("freezeall"),
 
             // COMMANDS : PLAYER SCALE

@@ -53,6 +53,11 @@ commands:
     permission: nationsevent.command.randomplayertp
     permission-message: "§cYou do not have permission to use this command"
 
+  pvptoggle:
+    aliases: [ pvp, togglepvp ]
+    permission: nationsevent.command.pvptoggle
+    permission-message: "§cYou do not have permission to use this command"
+
   freezeall:
     permission: nationsevent.command.freezeall
     permission-message: "§cYou do not have permission to use this command"

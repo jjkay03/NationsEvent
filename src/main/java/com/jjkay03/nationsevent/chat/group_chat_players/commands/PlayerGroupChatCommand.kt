@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.chat.group_chat_players.commands
 
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChat
+import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatLog
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatUtils
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.utils.Config
@@ -158,6 +159,9 @@ class PlayerGroupChatCommand : CommandExecutor, TabCompleter {
                         .clickEvent(ClickEvent.runCommand("/gc join ${groupChat.id}"))
                         .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§eClick to join ${groupChat.prefix}")))
                 )
+
+                // Log
+                PlayerGroupChatLog.invitePlayerToGC(groupChat, targetPlayer)
             }
 
             // JOIN

@@ -24,7 +24,6 @@ class Config {
         val PGC_COLOR = NationsEvent.INSTANCE.config.getString("pgc-color", "§7")
         val PGC_SPY_COLOR = NationsEvent.INSTANCE.config.getString("pgc-spy-color", "§8")
         val PGC_STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("pgc-staff-msg-prefix", "§6[STAFF]")
-        val PGC_STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(PGC_STAFF_MESSAGE_PREFIX)
         val PGC_NAME_CHARACTER_LIMIT = NationsEvent.INSTANCE.config.getInt("pgc-name-character-limit", 6)
 
     }

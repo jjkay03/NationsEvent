@@ -50,7 +50,7 @@ open class NationsEvent : JavaPlugin() {
         // CHAT
         ChatManager()
         PlayerGroupChatManager()
-        GroupChatsCommands.registerGroupChatsCommands()
+        GroupChatsCommands.registerCommands()
 
         // SETTINGS
         DisabledCrafts()

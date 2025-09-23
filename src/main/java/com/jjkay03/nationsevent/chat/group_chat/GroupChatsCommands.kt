@@ -12,7 +12,7 @@ class GroupChatsCommands : CommandExecutor {
 
     companion object {
         // Function to register group chat commands
-        fun registerGroupChatsCommands() {
+        fun registerCommands() {
             NationsEvent.INSTANCE.logger.info("- Loading Group Chats (${GroupChats.entries.size})")
             val commandInstance = GroupChatsCommands()
             GroupChats.entries.forEach { groupChat ->

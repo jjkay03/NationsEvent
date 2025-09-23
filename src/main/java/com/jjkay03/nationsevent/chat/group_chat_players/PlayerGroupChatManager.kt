@@ -41,9 +41,6 @@ class PlayerGroupChatManager: Listener {
 
     // Function to load the player group chat
     fun loadGroupChats() {
-        // Log message
-        NationsEvent.INSTANCE.logger.info("- Loading Player Group Chats")
-
         // Create default player group chat files
         FilesManager.createDirectory(Saves.DIR_PLAYER_GC)
         FilesManager.createDirectory(Saves.DIR_PLAYER_GC_LOGS)
@@ -62,6 +59,9 @@ class PlayerGroupChatManager: Listener {
         NationsEvent.INSTANCE.server.pluginManager.registerEvents(this, NationsEvent.INSTANCE)
 
         // Load saved player group chats from yml file
-        if (Config.PGC_SAVE_ON_SERVER_RESTART) GROUP_CHATS.addAll(PlayerGroupChatSave.importGCFromFile(Saves.Companion.FILE_PLAYER_GROUP_CHATS))
+        if (Config.PGC_SAVE_ON_SERVER_RESTART) GROUP_CHATS.addAll(PlayerGroupChatSave.importGCFromFile(Saves.FILE_PLAYER_GROUP_CHATS))
+
+        // Console message
+        NationsEvent.INSTANCE.logger.info("- Loading Player Group Chats (${GROUP_CHATS.size})")
     }
 }

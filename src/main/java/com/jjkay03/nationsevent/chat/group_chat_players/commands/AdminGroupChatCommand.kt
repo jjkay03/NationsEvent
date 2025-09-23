@@ -111,7 +111,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 val targetPlayersNames = groupChat.playerList.mapNotNull { it.name }.joinToString(", ")
                 player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You §aCREATED §7group chat %gc% §7with $targetPlayersNames", "§2", groupChat))
                 val targetPlayersMembersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You were §aADDED §7to group chat %gc% §7by staff", "§7", groupChat)
-                Utils.sendMessageToPlayerList(groupChat.playerList, targetPlayersMembersMsg)
+                Utils.messagePlayerList(groupChat.playerList, targetPlayersMembersMsg)
 
                 // Alert group chat members
                 PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetPlayersNames to group chat")
@@ -184,7 +184,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 val targetNames = if (targetPlayers.size == 1) targetPlayers.first().name else targetPlayers.joinToString(", ") { it.name }
                 player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You §aADDED §7$targetNames to %gc%", "§7", groupChat))
                 val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You were §aADDED §7to group chat %gc% §7by staff", "§7", groupChat)
-                Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
+                Utils.messagePlayerList(targetPlayers, targetPlayersMsg)
 
                 // Alert group chat members
                 if (targetNames != "") PlayerGroupChatUtils.chat(groupChat, null, "Staff added $targetNames to group chat")
@@ -220,7 +220,7 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                 val targetNames = if (targetPlayers.size == 1) targetPlayers.first().name else targetPlayers.joinToString(", ") { it.name }
                 player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You §cREMOVED §7$targetNames from %gc%", "§7", groupChat))
                 val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You were §cREMOVED §7from group chat %gc% §7by staff", "§7", groupChat)
-                Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
+                Utils.messagePlayerList(targetPlayers, targetPlayersMsg)
 
                 // Alert group chat members
                 PlayerGroupChatUtils.chat(groupChat, null, "Staff removed $targetNames from group chat")

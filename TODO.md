@@ -38,7 +38,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Admin GUI
 ✅ Event IGNs
 ❌ Economy
-❌ Death ban
+✅ Death ban
 ❌ Warps
 
 ❌ Render distance manager

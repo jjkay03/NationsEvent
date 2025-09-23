@@ -43,7 +43,7 @@ features:
   death-ban:
     enable: true
     message: "Your fight is over."
-    lightning: true
+    lightning: false
 
   # Save all event players IGNs in text file
   event-igns: true

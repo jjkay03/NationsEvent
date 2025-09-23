@@ -16,6 +16,9 @@ class Config {
         val SETTINGS_DISABLE_WOLF_BREEDING = NationsEvent.INSTANCE.config.getBoolean("settings-disable-wolf-breeding", false)
         val SETTINGS_FARM_PROTECTION = NationsEvent.INSTANCE.config.getBoolean("settings-farm-protection", false)
 
+        // FEATURES
+        val FEATURES_EVENT_IGNS = NationsEvent.INSTANCE.config.getBoolean("features-event-igns", false)
+
         // PLAYER GROUP CHAT
         val PGC_ENABLED = NationsEvent.INSTANCE.config.getBoolean("pgc-enable", false)
         val PGC_SAVE_ON_SERVER_RESTART = NationsEvent.INSTANCE.config.getBoolean("pgc-save-on-server-restart", false)

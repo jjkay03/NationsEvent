@@ -4,6 +4,7 @@ import com.jjkay03.nationsevent.chat.*
 import com.jjkay03.nationsevent.chat.group_chat.*
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
+import com.jjkay03.nationsevent.features.EventIGNs
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
@@ -59,6 +60,9 @@ open class NationsEvent : JavaPlugin() {
         DisableEnderPearls()
         DisableWolfBreeding()
         FarmProtection()
+
+        // FEATURES
+        EventIGNs()
 
     }
 

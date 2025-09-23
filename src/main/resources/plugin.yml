@@ -16,6 +16,12 @@ softdepend:
   - PlaceholderAPI
 
 
+permissions:
+  nationsevent.use-chat:
+    description: "Allows using chat"
+    default: true
+
+
 commands:
 
   #---------------------------

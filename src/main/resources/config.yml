@@ -37,6 +37,13 @@ settings-farm-protection: true
 
 
 
+# == Features =========================================================================================================
+
+# Save all event players IGNs in text file
+features-event-igns: true
+
+
+
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle

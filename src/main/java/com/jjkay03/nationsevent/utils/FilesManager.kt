@@ -11,7 +11,6 @@ object FilesManager {
     fun createDefaults() {
         // Default directories
         NationsEvent.INSTANCE.logger.info("Generating default plugin directories...")
-        createDirectory(Saves.DIR_EVENT_IGNS)
 
         // Default files
         NationsEvent.INSTANCE.logger.info("Generating default plugin files...")

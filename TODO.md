@@ -36,7 +36,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Command: /smite
 
 ❌ Admin GUI
-❌ Event IGNs
+✅ Event IGNs
 ❌ Economy
 ❌ Death ban
 ❌ Warps

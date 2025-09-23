@@ -4,14 +4,8 @@ import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Utils
 
 class Config {
-
-    init {
-        NationsEvent.INSTANCE.logger.info("Loading configuration")
-        NationsEvent.INSTANCE.saveDefaultConfig()  // Save the default configuration
-        NationsEvent.INSTANCE.reloadConfig()       // Reload the default configuration
-    }
-
     companion object {
+
         // MAIN
         val EVENT_CODENAME = NationsEvent.INSTANCE.config.getString("event-codename", "NT0")
 
@@ -32,5 +26,6 @@ class Config {
         val PGC_STAFF_MESSAGE_PREFIX = NationsEvent.INSTANCE.config.getString("pgc-staff-msg-prefix", "§6[STAFF]")
         val PGC_STAFF_MESSAGE_PREFIX_FORMATLESS = Utils.removeFormattingCodes(PGC_STAFF_MESSAGE_PREFIX)
         val PGC_NAME_CHARACTER_LIMIT = NationsEvent.INSTANCE.config.getInt("pgc-name-character-limit", 6)
+
     }
 }

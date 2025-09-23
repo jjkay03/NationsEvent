@@ -33,8 +33,12 @@ open class NationsEvent : JavaPlugin() {
         ServerType.detect()
         Utils.pluginWelcomeMessage("§e")
 
+        // CONFIGURATION
+        saveDefaultConfig()            // Save default config
+        reloadConfig()                 // Reload default config
+        Config()                       // Load config settings
+
         // STARTUP
-        Config()                       // Load configuration
         getAPIs()                      // Get all APIs instances and info
         Saves()                        // Load all variables in saves class
         FilesManager.createDefaults()  // Generate default directories and files

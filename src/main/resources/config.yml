@@ -17,49 +17,55 @@ event-codename: NS7
 
 
 # == Settings =========================================================================================================
+settings:
+  # Disable certain item crafts
+  # Hard coded managed from (Saves.kt file)
+  disable-crafts: true
 
-# Disable certain item crafts
-# Hard coded managed from (Saves.kt file)
-settings-disable-crafts: true
+  # Disable or limit certain enchants
+  # Hard coded managed from (Saves.kt file)
+  limit-enchants: true
 
-# Disable or limit certain enchants
-# Hard coded managed from (Saves.kt file)
-settings-limit-enchants: true
+  # Disable ender pearls usage and obtain
+  disable-ender-pearls: true
 
-# Disable ender pearls usage and obtain
-settings-disable-ender-pearls: true
+  # Disable wolf breeding
+  disable-wolf-breeding: true
 
-# Disable wolf breeding
-settings-disable-wolf-breeding: true
-
-# Protect farm by disabling trembling
-settings-farm-protection: true
+  # Protect farm by disabling trembling
+  farm-protection: true
 
 
 
 # == Features =========================================================================================================
+features:
+  # Ban players on death
+  death-ban:
+    enable: true
+    message: "Your fight is over."
+    lightning: true
 
-# Save all event players IGNs in text file
-features-event-igns: true
+  # Save all event players IGNs in text file
+  event-igns: true
 
 
 
 # == Player Group Chats ===============================================================================================
+player-group-chat:
+  # Player group chat feature toggle
+  enable: true
 
-# Player group chat feature toggle
-pgc-enable: true
+  # If group chats should be saved and loaded when server restarts
+  save-on-server-restart: true
 
-# If group chats should be saved and loaded when server restarts
-pgc-save-on-server-restart: true
+  # Maximum amount of GCs a player can join
+  limit: 3
 
-# Maximum amount of GCs a player can join
-pgc-limit: 3
+  # If group chats can be used while chat is disabled
+  bypass-disabled-chat: true
 
-# If group chats can be used while chat is disabled
-pgc-bypass-disabled-chat: true
-
-# Colors for player group chat messages
-pgc-color: "§7"
-pgc-spy-color: "§8"
-pgc-staff-msg-prefix: "§6[STAFF]"
-pgc-name-character-limit: 6
+  # Colors for player group chat messages
+  color: "§7"
+  spy-color: "§8"
+  staff-msg-prefix: "§6[STAFF]"
+  name-character-limit: 6

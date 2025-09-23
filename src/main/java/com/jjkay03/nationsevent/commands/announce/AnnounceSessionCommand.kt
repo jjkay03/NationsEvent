@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 
 class AnnounceSessionCommand(private val commandName: String) : CommandExecutor {
 
-    // REGISTER COMMAND
+    // INITIALIZATION (Register command)
     init {
         NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
     }

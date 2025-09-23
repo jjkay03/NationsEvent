@@ -1,7 +1,7 @@
 # TODO
 TODO LIST FOR NATIONS EVENT REFACTOR
 
-❌ Config
+✅ Config
 ✅ Saves
 ✅ API (LuckPerms)
 ✅ LuckPerms Utils

@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender
 
 class PlayerScaleRestAllCommand(private val commandName: String) : CommandExecutor {
 
-    // REGISTER COMMAND
+    // INITIALIZATION (Register command)
     init {
         NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
     }

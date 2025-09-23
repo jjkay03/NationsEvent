@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.settings
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.utils.Config
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
@@ -14,8 +15,14 @@ import org.bukkit.event.player.PlayerTeleportEvent
 
 class DisableEnderPearls: Listener {
 
-    // REGISTER EVENTS
+    // INITIALIZATION
     init {
+        load(Config.SETTINGS_DISABLE_ENDER_PEARLS)
+    }
+
+    // LOAD (If enabled in config)
+    fun load(enabled: Boolean) {
+        if (!enabled) return
         Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
         NationsEvent.INSTANCE.logger.info("- Loading setting: ${this::class.simpleName}")
     }

@@ -9,7 +9,6 @@ import java.io.File
 class Saves {
     companion object {
         // EVENT VARIABLES
-        lateinit var EVENT_CODENAME: String
         var SESSION_STARTED: Boolean = false
         var SESSION_START_TIME: Long = 0
 

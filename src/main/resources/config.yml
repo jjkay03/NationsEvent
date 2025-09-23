@@ -8,7 +8,7 @@
 
 
 
-# == Server settings =================================================================================================
+# == Main =============================================================================================================
 
 # Event code name (Example: NG1)
 # Needs to match actual build-in event codename to load event specific classes
@@ -16,22 +16,43 @@ event-codename: NS7
 
 
 
+# == Settings =========================================================================================================
+
+# Disable certain item crafts
+# Hard coded managed from (Saves.kt file)
+settings-disable-crafts: true
+
+# Disable or limit certain enchants
+# Hard coded managed from (Saves.kt file)
+settings-limit-enchants: true
+
+# Disable ender pearls usage and obtain
+settings-disable-ender-pearls: true
+
+# Disable wolf breeding
+settings-disable-wolf-breeding: true
+
+# Protect farm by disabling trembling
+settings-farm-protection: true
+
+
+
 # == Player Group Chats ===============================================================================================
 
 # Player group chat feature toggle
-player-group-chat-enable: true
+pgc-enable: true
 
 # If group chats should be saved and loaded when server restarts
-player-group-chat-save-on-server-restart: true
+pgc-save-on-server-restart: true
 
 # Maximum amount of GCs a player can join
-player-group-chat-limit: 3
+pgc-limit: 3
 
 # If group chats can be used while chat is disabled
-player-group-chat-bypass-disabled-chat: true
+pgc-bypass-disabled-chat: true
 
 # Colors for player group chat messages
-player-group-chat-color: "§7"
-player-group-chat-spy-color: "§8"
-player-group-chat-staff-msg-prefix: "§6[STAFF]"
-player-group-chat-name-character-limit: 6
+pgc-color: "§7"
+pgc-spy-color: "§8"
+pgc-staff-msg-prefix: "§6[STAFF]"
+pgc-name-character-limit: 6

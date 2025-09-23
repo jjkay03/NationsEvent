@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.chat.group_chat_players
 
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.Scheduler
 import org.bukkit.OfflinePlayer
 import net.kyori.adventure.text.Component
@@ -16,24 +17,24 @@ object PlayerGroupChatUtils {
     // Function used to send message in a group chat
     fun chat(groupChat: PlayerGroupChat, player: Player?, message: String, staffAction: Boolean = false) {
         // Player is unable to chat in GCs if they do not have the 'PERM_USE_CHAT' permission UNLESS 'BYPASS_DISABLED_CHAT' is true
-        if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !PlayerGroupChatManager.BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
+        if (player != null && !player.hasPermission(Saves.PERM_USE_CHAT) && !Config.PGC_BYPASS_DISABLED_CHAT) { player.sendMessage("§cChat is disabled!"); return }
 
         // Message components
-        val prefix = "${PlayerGroupChatManager.GROUP_CHAT_COLOR}[%gc%${PlayerGroupChatManager.GROUP_CHAT_COLOR}] "
-        val spyPrefix = "${PlayerGroupChatManager.GROUP_CHAT_SPY_COLOR}[%gc%${PlayerGroupChatManager.GROUP_CHAT_SPY_COLOR}] "
+        val prefix = "${Config.PGC_COLOR}[%gc%${Config.PGC_COLOR}] "
+        val spyPrefix = "${Config.PGC_SPY_COLOR}[%gc%${Config.PGC_SPY_COLOR}] "
 
         // Author formatting helper
         fun formatAuthor(color: String?): String = when {
             player == null -> ""
-            staffAction -> "${PlayerGroupChatManager.STAFF_MESSAGE_PREFIX}$color ${player.name}: "
+            staffAction -> "${Config.PGC_STAFF_MESSAGE_PREFIX}$color ${player.name}: "
             else -> "${player.name}: "
         }
 
         // Create messages
-        val playerMsg = formatHoverableMessage(prefix + formatAuthor(PlayerGroupChatManager.GROUP_CHAT_COLOR) + message,
-            PlayerGroupChatManager.GROUP_CHAT_COLOR, groupChat, false)
-        val spiesMsg = formatHoverableMessage(spyPrefix + formatAuthor(PlayerGroupChatManager.GROUP_CHAT_SPY_COLOR) + message,
-            PlayerGroupChatManager.GROUP_CHAT_SPY_COLOR, groupChat, false)
+        val playerMsg = formatHoverableMessage(prefix + formatAuthor(Config.PGC_COLOR) + message,
+            Config.PGC_COLOR, groupChat, false)
+        val spiesMsg = formatHoverableMessage(spyPrefix + formatAuthor(Config.PGC_SPY_COLOR) + message,
+            Config.PGC_SPY_COLOR, groupChat, false)
 
         // Send messages to group members
         val groupMembers = groupChat.playerList.mapNotNull { it.player }
@@ -223,14 +224,14 @@ object PlayerGroupChatUtils {
         val playerGroupChats = getPlayerGCs(player)
 
         // If player is under the group chat limit -> return state
-        if (playerGroupChats.size < PlayerGroupChatManager.GROUP_CHAT_LIMIT) return LimitState.VALID
+        if (playerGroupChats.size < Config.PGC_LIMIT) return LimitState.VALID
 
         // If player is at the group chat limit -> return state
-        else if (playerGroupChats.size == PlayerGroupChatManager.GROUP_CHAT_LIMIT) return LimitState.LIMIT
+        else if (playerGroupChats.size == Config.PGC_LIMIT) return LimitState.LIMIT
 
         // If player is at the group chat limit -> return state and remove player from additional group chats
         else {
-            removePlayerFromAmountOfGC(player, (playerGroupChats.size - PlayerGroupChatManager.GROUP_CHAT_LIMIT))
+            removePlayerFromAmountOfGC(player, (playerGroupChats.size - Config.PGC_LIMIT))
             return LimitState.EXCEEDED
         }
     }
@@ -286,6 +287,6 @@ object PlayerGroupChatUtils {
 
     // Function to validate group chat name at creation, returns true if name is valid
     fun validateGCName(name: String): Boolean {
-        return name.matches(Regex("^[a-zA-Z]{0,${PlayerGroupChatManager.NAME_CHARACTER_LIMIT}}$"))
+        return name.matches(Regex("^[a-zA-Z]{0,${Config.PGC_NAME_CHARACTER_LIMIT}}$"))
     }
 }

@@ -10,7 +10,7 @@ import org.bukkit.event.Listener
 
 class ChatManager : Listener {
 
-    // REGISTER CHAT MANAGER
+    // INITIALIZATION (Register events)
     init {
         NationsEvent.INSTANCE.server.pluginManager.registerEvents(this, NationsEvent.INSTANCE)
         NationsEvent.INSTANCE.logger.info("- Loading Chat Manager")

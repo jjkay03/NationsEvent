@@ -1,13 +1,11 @@
 package com.jjkay03.nationsevent
 
 import com.jjkay03.nationsevent.chat.*
-import com.jjkay03.nationsevent.commands.announce.*
-import com.jjkay03.nationsevent.commands.management.*
-import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.chat.group_chat.*
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.settings.*
+import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
 import net.luckperms.api.LuckPerms
@@ -36,8 +34,7 @@ open class NationsEvent : JavaPlugin() {
         Utils.pluginWelcomeMessage("§e")
 
         // STARTUP
-        saveDefaultConfig()            // Save the default configuration
-        reloadConfig()                 // Reload the configuration
+        Config()                       // Load configuration
         getAPIs()                      // Get all APIs instances and info
         Saves()                        // Load all variables in saves class
         FilesManager.createDefaults()  // Generate default directories and files
@@ -56,8 +53,8 @@ open class NationsEvent : JavaPlugin() {
         DisableCrafterCrafts()
         LimitEnchants()
         DisableEnderPearls()
-        FarmProtection()
         DisableWolfBreeding()
+        FarmProtection()
 
     }
 

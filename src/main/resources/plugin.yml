@@ -42,6 +42,11 @@ commands:
     permission: nationsevent.command.sessiontime
     permission-message: "§cYou do not have permission to use this command"
 
+  randomplayertp:
+    aliases: [ rptp, tprandomplayer]
+    permission: nationsevent.command.randomplayertp
+    permission-message: "§cYou do not have permission to use this command"
+
   #---------------------------
   #  COMMANDS : PLAYER SCALE
   #---------------------------

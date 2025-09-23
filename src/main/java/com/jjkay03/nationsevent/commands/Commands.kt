@@ -16,6 +16,7 @@ class Commands {
 
             // COMMANDS : MANAGEMENT
             SessionTimeCommand("sessiontime"),
+            RandomPlayerTPCommand("randomplayertp"),
 
             // COMMANDS : PLAYER SCALE
             PlayerScaleCommand("playerscale"),

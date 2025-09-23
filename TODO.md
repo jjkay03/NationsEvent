@@ -32,13 +32,14 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Command: /globalchat
 ❌ Command: /applyserverpack
 ❌ Command: /restockvillagers
-❌ Command: /randomplayertp
+✅ Command: /randomplayertp
+❌ Command: /smite
 
 ❌ Admin GUI
-
 ❌ Event IGNs
-
 ❌ Economy
+❌ Death ban
+❌ Warps
 
 ❌ Render distance manager
 ❌ Resourcepack manager

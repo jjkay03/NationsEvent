@@ -208,8 +208,8 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
                     // End if player invalid
                     val target = Bukkit.getPlayer(it) ?: return player.sendMessage("§cInvalid player $it!").let { true }
 
-                    // Skip if player is already in group
-                    if (groupChat.playerList.contains(target)) { return@forEach }
+                    // Skip if player is not in group
+                    if (!groupChat.playerList.contains(target)) { player.sendMessage("§c$it is not in the group chat!"); return@forEach }
                     targetPlayers.add(target)
                 }
 
@@ -218,8 +218,8 @@ class AdminGroupChatCommand : CommandExecutor, TabCompleter {
 
                 // Notify players
                 val targetNames = if (targetPlayers.size == 1) targetPlayers.first().name else targetPlayers.joinToString(", ") { it.name }
-                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You §cREMOVED §7$targetNames to %gc%", "§7", groupChat))
-                val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You were §cREMOVED §7to group chat %gc% §7by staff", "§7", groupChat)
+                player.sendMessage(PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You §cREMOVED §7$targetNames from %gc%", "§7", groupChat))
+                val targetPlayersMsg = PlayerGroupChatUtils.formatHoverableMessage("§7${PlayerGroupChatManager.PREFIX}You were §cREMOVED §7from group chat %gc% §7by staff", "§7", groupChat)
                 Utils.sendMessageToPlayerList(targetPlayers, targetPlayersMsg)
 
                 // Alert group chat members

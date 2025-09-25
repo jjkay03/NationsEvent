@@ -17,20 +17,19 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Command: /pvptoggle
 ❌ Command: /voicechatperms
 ❌ Command: /groupvoicechatperm
-❌ Command: /vote
-❌ Command: /topvotes
-❌ Command: /clearvotes
-❌ Command: /exportvotes
-❌ Command: /lockvotes
+🚧 Command: /vote (CANCELED)
+🚧 Command: /topvotes (CANCELED)
+🚧 Command: /clearvotes (CANCELED)
+🚧 Command: /exportvotes (CANCELED)
+🚧 Command: /lockvotes (CANCELED)
 ✅ Command: /playerscale
 ✅ Command: /playerscalerestall
 ❌ Command: /needadmin
 ✅ Command: /freezeall
 ❌ Command: /hidestaff
-❌ Command: /fullmoon
+🚧 Command: /fullmoon (CANCELED)
 ❌ Command: /permanentmessage
 ❌ Command: /globalchat
-❌ Command: /applyserverpack
 ❌ Command: /restockvillagers
 ✅ Command: /randomplayertp
 ❌ Command: /smite
@@ -41,8 +40,8 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Death ban
 ❌ Warps
 
-❌ Render distance manager
-❌ Resourcepack manager
+🚧 Render distance manager (CANCELED)
+🚧 Resourcepack manager (CANCELED)
 
 ✅ Disabled crafts
 ✅ Limit enchants

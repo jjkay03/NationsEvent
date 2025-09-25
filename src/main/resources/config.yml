@@ -19,11 +19,11 @@ event-codename: NS7
 # == Settings =========================================================================================================
 settings:
   # Disable certain item crafts
-  # Hard coded managed from (Saves.kt file)
+  # Hard coded managed from Saves.kt file
   disable-crafts: true
 
   # Disable or limit certain enchants
-  # Hard coded managed from (Saves.kt file)
+  # Hard coded managed from Saves.kt file
   limit-enchants: true
 
   # Disable ender pearls usage and obtain

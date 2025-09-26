@@ -3,6 +3,7 @@ package com.jjkay03.nationsevent.commands
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
+import com.jjkay03.nationsevent.commands.others.HideStaffCommand
 import com.jjkay03.nationsevent.commands.others.SmiteCommand
 import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.commands.voice_chat.*
@@ -26,6 +27,7 @@ class Commands {
 
             // COMMANDS : OTHERS
             SmiteCommand("smite"),
+            HideStaffCommand("hidestaff"),
 
             // COMMANDS : PLAYER SCALE
             PlayerScaleCommand("playerscale"),

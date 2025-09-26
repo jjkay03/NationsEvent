@@ -70,6 +70,11 @@ object Utils {
         }
     }
 
+    // Function that sends message to all staff
+    fun messageStaff(message: String) {
+        Bukkit.getServer().onlinePlayers.forEach { player -> if (player.hasPermission(Saves.PERM_STAFF)) player.sendMessage(message) }
+    }
+
     // Function that sends a 'message' to all online players in 'receivers'
     fun messagePlayerList(receivers: List<OfflinePlayer>, message: Component) {
         receivers.filter { it.isOnline }.forEach { offlinePlayer -> offlinePlayer.player!!.sendMessage(message) }

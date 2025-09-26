@@ -26,7 +26,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Command: /playerscalerestall
 ❌ Command: /needadmin
 ✅ Command: /freezeall
-❌ Command: /hidestaff
+✅ Command: /hidestaff
 🚧 Command: /fullmoon (CANCELED)
 ✅ Command: /permanentmessage
 ✅ Command: /globalchat

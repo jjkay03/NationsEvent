@@ -80,6 +80,10 @@ commands:
     permission: nationsevent.command.smite
     permission-message: "§cYou do not have permission to use this command"
 
+  hidestaff:
+    permission: nationsevent.command.hidestaff
+    permission-message: "§cYou do not have permission to use this command"
+
   #---------------------------
   #  COMMANDS : PLAYER SCALE
   #---------------------------

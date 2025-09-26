@@ -15,8 +15,8 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Command: /announcesession
 ✅ Command: /sessiontime
 ✅ Command: /pvptoggle
-❌ Command: /voicechatperms
-❌ Command: /groupvoicechatperm
+✅ Command: /voicechatperms
+✅ Command: /groupvoicechatperm
 🚧 Command: /vote (CANCELED)
 🚧 Command: /topvotes (CANCELED)
 🚧 Command: /clearvotes (CANCELED)
@@ -30,7 +30,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 🚧 Command: /fullmoon (CANCELED)
 ✅ Command: /permanentmessage
 ✅ Command: /globalchat
-❌ Command: /restockvillagers
+🚧 Command: /restockvillagers (CANCELED)
 ✅ Command: /randomplayertp
 ✅ Command: /smite
 

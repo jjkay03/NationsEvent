@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
 import com.jjkay03.nationsevent.commands.others.SmiteCommand
 import com.jjkay03.nationsevent.commands.player_scale.*
+import com.jjkay03.nationsevent.commands.voice_chat.*
 
 class Commands {
 
@@ -28,7 +29,11 @@ class Commands {
 
             // COMMANDS : PLAYER SCALE
             PlayerScaleCommand("playerscale"),
-            PlayerScaleRestAllCommand("playerscalerestall")
+            PlayerScaleRestAllCommand("playerscalerestall"),
+
+            // COMMANDS: VOICE CHAT
+            VoiceChatPermsCommand("voicechatperms"),
+            GroupVoiceChatPermsCommand("groupvoicechatperms")
         )
 
         // Feedback

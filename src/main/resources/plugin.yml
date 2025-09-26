@@ -67,6 +67,11 @@ commands:
     permission: nationsevent.command.freezeall
     permission-message: "§cYou do not have permission to use this command"
 
+  globalchat:
+    aliases: [ chattoggle, togglechat ]
+    permission: nationsevent.command.globalchat
+    permission-message: "§cYou do not have permission to use this command"
+
   #---------------------------
   #     COMMANDS : OTHERS
   #---------------------------

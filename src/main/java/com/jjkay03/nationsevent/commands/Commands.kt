@@ -21,6 +21,7 @@ class Commands {
             RandomPlayerTPCommand("randomplayertp"),
             PVPToggleCommand("pvptoggle"),
             FreezeAllCommand("freezeall"),
+            GlobalChatCommand("globalchat"),
 
             // COMMANDS : OTHERS
             SmiteCommand("smite"),

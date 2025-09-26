@@ -29,7 +29,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Command: /hidestaff
 🚧 Command: /fullmoon (CANCELED)
 ✅ Command: /permanentmessage
-❌ Command: /globalchat
+✅ Command: /globalchat
 ❌ Command: /restockvillagers
 ✅ Command: /randomplayertp
 ✅ Command: /smite

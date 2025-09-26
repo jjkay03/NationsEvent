@@ -13,6 +13,7 @@ class Commands {
             AnnounceSessionCommand("announcesession"),
             JoinStageCommand("joinstage"),
             JoinVCCommand("joinvc"),
+            PermanentMessageCommand("permanentmessage"),
 
             // COMMANDS : MANAGEMENT
             SessionTimeCommand("sessiontime"),

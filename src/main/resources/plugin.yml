@@ -40,6 +40,11 @@ commands:
     permission: nationsevent.command.joinvc
     permission-message: "§cYou do not have permission to use this command"
 
+  permanentmessage:
+    aliases: [ permmsg, permmessage]
+    permission: nationsevent.command.permanentmessage
+    permission-message: "§cYou do not have permission to use this command"
+
   #---------------------------
   #   COMMANDS : MANAGEMENT
   #---------------------------

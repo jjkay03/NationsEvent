@@ -32,7 +32,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Command: /globalchat
 ❌ Command: /restockvillagers
 ✅ Command: /randomplayertp
-❌ Command: /smite
+✅ Command: /smite
 
 ❌ Admin GUI
 ✅ Event IGNs

@@ -68,6 +68,14 @@ commands:
     permission-message: "§cYou do not have permission to use this command"
 
   #---------------------------
+  #     COMMANDS : OTHERS
+  #---------------------------
+
+  smite:
+    permission: nationsevent.command.smite
+    permission-message: "§cYou do not have permission to use this command"
+
+  #---------------------------
   #  COMMANDS : PLAYER SCALE
   #---------------------------
 

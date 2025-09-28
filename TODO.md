@@ -24,7 +24,6 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 🚧 Command: /lockvotes (CANCELED)
 ✅ Command: /playerscale
 ✅ Command: /playerscalerestall
-❌ Command: /needadmin
 ✅ Command: /freezeall
 ✅ Command: /hidestaff
 🚧 Command: /fullmoon (CANCELED)
@@ -36,6 +35,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 
 ❌ Admin GUI
 ✅ Event IGNs
+✅ Staff assistance
 ❌ Economy
 ✅ Death ban
 ❌ Warps

@@ -24,9 +24,10 @@ class HideStaffCommand(private val commandName: String) : CommandExecutor, Liste
     // List of permissions that will cause a player to be hidden if they have any of them
     private val hidePermissions = listOf(Saves.PERM_STAFF, Saves.PERM_SPECTATOR)
 
-    // INITIALIZATION (Register command)
+    // INITIALIZATION (Register command and events)
     init {
         NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
+        Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
     }
 
     // COMMAND

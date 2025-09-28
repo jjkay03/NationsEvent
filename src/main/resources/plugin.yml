@@ -24,9 +24,9 @@ permissions:
 
 commands:
 
-  #---------------------------
-  #    COMMANDS : ANNOUNCE
-  #---------------------------
+  #--------------------------------
+  #      COMMANDS : ANNOUNCE
+  #--------------------------------
 
   announcesession:
     permission: nationsevent.command.announcesession
@@ -45,9 +45,9 @@ commands:
     permission: nationsevent.command.permanentmessage
     permission-message: "§cYou do not have permission to use this command"
 
-  #---------------------------
-  #   COMMANDS : MANAGEMENT
-  #---------------------------
+  #--------------------------------
+  #     COMMANDS : MANAGEMENT
+  #--------------------------------
 
   sessiontime:
     permission: nationsevent.command.sessiontime
@@ -72,9 +72,9 @@ commands:
     permission: nationsevent.command.globalchat
     permission-message: "§cYou do not have permission to use this command"
 
-  #---------------------------
-  #     COMMANDS : OTHERS
-  #---------------------------
+  #--------------------------------
+  #       COMMANDS : OTHERS
+  #--------------------------------
 
   smite:
     permission: nationsevent.command.smite
@@ -84,9 +84,31 @@ commands:
     permission: nationsevent.command.hidestaff
     permission-message: "§cYou do not have permission to use this command"
 
-  #---------------------------
-  #  COMMANDS : PLAYER SCALE
-  #---------------------------
+  #--------------------------------
+  #  COMMANDS : PLAYER ASSISTANCE
+  #--------------------------------
+
+  needstaff:
+    permission: nationsevent.command.needsatff
+    permission-message: "§cYou do not have permission to use this command"
+
+  needstaffmanage:
+    aliases: [ nsmanage ]
+    permission: nationsevent.command.needsatffmanage
+    permission-message: "§cYou do not have permission to use this command"
+
+  needrecord:
+    permission: nationsevent.command.needrecord
+    permission-message: "§cYou do not have permission to use this command"
+
+  needrecordmanage:
+    aliases: [ nrmanage ]
+    permission: nationsevent.command.needrecordmanage
+    permission-message: "§cYou do not have permission to use this command"
+
+  #--------------------------------
+  #    COMMANDS : PLAYER SCALE
+  #--------------------------------
 
   playerscale:
     aliases: [ pscale ]
@@ -98,9 +120,9 @@ commands:
     permission: nationsevent.command.playerscalerestall
     permission-message: "§cYou do not have permission to use this command"
 
-  #---------------------------
-  #   COMMANDS : PLAYER GC
-  #---------------------------
+  #--------------------------------
+  #  COMMANDS : PLAYER GROUP CHAT
+  #--------------------------------
 
   groupchat:
     aliases: [ gc, playergroupchats ]
@@ -113,9 +135,9 @@ commands:
     permission-message: "§cYou do not have permission to use this command"
 
 
-  #---------------------------
-  #   COMMANDS : VOICE CHAT
-  #---------------------------
+  #--------------------------------
+  #     COMMANDS : VOICE CHAT
+  #--------------------------------
 
   voicechatperms:
     aliases: [ vcperms, voicechattoggle, vctoggle, togglevoicechat, togglevc ]

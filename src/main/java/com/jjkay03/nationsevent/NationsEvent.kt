@@ -13,6 +13,7 @@ import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.model.group.GroupManager
 import net.luckperms.api.model.user.UserManager
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 open class NationsEvent : JavaPlugin() {
@@ -33,6 +34,7 @@ open class NationsEvent : JavaPlugin() {
         // STARTUP INFO
         ServerType.detect()
         Utils.pluginWelcomeMessage("§e")
+        logger.info("Available worlds: ${Bukkit.getWorlds().map { it.name }}")
 
         // CONFIGURATION
         saveDefaultConfig()            // Save default config
@@ -65,6 +67,7 @@ open class NationsEvent : JavaPlugin() {
         // FEATURES
         DeathBan()
         EventIGNs()
+        WorldsTimeSync()
 
     }
 

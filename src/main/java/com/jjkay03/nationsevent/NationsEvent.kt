@@ -67,7 +67,7 @@ open class NationsEvent : JavaPlugin() {
         // FEATURES
         DeathBan()
         EventIGNs()
-        WorldsTimeSync()
+        WorldsSync()
 
     }
 

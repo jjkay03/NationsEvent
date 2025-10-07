@@ -25,9 +25,13 @@ class Config {
         val FEATURES_DEATH_BAN_LIGHTNING = CONFIG.getBoolean("features.death-ban.lightning", false)
         // FEATURES - Event IGNs
         val FEATURES_EVENT_IGNS = CONFIG.getBoolean("features.event-igns", false)
-        // FEATURES - Worlds Time Sync
-        val FEATURES_WORLDS_TIME_SYNC_ENABLE = CONFIG.getBoolean("features.worlds-time-sync.enable", false)
-        val FEATURES_WORLDS_TIME_SYNC_WORLDS = CONFIG.getStringList("features.worlds-time-sync.worlds")
+        // FEATURES - Worlds Sync
+        val FEATURES_WORLDS_SYNC_ENABLE = CONFIG.getBoolean("features.worlds-sync.enable", false)
+        val FEATURES_WORLDS_SYNC_ENABLE_TIME = CONFIG.getBoolean("features.worlds-sync.enable-time", false)
+        val FEATURES_WORLDS_SYNC_ENABLE_WEATHER = CONFIG.getBoolean("features.worlds-sync.enable-weather", false)
+        val FEATURES_WORLDS_SYNC_ENABLE_GAME_RULES = CONFIG.getBoolean("features.worlds-sync.enable-game-rules", false)
+        val FEATURES_WORLDS_SYNC_ENABLE_DIFFICULTY = CONFIG.getBoolean("features.worlds-sync.enable-difficulty", false)
+        val FEATURES_WORLDS_SYNC_WORLDS = CONFIG.getStringList("features.worlds-sync.worlds")
 
 
         // PLAYER GROUP CHAT

@@ -143,6 +143,11 @@ commands:
     permission: nationsevent.command.teleportback
     permission-message: "§cYou do not have permission to use this command"
 
+  teleporthere:
+    aliases: [ tph, tphere ]
+    permission: nationsevent.command.teleporthere
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #     COMMANDS : VOICE CHAT
   #--------------------------------

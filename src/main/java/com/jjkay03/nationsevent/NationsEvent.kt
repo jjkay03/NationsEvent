@@ -34,7 +34,6 @@ open class NationsEvent : JavaPlugin() {
         // STARTUP INFO
         ServerType.detect()
         Utils.pluginWelcomeMessage("§e")
-        logger.info("Available worlds: ${Bukkit.getWorlds().map { it.name }}")
 
         // CONFIGURATION
         saveDefaultConfig()            // Save default config

@@ -134,6 +134,14 @@ commands:
     permission: nationsevent.command.admingroupchat
     permission-message: "§cYou do not have permission to use this command"
 
+  #--------------------------------
+  #      COMMANDS : TELEPORT
+  #--------------------------------
+
+  teleportback:
+    aliases: [ tpb, tpback, back ]
+    permission: nationsevent.command.teleportback
+    permission-message: "§cYou do not have permission to use this command"
 
   #--------------------------------
   #     COMMANDS : VOICE CHAT

@@ -7,6 +7,7 @@ import com.jjkay03.nationsevent.commands.others.HideStaffCommand
 import com.jjkay03.nationsevent.commands.others.SmiteCommand
 import com.jjkay03.nationsevent.commands.player_assistance.*
 import com.jjkay03.nationsevent.commands.player_scale.*
+import com.jjkay03.nationsevent.commands.teleport.TeleportBackCommand
 import com.jjkay03.nationsevent.commands.voice_chat.*
 
 class Commands {
@@ -39,6 +40,9 @@ class Commands {
             // COMMANDS : PLAYER SCALE
             PlayerScaleCommand("playerscale"),
             PlayerScaleRestAllCommand("playerscalerestall"),
+
+            // COMMANDS : TELEPORT
+            TeleportBackCommand("teleportback"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

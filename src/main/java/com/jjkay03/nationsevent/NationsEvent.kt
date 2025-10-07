@@ -60,6 +60,7 @@ open class NationsEvent : JavaPlugin() {
         DisableEnderPearls()
         DisableWolfBreeding()
         FarmProtection()
+        DisableJoinLeaveMessages()
 
         // FEATURES
         DeathBan()

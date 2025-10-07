@@ -14,6 +14,7 @@ class Config {
         val SETTINGS_DISABLE_ENDER_PEARLS = NationsEvent.INSTANCE.config.getBoolean("settings.disable-ender-pearls", false)
         val SETTINGS_DISABLE_WOLF_BREEDING = NationsEvent.INSTANCE.config.getBoolean("settings.disable-wolf-breeding", false)
         val SETTINGS_FARM_PROTECTION = NationsEvent.INSTANCE.config.getBoolean("settings.farm-protection", false)
+        val SETTINGS_DISABLE_JOIN_LEAVE_MESSAGES = NationsEvent.INSTANCE.config.getBoolean("settings.disable-join-leave-messages", false)
 
         // FEATURES
         val FEATURES_DEATH_BAN_ENABLE = NationsEvent.INSTANCE.config.getBoolean("features.death-ban.enable", false)

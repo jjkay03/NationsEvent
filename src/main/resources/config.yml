@@ -35,6 +35,9 @@ settings:
   # Protect farm by disabling trembling
   farm-protection: true
 
+  # Disable join and leave chat messages
+  disable-join-leave-messages: true
+
 
 
 # == Features =========================================================================================================

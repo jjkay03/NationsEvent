@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.BlockIterator
 
-// TODO : Make thread safe for folia using EntityScheduler.teleportAsync(...)
-
 class TeleportJumpCommand(private val commandName: String) : CommandExecutor {
 
     // INITIALIZATION
@@ -29,7 +27,7 @@ class TeleportJumpCommand(private val commandName: String) : CommandExecutor {
         if (destination == null) { sender.sendMessage("§cNo valid location found to jump to!"); return true }
 
         // Teleport player
-        sender.teleport(destination)
+        sender.teleportAsync(destination)
         return true
     }
 

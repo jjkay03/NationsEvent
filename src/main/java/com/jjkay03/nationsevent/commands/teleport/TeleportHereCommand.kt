@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
-// TODO : Make thread safe for folia using EntityScheduler.teleportAsync(...)
-
 class TeleportHereCommand(private val commandName: String) : CommandExecutor, TabCompleter {
 
     // INITIALIZATION
@@ -36,7 +34,7 @@ class TeleportHereCommand(private val commandName: String) : CommandExecutor, Ta
         if (targetPlayer == sender) { sender.sendMessage("§cYou can't teleport yourself to yourself!"); return true }
 
         // Teleport target to sender
-        targetPlayer.teleport(sender.location)
+        targetPlayer.teleportAsync(sender.location)
 
         // Send feedback
         sender.sendMessage("§aTeleported ${targetPlayer.name} to your location")

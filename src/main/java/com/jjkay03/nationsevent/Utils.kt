@@ -54,8 +54,8 @@ object Utils {
     }
 
     // Function to disable all commands in a list
-    fun disableCommands(commands: Set<String>, featureName: String) {
-        for (command in commands) NationsEvent.INSTANCE.getCommand(command)?.setExecutor(DisabledCommands(featureName))
+    fun disableCommands(commands: Set<String>, message: String) {
+        for (command in commands) NationsEvent.INSTANCE.getCommand(command)?.setExecutor(DisabledCommands(message))
     }
 
     // Function that removes the formats from strings. https://minecraft.wiki/w/Formatting_codes

@@ -1,6 +1,8 @@
 package com.jjkay03.nationsevent.commands.teleport
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.commands.others.DisabledCommands
+import com.jjkay03.nationsevent.utils.ServerType
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.Command
@@ -14,6 +16,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerTeleportEvent
 import java.util.concurrent.ConcurrentHashMap
 
+// TODO: Doesn't work on Folia!
+
 class TeleportBackCommand(private val commandName: String) : CommandExecutor, TabCompleter, Listener {
 
     companion object {
@@ -22,6 +26,13 @@ class TeleportBackCommand(private val commandName: String) : CommandExecutor, Ta
 
     // INITIALIZATION (Register command and events)
     init {
+        // Only enable command if single threaded server doesn't work on folia yet
+        if (ServerType.SERVER_TYPE == ServerType.ThreadingType.SINGLE_THREADED) load()
+        else NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(DisabledCommands("This command doesn't work on Folia!"))
+    }
+
+    // LOAD
+    fun load() {
         NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
         NationsEvent.INSTANCE.getCommand(commandName)?.tabCompleter = this
         Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)

@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
+// TODO : Make thread safe for folia using EntityScheduler.teleportAsync(...)
+
 class TeleportHereCommand(private val commandName: String) : CommandExecutor, TabCompleter {
 
     // INITIALIZATION

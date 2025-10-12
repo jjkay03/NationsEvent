@@ -44,6 +44,7 @@ class Commands {
             // COMMANDS : TELEPORT
             TeleportBackCommand("teleportback"),
             TeleportHereCommand("teleporthere"),
+            TeleportJumpCommand("teleportjump"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

@@ -14,6 +14,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerTeleportEvent
 import java.util.concurrent.ConcurrentHashMap
 
+// TODO : Make thread safe for folia using EntityScheduler.teleportAsync(...)
+
 class TeleportBackCommand(private val commandName: String) : CommandExecutor, TabCompleter, Listener {
 
     companion object {

@@ -40,7 +40,7 @@ class TeleportPositionCommand(private val commandName: String) : CommandExecutor
             targetPlayer.teleportAsync(location)
 
             // Send feedback
-            sender.sendMessage("§7\uD83C\uDF00 Teleported ${targetPlayer.name} to $x, $y, $z")
+            sender.sendMessage("§7\uD83C\uDF00 Teleported ${targetPlayer.name} to ${x.toInt()}, ${y.toInt()}, ${z.toInt()}")
         }
 
         // Three arguments: teleport sender to location
@@ -62,7 +62,7 @@ class TeleportPositionCommand(private val commandName: String) : CommandExecutor
             sender.teleportAsync(location)
 
             // Send feedback
-            sender.sendMessage("§7\uD83C\uDF00 Teleported to $x, $y, $z")
+            sender.sendMessage("§7\uD83C\uDF00 Teleported to ${x.toInt()}, ${y.toInt()}, ${z.toInt()}")
         }
 
         return true

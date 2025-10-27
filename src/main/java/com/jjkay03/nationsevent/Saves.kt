@@ -31,6 +31,11 @@ class Saves {
         const val PERM_USE_CHAT: String = "nationsevent.use-chat"
         const val PERM_DEATH_BAN_BYPASS: String = "nationsevent.death-ban.bypass"
         const val PERM_FREEZE_ALL_BYPASS: String = "nationsevent.freeze-all.bypass"
+        const val PERM_COMMAND_GAMEMODE_SURVIVAL: String  = "nationsevent.command.gamemode.survival"
+        const val PERM_COMMAND_GAMEMODE_CREATIVE: String  = "nationsevent.command.gamemode.creative"
+        const val PERM_COMMAND_GAMEMODE_ADVENTURE: String  = "nationsevent.command.gamemode.adventure"
+        const val PERM_COMMAND_GAMEMODE_SPECTATOR: String  = "nationsevent.command.gamemode.spectator"
+        const val PERM_COMMAND_GAMEMODE_SET_OTHERS: String  = "nationsevent.command.gamemode.set-others"
         const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
 
 

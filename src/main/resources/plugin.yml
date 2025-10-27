@@ -79,6 +79,11 @@ commands:
     permission: nationsevent.command.hidestaff
     permission-message: "§cYou do not have permission to use this command"
 
+  gamemode:
+    aliases: [ gm ]
+    permission: nationsevent.command.gamemode
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #  COMMANDS : PLAYER ASSISTANCE
   #--------------------------------
@@ -162,7 +167,6 @@ commands:
     aliases: [ tprp, tprandomplayer, randomplayertp ]
     permission: nationsevent.command.teleportrandomplayer
     permission-message: "§cYou do not have permission to use this command"
-
 
   #--------------------------------
   #     COMMANDS : VOICE CHAT

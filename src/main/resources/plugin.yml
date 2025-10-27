@@ -150,12 +150,12 @@ commands:
 
   teleportplayer:
     aliases: [ tp, tpp, tpplayer ]
-    permission: nationsevent.command.teleportjump
+    permission: nationsevent.command.teleportplayer
     permission-message: "§cYou do not have permission to use this command"
 
   teleportposition:
     aliases: [ tppos, tpposition ]
-    permission: nationsevent.command.teleportjump
+    permission: nationsevent.command.teleportposition
     permission-message: "§cYou do not have permission to use this command"
 
   teleportrandomplayer:

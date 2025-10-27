@@ -153,6 +153,17 @@ commands:
     permission: nationsevent.command.teleportjump
     permission-message: "§cYou do not have permission to use this command"
 
+  teleportplayer:
+    aliases: [ tp, tpp, tpplayer ]
+    permission: nationsevent.command.teleportjump
+    permission-message: "§cYou do not have permission to use this command"
+
+  teleportposition:
+    aliases: [ tppos, tpposition ]
+    permission: nationsevent.command.teleportjump
+    permission-message: "§cYou do not have permission to use this command"
+
+
   #--------------------------------
   #     COMMANDS : VOICE CHAT
   #--------------------------------

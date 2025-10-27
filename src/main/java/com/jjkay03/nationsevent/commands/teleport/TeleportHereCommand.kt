@@ -33,12 +33,14 @@ class TeleportHereCommand(private val commandName: String) : CommandExecutor, Ta
         // Can't teleport yourself to yourself
         if (targetPlayer == sender) { sender.sendMessage("§cYou can't teleport yourself to yourself!"); return true }
 
+        // Update player last location before teleport
+        TeleportBackCommand.updateLastLocation(targetPlayer, targetPlayer.location)
+
         // Teleport target to sender
         targetPlayer.teleportAsync(sender.location)
 
         // Send feedback
-        sender.sendMessage("§aTeleported ${targetPlayer.name} to your location")
-        targetPlayer.sendMessage("§eTeleported to ${sender.name}")
+        sender.sendMessage("§7\uD83C\uDF00 Teleported ${targetPlayer.name} to your location")
 
         return true
     }

@@ -36,9 +36,8 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Admin GUI
 ✅ Event IGNs
 ✅ Staff assistance
-❌ Economy
+🚧 Economy (CANCELED)
 ✅ Death ban
-❌ Warps
 
 🚧 Render distance manager (CANCELED)
 🚧 Resourcepack manager (CANCELED)
@@ -52,3 +51,12 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ /teleportqueue <group/all> <warp> <5>
 ✅ /teleportback
 ✅ /teleprtjump
+✅ /tppos
+✅ /tpplayer
+
+❌ /gamemode
+
+❌ Items command + crown
+❌ Protected spawn world
+❌ Team selector
+❌ World changer

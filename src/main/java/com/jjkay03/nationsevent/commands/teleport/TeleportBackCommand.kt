@@ -16,23 +16,19 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerTeleportEvent
 import java.util.concurrent.ConcurrentHashMap
 
-// TODO: Doesn't work on Folia!
-
 class TeleportBackCommand(private val commandName: String) : CommandExecutor, TabCompleter, Listener {
 
     companion object {
-        val LAST_TELEPORT_LOCATION = ConcurrentHashMap<Player, Location>()
+        private val LAST_TELEPORT_LOCATION = ConcurrentHashMap<Player, Location>()
+
+        // Update last location for a player
+        fun updateLastLocation(player: Player, location: Location) {
+            LAST_TELEPORT_LOCATION[player] = location.clone()
+        }
     }
 
     // INITIALIZATION (Register command and events)
     init {
-        // Only enable command if single threaded server doesn't work on folia yet
-        if (ServerType.SERVER_TYPE == ServerType.ThreadingType.SINGLE_THREADED) load()
-        else NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(DisabledCommands("This command doesn't work on Folia!"))
-    }
-
-    // LOAD
-    fun load() {
         NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
         NationsEvent.INSTANCE.getCommand(commandName)?.tabCompleter = this
         Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
@@ -65,10 +61,9 @@ class TeleportBackCommand(private val commandName: String) : CommandExecutor, Ta
 
         // Send feedback
         val successMessage =
-            if (targetPlayer == sender) "§aTeleported back to your previous location"
-            else "§aTeleported ${targetPlayer.name} back to their previous location"
+            if (targetPlayer == sender) "§7\uD83C\uDF00 Teleported back to your previous location"
+            else "§7\uD83C\uDF00 Teleported ${targetPlayer.name} back to their previous location"
         sender.sendMessage(successMessage)
-        if (targetPlayer != sender) targetPlayer.sendMessage("§eTeleported back to your previous location by ${sender.name}")
 
         return true
     }
@@ -88,7 +83,7 @@ class TeleportBackCommand(private val commandName: String) : CommandExecutor, Ta
     fun onPlayerTeleport(event: PlayerTeleportEvent) {
         if (event.cause == PlayerTeleportEvent.TeleportCause.COMMAND ||
             event.cause == PlayerTeleportEvent.TeleportCause.PLUGIN) {
-            LAST_TELEPORT_LOCATION[event.player] = event.from.clone()
+            updateLastLocation(event.player, event.from)
         }
     }
 

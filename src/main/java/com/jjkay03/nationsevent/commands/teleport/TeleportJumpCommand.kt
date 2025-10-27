@@ -26,6 +26,9 @@ class TeleportJumpCommand(private val commandName: String) : CommandExecutor {
         // End if destinations is null
         if (destination == null) { sender.sendMessage("§cNo valid location found to jump to!"); return true }
 
+        // Update player last location before teleport
+        TeleportBackCommand.updateLastLocation(sender, sender.location)
+
         // Teleport player
         sender.teleportAsync(destination)
         return true

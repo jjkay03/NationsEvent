@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.commands.management
+package com.jjkay03.nationsevent.commands.teleport
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -11,16 +11,16 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import java.util.concurrent.ConcurrentHashMap
 
-class RandomPlayerTPCommand(private val commandName: String) : CommandExecutor, TabCompleter {
+class TeleportRandomPlayerCommand(private val commandName: String) : CommandExecutor, TabCompleter {
 
     // Variables
-    private val bypassPermsList = listOf(Saves.PERM_STAFF, Saves.PERM_SPECTATOR)
+    private val bypassPermsList = listOf(Saves.Companion.PERM_STAFF, Saves.Companion.PERM_SPECTATOR)
     private val lastTeleportationMap = ConcurrentHashMap<Player, Player>()
 
     // INITIALIZATION (Register command)
     init {
-        NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
-        NationsEvent.INSTANCE.getCommand(commandName)?.tabCompleter = this
+        NationsEvent.Companion.INSTANCE.getCommand(commandName)?.setExecutor(this)
+        NationsEvent.Companion.INSTANCE.getCommand(commandName)?.tabCompleter = this
     }
 
     // COMMAND
@@ -78,11 +78,14 @@ class RandomPlayerTPCommand(private val commandName: String) : CommandExecutor, 
         // Update the last teleportation map before teleporting
         lastTeleportationMap[player] = targetPlayer
 
+        // Update player last location before teleport
+        TeleportBackCommand.updateLastLocation(player, player.location)
+
         // Teleport
         player.teleportAsync(targetPlayer.location)
 
         // Send feedback to sender
         val worldMsg = if (targetWorld != null) " in ${targetWorld.name}" else ""
-        player.sendMessage("§6Teleported to ${targetPlayer.name}$worldMsg")
+        player.sendMessage("§7\uD83C\uDF00 Teleported to ${targetPlayer.name}$worldMsg")
     }
 }

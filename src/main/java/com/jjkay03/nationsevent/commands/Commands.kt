@@ -22,7 +22,6 @@ class Commands {
 
             // COMMANDS : MANAGEMENT
             SessionTimeCommand("sessiontime"),
-            RandomPlayerTPCommand("randomplayertp"),
             PVPToggleCommand("pvptoggle"),
             FreezeAllCommand("freezeall"),
             GlobalChatCommand("globalchat"),
@@ -47,6 +46,7 @@ class Commands {
             TeleportJumpCommand("teleportjump"),
             TeleportPlayerCommand("teleportplayer"),
             TeleportPositionCommand("teleportposition"),
+            TeleportRandomPlayerCommand("teleportrandomplayer"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

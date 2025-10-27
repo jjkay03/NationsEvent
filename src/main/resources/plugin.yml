@@ -53,11 +53,6 @@ commands:
     permission: nationsevent.command.sessiontime
     permission-message: "§cYou do not have permission to use this command"
 
-  randomplayertp:
-    aliases: [ rptp, tprandomplayer]
-    permission: nationsevent.command.randomplayertp
-    permission-message: "§cYou do not have permission to use this command"
-
   pvptoggle:
     aliases: [ pvp, togglepvp ]
     permission: nationsevent.command.pvptoggle
@@ -161,6 +156,11 @@ commands:
   teleportposition:
     aliases: [ tppos, tpposition ]
     permission: nationsevent.command.teleportjump
+    permission-message: "§cYou do not have permission to use this command"
+
+  teleportrandomplayer:
+    aliases: [ tprp, tprandomplayer, randomplayertp ]
+    permission: nationsevent.command.teleportrandomplayer
     permission-message: "§cYou do not have permission to use this command"
 
 

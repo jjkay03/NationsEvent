@@ -54,7 +54,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ /tppos
 ✅ /tpplayer
 
-❌ /gamemode
+✅ /gamemode
 
 ❌ Items command + crown
 ❌ Protected spawn world

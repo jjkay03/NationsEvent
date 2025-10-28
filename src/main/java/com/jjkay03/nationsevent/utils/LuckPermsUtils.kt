@@ -52,6 +52,13 @@ object LuckPermsUtils {
     //  PLAYER RELATED FUNCTIONS
     // --------------------------
 
+    // Function to get player primary group (the one with the height weight)
+    fun playerGetPrimaryGroup(player: Player): Group? {
+        val lpPlayer = NationsEvent.LP_USER_MANAGER.getUser(player.uniqueId) ?: return null
+        val primaryGroupName = lpPlayer.primaryGroup
+        return NationsEvent.LP_GROUP_MANAGER.getGroup(primaryGroupName)
+    }
+
     // Function that give a player a permission
     fun playerAddPermission(player: Player, permission: String, value: Boolean = true) {
         val lpPlayer = NationsEvent.LP_USER_MANAGER.getUser(player.uniqueId) ?: return

@@ -9,6 +9,7 @@ import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
+import com.jjkay03.nationsevent.worlds.*
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.model.group.GroupManager
@@ -54,6 +55,10 @@ open class NationsEvent : JavaPlugin() {
         PlayerGroupChatManager()
         GroupChatsCommands.registerCommands()
 
+        // WORLDS
+        WorldsLoader()
+        WorldsSync()
+
         // SETTINGS
         DisabledCrafts()
         DisableCrafterCrafts()
@@ -66,7 +71,6 @@ open class NationsEvent : JavaPlugin() {
         // FEATURES
         DeathBan()
         EventIGNs()
-        WorldsSync()
 
     }
 

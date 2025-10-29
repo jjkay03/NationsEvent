@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.features
+package com.jjkay03.nationsevent.worlds
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.utils.Config
@@ -14,7 +14,7 @@ class WorldsSync {
 
     // INITIALIZATION
     init {
-        load(Config.FEATURES_WORLDS_SYNC_ENABLE)
+        load(Config.Companion.WORLDS_SYNC_ENABLE)
     }
 
     // LOAD (If enabled in config)
@@ -31,7 +31,7 @@ class WorldsSync {
         )
 
         // Console message
-        NationsEvent.INSTANCE.logger.info("- Loading feature: ${this::class.simpleName}")
+        NationsEvent.Companion.INSTANCE.logger.info("- Loading world manager: ${this::class.simpleName}")
     }
 
     // Function to sync all worlds
@@ -48,22 +48,22 @@ class WorldsSync {
         // Go through all the worlds
         worldsToSync.drop(1).forEach { world ->
             // Sync time
-            if (Config.FEATURES_WORLDS_SYNC_ENABLE_TIME) {
+            if (Config.Companion.WORLDS_SYNC_ENABLE_TIME) {
                 if (world.time != masterWorld.time) { world.time = masterWorld.time }
             }
 
             // Sync weather
-            if (Config.FEATURES_WORLDS_SYNC_ENABLE_WEATHER) {
+            if (Config.Companion.WORLDS_SYNC_ENABLE_WEATHER) {
                 syncWeather(masterWorld, world)
             }
 
             // Sync game rules
-            if (Config.FEATURES_WORLDS_SYNC_ENABLE_GAME_RULES) {
+            if (Config.Companion.WORLDS_SYNC_ENABLE_GAME_RULES) {
                 syncGameRules(masterWorld, world)
             }
 
             // Sync difficulty
-            if (Config.FEATURES_WORLDS_SYNC_ENABLE_DIFFICULTY) {
+            if (Config.Companion.WORLDS_SYNC_ENABLE_DIFFICULTY) {
                 if (world.difficulty != masterWorld.difficulty) { world.difficulty = masterWorld.difficulty }
             }
         }
@@ -71,12 +71,12 @@ class WorldsSync {
 
     // Helper function to get valid worlds from config list
     private fun getValidWorldsFromConfig(): List<World> {
-        val configWorlds = Config.FEATURES_WORLDS_SYNC_WORLDS
+        val configWorlds = Config.Companion.WORLDS_SYNC_WORLDS
         val validWorlds = mutableListOf<World>()
         configWorlds.forEach { worldName ->
             val world = Bukkit.getWorld(worldName)
             if (world != null) { validWorlds.add(world) }
-            else { NationsEvent.INSTANCE.logger.warning("${this::class.simpleName} - World '$worldName' not found!") }
+            else { NationsEvent.Companion.INSTANCE.logger.warning("${this::class.simpleName} - World '$worldName' not found!") }
         }
         return validWorlds
     }
@@ -120,7 +120,7 @@ class WorldsSync {
                     is Boolean -> targetWorld.setGameRule(gameRule as GameRule<Boolean>, masterValue)
                     is Int -> targetWorld.setGameRule(gameRule as GameRule<Int>, masterValue)
                     is String -> targetWorld.setGameRule(gameRule as GameRule<String>, masterValue)
-                    else -> NationsEvent.INSTANCE.logger.severe("${this::class.simpleName} - Invalid game rule '${gameRule.name}' type ${gameRule.type}!")
+                    else -> NationsEvent.Companion.INSTANCE.logger.severe("${this::class.simpleName} - Invalid game rule '${gameRule.name}' type ${gameRule.type}!")
                 }
             }
         }

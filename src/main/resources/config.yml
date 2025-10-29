@@ -16,6 +16,24 @@ event-codename: NS7
 
 
 
+# == Worlds ===========================================================================================================
+worlds:
+  # Load multiple worlds on server boot
+  loader:
+    enable: true
+    worlds: [ world_admin ]
+
+  # Sync multiple worlds settings (first world in the list is the master world)
+  sync:
+    enable: false
+    enable-time: true
+    enable-weather: true
+    enable-game-rules: true
+    enable-difficulty: true
+    worlds: [ world, world_test_1, world_test_2 ]
+
+
+
 # == Settings =========================================================================================================
 settings:
   # Disable certain item crafts
@@ -50,15 +68,6 @@ features:
 
   # Save all event players IGNs in text file
   event-igns: true
-
-  # Sync multiple worlds settings (first world in the list is the master world)
-  worlds-sync:
-    enable: false
-    enable-time: true
-    enable-weather: true
-    enable-game-rules: true
-    enable-difficulty: true
-    worlds: [world, world_test_1, world_test_2]
 
 
 

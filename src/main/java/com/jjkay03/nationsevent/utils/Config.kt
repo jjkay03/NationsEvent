@@ -10,6 +10,18 @@ class Config {
         val EVENT_CODENAME = CONFIG.getString("event-codename", "NT0")
 
 
+        // WORLDS - Loader
+        val WORLDS_LOADER_ENABLE = CONFIG.getBoolean("worlds.loader.enable", false)
+        val WORLDS_LOADER_WORLDS = CONFIG.getStringList("worlds.loader.worlds")
+        // WORLDS - Sync
+        val WORLDS_SYNC_ENABLE = CONFIG.getBoolean("worlds.sync.enable", false)
+        val WORLDS_SYNC_ENABLE_TIME = CONFIG.getBoolean("worlds.sync.enable-time", false)
+        val WORLDS_SYNC_ENABLE_WEATHER = CONFIG.getBoolean("worlds.sync.enable-weather", false)
+        val WORLDS_SYNC_ENABLE_GAME_RULES = CONFIG.getBoolean("worlds.sync.enable-game-rules", false)
+        val WORLDS_SYNC_ENABLE_DIFFICULTY = CONFIG.getBoolean("worlds.sync.enable-difficulty", false)
+        val WORLDS_SYNC_WORLDS = CONFIG.getStringList("worlds.sync.worlds")
+
+
         // SETTINGS
         val SETTINGS_DISABLED_CRAFTS = CONFIG.getBoolean("settings.disable-crafts", false)
         val SETTINGS_LIMIT_ENCHANTS = CONFIG.getBoolean("settings.limit-enchants", false)
@@ -25,13 +37,6 @@ class Config {
         val FEATURES_DEATH_BAN_LIGHTNING = CONFIG.getBoolean("features.death-ban.lightning", false)
         // FEATURES - Event IGNs
         val FEATURES_EVENT_IGNS = CONFIG.getBoolean("features.event-igns", false)
-        // FEATURES - Worlds Sync
-        val FEATURES_WORLDS_SYNC_ENABLE = CONFIG.getBoolean("features.worlds-sync.enable", false)
-        val FEATURES_WORLDS_SYNC_ENABLE_TIME = CONFIG.getBoolean("features.worlds-sync.enable-time", false)
-        val FEATURES_WORLDS_SYNC_ENABLE_WEATHER = CONFIG.getBoolean("features.worlds-sync.enable-weather", false)
-        val FEATURES_WORLDS_SYNC_ENABLE_GAME_RULES = CONFIG.getBoolean("features.worlds-sync.enable-game-rules", false)
-        val FEATURES_WORLDS_SYNC_ENABLE_DIFFICULTY = CONFIG.getBoolean("features.worlds-sync.enable-difficulty", false)
-        val FEATURES_WORLDS_SYNC_WORLDS = CONFIG.getStringList("features.worlds-sync.worlds")
 
 
         // PLAYER GROUP CHAT

@@ -173,6 +173,11 @@ commands:
     permission: nationsevent.command.teleportworld
     permission-message: "§cYou do not have permission to use this command"
 
+  teleporttop:
+    aliases: [ top, tptop ]
+    permission: nationsevent.command.teleporttop
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #     COMMANDS : VOICE CHAT
   #--------------------------------

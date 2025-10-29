@@ -4,8 +4,10 @@ import com.jjkay03.nationsevent.NationsEvent
 import net.luckperms.api.model.group.Group
 import net.luckperms.api.node.Node
 import net.luckperms.api.node.NodeEqualityPredicate
+import net.luckperms.api.node.matcher.NodeMatcher
 import net.luckperms.api.node.types.InheritanceNode
 import org.bukkit.entity.Player
+import java.util.UUID
 
 // UTILITY CLASS FOR LUCKPERMS RELATED FUNCTIONS
 // https://luckperms.net/
@@ -16,6 +18,13 @@ object LuckPermsUtils {
     //  GROUP RELATED FUNCTIONS
     // -------------------------
 
+    // Function that gets all groups (sorted by weight, highest first)
+    fun getAllGroups(): List<Group> {
+        return NationsEvent.LP_GROUP_MANAGER.loadedGroups
+            .sortedByDescending { it.weight.orElse(0) }
+            .toList()
+    }
+
     // Function that gets a group by name (returns null if not found)
     fun getGroup(name: String): Group? {
         return NationsEvent.LP_GROUP_MANAGER.getGroup(name)
@@ -25,6 +34,15 @@ object LuckPermsUtils {
     fun groupHasPermission(group: Group?, permission: String): Boolean {
         if (group == null) return false // Return false if the group is null
         return group.nodes.any { it.key == permission && it.value }
+    }
+
+    // Function that gets all users in a group (returns list of UUIDs)
+    fun groupGetAllUsers(group: Group?): List<UUID> {
+        if (group == null) return emptyList()
+        return NationsEvent.LP_USER_MANAGER.searchAll(NodeMatcher.key(InheritanceNode.builder(group.name).build()))
+            .join()
+            .map { it.key }
+            .toList()
     }
 
     // Function that adds a permission to a group (returns true if perm is added)

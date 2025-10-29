@@ -179,6 +179,19 @@ commands:
     permission-message: "§cYou do not have permission to use this command"
 
   #--------------------------------
+  #      COMMANDS : UTILITY
+  #--------------------------------
+
+  listluckpermsgroups:
+    aliases: [ listlpgroups ]
+    permission: nationsevent.command.listluckpermsgroups
+    permission-message: "§cYou do not have permission to use this command"
+
+  listworlds:
+    permission: nationsevent.command.listworlds
+    permission-message: "§cYou do not have permission to use this command"
+
+  #--------------------------------
   #     COMMANDS : VOICE CHAT
   #--------------------------------
 

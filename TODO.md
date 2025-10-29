@@ -53,8 +53,14 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ /teleprtjump
 ✅ /tppos
 ✅ /tpplayer
+✅ /top
+✅ /tpworld
 
 ✅ /gamemode
+
+✅ World loader
+✅ /listworlds
+✅ /listlpgroups
 
 ❌ Items command + crown
 ❌ Protected spawn world

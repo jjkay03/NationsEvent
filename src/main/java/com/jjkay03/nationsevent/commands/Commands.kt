@@ -9,6 +9,8 @@ import com.jjkay03.nationsevent.commands.others.SmiteCommand
 import com.jjkay03.nationsevent.commands.player_assistance.*
 import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.commands.teleport.*
+import com.jjkay03.nationsevent.commands.utility.ListLuckPermsGroupsCommand
+import com.jjkay03.nationsevent.commands.utility.ListWorldsCommand
 import com.jjkay03.nationsevent.commands.voice_chat.*
 
 class Commands {
@@ -51,6 +53,10 @@ class Commands {
             TeleportRandomPlayerCommand("teleportrandomplayer"),
             TeleportWorldCommand("teleportworld"),
             TeleportTopCommand("teleporttop"),
+
+            // COMMANDS : UTILITY
+            ListLuckPermsGroupsCommand("listluckpermsgroups"),
+            ListWorldsCommand("listworlds"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

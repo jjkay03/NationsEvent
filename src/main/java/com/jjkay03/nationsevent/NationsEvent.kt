@@ -9,12 +9,12 @@ import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
-import com.jjkay03.nationsevent.worlds.*
+import com.jjkay03.nationsevent.worlds.WorldsLoader
+import com.jjkay03.nationsevent.worlds.WorldsSync
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.model.group.GroupManager
 import net.luckperms.api.model.user.UserManager
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 open class NationsEvent : JavaPlugin() {

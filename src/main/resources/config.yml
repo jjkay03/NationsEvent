@@ -30,7 +30,7 @@ worlds:
     enable-weather: true
     enable-game-rules: true
     enable-difficulty: true
-    worlds: [ world, world_test_1, world_test_2 ]
+    worlds: [ world_ns7_plains, world_ns7_desert, world_ns7_snow ]
 
 
 

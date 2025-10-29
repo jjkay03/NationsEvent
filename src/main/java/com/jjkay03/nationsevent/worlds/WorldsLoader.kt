@@ -32,21 +32,25 @@ class WorldsLoader {
         // End if list is empty
         if (worldsToLoad.isEmpty()) { return }
 
-        // Use scheduler for world loading
-        Scheduler.task(
-            type = Scheduler.SchedulerType.GLOBAL,
-            task = { worldsToLoad.forEach { worldName -> loadWorld(worldName) } }
-        )
+        // Load all worlds
+        worldsToLoad.forEach { worldName -> loadWorld(worldName) }
+
     }
 
     // Function to load a single world
     private fun loadWorld(worldName: String) {
-        // Get or create world
-        val world = Bukkit.getWorld(worldName) ?: Bukkit.createWorld(WorldCreator.name(worldName))
+        // Use scheduler for world loading
+        Scheduler.task(
+            type = Scheduler.SchedulerType.GLOBAL,
+            task = {
+                // Get or create world
+                val world = Bukkit.getWorld(worldName) ?: Bukkit.createWorld(WorldCreator.name(worldName))
 
-        // Console feedback
-        if (world != null) NationsEvent.INSTANCE.logger.info("${this::class.simpleName} - Loaded world: $worldName")
-        else NationsEvent.INSTANCE.logger.severe("${this::class.simpleName} - Failed to load world: $worldName")
+                // Console feedback
+                if (world != null) NationsEvent.INSTANCE.logger.info("${this::class.simpleName} - Loaded world: $worldName")
+                else NationsEvent.INSTANCE.logger.severe("${this::class.simpleName} - Failed to load world: $worldName")
+            }
+        )
     }
 
 }

@@ -49,6 +49,7 @@ class Commands {
             TeleportPlayerCommand("teleportplayer"),
             TeleportPositionCommand("teleportposition"),
             TeleportRandomPlayerCommand("teleportrandomplayer"),
+            TeleportWorldCommand("teleportworld"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

@@ -3,7 +3,9 @@ package com.jjkay03.nationsevent.commands
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.commands.announce.*
 import com.jjkay03.nationsevent.commands.management.*
+import com.jjkay03.nationsevent.commands.others.FlyCommand
 import com.jjkay03.nationsevent.commands.others.GamemodeCommand
+import com.jjkay03.nationsevent.commands.others.GodCommand
 import com.jjkay03.nationsevent.commands.others.HideStaffCommand
 import com.jjkay03.nationsevent.commands.others.SmiteCommand
 import com.jjkay03.nationsevent.commands.player_assistance.*
@@ -33,6 +35,8 @@ class Commands {
             SmiteCommand("smite"),
             HideStaffCommand("hidestaff"),
             GamemodeCommand("gamemode"),
+            FlyCommand("fly"),
+            GodCommand("god"),
 
             // COMMANDS : PLAYER ASSISTANCE
             NeedStaffCommand("needstaff"),

@@ -84,6 +84,14 @@ commands:
     permission: nationsevent.command.gamemode
     permission-message: "§cYou do not have permission to use this command"
 
+  fly:
+    permission: nationsevent.command.fly
+    permission-message: "§cYou do not have permission to use this command"
+
+  god:
+    permission: nationsevent.command.god
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #  COMMANDS : PLAYER ASSISTANCE
   #--------------------------------

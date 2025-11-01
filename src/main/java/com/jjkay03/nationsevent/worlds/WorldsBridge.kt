@@ -120,6 +120,12 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
         val location = event.to
         val worldName = location.world?.name ?: return
 
+        // End if player is not in a monitored world
+        val boundary = worlds[worldName] ?: return
+
+        // End if player is not outside boundary
+        if (!isOutsideBoundary(location, boundary)) return
+
         // Check if crossing is allowed
         if (!ALLOW_CROSS) {
             player.sendMessage("§c⛵ You can't cross at this moment!")
@@ -129,12 +135,6 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
 
         // End if player is on cooldown
         if (handleCooldown(player, worldName, location, event)) return
-
-        // End if player is not in a monitored world
-        val boundary = worlds[worldName] ?: return
-
-        // End if player is not outside boundary
-        if (!isOutsideBoundary(location, boundary)) return
 
         // Set cooldown
         playerCooldowns[player.uniqueId] = System.currentTimeMillis()

@@ -62,7 +62,10 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ /listworlds
 ✅ /listlpgroups
 
+❌ /fly
+❌ /god
+
 ❌ Items command + crown
 ❌ Protected spawn world
 ❌ Team selector
-❌ World changer
+✅ World bridge

@@ -2,12 +2,17 @@ package com.jjkay03.nationsevent.worlds
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.commands.others.DisabledCommands
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.Scheduler
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -29,11 +34,14 @@ import java.util.*
     - pos2: Always the bottom-right corner of the world boundary (larger X, larger Z)
  */
 
-class WorldsBridge : Listener {
+class WorldsBridge : CommandExecutor, TabCompleter, Listener {
 
     companion object {
-        var ALLOW_CROSS = true
+        var ALLOW_CROSS = false
     }
+
+    // Command
+    private val commandName = "worldsbridge"
 
     // Player cooldown tracking
     private val cooldownTime = 60000L // 60 second cooldown
@@ -71,9 +79,38 @@ class WorldsBridge : Listener {
 
     // LOAD (If enabled in config)
     fun load(enabled: Boolean) {
-        if (!enabled) return
-        Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
-        NationsEvent.INSTANCE.logger.info("- Loading world manager: ${this::class.simpleName}")
+        // Enabled
+        if (enabled) {
+            NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(this)
+            NationsEvent.INSTANCE.getCommand(commandName)?.tabCompleter = this
+            Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
+            NationsEvent.INSTANCE.logger.info("- Loading world manager: ${this::class.simpleName}")
+        }
+        // Disabled
+        else {
+            NationsEvent.INSTANCE.getCommand(commandName)?.setExecutor(DisabledCommands("World Bridge is disabled!"))
+        }
+    }
+
+    // COMMAND
+    override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
+        val invalidArguments = "§cInvalid argument, usage: /$label on/off"
+        if (args.isNotEmpty()) { sender.sendMessage(invalidArguments); return true }
+        when (args[0].lowercase()) {
+            "on" -> { ALLOW_CROSS = true; sender.sendMessage("§7⛵ Worlds Bridge has been §aENABLED") }
+            "off" -> { ALLOW_CROSS = false; sender.sendMessage("§7⛵ Worlds Bridge has been §cDISABLED") }
+            else -> sender.sendMessage(invalidArguments)
+        }
+        return true
+    }
+
+    // TAB COMPLETER
+    override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<out String>): List<String>? {
+        if (args.size == 1) {
+            val completions = mutableListOf("on", "off")
+            return completions.filter { it.startsWith(args[0], ignoreCase = true) }
+        }
+        return null
     }
 
     // PLAYER MOVE EVENT
@@ -82,6 +119,13 @@ class WorldsBridge : Listener {
         val player = event.player
         val location = event.to
         val worldName = location.world?.name ?: return
+
+        // Check if crossing is allowed
+        if (!ALLOW_CROSS) {
+            player.sendMessage("§c⛵ You can't cross at this moment!")
+            event.isCancelled = true // Cancel event
+            return
+        }
 
         // End if player is on cooldown
         if (handleCooldown(player, worldName, location, event)) return
@@ -94,13 +138,6 @@ class WorldsBridge : Listener {
 
         // Set cooldown
         playerCooldowns[player.uniqueId] = System.currentTimeMillis()
-
-        // Check if crossing is allowed
-        if (!ALLOW_CROSS) {
-            player.sendMessage("§c⛵ You can't cross at this moment!")
-            event.isCancelled = true // Cancel event
-            return
-        }
 
         // Teleport player
         teleportToNearestWorld(player, location, worldName)

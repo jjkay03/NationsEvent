@@ -1,8 +1,6 @@
 package com.jjkay03.nationsevent.commands.teleport
 
 import com.jjkay03.nationsevent.NationsEvent
-import com.jjkay03.nationsevent.commands.others.DisabledCommands
-import com.jjkay03.nationsevent.utils.ServerType
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.Command

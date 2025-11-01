@@ -205,6 +205,14 @@ commands:
     permission: nationsevent.command.groupvoicechatperms
     permission-message: "§cYou do not have permission to use this command"
 
+  #---------------------------------------
+  #  COMMANDS : (Not in commands folder)
+  #---------------------------------------
+
+  worldsbridge:
+    permission: nationsevent.command.worldsbridge
+    permission-message: "§cYou do not have permission to use this command"
+
 
 # =====================================================================================================================
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!

@@ -27,6 +27,9 @@ class DisableHostileMobSpawn: Listener {
     // Handle hostile mob spawning
     @EventHandler
     fun onCreatureSpawn(event: CreatureSpawnEvent) {
+        // End if spawn reason isn't natural (spawn egg, command)
+        if (event.spawnReason != CreatureSpawnEvent.SpawnReason.NATURAL) return
+
         // Check if entity is a hostile
         if (
             event.entity is Monster ||

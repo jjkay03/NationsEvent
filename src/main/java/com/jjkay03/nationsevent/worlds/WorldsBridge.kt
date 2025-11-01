@@ -83,18 +83,7 @@ class WorldsBridge : Listener {
         val worldName = location.world?.name ?: return
 
         // Check cooldown
-        val now = System.currentTimeMillis()
-        val lastTeleport = playerCooldowns[player.uniqueId] ?: 0
-        if (now - lastTeleport < cooldownTime) {
-            // Check if player is in a monitored world and outside boundary
-            val boundary = worlds[worldName] ?: return
-            if (isOutsideBoundary(location, boundary)) {
-                val cooldownLeft = ((cooldownTime - (now - lastTeleport)) / 1000.0)
-                player.sendMessage("§c⛵ Wait ${cooldownLeft.toInt()}s before crossing again!")
-                event.isCancelled = true // Cancel event
-            }
-            return
-        }
+        if (handleCooldown(player, worldName, location, event)) return
 
         // Check if player is in a monitored world
         val boundary = worlds[worldName] ?: return
@@ -102,7 +91,7 @@ class WorldsBridge : Listener {
         // Check if player is outside boundary
         if (isOutsideBoundary(location, boundary)) {
             // Set cooldown
-            playerCooldowns[player.uniqueId] = now
+            playerCooldowns[player.uniqueId] = System.currentTimeMillis()
 
             // Check if crossing is allowed
             if (!ALLOW_CROSS) {
@@ -111,6 +100,7 @@ class WorldsBridge : Listener {
                 return
             }
 
+            // Teleport player
             teleportToNearestWorld(player, location, worldName)
         }
     }
@@ -122,9 +112,15 @@ class WorldsBridge : Listener {
         return x < boundary.minX || x > boundary.maxX || z < boundary.minZ || z > boundary.maxZ
     }
 
-    // Function to teleport player to nearest connected world
+    //  Function to teleport player to nearest connected world
     private fun teleportToNearestWorld(player: Player, currentLocation: Location, currentWorldName: String) {
         val currentPoint = Point(currentLocation.blockX, currentLocation.blockZ)
+        val closestWorld = findClosestWorld(currentPoint, currentWorldName)
+        if (closestWorld != null) { teleportToWorld(player, currentLocation, closestWorld, currentWorldName) }
+    }
+
+    // Function to find the closest world
+    private fun findClosestWorld(currentPoint: Point, currentWorldName: String): String? {
         var closestWorld: String? = null
         var closestDistance = Double.MAX_VALUE
 
@@ -138,64 +134,42 @@ class WorldsBridge : Listener {
                 }
             }
         }
+        return closestWorld
+    }
 
-        // Teleport to the closest world
-        closestWorld?.let { worldName ->
-            calculateSafeLocation(currentPoint, worldName, worlds[worldName]!!) { targetLocation ->
-                if (targetLocation != null) {
-                    // Retain facing direction
-                    targetLocation.yaw = currentLocation.yaw
-                    targetLocation.pitch = currentLocation.pitch
-
-                    player.teleportAsync(targetLocation)
-                    player.sendMessage("§a⛵ Crossing into ${getWorldDisplayName(worldName)}")
-                } else {
-                    // World not found
-                    player.sendMessage("§cWorld '${getWorldDisplayName(worldName)}' not found!")
-                    // Teleport to safe location in current world as fallback
-                    calculateSafeLocationCurrentWorld(player, currentLocation, worlds[currentWorldName]!!) { safeLocation ->
-                        // Retain facing direction
-                        safeLocation.yaw = currentLocation.yaw
-                        safeLocation.pitch = currentLocation.pitch
-                        player.teleportAsync(safeLocation)
-                    }
-                }
+    // Function to teleport to a specific world
+    private fun teleportToWorld(player: Player, currentLocation: Location, targetWorldName: String, currentWorldName: String) {
+        val currentPoint = Point(currentLocation.blockX, currentLocation.blockZ)
+        calculateSafeLocation(currentPoint, targetWorldName, worlds[targetWorldName]!!) { targetLocation ->
+            // Teleport
+            if (targetLocation != null) {
+                targetLocation.yaw = currentLocation.yaw
+                targetLocation.pitch = currentLocation.pitch
+                player.teleportAsync(targetLocation)
+                player.sendMessage("§a⛵ Crossing into ${getWorldDisplayName(targetWorldName)}")
             }
-        } ?: run {
-            // No closest world found - teleport to safe location in current world
-            val boundary = worlds[currentWorldName] ?: return
-            calculateSafeLocationCurrentWorld(player, currentLocation, boundary) { safeLocation ->
-                // Retain facing direction
-                safeLocation.yaw = currentLocation.yaw
-                safeLocation.pitch = currentLocation.pitch
-                player.teleportAsync(safeLocation)
-            }
+            // World not found
+            else { player.sendMessage("§cWorld '${getWorldDisplayName(targetWorldName)}' not found!") }
         }
     }
 
-    // Function to calculate distance from point to nearest edge of world boundary
+    // Helper Function to calculate distance from point to nearest edge of world boundary
     private fun calculateDistanceToWorld(point: Point, boundary: WorldBoundary): Double {
         val nearestX = point.x.coerceIn(boundary.minX, boundary.maxX)
         val nearestZ = point.z.coerceIn(boundary.minZ, boundary.maxZ)
-
         val dx = point.x - nearestX
         val dz = point.z - nearestZ
-
         return kotlin.math.sqrt((dx * dx + dz * dz).toDouble())
     }
 
     // Function to calculate safe teleport location inside target world using Scheduler
     private fun calculateSafeLocation(fromPoint: Point, targetWorldName: String, targetBoundary: WorldBoundary, callback: (Location?) -> Unit) {
         val targetWorld = Bukkit.getWorld(targetWorldName)
-        if (targetWorld == null) {
-            callback(null)
-            return
-        }
+        if (targetWorld == null) { callback(null); return }
 
         // Find nearest point inside target boundary
         val safeX = fromPoint.x.coerceIn(targetBoundary.minX + 5, targetBoundary.maxX - 5)
         val safeZ = fromPoint.z.coerceIn(targetBoundary.minZ + 5, targetBoundary.maxZ - 5)
-
         val tempLocation = Location(targetWorld, safeX.toDouble(), 64.0, safeZ.toDouble())
 
         // Use Scheduler to get safe Y coordinate in the target world region
@@ -203,71 +177,39 @@ class WorldsBridge : Listener {
             type = Scheduler.SchedulerType.REGION,
             location = tempLocation,
             task = {
-                try {
-                    val safeY = findSafeYCoordinate(targetWorld, safeX, safeZ)
-                    val finalLocation = Location(targetWorld, safeX.toDouble(), safeY.toDouble(), safeZ.toDouble())
-                    callback(finalLocation)
-                } catch (e: Exception) {
-                    NationsEvent.INSTANCE.logger.warning("Error finding safe location at $safeX, $safeZ in ${targetWorld.name}: ${e.message}")
-                    // Fallback to spawn height
-                    val fallbackLocation = Location(targetWorld, safeX.toDouble(), targetWorld.spawnLocation.blockY.toDouble(), safeZ.toDouble())
-                    callback(fallbackLocation)
-                }
+                val finalLocation = findSafeY(targetWorld, safeX, safeZ)
+                callback(finalLocation)
             }
         )
     }
 
-    // Function to calculate safe location in current world using Scheduler
-    private fun calculateSafeLocationCurrentWorld(player: Player, currentLocation: Location, boundary: WorldBoundary, callback: (Location) -> Unit) {
-        val world = currentLocation.world!!
-
-        // Find nearest point inside current world boundary
-        val safeX = currentLocation.blockX.coerceIn(boundary.minX + 5, boundary.maxX - 5)
-        val safeZ = currentLocation.blockZ.coerceIn(boundary.minZ + 5, boundary.maxZ - 5)
-
-        val tempLocation = Location(world, safeX.toDouble(), 64.0, safeZ.toDouble())
-
-        // Use Scheduler to get safe Y coordinate in the current world region
-        Scheduler.task(
-            type = Scheduler.SchedulerType.REGION,
-            location = tempLocation,
-            task = {
-                try {
-                    val safeY = findSafeYCoordinate(world, safeX, safeZ)
-                    val finalLocation = Location(world, safeX.toDouble(), safeY.toDouble(), safeZ.toDouble())
-                    callback(finalLocation)
-                } catch (e: Exception) {
-                    NationsEvent.INSTANCE.logger.warning("Error finding safe location at $safeX, $safeZ in ${world.name}: ${e.message}")
-                    // Fallback to current location Y
-                    val fallbackLocation = Location(world, safeX.toDouble(), currentLocation.y, safeZ.toDouble())
-                    callback(fallbackLocation)
+    // Helper function to find safe Y coordinate (highest solid/water block + 1) with fallback
+    private fun findSafeY(world: World, x: Int, z: Int): Location {
+        val safeY =
+            try {
+                // Start from world height and go down
+                var foundY: Int? = null
+                for (y in world.maxHeight - 1 downTo world.minHeight) {
+                    val block = world.getBlockAt(x, y, z)
+                    val blockAbove = world.getBlockAt(x, y + 1, z)
+                    val isSafeGround = block.type.isSolid || block.type == Material.WATER            // Safe ground: solid or water
+                    val hasSafeSpace = !blockAbove.type.isSolid || blockAbove.type == Material.WATER // Safe space above: air or water
+                    if (isSafeGround && hasSafeSpace) { foundY = y + 1; break }
                 }
+                // Fallback to world spawn height if no safe Y found
+                foundY ?: world.spawnLocation.blockY
             }
-        )
+
+            // Fallback to spawn height
+            catch (e: Exception) {
+                NationsEvent.INSTANCE.logger.warning("WorldBridge - Error finding safe location at $x, $z in ${world.name}: ${e.message}")
+                world.spawnLocation.blockY
+            }
+
+        return Location(world, x.toDouble(), safeY.toDouble(), z.toDouble())
     }
 
-    // Function to find safe Y coordinate (highest solid/water block + 1)
-    private fun findSafeYCoordinate(world: World, x: Int, z: Int): Int {
-        // Start from world height and go down
-        for (y in world.maxHeight - 1 downTo world.minHeight) {
-            val block = world.getBlockAt(x, y, z)
-            val blockAbove = world.getBlockAt(x, y + 1, z)
-
-            // Safe ground: solid or water
-            val isSafeGround = block.type.isSolid || block.type == Material.WATER
-            // Safe space above: air or water
-            val hasSafeSpace = !blockAbove.type.isSolid || blockAbove.type == Material.WATER
-
-            if (isSafeGround && hasSafeSpace) {
-                return y + 1
-            }
-        }
-
-        // Fallback to world spawn height
-        return world.spawnLocation.blockY
-    }
-
-    // Function to get display name for world
+    // Helper function to get display name for world
     private fun getWorldDisplayName(worldName: String): String {
         return when {
             worldName.contains("plains") -> "Plains"
@@ -276,5 +218,24 @@ class WorldsBridge : Listener {
             else -> worldName.replace("world_ns7_", "").replace("_", " ").replaceFirstChar { it.uppercase() }
         }
     }
+
+    // Helper function to handle cooldown logic
+    private fun handleCooldown(player: Player, worldName: String, location: Location, event: PlayerMoveEvent): Boolean {
+        val now = System.currentTimeMillis()
+        val lastTeleport = playerCooldowns[player.uniqueId] ?: 0
+        val isOnCooldown = now - lastTeleport < cooldownTime
+
+        if (!isOnCooldown) return false
+
+        // Check if player is in a monitored world and outside boundary
+        val boundary = worlds[worldName] ?: return false
+        if (isOutsideBoundary(location, boundary)) {
+            val cooldownLeft = ((cooldownTime - (now - lastTeleport)) / 1000.0)
+            player.sendMessage("§c⛵ Wait ${cooldownLeft.toInt()}s before crossing again!")
+            event.isCancelled = true // Cancel event
+        }
+        return true
+    }
+
 
 }

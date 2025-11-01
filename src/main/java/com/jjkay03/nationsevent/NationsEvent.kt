@@ -9,6 +9,7 @@ import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
+import com.jjkay03.nationsevent.worlds.WorldsBridge
 import com.jjkay03.nationsevent.worlds.WorldsLoader
 import com.jjkay03.nationsevent.worlds.WorldsSync
 import net.luckperms.api.LuckPerms
@@ -58,6 +59,7 @@ open class NationsEvent : JavaPlugin() {
         // WORLDS
         WorldsLoader()
         WorldsSync()
+        WorldsBridge()
 
         // SETTINGS
         DisabledCrafts()

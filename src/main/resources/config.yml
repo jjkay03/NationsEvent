@@ -21,16 +21,28 @@ worlds:
   # Load multiple worlds on server boot
   loader:
     enable: true
-    worlds: [ world_admin ]
+    worlds:
+      - world_admin
+      - world_ns7_1_plains
+      - world_ns7_2_desert
+      - world_ns7_3_snow
 
   # Sync multiple worlds settings (first world in the list is the master world)
   sync:
-    enable: false
+    enable: true
     enable-time: true
     enable-weather: true
     enable-game-rules: true
     enable-difficulty: true
-    worlds: [ world_ns7_plains, world_ns7_desert, world_ns7_snow ]
+    worlds:
+      - world_ns7_1_plains
+      - world_ns7_2_desert
+      - world_ns7_3_snow
+
+  # Connect multiple same worlds through invisible border (made for NS7)
+  # Configure in WorldsBridge.kt
+  bridge:
+    enable: true
 
 
 

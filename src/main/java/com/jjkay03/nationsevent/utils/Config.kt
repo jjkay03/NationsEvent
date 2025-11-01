@@ -20,6 +20,8 @@ class Config {
         val WORLDS_SYNC_ENABLE_GAME_RULES = CONFIG.getBoolean("worlds.sync.enable-game-rules", false)
         val WORLDS_SYNC_ENABLE_DIFFICULTY = CONFIG.getBoolean("worlds.sync.enable-difficulty", false)
         val WORLDS_SYNC_WORLDS = CONFIG.getStringList("worlds.sync.worlds")
+        // WORLDS - Bridge
+        val WORLDS_BRIDGE_ENABLE = CONFIG.getBoolean("worlds.bridge.enable")
 
 
         // SETTINGS

@@ -68,6 +68,9 @@ settings:
   # Disable join and leave chat messages
   disable-join-leave-messages: true
 
+  # Disable hostile mobs spawning
+  disable-hostile-mobs-spawn: true
+
 
 
 # == Features =========================================================================================================

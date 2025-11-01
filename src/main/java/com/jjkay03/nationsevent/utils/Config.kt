@@ -31,6 +31,7 @@ class Config {
         val SETTINGS_DISABLE_WOLF_BREEDING = CONFIG.getBoolean("settings.disable-wolf-breeding", false)
         val SETTINGS_FARM_PROTECTION = CONFIG.getBoolean("settings.farm-protection", false)
         val SETTINGS_DISABLE_JOIN_LEAVE_MESSAGES = CONFIG.getBoolean("settings.disable-join-leave-messages", false)
+        val SETTINGS_DISABLE_HOSTILE_MOBS_SPAWN = CONFIG.getBoolean("settings.disable-hostile-mobs-spawn", false)
 
 
         // FEATURES - Death Ban

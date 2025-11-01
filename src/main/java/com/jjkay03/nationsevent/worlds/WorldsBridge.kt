@@ -5,6 +5,8 @@ import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.Scheduler
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -88,9 +90,10 @@ class WorldsBridge : Listener {
             val boundary = worlds[worldName] ?: return
             if (isOutsideBoundary(location, boundary)) {
                 val cooldownLeft = ((cooldownTime - (now - lastTeleport)) / 1000.0)
-                player.sendMessage("§c⛵ Wait ${String.format("%.1f", cooldownLeft)}s before crossing again!")
+                player.sendMessage("§c⛵ Wait ${cooldownLeft.toInt()}s before crossing again!")
+                event.isCancelled = true // Cancel event
             }
-            return // Player is still in cooldown
+            return
         }
 
         // Check if player is in a monitored world
@@ -104,10 +107,7 @@ class WorldsBridge : Listener {
             // Check if crossing is allowed
             if (!ALLOW_CROSS) {
                 player.sendMessage("§c⛵ You can't cross at this moment!")
-                // Calculate safe location in current world using Scheduler
-                calculateSafeLocationCurrentWorld(player, location, boundary) { safeLocation ->
-                    player.teleportAsync(safeLocation)
-                }
+                event.isCancelled = true // Cancel event
                 return
             }
 
@@ -143,6 +143,10 @@ class WorldsBridge : Listener {
         closestWorld?.let { worldName ->
             calculateSafeLocation(currentPoint, worldName, worlds[worldName]!!) { targetLocation ->
                 if (targetLocation != null) {
+                    // Retain facing direction
+                    targetLocation.yaw = currentLocation.yaw
+                    targetLocation.pitch = currentLocation.pitch
+
                     player.teleportAsync(targetLocation)
                     player.sendMessage("§a⛵ Crossing into ${getWorldDisplayName(worldName)}")
                 } else {
@@ -150,6 +154,9 @@ class WorldsBridge : Listener {
                     player.sendMessage("§cWorld '${getWorldDisplayName(worldName)}' not found!")
                     // Teleport to safe location in current world as fallback
                     calculateSafeLocationCurrentWorld(player, currentLocation, worlds[currentWorldName]!!) { safeLocation ->
+                        // Retain facing direction
+                        safeLocation.yaw = currentLocation.yaw
+                        safeLocation.pitch = currentLocation.pitch
                         player.teleportAsync(safeLocation)
                     }
                 }
@@ -158,6 +165,9 @@ class WorldsBridge : Listener {
             // No closest world found - teleport to safe location in current world
             val boundary = worlds[currentWorldName] ?: return
             calculateSafeLocationCurrentWorld(player, currentLocation, boundary) { safeLocation ->
+                // Retain facing direction
+                safeLocation.yaw = currentLocation.yaw
+                safeLocation.pitch = currentLocation.pitch
                 player.teleportAsync(safeLocation)
             }
         }
@@ -236,12 +246,19 @@ class WorldsBridge : Listener {
         )
     }
 
-    // Function to find safe Y coordinate (highest solid block + 1)
-    private fun findSafeYCoordinate(world: org.bukkit.World, x: Int, z: Int): Int {
+    // Function to find safe Y coordinate (highest solid/water block + 1)
+    private fun findSafeYCoordinate(world: World, x: Int, z: Int): Int {
         // Start from world height and go down
         for (y in world.maxHeight - 1 downTo world.minHeight) {
             val block = world.getBlockAt(x, y, z)
-            if (block.type.isSolid && !world.getBlockAt(x, y + 1, z).type.isSolid) {
+            val blockAbove = world.getBlockAt(x, y + 1, z)
+
+            // Safe ground: solid or water
+            val isSafeGround = block.type.isSolid || block.type == Material.WATER
+            // Safe space above: air or water
+            val hasSafeSpace = !blockAbove.type.isSolid || blockAbove.type == Material.WATER
+
+            if (isSafeGround && hasSafeSpace) {
                 return y + 1
             }
         }
@@ -260,11 +277,4 @@ class WorldsBridge : Listener {
         }
     }
 
-    // Function to clean up old cooldown entries (call this periodically if needed)
-    fun cleanupCooldowns() {
-        val now = System.currentTimeMillis()
-        playerCooldowns.entries.removeIf { (_, lastTeleport) ->
-            now - lastTeleport > cooldownTime
-        }
-    }
 }

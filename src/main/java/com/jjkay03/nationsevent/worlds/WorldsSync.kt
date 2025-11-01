@@ -9,8 +9,11 @@ import org.bukkit.World
 
 class WorldsSync {
 
+    companion object {
+        private var WORLDS: List<World> = emptyList()
+    }
+
     private var task: Any? = null
-    private var worldsToSync: List<World> = emptyList()
 
     // INITIALIZATION
     init {
@@ -37,16 +40,16 @@ class WorldsSync {
     // Function to sync all worlds
     private fun syncWorlds() {
         // Get worlds list
-        worldsToSync = getValidWorldsFromConfig()
+        WORLDS = getValidWorldsFromConfig()
 
         // End if list is empty
-        if (worldsToSync.isEmpty()) return
+        if (WORLDS.isEmpty()) return
 
         // Get master world
-        val masterWorld = worldsToSync.first()
+        val masterWorld = WORLDS.first()
 
         // Go through all the worlds
-        worldsToSync.drop(1).forEach { world ->
+        WORLDS.drop(1).forEach { world ->
             // Sync time
             if (Config.Companion.WORLDS_SYNC_ENABLE_TIME) {
                 if (world.time != masterWorld.time) { world.time = masterWorld.time }

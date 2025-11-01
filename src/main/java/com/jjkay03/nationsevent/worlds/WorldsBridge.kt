@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.worlds
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.Scheduler
 import org.bukkit.Bukkit
@@ -82,27 +83,27 @@ class WorldsBridge : Listener {
         val location = event.to
         val worldName = location.world?.name ?: return
 
-        // Check cooldown
+        // End if player is on cooldown
         if (handleCooldown(player, worldName, location, event)) return
 
-        // Check if player is in a monitored world
+        // End if player is not in a monitored world
         val boundary = worlds[worldName] ?: return
 
-        // Check if player is outside boundary
-        if (isOutsideBoundary(location, boundary)) {
-            // Set cooldown
-            playerCooldowns[player.uniqueId] = System.currentTimeMillis()
+        // End if player is not outside boundary
+        if (!isOutsideBoundary(location, boundary)) return
 
-            // Check if crossing is allowed
-            if (!ALLOW_CROSS) {
-                player.sendMessage("§c⛵ You can't cross at this moment!")
-                event.isCancelled = true // Cancel event
-                return
-            }
+        // Set cooldown
+        playerCooldowns[player.uniqueId] = System.currentTimeMillis()
 
-            // Teleport player
-            teleportToNearestWorld(player, location, worldName)
+        // Check if crossing is allowed
+        if (!ALLOW_CROSS) {
+            player.sendMessage("§c⛵ You can't cross at this moment!")
+            event.isCancelled = true // Cancel event
+            return
         }
+
+        // Teleport player
+        teleportToNearestWorld(player, location, worldName)
     }
 
     // Function to check if location is outside world boundary
@@ -223,19 +224,21 @@ class WorldsBridge : Listener {
     private fun handleCooldown(player: Player, worldName: String, location: Location, event: PlayerMoveEvent): Boolean {
         val now = System.currentTimeMillis()
         val lastTeleport = playerCooldowns[player.uniqueId] ?: 0
-        val isOnCooldown = now - lastTeleport < cooldownTime
+
+        // Staff get 3s cooldown, others get full cooldown
+        val playerCooldown = if (player.hasPermission(Saves.PERM_STAFF)) 3000 else cooldownTime
+        val isOnCooldown = now - lastTeleport < playerCooldown
 
         if (!isOnCooldown) return false
 
         // Check if player is in a monitored world and outside boundary
         val boundary = worlds[worldName] ?: return false
         if (isOutsideBoundary(location, boundary)) {
-            val cooldownLeft = ((cooldownTime - (now - lastTeleport)) / 1000.0)
+            val cooldownLeft = ((playerCooldown - (now - lastTeleport)) / 1000.0)
             player.sendMessage("§c⛵ Wait ${cooldownLeft.toInt()}s before crossing again!")
             event.isCancelled = true // Cancel event
         }
         return true
     }
-
 
 }

@@ -68,4 +68,5 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ❌ Items command + crown
 ❌ Protected spawn world
 ❌ Team selector
-✅ World bridge
+✅ Worlds bridge
+✅ World lobby

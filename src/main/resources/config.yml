@@ -39,6 +39,12 @@ worlds:
       - world_ns7_2_desert
       - world_ns7_3_snow
 
+  # Manage a world as a lobby
+  # Configure in WorldLobby.kt
+  lobby:
+    enable: true
+    world: "world_spawn"
+
   # Connect multiple same worlds through invisible border (made for NS7)
   # Configure in WorldsBridge.kt
   bridge:

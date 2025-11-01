@@ -95,7 +95,7 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
     // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         val invalidArguments = "§cInvalid argument, usage: /$label on/off"
-        if (args.isNotEmpty()) { sender.sendMessage(invalidArguments); return true }
+        if (args.isEmpty()) { sender.sendMessage(invalidArguments); return true }
         when (args[0].lowercase()) {
             "on" -> { ALLOW_CROSS = true; sender.sendMessage("§7⛵ Worlds Bridge has been §aENABLED") }
             "off" -> { ALLOW_CROSS = false; sender.sendMessage("§7⛵ Worlds Bridge has been §cDISABLED") }

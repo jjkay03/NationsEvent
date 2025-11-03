@@ -2,18 +2,19 @@ package com.jjkay03.nationsevent.specific.ns7.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.specific.EventSpecific
+import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import net.luckperms.api.model.group.Group
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
+import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 
 class PreferredTeamCommand(private val commandName: String) : CommandExecutor, TabCompleter {
 
     companion object {
-        // Folia-safe concurrent map
         val PLAYER_PREFERENCES = ConcurrentHashMap<Player, Group>()
 
         // Define options mapping
@@ -21,6 +22,13 @@ class PreferredTeamCommand(private val commandName: String) : CommandExecutor, T
             "OPTION_1" to EventSpecific.LP_GROUP_NS7_PLAINS,
             "OPTION_2" to EventSpecific.LP_GROUP_NS7_DESERT,
             "OPTION_3" to EventSpecific.LP_GROUP_NS7_SNOW
+        )
+
+        // List of team groups for easy checking
+        private val TEAM_GROUPS = listOf(
+            EventSpecific.LP_GROUP_NS7_PLAINS!!,
+            EventSpecific.LP_GROUP_NS7_DESERT!!,
+            EventSpecific.LP_GROUP_NS7_SNOW!!
         )
     }
 
@@ -34,6 +42,12 @@ class PreferredTeamCommand(private val commandName: String) : CommandExecutor, T
         // End if sender not player
         if (sender !is Player) {
             sender.sendMessage("§cOnly players can use this command!")
+            return true
+        }
+
+        // End if player already has a team
+        if (TEAM_GROUPS.any { LuckPermsUtils.isPlayerInGroup(sender, it) }) {
+            sender.sendMessage("§cYou already have a team assigned!")
             return true
         }
 

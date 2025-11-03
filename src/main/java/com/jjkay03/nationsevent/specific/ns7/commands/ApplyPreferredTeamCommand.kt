@@ -43,6 +43,9 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
         // Show final results
         sender.sendMessage("§aTeams equalized and applied!")
 
+        // Clear player preferences
+        PreferredTeamCommand.PLAYER_PREFERENCES.clear()
+
         return true
     }
 

@@ -17,11 +17,25 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        sender.sendMessage("§7Grouping players by preferred team...")
+
         // Group players by their preferred team
         val teamLists = groupPlayersByTeam()
+        sender.sendMessage("§7Before equalization:")
+        teamLists.forEach { (group, players) ->
+            sender.sendMessage("§7  ${group.name}: ${players.size} players")
+        }
+
+        sender.sendMessage("§7Equalizing teams...")
 
         // Equalize teams
         equalizeTeams(teamLists)
+        sender.sendMessage("§7After equalization:")
+        teamLists.forEach { (group, players) ->
+            sender.sendMessage("§7  ${group.name}: ${players.size} players")
+        }
+
+        sender.sendMessage("§7Applying groups to players...")
 
         // Apply groups to players
         applyGroupsToPlayers(teamLists)
@@ -57,7 +71,6 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
     // Helper function to collect overflow players from teams above target size
     private fun collectOverflow(teamLists: MutableMap<Group, MutableList<Player>>, targetSize: Int): MutableList<Player> {
         val overflow = mutableListOf<Player>()
-
         teamLists.forEach { (_, players) ->
             if (players.size > targetSize) {
                 val excess = players.size - targetSize
@@ -66,7 +79,6 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
                 players.removeAll(removed.toSet())
             }
         }
-
         return overflow
     }
 
@@ -74,27 +86,14 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
     private fun distributeOverflow(teamLists: MutableMap<Group, MutableList<Player>>, overflow: MutableList<Player>, targetSize: Int) {
         var overflowIndex = 0
 
-        // First pass: fill teams below target
+        // Keep distributing overflow players to the smallest teams until all are assigned
         while (overflowIndex < overflow.size) {
             val sortedTeams = teamLists.entries.sortedBy { it.value.size }
-            var distributed = false
 
             for (teamEntry in sortedTeams) {
                 if (overflowIndex >= overflow.size) break
-                if (teamEntry.value.size < targetSize) {
-                    teamEntry.value.add(overflow[overflowIndex])
-                    overflowIndex++
-                    distributed = true
-                }
-            }
-
-            // Second pass: distribute remaining evenly if all teams at target
-            if (!distributed) {
-                for (teamEntry in sortedTeams) {
-                    if (overflowIndex >= overflow.size) break
-                    teamEntry.value.add(overflow[overflowIndex])
-                    overflowIndex++
-                }
+                teamEntry.value.add(overflow[overflowIndex])
+                overflowIndex++
             }
         }
     }
@@ -104,7 +103,7 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
         teamLists.forEach { (group, players) ->
             players.forEach { player ->
                 LuckPermsUtils.playerSetGroup(player, group)
-                player.sendMessage("§7\uD83D\uDC65 Applied team ${group.displayName}")
+                player.sendMessage("§7👥 Applied team ${group.displayName}")
             }
         }
     }

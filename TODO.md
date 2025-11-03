@@ -65,8 +65,8 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ /fly
 ✅ /god
 
-❌ Items command + crown
-❌ Protected spawn world
-❌ Team selector
+🚧 Items command + crown (CANCELED)
+✅ Protected spawn world
+✅ Team selector
 ✅ Worlds bridge
 ✅ World lobby

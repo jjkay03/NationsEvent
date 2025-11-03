@@ -8,6 +8,8 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.player.PlayerMoveEvent
@@ -34,6 +36,22 @@ class WorldLobby : Listener {
         lobbyWorld = Config.WORLDS_LOBBY_WORLD
         Bukkit.getPluginManager().registerEvents(this, NationsEvent.INSTANCE)
         NationsEvent.INSTANCE.logger.info("- Loading world manager: ${this::class.simpleName}")
+    }
+
+    // Prevent block breaking (unless admin)
+    @EventHandler
+    fun onBlockBreak(event: BlockBreakEvent) {
+        if (!isInLobby(event.block.world.name)) return
+        if (event.player.hasPermission(Saves.PERM_ADMIN)) return
+        event.isCancelled = true
+    }
+
+    // Prevent block placing (unless admin)
+    @EventHandler
+    fun onBlockPlace(event: BlockPlaceEvent) {
+        if (!isInLobby(event.block.world.name)) return
+        if (event.player.hasPermission(Saves.PERM_ADMIN)) return
+        event.isCancelled = true
     }
 
     // Prevent damage in lobby

@@ -226,3 +226,15 @@ commands:
 #                    SEASON SPECIFIC COMMANDS SEPARATOR  /  SEASON SPECIFIC COMMANDS UNDER!
 # =====================================================================================================================
 
+  preferredteam:
+    permission: nationsevent.command.preferredteam
+    permission-message: "§cYou do not have permission to use this command"
+
+  applypreferredteam:
+    permission: nationsevent.command.applypreferredteam
+    permission-message: "§cYou do not have permission to use this command"
+
+  assignrandomteam:
+    permission: nationsevent.command.assignrandomteam
+    permission-message: "§cYou do not have permission to use this command"
+

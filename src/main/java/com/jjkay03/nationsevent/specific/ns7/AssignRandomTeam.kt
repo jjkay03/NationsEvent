@@ -17,7 +17,7 @@ class AssignRandomTeam : Listener {
     }
 
     // List of all teams
-    private val TEAMS = listOf(
+    private val teams = listOf(
         EventSpecific.LP_GROUP_NS7_PLAINS!!,
         EventSpecific.LP_GROUP_NS7_DESERT!!,
         EventSpecific.LP_GROUP_NS7_SNOW!!
@@ -48,17 +48,18 @@ class AssignRandomTeam : Listener {
 
         // Assign player to that team
         LuckPermsUtils.playerSetGroup(player, targetTeam)
+        player.sendMessage("§7\uD83D\uDC65 Applied team ${targetTeam.displayName}")
     }
 
     // Helper function to check if player is already in any team
     private fun isPlayerInAnyTeam(player: Player): Boolean {
-        return TEAMS.any { team -> LuckPermsUtils.isPlayerInGroup(player, team) }
+        return teams.any { team -> LuckPermsUtils.isPlayerInGroup(player, team) }
     }
 
     // Helper function to get the team with the least players (random if tied)
     private fun getTeamWithLeastPlayers(): Group {
         // Count players in each team
-        val teamCounts = TEAMS.associateWith { team ->
+        val teamCounts = teams.associateWith { team ->
             LuckPermsUtils.groupGetAllUsers(team).size
         }
 

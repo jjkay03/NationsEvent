@@ -61,7 +61,7 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
         teamLists.forEach { (_, players) ->
             if (players.size > targetSize) {
                 val excess = players.size - targetSize
-                val removed = players.takeLast(excess) // First come first served
+                val removed = players.takeLast(excess)
                 overflow.addAll(removed)
                 players.removeAll(removed.toSet())
             }
@@ -104,6 +104,7 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
         teamLists.forEach { (group, players) ->
             players.forEach { player ->
                 LuckPermsUtils.playerSetGroup(player, group)
+                player.sendMessage("§7\uD83D\uDC65 Applied team ${group.displayName}")
             }
         }
     }

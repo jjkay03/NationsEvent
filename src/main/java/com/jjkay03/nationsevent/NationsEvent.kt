@@ -6,6 +6,7 @@ import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.features.*
 import com.jjkay03.nationsevent.settings.*
+import com.jjkay03.nationsevent.specific.EventSpecific
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.FilesManager
 import com.jjkay03.nationsevent.utils.ServerType
@@ -76,6 +77,9 @@ open class NationsEvent : JavaPlugin() {
         // FEATURES
         DeathBan()
         EventIGNs()
+
+        // EVENT SPECIFIC
+        EventSpecific()
 
     }
 

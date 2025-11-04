@@ -238,3 +238,7 @@ commands:
     permission: nationsevent.command.assignrandomteam
     permission-message: "§cYou do not have permission to use this command"
 
+  gotoisland:
+    permission: nationsevent.command.gotoisland
+    permission-message: "§cYou do not have permission to use this command"
+

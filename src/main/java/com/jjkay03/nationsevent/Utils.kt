@@ -5,12 +5,16 @@ import com.jjkay03.nationsevent.utils.Scheduler
 import com.jjkay03.nationsevent.utils.ServerType
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.OfflinePlayer
+import org.bukkit.World
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
+import org.bukkit.entity.Player
 import java.lang.reflect.Field
+import java.util.Random
 
 object Utils {
 
@@ -91,4 +95,21 @@ object Utils {
         }
     }
 
+    // Function to teleport player to random location in a radius of world spawn
+    fun teleportPlayerToWorldSpawnRadius(player: Player, world: World, radius: Int = 0) {
+        val spawn = world.spawnLocation
+        val x = spawn.blockX + Random().nextInt(radius * 2) - radius
+        val z = spawn.blockZ + Random().nextInt(radius * 2) - radius
+        val tempLocation = Location(world, x.toDouble(), 64.0, z.toDouble())
+
+        Scheduler.task(
+            type = Scheduler.SchedulerType.REGION,
+            location = tempLocation,
+            task = {
+                val y = world.getHighestBlockYAt(x, z).toDouble() + 1.0
+                val finalLocation = Location(world, x + 0.5, y, z + 0.5)
+                player.teleportAsync(finalLocation)
+            }
+        )
+    }
 }

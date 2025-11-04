@@ -72,5 +72,5 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ World lobby
 
 ❌ Teleport players to islands
-❌ /join
+✅ /gotoisland
 ❌ /liststates (/ls)

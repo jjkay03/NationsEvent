@@ -12,6 +12,7 @@ import com.jjkay03.nationsevent.commands.player_assistance.*
 import com.jjkay03.nationsevent.commands.player_scale.*
 import com.jjkay03.nationsevent.commands.teleport.*
 import com.jjkay03.nationsevent.commands.utility.ListLuckPermsGroupsCommand
+import com.jjkay03.nationsevent.commands.utility.ListStatesCommand
 import com.jjkay03.nationsevent.commands.utility.ListWorldsCommand
 import com.jjkay03.nationsevent.commands.voice_chat.*
 
@@ -61,6 +62,7 @@ class Commands {
             // COMMANDS : UTILITY
             ListLuckPermsGroupsCommand("listluckpermsgroups"),
             ListWorldsCommand("listworlds"),
+            ListStatesCommand("liststates"),
 
             // COMMANDS: VOICE CHAT
             VoiceChatPermsCommand("voicechatperms"),

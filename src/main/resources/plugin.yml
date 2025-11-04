@@ -199,6 +199,11 @@ commands:
     permission: nationsevent.command.listworlds
     permission-message: "§cYou do not have permission to use this command"
 
+  liststates:
+    aliases: [ ls ]
+    permission: nationsevent.command.liststates
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #     COMMANDS : VOICE CHAT
   #--------------------------------

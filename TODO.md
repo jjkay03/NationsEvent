@@ -73,4 +73,4 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 
 ❌ Teleport players to islands
 ✅ /gotoisland
-❌ /liststates (/ls)
+✅ /liststates (/ls)

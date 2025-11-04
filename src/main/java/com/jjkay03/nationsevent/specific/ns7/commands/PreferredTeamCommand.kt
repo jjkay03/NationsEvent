@@ -18,6 +18,7 @@ class PreferredTeamCommand(private val commandName: String) : CommandExecutor, T
         val PLAYER_PREFERENCES = ConcurrentHashMap<Player, Group>()
 
         // Define options mapping
+        // If you're viewing this on GitHub they will be shuffled before the event
         private val OPTIONS_MAP = mapOf(
             "OPTION_1" to EventSpecific.LP_GROUP_NS7_PLAINS,
             "OPTION_2" to EventSpecific.LP_GROUP_NS7_DESERT,

@@ -70,3 +70,7 @@ TODO LIST FOR NATIONS EVENT REFACTOR
 ✅ Team selector
 ✅ Worlds bridge
 ✅ World lobby
+
+❌ Teleport players to islands
+❌ /join
+❌ /liststates (/ls)

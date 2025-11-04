@@ -247,3 +247,6 @@ commands:
     permission: nationsevent.command.gotoisland
     permission-message: "§cYou do not have permission to use this command"
 
+  queuetoisland:
+    permission: nationsevent.command.queuetoisland
+    permission-message: "§cYou do not have permission to use this command"

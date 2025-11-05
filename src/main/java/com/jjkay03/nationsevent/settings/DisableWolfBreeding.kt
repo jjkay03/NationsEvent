@@ -39,7 +39,7 @@ class DisableWolfBreeding : Listener {
             // If a player caused the breeding, notify them
             val breeder = event.breeder
             if (breeder is Player) {
-                breeder.sendMessage("§c${event.entity.name()} breeding is disabled!")
+                breeder.sendMessage("§c${event.entity.type.name} breeding is disabled!")
             }
         }
     }

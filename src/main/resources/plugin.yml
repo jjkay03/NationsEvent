@@ -92,6 +92,10 @@ commands:
     permission: nationsevent.command.god
     permission-message: "§cYou do not have permission to use this command"
 
+  sudo:
+    permission: nationsevent.command.sudo
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #  COMMANDS : PLAYER ASSISTANCE
   #--------------------------------

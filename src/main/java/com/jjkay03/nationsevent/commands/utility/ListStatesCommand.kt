@@ -26,6 +26,7 @@ class ListStatesCommand(private val commandName: String) : CommandExecutor {
         val pvp = PVPToggleCommand.PVP
         val freezeAll = FreezeAllCommand.ENABLED
         val voicechat = LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)
+        val globalChat = LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)
         val worldBridge = WorldsBridge.ALLOW_CROSS     // NS7
         val assignRadomTeam = AssignRandomTeam.ENABLED // NS7
 
@@ -39,6 +40,7 @@ class ListStatesCommand(private val commandName: String) : CommandExecutor {
         sender.sendMessage("§6\uD83D\uDDE1 §f- PVP: ${state(pvp)}")
         sender.sendMessage("§6❄ §f- Freeze All: ${state(freezeAll)}")
         sender.sendMessage("§6🔊 §f- Voicechat: ${state(voicechat)}")
+        sender.sendMessage("§6💬 §f- Global Chat: ${state(globalChat)}")
         sender.sendMessage("§6⛵ §f- Worlds Bridge §7(NS7)§f: ${state(worldBridge)}")
         sender.sendMessage("§6🎲 §f- Assign Random Team §7(NS7)§f: ${state(assignRadomTeam)}")
 

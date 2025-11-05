@@ -11,6 +11,12 @@ import org.bukkit.event.entity.EntityBreedEvent
 
 class DisableWolfBreeding : Listener {
 
+    // List of entities to disable breeding for
+    val entityList = listOf<EntityType>(
+        EntityType.WOLF,
+        EntityType.CAT
+    )
+
     // INITIALIZATION
     init {
         load(Config.SETTINGS_DISABLE_WOLF_BREEDING)
@@ -26,13 +32,14 @@ class DisableWolfBreeding : Listener {
     @EventHandler
     fun onEntityBreed(event: EntityBreedEvent) {
         // If the entity being bred is a wolf, cancel breeding
-        if (event.entity.type == EntityType.WOLF) {
+        if (event.entity.type in entityList) {
+            // Cancel event
             event.isCancelled = true
 
             // If a player caused the breeding, notify them
             val breeder = event.breeder
             if (breeder is Player) {
-                breeder.sendMessage("§cWolf breeding is disabled!")
+                breeder.sendMessage("§c${event.entity.name()} breeding is disabled!")
             }
         }
     }

@@ -38,8 +38,8 @@ class EventSpecific {
         NationsEvent.INSTANCE.logger.info("- Loading event specific code: $SPECIFIC_EVENT_CODENAME")
 
         // COMMANDS
-        PreferredTeamCommand("preferredteam")
-        ApplyPreferredTeamCommand("applypreferredteam")
+        //PreferredTeamCommand("preferredteam")
+        //ApplyPreferredTeamCommand("applypreferredteam")
         AssignRandomTeamCommand("assignrandomteam")
         GoToIslandCommand("gotoisland")
         QueueToIslandCommand("queuetoisland")

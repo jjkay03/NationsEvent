@@ -7,8 +7,12 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.AsyncPlayerChatEvent
+import java.util.UUID
 
-class GroupChatsCommands : CommandExecutor {
+class GroupChatsCommands : CommandExecutor, Listener {
 
     companion object {
         // Function to register group chat commands
@@ -21,7 +25,12 @@ class GroupChatsCommands : CommandExecutor {
                 }
             }
         }
+
+        private val toggledStaff = mutableListOf<UUID>()
     }
+
+    // Register event
+    init { NationsEvent.INSTANCE.server.pluginManager.registerEvents(this, NationsEvent.INSTANCE) }
 
     // COMMAND
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
@@ -40,7 +49,21 @@ class GroupChatsCommands : CommandExecutor {
         }
 
         // End if no arguments (message) is provided
-        if (args.isEmpty()) { sender.sendMessage("§cUsage: /${cmd.name} <message>"); return true }
+        if (args.isEmpty()) {
+            // Toggle staff chat
+            if (groupChat == GroupChats.STAFF_CHAT) {
+                if (toggledStaff.contains(player.uniqueId)) {
+                    toggledStaff.remove(player.uniqueId)
+                    sender.sendMessage("§cToggled staff chat off!")
+                }
+                else {
+                    toggledStaff.add(player.uniqueId)
+                    sender.sendMessage("§aToggled staff chat on!")
+                }
+            }
+            else { sender.sendMessage("§cUsage: /${cmd.name} <message>") }
+            return true
+        }
 
         // Format message
         val rawMessage = args.joinToString(" ")
@@ -52,5 +75,19 @@ class GroupChatsCommands : CommandExecutor {
         Utils.messagePlayerWithPerm(message, groupChat.permissionView, Saves.PERM_STAFF)
 
         return true
+    }
+
+    // Staff chat overrider
+    @EventHandler
+    fun onPlayerChat(e: AsyncPlayerChatEvent) {
+        if (!toggledStaff.contains(e.player.uniqueId)) return
+        e.isCancelled = true
+
+        val groupChat = GroupChats.STAFF_CHAT
+        val message = groupChat.formatting
+            .replace("%player%", e.player.name)
+            .replace("%message%", e.message)
+
+        Utils.messagePlayerWithPerm(message, groupChat.permissionView, Saves.PERM_STAFF)
     }
 }

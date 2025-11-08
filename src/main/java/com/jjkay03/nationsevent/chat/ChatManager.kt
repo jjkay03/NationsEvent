@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.chat
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.chat.group_chat.GroupChatsCommands
 import com.jjkay03.nationsevent.utils.LuckPermsUtils
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -20,6 +21,9 @@ class ChatManager : Listener {
     fun onPlayerChat(event: AsyncChatEvent) {
         // Get player
         val player = event.player
+
+        // End if player has a group chat toggled
+        if(GroupChatsCommands.TOGGLED_GROUP_CHATS.containsKey(player)) return
 
         // Cancel the default chat
         event.isCancelled = true

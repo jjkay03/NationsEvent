@@ -56,7 +56,7 @@ open class NationsEvent : JavaPlugin() {
         // CHAT
         ChatManager()
         PlayerGroupChatManager()
-        GroupChatsCommands.registerCommands()
+        GroupChatsCommands()
 
         // WORLDS
         WorldsLoader()

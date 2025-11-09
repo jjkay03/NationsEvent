@@ -55,6 +55,7 @@ class Commands {
             TeleportRandomPlayerCommand("teleportrandomplayer"),
             TeleportWorldCommand("teleportworld"),
             TeleportTopCommand("teleporttop"),
+            TeleportOfflineCommand("teleportoffline"),
 
             // COMMANDS : UTILITY
             ListLuckPermsGroupsCommand("listluckpermsgroups"),

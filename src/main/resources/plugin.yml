@@ -190,6 +190,11 @@ commands:
     permission: nationsevent.command.teleporttop
     permission-message: "§cYou do not have permission to use this command"
 
+  teleportoffline:
+    aliases: [ tpo, tpoffline ]
+    permission: nationsevent.command.teleportoffline
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #      COMMANDS : UTILITY
   #--------------------------------

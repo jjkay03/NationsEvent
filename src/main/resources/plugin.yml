@@ -96,6 +96,10 @@ commands:
     permission: nationsevent.command.sudo
     permission-message: "§cYou do not have permission to use this command"
 
+  heal:
+    permission: nationsevent.command.heal
+    permission-message: "§cYou do not have permission to use this command"
+
   #--------------------------------
   #  COMMANDS : PLAYER ASSISTANCE
   #--------------------------------

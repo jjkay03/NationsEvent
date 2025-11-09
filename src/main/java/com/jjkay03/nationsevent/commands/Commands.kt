@@ -35,6 +35,7 @@ class Commands {
             FlyCommand("fly"),
             GodCommand("god"),
             SudoCommand("sudo"),
+            HealCommand("heal"),
 
             // COMMANDS : PLAYER ASSISTANCE
             NeedStaffCommand("needstaff"),

@@ -48,6 +48,14 @@ class FreezeAllCommand(private val commandName: String) : CommandExecutor, Liste
     fun onPlayerMove(event: PlayerMoveEvent) {
         // End if freeze is off or player has bypass perm
         if (!ENABLED || event.player.hasPermission(Saves.PERM_FREEZE_ALL_BYPASS)) return
+
+        // Check if player is riding a vehicle and eject them
+        if (event.player.isInsideVehicle) {
+            event.player.vehicle?.removePassenger(event.player)
+            event.player.sendMessage("$frozenMessage - You can't ride vehicles!")
+            return
+        }
+
         val from = event.from
         val to = event.to
         if (to.y < from.y) return // Allow the player to fall

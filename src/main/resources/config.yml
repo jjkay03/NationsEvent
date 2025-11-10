@@ -23,6 +23,7 @@ worlds:
     enable: true
     worlds:
       - world_admin
+      - world_build
       - world_ns7_1_plains
       - world_ns7_2_desert
       - world_ns7_3_snow

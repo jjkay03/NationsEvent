@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.chat.group_chat.*
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
 import com.jjkay03.nationsevent.integrations.voicechat.SimpleVoiceChat
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.specific.EventSpecific
@@ -15,21 +16,13 @@ import com.jjkay03.nationsevent.worlds.WorldLobby
 import com.jjkay03.nationsevent.worlds.WorldsBridge
 import com.jjkay03.nationsevent.worlds.WorldsLoader
 import com.jjkay03.nationsevent.worlds.WorldsSync
-import net.luckperms.api.LuckPerms
-import net.luckperms.api.LuckPermsProvider
-import net.luckperms.api.model.group.GroupManager
-import net.luckperms.api.model.user.UserManager
 import org.bukkit.plugin.java.JavaPlugin
 
 open class NationsEvent : JavaPlugin() {
-
+    
+    // COMPANIONS
     companion object {
         lateinit var INSTANCE: NationsEvent
-
-        // LUCKPERMS API
-        lateinit var LP_INSTANCE: LuckPerms
-        lateinit var LP_GROUP_MANAGER: GroupManager
-        lateinit var LP_USER_MANAGER: UserManager
     }
 
     // PLUGIN STARTUP LOGIC
@@ -46,7 +39,7 @@ open class NationsEvent : JavaPlugin() {
         Config()                       // Load config settings
 
         // STARTUP
-        getAPIs()                      // Get all APIs instances and info
+        LuckPermsManager()             // Get LuckPerms API
         Saves()                        // Load all variables in saves class
         FilesManager.createDefaults()  // Generate default directories and files
 
@@ -90,15 +83,5 @@ open class NationsEvent : JavaPlugin() {
     // PLUGIN SHUTDOWN LOGIC
     override fun onDisable() {
         logger.info("Bye bye!")
-    }
-
-    // Function to get APIs
-    private fun getAPIs() {
-        // LUCKPERMS API
-        LP_INSTANCE = LuckPermsProvider.get()
-        LP_GROUP_MANAGER = LP_INSTANCE.groupManager
-        LP_USER_MANAGER = LP_INSTANCE.userManager
-        @Suppress("SENSELESS_COMPARISON")
-        if (LP_INSTANCE != null) logger.info("Connected to LuckPerms API") else logger.severe("Can't connect to LuckPerms API")
     }
 }

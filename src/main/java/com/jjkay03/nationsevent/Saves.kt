@@ -1,5 +1,6 @@
 package com.jjkay03.nationsevent
 
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
 import com.jjkay03.nationsevent.utils.LogsManager
 import net.luckperms.api.model.group.Group
 import org.bukkit.Material
@@ -21,10 +22,10 @@ class Saves {
 
 
         // LUCKPERMS GROUPS
-        val LP_GROUP_ADMIN: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("admin")
-        val LP_GROUP_PROD: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("prod")
-        val LP_GROUP_STAFF: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("staff")
-        val LP_GROUP_DEFAULT: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("default")
+        val LP_GROUP_ADMIN: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("admin")
+        val LP_GROUP_PROD: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("prod")
+        val LP_GROUP_STAFF: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("staff")
+        val LP_GROUP_DEFAULT: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("default")
 
 
         // PERMISSIONS

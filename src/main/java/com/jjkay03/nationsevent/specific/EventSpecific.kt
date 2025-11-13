@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
 import com.jjkay03.nationsevent.specific.ns7.AssignRandomTeam
 import com.jjkay03.nationsevent.specific.ns7.commands.*
 import com.jjkay03.nationsevent.utils.Config
@@ -15,9 +16,9 @@ class EventSpecific {
         var SPECIFIC_EVENT_LOADED: Boolean = false
 
         // LuckPerms groups
-        val LP_GROUP_NS7_PLAINS: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("ns7-plains")
-        val LP_GROUP_NS7_DESERT: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("ns7-desert")
-        val LP_GROUP_NS7_SNOW: Group? = NationsEvent.LP_GROUP_MANAGER.getGroup("ns7-snow")
+        val LP_GROUP_NS7_PLAINS: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-plains")
+        val LP_GROUP_NS7_DESERT: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-desert")
+        val LP_GROUP_NS7_SNOW: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-snow")
 
         // Worlds (lazy loaded when first accessed)
         val WORLD_NS7_PLAINS: World? by lazy { Bukkit.getWorld("world_ns7_1_plains") }

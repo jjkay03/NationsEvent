@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.commands.voice_chat
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
@@ -61,7 +62,7 @@ class GroupVoiceChatPermsCommand(private val commandName: String) : CommandExecu
     // TAB COMPLETE
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
         return when (args.size) {
-            1 -> NationsEvent.LP_GROUP_MANAGER.loadedGroups
+            1 -> LuckPermsManager.LP_GROUP_MANAGER.loadedGroups
                 .map { it.name }
                 .filter { it.startsWith(args[0], ignoreCase = true) }
             2 -> listOf("on", "off").filter { it.startsWith(args[1], ignoreCase = true) }
@@ -80,7 +81,7 @@ class GroupVoiceChatPermsCommand(private val commandName: String) : CommandExecu
 
     // Helper function to returns the names of all groups with voice chat permission explicitly set to false
     private fun getVoiceChatDisabledGroups(): List<String> {
-        return NationsEvent.LP_GROUP_MANAGER.loadedGroups
+        return LuckPermsManager.LP_GROUP_MANAGER.loadedGroups
             .filter { group -> group.nodes.any { it.key.equals(Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, ignoreCase = true) && !it.value } }
             .map { it.name }
     }

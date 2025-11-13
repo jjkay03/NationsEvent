@@ -36,7 +36,8 @@ class Saves {
         const val PERM_COMMAND_GAMEMODE_ADVENTURE: String  = "nationsevent.command.gamemode.adventure"
         const val PERM_COMMAND_GAMEMODE_SPECTATOR: String  = "nationsevent.command.gamemode.spectator"
         const val PERM_COMMAND_GAMEMODE_SET_OTHERS: String  = "nationsevent.command.gamemode.set-others"
-        const val PERM_SIMPLE_VOICECHAT_SPEAK: String = "voicechat.speak"
+        const val PERM_COMMAND_BROADCAST_VOICE: String = "nationsevent.command.broadcastvoice"
+        const val PERM_SIMPLE_VOICE_CHAT_SPEAK: String = "voicechat.speak"
 
 
         // DIRECTORIES

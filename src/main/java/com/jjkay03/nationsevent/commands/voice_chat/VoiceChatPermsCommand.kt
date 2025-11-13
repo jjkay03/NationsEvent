@@ -2,7 +2,7 @@ package com.jjkay03.nationsevent.commands.voice_chat
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -29,11 +29,11 @@ class VoiceChatPermsCommand(private val commandName: String): CommandExecutor, T
         // Deal with args
         when (args[0].lowercase()) {
             "on" -> {
-                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, true)) { alertPlayers(true) }
+                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, true)) { alertPlayers(true) }
                 else { sender.sendMessage("§7Voicechat already enabled!") }
             }
             "off" -> {
-                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(false) }
+                if (LuckPermsUtils.groupAddPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, false)) { alertPlayers(false) }
                 else { sender.sendMessage("§7Voicechat already disabled!") }
             }
             else -> {

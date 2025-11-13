@@ -2,14 +2,13 @@ package com.jjkay03.nationsevent.specific.ns7.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.specific.EventSpecific
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import net.luckperms.api.model.group.Group
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 
 class PreferredTeamCommand(private val commandName: String) : CommandExecutor, TabCompleter {

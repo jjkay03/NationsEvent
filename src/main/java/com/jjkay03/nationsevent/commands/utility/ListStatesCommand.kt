@@ -6,7 +6,7 @@ import com.jjkay03.nationsevent.commands.management.FreezeAllCommand
 import com.jjkay03.nationsevent.commands.management.PVPToggleCommand
 import com.jjkay03.nationsevent.commands.management.SessionTimeCommand
 import com.jjkay03.nationsevent.specific.ns7.AssignRandomTeam
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import com.jjkay03.nationsevent.worlds.WorldsBridge
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -25,7 +25,7 @@ class ListStatesCommand(private val commandName: String) : CommandExecutor {
         val sessionTime = SessionTimeCommand.getTimeElapsed()
         val pvp = PVPToggleCommand.PVP
         val freezeAll = FreezeAllCommand.ENABLED
-        val voicechat = LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICECHAT_SPEAK)
+        val voicechat = LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK)
         val globalChat = LuckPermsUtils.groupHasPermission(Saves.LP_GROUP_DEFAULT, Saves.PERM_USE_CHAT)
         val worldBridge = WorldsBridge.ALLOW_CROSS     // NS7
         val assignRadomTeam = AssignRandomTeam.ENABLED // NS7

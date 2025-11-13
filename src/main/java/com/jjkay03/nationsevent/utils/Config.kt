@@ -9,6 +9,8 @@ class Config {
         // MAIN
         val EVENT_CODENAME = CONFIG.getString("event-codename", "NT0")
 
+        // INTEGRATIONS
+        val INTEGRATIONS_VOICECHAT = CONFIG.getBoolean("integrations.voicechat", false)
 
         // WORLDS - Loader
         val WORLDS_LOADER_ENABLE = CONFIG.getBoolean("worlds.loader.enable", false)

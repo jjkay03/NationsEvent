@@ -14,6 +14,10 @@
 # Needs to match actual build-in event codename to load event specific classes
 event-codename: NS7
 
+# Other plugins integrations
+integrations:
+  voicechat: true
+
 
 
 # == Worlds ===========================================================================================================

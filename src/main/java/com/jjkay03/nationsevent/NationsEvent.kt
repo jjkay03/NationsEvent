@@ -5,6 +5,7 @@ import com.jjkay03.nationsevent.chat.group_chat.*
 import com.jjkay03.nationsevent.chat.group_chat_players.PlayerGroupChatManager
 import com.jjkay03.nationsevent.commands.Commands
 import com.jjkay03.nationsevent.features.*
+import com.jjkay03.nationsevent.integrations.voicechat.SimpleVoiceChat
 import com.jjkay03.nationsevent.settings.*
 import com.jjkay03.nationsevent.specific.EventSpecific
 import com.jjkay03.nationsevent.utils.Config
@@ -52,6 +53,9 @@ open class NationsEvent : JavaPlugin() {
         // REGISTER COMMANDS
         logger.info("REGISTER AND LOAD ALL FEATURES:")
         Commands()
+
+        // INTEGRATIONS
+        if (Config.INTEGRATIONS_VOICECHAT) SimpleVoiceChat()
 
         // CHAT
         ChatManager()

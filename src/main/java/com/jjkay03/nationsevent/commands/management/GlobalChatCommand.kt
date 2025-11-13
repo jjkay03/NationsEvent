@@ -2,7 +2,7 @@ package com.jjkay03.nationsevent.commands.management
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.Command

@@ -1,7 +1,7 @@
 package com.jjkay03.nationsevent.commands.player_assistance
 
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent

@@ -3,7 +3,7 @@ package com.jjkay03.nationsevent.specific.ns7
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.specific.EventSpecific
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import net.luckperms.api.model.group.Group
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler

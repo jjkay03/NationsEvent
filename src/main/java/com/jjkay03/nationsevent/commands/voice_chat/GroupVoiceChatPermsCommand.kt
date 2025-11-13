@@ -2,7 +2,7 @@ package com.jjkay03.nationsevent.commands.voice_chat
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
-import com.jjkay03.nationsevent.utils.LuckPermsUtils
+import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -44,11 +44,11 @@ class GroupVoiceChatPermsCommand(private val commandName: String) : CommandExecu
         // Deal with args
         when (args[1].lowercase()) {
             "on" -> {
-                if (LuckPermsUtils.groupRemovePermission(group, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(true, group) }
+                if (LuckPermsUtils.groupRemovePermission(group, Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, false)) { alertPlayers(true, group) }
                 else { sender.sendMessage("§7Group '$groupName' already had voicechat enabled!") }
             }
             "off" -> {
-                if (LuckPermsUtils.groupAddPermission(group, Saves.PERM_SIMPLE_VOICECHAT_SPEAK, false)) { alertPlayers(false, group) }
+                if (LuckPermsUtils.groupAddPermission(group, Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, false)) { alertPlayers(false, group) }
                 else { sender.sendMessage("§7Group '$groupName' already had voicechat disabled!") }
             }
             else -> {
@@ -81,7 +81,7 @@ class GroupVoiceChatPermsCommand(private val commandName: String) : CommandExecu
     // Helper function to returns the names of all groups with voice chat permission explicitly set to false
     private fun getVoiceChatDisabledGroups(): List<String> {
         return NationsEvent.LP_GROUP_MANAGER.loadedGroups
-            .filter { group -> group.nodes.any { it.key.equals(Saves.PERM_SIMPLE_VOICECHAT_SPEAK, ignoreCase = true) && !it.value } }
+            .filter { group -> group.nodes.any { it.key.equals(Saves.PERM_SIMPLE_VOICE_CHAT_SPEAK, ignoreCase = true) && !it.value } }
             .map { it.name }
     }
 

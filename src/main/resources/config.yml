@@ -54,6 +54,7 @@ worlds:
   # Configure in WorldsBridge.kt
   bridge:
     enable: true
+    carry-vehicle: true
 
 
 

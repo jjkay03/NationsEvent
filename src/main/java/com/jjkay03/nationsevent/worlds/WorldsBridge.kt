@@ -13,6 +13,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -129,7 +130,13 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
         // Check if crossing is allowed
         if (!ALLOW_CROSS) {
             player.sendMessage("§c⛵ You can't cross at this moment!")
-            event.isCancelled = true // Cancel event
+
+            // Dismount player from vehicle if they're riding one
+            val vehicle = player.vehicle
+            vehicle?.removePassenger(player)
+
+            // Cancel event
+            event.isCancelled = true
             return
         }
 
@@ -140,7 +147,12 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
         playerCooldowns[player.uniqueId] = System.currentTimeMillis()
 
         // Teleport player
-        teleportToNearestWorld(player, location, worldName)
+        teleportToNearestWorld(
+            player,
+            location,
+            worldName,
+            Config.WORLDS_BRIDGE_CARRY_VEHICLE
+        )
     }
 
     // Function to check if location is outside world boundary
@@ -151,10 +163,31 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
     }
 
     //  Function to teleport player to nearest connected world
-    private fun teleportToNearestWorld(player: Player, currentLocation: Location, currentWorldName: String) {
+    private fun teleportToNearestWorld(player: Player, currentLocation: Location, currentWorldName: String, carryVehicle: Boolean = false) {
+        // Get the closest world
         val currentPoint = Point(currentLocation.blockX, currentLocation.blockZ)
         val closestWorld = findClosestWorld(currentPoint, currentWorldName)
-        if (closestWorld != null) { teleportToWorld(player, currentLocation, closestWorld, currentWorldName) }
+        if (closestWorld == null) return
+
+        // Store and dismount vehicle if player is riding one
+        val vehicle = if (carryVehicle) player.vehicle else null
+        vehicle?.removePassenger(player)
+
+        // Teleport player to world
+        teleportToWorld(player, currentLocation, closestWorld)
+
+        // Teleport vehicle and remount if carrying vehicle
+        if (vehicle != null) {
+            teleportToWorld(vehicle, currentLocation, closestWorld, sendMessage = false)
+
+            // Schedule remount after short delay
+            Scheduler.taskDelayed(
+                type = Scheduler.SchedulerType.ENTITY,
+                delayTicks = 5L,
+                task = { vehicle.addPassenger(player) },
+                entity = player
+            )
+        }
     }
 
     // Function to find the closest world
@@ -175,19 +208,23 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
         return closestWorld
     }
 
-    // Function to teleport to a specific world
-    private fun teleportToWorld(player: Player, currentLocation: Location, targetWorldName: String, currentWorldName: String) {
+    // Function to teleport to a specific world (works for any entity)
+    private fun teleportToWorld(entity: Entity, currentLocation: Location, targetWorldName: String, sendMessage: Boolean = true) {
         val currentPoint = Point(currentLocation.blockX, currentLocation.blockZ)
         calculateSafeLocation(currentPoint, targetWorldName, worlds[targetWorldName]!!) { targetLocation ->
             // Teleport
             if (targetLocation != null) {
                 targetLocation.yaw = currentLocation.yaw
                 targetLocation.pitch = currentLocation.pitch
-                player.teleportAsync(targetLocation)
-                player.sendMessage("§a⛵ Crossing into ${getWorldDisplayName(targetWorldName)}")
+                entity.teleportAsync(targetLocation)
+
+                // Send message if entity is a player
+                if (sendMessage && entity is Player) entity.sendMessage("§a⛵ Crossing into ${getWorldDisplayName(targetWorldName)}")
             }
             // World not found
-            else { player.sendMessage("§cWorld '${getWorldDisplayName(targetWorldName)}' not found!") }
+            else {
+                if (entity is Player) entity.sendMessage("§cWorld '${getWorldDisplayName(targetWorldName)}' not found!")
+            }
         }
     }
 

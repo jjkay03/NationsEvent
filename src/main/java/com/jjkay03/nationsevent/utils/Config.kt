@@ -27,6 +27,7 @@ class Config {
         val WORLDS_LOBBY_WORLD = CONFIG.getString("worlds.lobby.world")
         // WORLDS - Bridge
         val WORLDS_BRIDGE_ENABLE = CONFIG.getBoolean("worlds.bridge.enable", false)
+        val WORLDS_BRIDGE_CARRY_VEHICLE = CONFIG.getBoolean("worlds.bridge.carry-vehicle", false)
 
 
         // SETTINGS

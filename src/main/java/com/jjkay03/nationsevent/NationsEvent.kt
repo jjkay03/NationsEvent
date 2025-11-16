@@ -74,6 +74,7 @@ open class NationsEvent : JavaPlugin() {
         // FEATURES
         DeathBan()
         EventIGNs()
+        BoatPVP()
 
         // EVENT SPECIFIC
         EventSpecific()

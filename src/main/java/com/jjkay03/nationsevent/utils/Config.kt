@@ -45,6 +45,10 @@ class Config {
         val FEATURES_DEATH_BAN_LIGHTNING = CONFIG.getBoolean("features.death-ban.lightning", false)
         // FEATURES - Event IGNs
         val FEATURES_EVENT_IGNS = CONFIG.getBoolean("features.event-igns", false)
+        // FEATURES - Boat PVP
+        val FEATURES_BOAT_PVP_ENABLE = CONFIG.getBoolean("features.boat-pvp.enable", false)
+        val FEATURES_BOAT_PVP_DAMAGE_KICK = CONFIG.getBoolean("features.boat-pvp.damage-kick", false)
+        val FEATURES_BOAT_PVP_WEAPON_DESTROY = CONFIG.getBoolean("features.boat-pvp.weapon-destroy", false)
 
 
         // PLAYER GROUP CHAT

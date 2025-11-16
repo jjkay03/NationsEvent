@@ -48,7 +48,7 @@ class Config {
         val FEATURES_EVENT_IGNS = CONFIG.getBoolean("features.event-igns", false)
         // FEATURES - Boat PVP
         val FEATURES_BOAT_PVP_ENABLE = CONFIG.getBoolean("features.boat-pvp.enable", false)
-        val FEATURES_BOAT_PVP_DAMAGE_KICK = CONFIG.getBoolean("features.boat-pvp.damage-kick", false)
+        val FEATURES_BOAT_PVP_DAMAGE_DISMOUNT = CONFIG.getBoolean("features.boat-pvp.damage-dismount", false)
         val FEATURES_BOAT_PVP_WEAPON_DESTROY = CONFIG.getBoolean("features.boat-pvp.weapon-destroy", false)
 
 

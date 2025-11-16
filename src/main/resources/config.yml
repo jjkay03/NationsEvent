@@ -99,8 +99,8 @@ features:
   # Boat improvements for better PVP with boats
   boat-pvp:
     enable: true
-    # Kick player from boat when they take damage
-    damage-kick: true
+    # Dismount player from boat when they take damage
+    damage-dismount: true
     # Destroy boats when hit with weapons (sword, axe, arrows, etc.)
     weapon-destroy: true
 

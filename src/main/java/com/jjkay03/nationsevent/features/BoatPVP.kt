@@ -42,11 +42,11 @@ class BoatPVP : Listener {
         NationsEvent.INSTANCE.logger.info("- Loading feature: ${this::class.simpleName}")
     }
 
-    // Kick player from boat when they take damage
+    // Dismount player from boat when they take damage
     @EventHandler
     fun onPlayerDamage(event: EntityDamageEvent) {
         // End if feature disabled
-        if (!Config.FEATURES_BOAT_PVP_DAMAGE_KICK) return
+        if (!Config.FEATURES_BOAT_PVP_DAMAGE_DISMOUNT) return
 
         // End if not player
         if (event.entity !is Player) return
@@ -55,7 +55,7 @@ class BoatPVP : Listener {
         // End if not boat
         if (player.vehicle !is Boat) return
 
-        // Kick from boat
+        // Dismount from boat
         player.vehicle?.removePassenger(player)
     }
 

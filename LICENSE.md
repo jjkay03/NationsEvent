@@ -1,3 +1,3 @@
 All Rights Reserved
 
-Copyright © 2025 jjkay03
+Copyright © 2026 jjkay03

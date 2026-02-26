@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns7.commands
+package com.jjkay03.nationsevent.specific.ns8.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Utils
@@ -50,7 +50,7 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
     // HANDLE SEND COMMAND
     private fun handleSend(sender: CommandSender, args: Array<out String>) {
         if (args.size < 2) {
-            sender.sendMessage("§cUsage: /queuetoisland send <ns7-plains|ns7-desert|ns7-snow>")
+            sender.sendMessage("§cUsage: /queuetoisland send <ns8-hot|ns8-cold>")
             return
         }
 
@@ -59,11 +59,10 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
 
         // Get group and world based on argument
         val (group, world) = when (args[1].lowercase()) {
-            "ns7-plains" -> EventSpecific.LP_GROUP_NS7_PLAINS to EventSpecific.WORLD_NS7_PLAINS
-            "ns7-desert" -> EventSpecific.LP_GROUP_NS7_DESERT to EventSpecific.WORLD_NS7_DESERT
-            "ns7-snow" -> EventSpecific.LP_GROUP_NS7_SNOW to EventSpecific.WORLD_NS7_SNOW
+            "ns8-hot" -> EventSpecific.LP_GROUP_NS8_HOT to EventSpecific.WORLD_NS8_HOT
+            "ns8-cold" -> EventSpecific.LP_GROUP_NS8_COLD to EventSpecific.WORLD_NS8_COLD
             else -> {
-                sender.sendMessage("§cInvalid group! Use: ns7-plains, ns7-desert, or ns7-snow")
+                sender.sendMessage("§cInvalid group! Use: ns8-hot or ns8-cold")
                 return
             }
         }
@@ -127,7 +126,7 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
             return completions.filter { it.startsWith(args[0], ignoreCase = true) }
         }
         if (args.size == 2 && args[0].equals("send", ignoreCase = true)) {
-            val completions = listOf("ns7-plains", "ns7-desert", "ns7-snow")
+            val completions = listOf("ns8-hot", "ns8-cold")
             return completions.filter { it.startsWith(args[1], ignoreCase = true) }
         }
         return null

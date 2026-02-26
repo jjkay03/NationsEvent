@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns7.commands
+package com.jjkay03.nationsevent.specific.ns8.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Utils
@@ -27,9 +27,8 @@ class GoToIslandCommand(private val commandName: String) : CommandExecutor {
 
         // Get target world based on player's group
         val targetWorld: World? = when {
-            LuckPermsUtils.isPlayerInGroup(sender, EventSpecific.LP_GROUP_NS7_PLAINS) -> EventSpecific.WORLD_NS7_PLAINS
-            LuckPermsUtils.isPlayerInGroup(sender, EventSpecific.LP_GROUP_NS7_DESERT) -> EventSpecific.WORLD_NS7_DESERT
-            LuckPermsUtils.isPlayerInGroup(sender, EventSpecific.LP_GROUP_NS7_SNOW) -> EventSpecific.WORLD_NS7_SNOW
+            LuckPermsUtils.isPlayerInGroup(sender, EventSpecific.LP_GROUP_NS8_HOT) -> EventSpecific.WORLD_NS8_HOT
+            LuckPermsUtils.isPlayerInGroup(sender, EventSpecific.LP_GROUP_NS8_COLD) -> EventSpecific.WORLD_NS8_COLD
             else -> null
         }
 

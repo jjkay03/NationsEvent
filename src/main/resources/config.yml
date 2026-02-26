@@ -12,7 +12,7 @@
 
 # Event code name (Example: NG1)
 # Needs to match actual build-in event codename to load event specific classes
-event-codename: NS7
+event-codename: NS8
 
 # Other plugins integrations
 integrations:
@@ -28,21 +28,19 @@ worlds:
     worlds:
       - world_admin
       - world_build
-      - world_ns7_1_plains
-      - world_ns7_2_desert
-      - world_ns7_3_snow
+      - world_ns8_hot
+      - world_ns8_cold
 
   # Sync multiple worlds settings (first world in the list is the master world)
   sync:
     enable: true
     enable-time: true
-    enable-weather: true
+    enable-weather: false
     enable-game-rules: true
     enable-difficulty: true
     worlds:
-      - world_ns7_1_plains
-      - world_ns7_2_desert
-      - world_ns7_3_snow
+      - world_ns8_hot
+      - world_ns8_cold
 
   # Manage a world as a lobby
   # Configure in WorldLobby.kt

@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns7.commands
+package com.jjkay03.nationsevent.specific.ns8.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.specific.EventSpecific
@@ -52,9 +52,8 @@ class ApplyPreferredTeamCommand(private val commandName: String) : CommandExecut
     // Helper function to group players by their preferred team
     private fun groupPlayersByTeam(): MutableMap<Group, MutableList<Player>> {
         val teamLists = mutableMapOf<Group, MutableList<Player>>()
-        teamLists[EventSpecific.LP_GROUP_NS7_PLAINS!!] = mutableListOf()
-        teamLists[EventSpecific.LP_GROUP_NS7_DESERT!!] = mutableListOf()
-        teamLists[EventSpecific.LP_GROUP_NS7_SNOW!!] = mutableListOf()
+        teamLists[EventSpecific.LP_GROUP_NS8_HOT!!] = mutableListOf()
+        teamLists[EventSpecific.LP_GROUP_NS8_COLD!!] = mutableListOf()
         PreferredTeamCommand.PLAYER_PREFERENCES.forEach { (player, group) -> teamLists[group]?.add(player) }
         return teamLists
     }

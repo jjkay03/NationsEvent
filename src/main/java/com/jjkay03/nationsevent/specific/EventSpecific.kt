@@ -2,8 +2,8 @@ package com.jjkay03.nationsevent.specific
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
-import com.jjkay03.nationsevent.specific.ns7.AssignRandomTeam
-import com.jjkay03.nationsevent.specific.ns7.commands.*
+import com.jjkay03.nationsevent.specific.ns8.AssignRandomTeam
+import com.jjkay03.nationsevent.specific.ns8.commands.*
 import com.jjkay03.nationsevent.utils.Config
 import net.luckperms.api.model.group.Group
 import org.bukkit.Bukkit
@@ -12,18 +12,16 @@ import org.bukkit.World
 class EventSpecific {
 
     companion object {
-        const val SPECIFIC_EVENT_CODENAME: String = "NS7"
+        const val SPECIFIC_EVENT_CODENAME: String = "NS8"
         var SPECIFIC_EVENT_LOADED: Boolean = false
 
         // LuckPerms groups
-        val LP_GROUP_NS7_PLAINS: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-plains")
-        val LP_GROUP_NS7_DESERT: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-desert")
-        val LP_GROUP_NS7_SNOW: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns7-snow")
+        val LP_GROUP_NS8_HOT: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns8-hot")
+        val LP_GROUP_NS8_COLD: Group? = LuckPermsManager.LP_GROUP_MANAGER.getGroup("ns8-cold")
 
         // Worlds (lazy loaded when first accessed)
-        val WORLD_NS7_PLAINS: World? by lazy { Bukkit.getWorld("world_ns7_1_plains") }
-        val WORLD_NS7_DESERT: World? by lazy { Bukkit.getWorld("world_ns7_2_desert") }
-        val WORLD_NS7_SNOW: World? by lazy { Bukkit.getWorld("world_ns7_3_snow") }
+        val WORLD_NS8_HOT: World? by lazy { Bukkit.getWorld("world_ns8_hot") }
+        val WORLD_NS8_COLD: World? by lazy { Bukkit.getWorld("world_ns8_cold") }
     }
 
     // INITIALIZATION
@@ -39,8 +37,8 @@ class EventSpecific {
         NationsEvent.INSTANCE.logger.info("- Loading event specific code: $SPECIFIC_EVENT_CODENAME")
 
         // COMMANDS
-        //PreferredTeamCommand("preferredteam")
-        //ApplyPreferredTeamCommand("applypreferredteam")
+        PreferredTeamCommand("preferredteam")
+        ApplyPreferredTeamCommand("applypreferredteam")
         AssignRandomTeamCommand("assignrandomteam")
         GoToIslandCommand("gotoisland")
         QueueToIslandCommand("queuetoisland")

@@ -1,7 +1,7 @@
-package com.jjkay03.nationsevent.specific.ns7.commands
+package com.jjkay03.nationsevent.specific.ns8.commands
 
 import com.jjkay03.nationsevent.NationsEvent
-import com.jjkay03.nationsevent.specific.ns7.AssignRandomTeam
+import com.jjkay03.nationsevent.specific.ns8.AssignRandomTeam
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns7.commands
+package com.jjkay03.nationsevent.specific.ns8.commands
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.specific.EventSpecific
@@ -17,18 +17,15 @@ class PreferredTeamCommand(private val commandName: String) : CommandExecutor, T
         val PLAYER_PREFERENCES = ConcurrentHashMap<Player, Group>()
 
         // Define options mapping
-        // If you're viewing this on GitHub they will be shuffled before the event
         private val OPTIONS_MAP = mapOf(
-            "OPTION_1" to EventSpecific.LP_GROUP_NS7_PLAINS,
-            "OPTION_2" to EventSpecific.LP_GROUP_NS7_DESERT,
-            "OPTION_3" to EventSpecific.LP_GROUP_NS7_SNOW
+            "OPTION_1" to EventSpecific.LP_GROUP_NS8_HOT,
+            "OPTION_2" to EventSpecific.LP_GROUP_NS8_COLD
         )
 
         // List of team groups for easy checking
         private val TEAM_GROUPS = listOf(
-            EventSpecific.LP_GROUP_NS7_PLAINS!!,
-            EventSpecific.LP_GROUP_NS7_DESERT!!,
-            EventSpecific.LP_GROUP_NS7_SNOW!!
+            EventSpecific.LP_GROUP_NS8_HOT!!,
+            EventSpecific.LP_GROUP_NS8_COLD!!
         )
     }
 

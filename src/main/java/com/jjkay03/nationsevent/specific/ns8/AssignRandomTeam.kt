@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns7
+package com.jjkay03.nationsevent.specific.ns8
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves
@@ -18,9 +18,8 @@ class AssignRandomTeam : Listener {
 
     // List of all teams
     private val teams = listOf(
-        EventSpecific.LP_GROUP_NS7_PLAINS!!,
-        EventSpecific.LP_GROUP_NS7_DESERT!!,
-        EventSpecific.LP_GROUP_NS7_SNOW!!
+        EventSpecific.LP_GROUP_NS8_HOT!!,
+        EventSpecific.LP_GROUP_NS8_COLD!!
     )
 
     // INITIALIZATION

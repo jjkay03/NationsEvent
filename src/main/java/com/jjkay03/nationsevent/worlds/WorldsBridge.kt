@@ -50,15 +50,11 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
 
     // WORLD CONFIGURATION
     private val worlds = mapOf(
-        "world_ns7_1_plains" to WorldBoundary(
-            pos1 = Point(-3100, -3100),
-            pos2 = Point(3200, 0)
-        ),
-        "world_ns7_2_desert" to WorldBoundary(
+        "world_ns8_hot" to WorldBoundary(
             pos1 = Point(-3100, 143),
             pos2 = Point(-161, 3615)
         ),
-        "world_ns7_3_snow" to WorldBoundary(
+        "world_ns8_cold" to WorldBoundary(
             pos1 = Point(122, 143),
             pos2 = Point(3225, 3292)
         )
@@ -287,10 +283,9 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
     // Helper function to get display name for world
     private fun getWorldDisplayName(worldName: String): String {
         return when {
-            worldName.contains("plains") -> "Plains"
-            worldName.contains("desert") -> "Desert"
-            worldName.contains("snow") -> "Snow"
-            else -> worldName.replace("world_ns7_", "").replace("_", " ").replaceFirstChar { it.uppercase() }
+            worldName.contains("hot") -> "Hot"
+            worldName.contains("cold") -> "Cold"
+            else -> worldName.replace("world_ns8_", "").replace("_", " ").replaceFirstChar { it.uppercase() }
         }
     }
 

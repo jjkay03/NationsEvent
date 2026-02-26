@@ -2,7 +2,9 @@ package com.jjkay03.nationsevent.specific
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
-import com.jjkay03.nationsevent.specific.ns8.AssignRandomTeam
+import com.jjkay03.nationsevent.specific.island_cold.*
+import com.jjkay03.nationsevent.specific.island_hot.*
+import com.jjkay03.nationsevent.specific.ns8.*
 import com.jjkay03.nationsevent.specific.ns8.commands.*
 import com.jjkay03.nationsevent.utils.Config
 import net.luckperms.api.model.group.Group
@@ -46,5 +48,15 @@ class EventSpecific {
         // FEATURES
         AssignRandomTeam()
 
+        // FEATURES ISLANDS - HOT
+        IslandHotBucket()
+        IslandHotPlants()
+        IslandHotMob()
+        // FEATURES ISLANDS - COLD
+        IslandColdBucket()
+        IslandColdPlants()
+        IslandColdMobs()
+        // FEATURES ISLANDS - ALL
+        // ...
     }
 }

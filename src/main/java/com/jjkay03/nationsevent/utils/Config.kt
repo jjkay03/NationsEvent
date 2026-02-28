@@ -38,6 +38,7 @@ class Config {
         val SETTINGS_FARM_PROTECTION = CONFIG.getBoolean("settings.farm-protection", false)
         val SETTINGS_DISABLE_JOIN_LEAVE_MESSAGES = CONFIG.getBoolean("settings.disable-join-leave-messages", false)
         val SETTINGS_DISABLE_HOSTILE_MOBS_SPAWN = CONFIG.getBoolean("settings.disable-hostile-mobs-spawn", false)
+        val SETTINGS_DISABLE_GOAT_HORN_DROP = CONFIG.getBoolean("settings.disable-goat-horn-drop", false)
 
 
         // FEATURES - Death Ban

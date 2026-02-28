@@ -70,6 +70,7 @@ open class NationsEvent : JavaPlugin() {
         FarmProtection()
         DisableJoinLeaveMessages()
         DisableHostileMobSpawn()
+        DisableGoatHornDrop()
 
         // FEATURES
         DeathBan()

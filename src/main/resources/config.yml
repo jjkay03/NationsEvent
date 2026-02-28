@@ -81,6 +81,9 @@ settings:
   # Disable hostile mobs spawning
   disable-hostile-mobs-spawn: true
 
+  # Disable goat horn drop from goats
+  disable-goat-horn-drop: true
+
 
 
 # == Features =========================================================================================================

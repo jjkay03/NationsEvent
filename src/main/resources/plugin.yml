@@ -30,6 +30,7 @@ commands:
   #--------------------------------
 
   announcesession:
+    aliases: [ startsession ]
     permission: nationsevent.command.announcesession
     permission-message: "§cYou do not have permission to use this command"
 
@@ -87,6 +88,11 @@ commands:
 
   fly:
     permission: nationsevent.command.fly
+    permission-message: "§cYou do not have permission to use this command"
+
+  flyspeed:
+    aliases: [ speed ]
+    permission: nationsevent.command.flyspeed
     permission-message: "§cYou do not have permission to use this command"
 
   god:

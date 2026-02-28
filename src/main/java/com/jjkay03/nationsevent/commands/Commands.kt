@@ -33,6 +33,7 @@ class Commands {
             HideStaffCommand("hidestaff"),
             GamemodeCommand("gamemode"),
             FlyCommand("fly"),
+            FlySpeedCommand("flyspeed"),
             GodCommand("god"),
             SudoCommand("sudo"),
             HealCommand("heal"),

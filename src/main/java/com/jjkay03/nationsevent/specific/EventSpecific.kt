@@ -52,10 +52,12 @@ class EventSpecific {
         IslandHotBucket()
         IslandHotPlants()
         IslandHotMob()
+        IslandHotFire()
         // FEATURES ISLANDS - COLD
         IslandColdBucket()
         IslandColdPlants()
         IslandColdMobs()
+        IslandColdWater()
         // FEATURES ISLANDS - ALL
         // ...
     }

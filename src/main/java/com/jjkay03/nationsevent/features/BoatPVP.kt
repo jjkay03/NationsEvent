@@ -16,7 +16,7 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent
 class BoatPVP : Listener {
 
     // Weapons that destroy boats without dropping (keywords for MATERIAL)
-    private val boatDestroyWeaponKeywords = listOf("SWORD", "AXE", "TRIDENT", "MACE")
+    private val boatDestroyWeaponKeywords = listOf("SWORD", "AXE", "TRIDENT", "MACE", "SPEAR")
 
     // Projectiles that destroy boats without dropping
     private val boatDestroyProjectiles = listOf(

@@ -11,6 +11,8 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockFertilizeEvent
 import org.bukkit.event.block.BlockGrowEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.world.StructureGrowEvent
+import kotlin.random.Random
 
 class IslandHotPlants : Listener {
 
@@ -65,5 +67,21 @@ class IslandHotPlants : Listener {
         // Play evaporation effect
         val location = block.location.add(0.5, 1.0, 0.5)
         block.world.spawnParticle(Particle.SMOKE, location, 6, 0.3, 0.1, 0.3, 0.01)
+    }
+
+    // Chance tree sapling dies on growth
+    @EventHandler
+    fun onTreeGrow(event: StructureGrowEvent) {
+        // End if not on hot island
+        if (EventSpecific.WORLD_NS8_HOT != event.world) return
+
+        // 30% chance to turn into dead bush
+        if (Random.nextInt(100) < 30) {
+            // Cancel the tree growth
+            event.isCancelled = true
+
+            // Replace the sapling with a dead bush
+            event.location.block.type = Material.DEAD_BUSH
+        }
     }
 }

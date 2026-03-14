@@ -51,12 +51,12 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
     // WORLD CONFIGURATION
     private val worlds = mapOf(
         "world_ns8_hot" to WorldBoundary(
-            pos1 = Point(-3100, 143),
-            pos2 = Point(-161, 3615)
+            pos1 = Point(-2048, -2048),
+            pos2 = Point(0, 2048)
         ),
         "world_ns8_cold" to WorldBoundary(
-            pos1 = Point(122, 143),
-            pos2 = Point(3225, 3292)
+            pos1 = Point(0, -2048),
+            pos2 = Point(2048, 2048)
         )
     )
 

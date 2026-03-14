@@ -2,6 +2,7 @@ package com.jjkay03.nationsevent.specific
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsManager
+import com.jjkay03.nationsevent.specific.island_both.*
 import com.jjkay03.nationsevent.specific.island_cold.*
 import com.jjkay03.nationsevent.specific.island_hot.*
 import com.jjkay03.nationsevent.specific.ns8.*
@@ -48,6 +49,9 @@ class EventSpecific {
         // FEATURES
         AssignRandomTeam()
 
+        // FEATURES ISLANDS - BOTH
+        IslandBothFishing()
+        IslandBothPlayerMeat()
         // FEATURES ISLANDS - HOT
         IslandHotBucket()
         IslandHotPlants()
@@ -58,7 +62,5 @@ class EventSpecific {
         IslandColdPlants()
         IslandColdMobs()
         IslandColdWater()
-        // FEATURES ISLANDS - ALL
-        // ...
     }
 }

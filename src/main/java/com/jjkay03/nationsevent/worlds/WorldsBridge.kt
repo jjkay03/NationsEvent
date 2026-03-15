@@ -114,8 +114,12 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
     @EventHandler
     fun onPlayerMove(event: PlayerMoveEvent) {
         val player = event.player
+        val from = event.from
         val location = event.to
         val worldName = location.world?.name ?: return
+
+        // Ignore if only head movement (pitch/yaw)
+        if (from.x == location.x && from.y == location.y && from.z == location.z) return
 
         // End if player is not in a monitored world
         val boundary = worlds[worldName] ?: return
@@ -125,6 +129,10 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
 
         // Check if crossing is allowed
         if (!ALLOW_CROSS) {
+            // Allow movement if player is moving towards the boundary (back inside)
+            if (isMovingTowardsBoundary(from, location, boundary)) return
+
+            // Notify player
             player.sendMessage("§c⛵ You can't cross at this moment!")
 
             // Dismount player from vehicle if they're riding one
@@ -156,6 +164,27 @@ class WorldsBridge : CommandExecutor, TabCompleter, Listener {
         val x = location.blockX
         val z = location.blockZ
         return x < boundary.minX || x > boundary.maxX || z < boundary.minZ || z > boundary.maxZ
+    }
+
+    // Function to check if player is moving towards the boundary (back inside)
+    private fun isMovingTowardsBoundary(from: Location, to: Location, boundary: WorldBoundary): Boolean {
+        fun distanceOutside(x: Double, z: Double): Double {
+            val dx = when {
+                x < boundary.minX -> boundary.minX - x
+                x > boundary.maxX -> x - boundary.maxX
+                else -> 0.0
+            }
+            val dz = when {
+                z < boundary.minZ -> boundary.minZ - z
+                z > boundary.maxZ -> z - boundary.maxZ
+                else -> 0.0
+            }
+            return kotlin.math.sqrt(dx * dx + dz * dz)
+        }
+
+        val fromDistance = distanceOutside(from.x, from.z)
+        val toDistance = distanceOutside(to.x, to.z)
+        return toDistance < fromDistance
     }
 
     //  Function to teleport player to nearest connected world

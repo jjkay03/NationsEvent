@@ -49,6 +49,9 @@ class EventSpecific {
         // FEATURES
         AssignRandomTeam()
 
+        // HOT FIX
+        IllegalStructuresHotFix()
+
         // FEATURES ISLANDS - BOTH
         IslandBothFishing()
         IslandBothPlayerMeat()

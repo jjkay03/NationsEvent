@@ -59,10 +59,32 @@ class IslandHotPlants : Listener {
 
         // End if not tillable block
         val block = event.clickedBlock ?: return
-        if (block.type != Material.DIRT && block.type != Material.GRASS_BLOCK) return
+        val tillableBlocks = setOf(Material.DIRT, Material.GRASS_BLOCK, Material.COARSE_DIRT, Material.DIRT_PATH)
+        if (block.type !in tillableBlocks) return
 
         // Cancel farmland creation
         event.isCancelled = true
+
+        // Play evaporation effect
+        val location = block.location.add(0.5, 1.0, 0.5)
+        block.world.spawnParticle(Particle.SMOKE, location, 6, 0.3, 0.1, 0.3, 0.01)
+    }
+
+    // Turn farmland back into dirt when right-clicked
+    @EventHandler
+    fun onFarmlandInteract(event: PlayerInteractEvent) {
+        if (event.action != Action.RIGHT_CLICK_BLOCK) return
+        if (EventSpecific.WORLD_NS8_HOT != event.clickedBlock?.world) return
+
+        // End if not farmland
+        val block = event.clickedBlock ?: return
+        if (block.type != Material.FARMLAND) return
+
+        // Cancel interaction
+        event.isCancelled = true
+
+        // Turn farmland back into dirt
+        block.type = Material.DIRT
 
         // Play evaporation effect
         val location = block.location.add(0.5, 1.0, 0.5)

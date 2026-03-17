@@ -41,7 +41,6 @@ class IllegalStructuresHotFix : Listener {
         Material.OMINOUS_BOTTLE,
         Material.TRIDENT,
         Material.TIPPED_ARROW,
-        Material.POTION,
         Material.SPLASH_POTION,
         Material.LINGERING_POTION,
         Material.ENCHANTED_GOLDEN_APPLE,

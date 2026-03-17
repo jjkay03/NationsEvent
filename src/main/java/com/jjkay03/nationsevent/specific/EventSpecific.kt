@@ -25,6 +25,10 @@ class EventSpecific {
         // Worlds (lazy loaded when first accessed)
         val WORLD_NS8_HOT: World? by lazy { Bukkit.getWorld("world_ns8_hot") }
         val WORLD_NS8_COLD: World? by lazy { Bukkit.getWorld("world_ns8_cold") }
+
+        // Perms
+        const val PERM_NS8_BYPASS_FROSTBITE = "nationsevent.ns8.bypass.frostbite"
+        const val PERM_NS8_BYPASS_HYDRATION = "nationsevent.ns8.bypass.hydration"
     }
 
     // INITIALIZATION
@@ -60,10 +64,12 @@ class EventSpecific {
         IslandHotPlants()
         IslandHotMob()
         IslandHotFire()
+        IslandHotHydration()
         // FEATURES ISLANDS - COLD
         IslandColdBucket()
         IslandColdPlants()
         IslandColdMobs()
         IslandColdWater()
+        IslandColdFrostbite()
     }
 }

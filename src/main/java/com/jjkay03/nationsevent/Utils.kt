@@ -84,8 +84,19 @@ object Utils {
         receivers.filter { it.isOnline }.forEach { offlinePlayer -> offlinePlayer.player!!.sendMessage(message) }
     }
 
-    // Function that sends message to all player with a certain permission (scheduler thread safe)
+    // Function that sends string message to all player with a certain permission (scheduler thread safe)
     fun messagePlayerWithPerm(message: String, vararg permissions: String) {
+        Bukkit.getServer().onlinePlayers.forEach { player ->
+            if (permissions.any { player.hasPermission(it) }) {
+                Scheduler.task(Scheduler.SchedulerType.PLAYER, {
+                    player.sendMessage(message)
+                }, player = player)
+            }
+        }
+    }
+
+    // Function that sends Component message to all player with a certain permission (scheduler thread safe)
+    fun messagePlayerWithPerm(message: Component, vararg permissions: String) {
         Bukkit.getServer().onlinePlayers.forEach { player ->
             if (permissions.any { player.hasPermission(it) }) {
                 Scheduler.task(Scheduler.SchedulerType.PLAYER, {

@@ -58,6 +58,7 @@ class Commands {
             TeleportWorldCommand("teleportworld"),
             TeleportTopCommand("teleporttop"),
             TeleportOfflineCommand("teleportoffline"),
+            TeleportDeathCommand("teleportdeath"),
 
             // COMMANDS : UTILITY
             ListLuckPermsGroupsCommand("listluckpermsgroups"),

@@ -6,6 +6,9 @@ import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.utils.Config
 import com.jjkay03.nationsevent.utils.Scheduler
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.ClickEvent
+import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -51,8 +54,13 @@ class DeathBan : Listener {
         // Death message
         event.deathMessage(Component.text("§4☠ ${player.name} died"))
 
-        // Send read death message to staff
-        Utils.messagePlayerWithPerm("§7ℹ §o$originalDeathMessage", Saves.PERM_STAFF)
+        // Send real death message to staff with clickable teleport
+        val staffMessage = Component.text("ℹ ", NamedTextColor.GRAY)
+            .append(Component.text(originalDeathMessage ?: "${player.name} died", NamedTextColor.GRAY))
+            .clickEvent(ClickEvent.runCommand("/tpdeath ${player.name}"))
+            .hoverEvent(HoverEvent.showText(Component.text("Click to teleport to ${player.name}'s death location").color(NamedTextColor.YELLOW)))
+
+        Utils.messagePlayerWithPerm(staffMessage, Saves.PERM_STAFF)
     }
 
     // Helper function to ban player if they don't have bypass perm

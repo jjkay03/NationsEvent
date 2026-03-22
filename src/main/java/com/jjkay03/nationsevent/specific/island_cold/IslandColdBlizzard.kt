@@ -29,6 +29,7 @@ class IslandColdBlizzard : Listener {
     init {
         NationsEvent.INSTANCE.server.pluginManager.registerEvents(this, NationsEvent.INSTANCE)
         startPeriodicFreezeTask()
+        startArmorDamageTask()
     }
 
     // Periodically freeze players during thunderstorms
@@ -87,6 +88,47 @@ class IslandColdBlizzard : Listener {
 
                     lastFreezeTime[playerId] = currentTime
                     activeFreezeEnd[playerId] = currentTime + freezeDuration
+                }
+            }
+        })
+    }
+
+    // Damage armor every minute during thunderstorms
+    private fun startArmorDamageTask() {
+        Scheduler.taskRepeating(Scheduler.SchedulerType.GLOBAL, 1200L, 1200L, {
+            val coldWorld = EventSpecific.WORLD_NS8_COLD ?: return@taskRepeating
+
+            // End if not thundering
+            if (!coldWorld.isThundering) return@taskRepeating
+
+            for (player in coldWorld.players) {
+                // End if bypass permission
+                if (player.hasPermission(EventSpecific.PERM_NS8_BYPASS_BLIZZARD)) continue
+
+                // Skip if player in spectator mode
+                if (player.gameMode == GameMode.SPECTATOR) continue
+
+                // Damage all armor pieces
+                var armorDamaged = false
+                val armorContents = player.inventory.armorContents
+
+                for (i in armorContents.indices) {
+                    val armorPiece = armorContents[i]
+                    if (armorPiece != null && armorPiece.type != Material.AIR) {
+                        val meta = armorPiece.itemMeta
+                        if (meta != null && meta is org.bukkit.inventory.meta.Damageable) {
+                            meta.damage = meta.damage + 1
+                            armorPiece.itemMeta = meta
+                            armorContents[i] = armorPiece
+                            armorDamaged = true
+                        }
+                    }
+                }
+
+                // Update armor contents
+                if (armorDamaged) {
+                    player.inventory.armorContents = armorContents
+                    player.sendActionBar(Component.text("§b❄ Armor damage from frost"))
                 }
             }
         })

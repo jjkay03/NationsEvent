@@ -28,6 +28,7 @@ class EventSpecific {
 
         // Perms
         const val PERM_NS8_BYPASS_FROSTBITE = "nationsevent.ns8.bypass.frostbite"
+        const val PERM_NS8_BYPASS_BLIZZARD = "nationsevent.ns8.bypass.blizzard"
         const val PERM_NS8_BYPASS_HYDRATION = "nationsevent.ns8.bypass.hydration"
     }
 

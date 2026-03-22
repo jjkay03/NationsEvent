@@ -18,17 +18,18 @@ class IslandColdBucket : Listener {
         NationsEvent.INSTANCE.server.pluginManager.registerEvents(this, NationsEvent.Companion.INSTANCE)
     }
 
-    // Water bucket freezing 50/50 chance
+    // Water bucket freezing 50/50 chance, or always during thunderstorms
     @EventHandler
     fun onWaterPlace(event: PlayerBucketEmptyEvent) {
         // End if not on cold island
-        if (EventSpecific.WORLD_NS8_COLD != event.block.world) return
+        val coldWorld = EventSpecific.WORLD_NS8_COLD ?: return
+        if (coldWorld != event.block.world) return
 
         // End if not water bucket
         if (event.bucket != Material.WATER_BUCKET) return
 
-        // 50/50 chance
-        if (Random.nextBoolean()) return
+        // Always freeze during thunderstorms, otherwise 50/50 chance
+        if (!coldWorld.isThundering && Random.nextBoolean()) return
 
         // Get block and location
         val block = event.block

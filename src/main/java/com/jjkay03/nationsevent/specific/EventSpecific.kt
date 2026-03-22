@@ -71,5 +71,6 @@ class EventSpecific {
         IslandColdMobs()
         IslandColdWater()
         IslandColdFrostbite()
+        IslandColdBlizzard()
     }
 }

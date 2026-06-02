@@ -1,4 +1,4 @@
-package com.jjkay03.nationsevent.specific.ns8
+package com.jjkay03.nationsevent.specific.ne5
 
 import com.jjkay03.nationsevent.NationsEvent
 import com.jjkay03.nationsevent.Saves

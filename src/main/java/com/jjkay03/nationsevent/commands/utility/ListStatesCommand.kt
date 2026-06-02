@@ -5,7 +5,7 @@ import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.commands.management.FreezeAllCommand
 import com.jjkay03.nationsevent.commands.management.PVPToggleCommand
 import com.jjkay03.nationsevent.commands.management.SessionTimeCommand
-import com.jjkay03.nationsevent.specific.ns8.AssignRandomTeam
+import com.jjkay03.nationsevent.specific.ne5.AssignRandomTeam
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
 import com.jjkay03.nationsevent.worlds.WorldsBridge
 import org.bukkit.command.Command

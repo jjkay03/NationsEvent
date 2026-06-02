@@ -12,7 +12,7 @@
 
 # Event code name (Example: NG1)
 # Needs to match actual build-in event codename to load event specific classes
-event-codename: NS8
+event-codename: NE5
 
 # Other plugins integrations
 integrations:
@@ -26,32 +26,29 @@ worlds:
   loader:
     enable: true
     worlds:
-      - world_admin
-      - world_build
-      - world_ns8_hot
-      - world_ns8_cold
+      - admin
+      - build
+      - nations_ne5
 
   # Sync multiple worlds settings (first world in the list is the master world)
   sync:
-    enable: true
+    enable: false
     enable-time: true
     enable-weather: false
     enable-game-rules: true
     enable-difficulty: true
-    worlds:
-      - world_ns8_hot
-      - world_ns8_cold
+    worlds: []
 
   # Manage a world as a lobby
   # Configure in WorldLobby.kt
   lobby:
     enable: true
-    world: "world_spawn"
+    world: "world"
 
   # Connect multiple same worlds through invisible border (made for NS7)
   # Configure in WorldsBridge.kt
   bridge:
-    enable: true
+    enable: false
     carry-vehicle: true
 
 

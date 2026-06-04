@@ -81,6 +81,9 @@ settings:
   # Disable goat horn drop from goats
   disable-goat-horn-drop: true
 
+  # Disable players from equipping a player head
+  disable-equip-player-head: true
+
 
 
 # == Features =========================================================================================================
@@ -101,6 +104,11 @@ features:
     damage-dismount: true
     # Destroy boats when hit with weapons (sword, axe, arrows, etc.)
     weapon-destroy: true
+
+  # Player death drop their head
+  death-drop-head:
+    enable: true
+    only-kills: true
 
 
 

@@ -71,11 +71,13 @@ open class NationsEvent : JavaPlugin() {
         DisableJoinLeaveMessages()
         DisableHostileMobSpawn()
         DisableGoatHornDrop()
+        DisableEquipPlayerHead()
 
         // FEATURES
         DeathBan()
         EventIGNs()
         BoatPVP()
+        DeathDropHead()
 
         // EVENT SPECIFIC
         EventSpecific()

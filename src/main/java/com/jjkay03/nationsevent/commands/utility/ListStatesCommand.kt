@@ -41,8 +41,8 @@ class ListStatesCommand(private val commandName: String) : CommandExecutor {
         sender.sendMessage("§6❄ §f- Freeze All: ${state(freezeAll)}")
         sender.sendMessage("§6🔊 §f- Voicechat: ${state(voicechat)}")
         sender.sendMessage("§6💬 §f- Global Chat: ${state(globalChat)}")
-        sender.sendMessage("§6⛵ §f- Worlds Bridge §7(NS8)§f: ${state(worldBridge)}")
-        sender.sendMessage("§6🎲 §f- Assign Random Team §7(NS8)§f: ${state(assignRadomTeam)}")
+        //sender.sendMessage("§6⛵ §f- Worlds Bridge §7(NS8)§f: ${state(worldBridge)}")
+        //sender.sendMessage("§6🎲 §f- Assign Random Team §7(NS8)§f: ${state(assignRadomTeam)}")
 
         sender.sendMessage("§r")
 

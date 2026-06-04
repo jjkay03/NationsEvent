@@ -39,6 +39,7 @@ class Config {
         val SETTINGS_DISABLE_JOIN_LEAVE_MESSAGES = CONFIG.getBoolean("settings.disable-join-leave-messages", false)
         val SETTINGS_DISABLE_HOSTILE_MOBS_SPAWN = CONFIG.getBoolean("settings.disable-hostile-mobs-spawn", false)
         val SETTINGS_DISABLE_GOAT_HORN_DROP = CONFIG.getBoolean("settings.disable-goat-horn-drop", false)
+        val SETTINGS_DISABLE_EQUIP_PLAYER_HEAD = CONFIG.getBoolean("settings.disable-equip-player-head", false)
 
 
         // FEATURES - Death Ban
@@ -51,6 +52,9 @@ class Config {
         val FEATURES_BOAT_PVP_ENABLE = CONFIG.getBoolean("features.boat-pvp.enable", false)
         val FEATURES_BOAT_PVP_DAMAGE_DISMOUNT = CONFIG.getBoolean("features.boat-pvp.damage-dismount", false)
         val FEATURES_BOAT_PVP_WEAPON_DESTROY = CONFIG.getBoolean("features.boat-pvp.weapon-destroy", false)
+        // FEATURES - Death Drop Head
+        val FEATURES_DEATH_DROP_HEAD_ENABLE = CONFIG.getBoolean("features.death-drop-head.enable", false)
+        val FEATURES_DEATH_DROP_HEAD_ONLY_KILLS = CONFIG.getBoolean("features.death-drop-head.only-kills", false)
 
 
         // PLAYER GROUP CHAT

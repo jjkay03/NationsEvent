@@ -1,6 +1,7 @@
 package com.jjkay03.nationsevent.specific.ne5.commands
 
 import com.jjkay03.nationsevent.NationsEvent
+import com.jjkay03.nationsevent.Saves
 import com.jjkay03.nationsevent.Utils
 import com.jjkay03.nationsevent.specific.EventSpecific
 import com.jjkay03.nationsevent.integrations.luckperms.LuckPermsUtils
@@ -50,7 +51,7 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
     // HANDLE SEND COMMAND
     private fun handleSend(sender: CommandSender, args: Array<out String>) {
         if (args.size < 2) {
-            sender.sendMessage("§cUsage: /queuetoisland send <ns8-hot|ns8-cold>")
+            sender.sendMessage("§cUsage: /queuetoisland send <group>")
             return
         }
 
@@ -59,10 +60,9 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
 
         // Get group and world based on argument
         val (group, world) = when (args[1].lowercase()) {
-            "ns8-hot" -> EventSpecific.LP_GROUP_NS8_HOT to EventSpecific.WORLD_NS8_HOT
-            "ns8-cold" -> EventSpecific.LP_GROUP_NS8_COLD to EventSpecific.WORLD_NS8_COLD
+            "default" -> Saves.LP_GROUP_DEFAULT to EventSpecific.WORLD_NE5
             else -> {
-                sender.sendMessage("§cInvalid group! Use: ns8-hot or ns8-cold")
+                sender.sendMessage("§cInvalid group!")
                 return
             }
         }

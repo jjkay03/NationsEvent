@@ -283,3 +283,7 @@ commands:
   queuetoisland:
     permission: nationsevent.command.queuetoisland
     permission-message: "§cYou do not have permission to use this command"
+
+  makesoldier:
+    permission: nationsevent.command.ne5.makesoldier
+    permission-message: "§cYou do not have permission to use this command"

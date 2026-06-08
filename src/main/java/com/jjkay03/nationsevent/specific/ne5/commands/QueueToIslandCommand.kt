@@ -126,7 +126,7 @@ class QueueToIslandCommand(private val commandName: String) : CommandExecutor, T
             return completions.filter { it.startsWith(args[0], ignoreCase = true) }
         }
         if (args.size == 2 && args[0].equals("send", ignoreCase = true)) {
-            val completions = listOf("ns8-hot", "ns8-cold")
+            val completions = listOf("default")
             return completions.filter { it.startsWith(args[1], ignoreCase = true) }
         }
         return null
